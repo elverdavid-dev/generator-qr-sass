@@ -6,8 +6,8 @@ import { generateMetadata } from '@/utils/generate-metadata'
 import '@fontsource-variable/manrope'
 
 export const metadata: Metadata = generateMetadata({
-	title: 'Template Next.js 15',
-	description: 'Template Next.js 15',
+	title: 'QR Generator',
+	description: 'QR Generator',
 })
 
 export default function RootLayout({
@@ -16,7 +16,7 @@ export default function RootLayout({
 	children: React.ReactNode
 }>) {
 	return (
-		<html lang="en" suppressHydrationWarning>
+		<html lang="es" suppressHydrationWarning>
 			<body>
 				<Providers>{children}</Providers>
 			</body>

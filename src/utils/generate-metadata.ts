@@ -21,7 +21,7 @@ export const generateMetadata = ({
 	return {
 		title: `${title} | ${siteName}`,
 		description: description ?? descriptionDefault,
-		metadataBase: new URL(siteUrl),
+		//metadataBase: new URL(siteUrl),
 		alternates: {
 			canonical: `${siteUrl}${canonicalUrl ?? ''}`,
 		},

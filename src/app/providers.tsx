@@ -1,8 +1,8 @@
 'use client'
 import { ProgressProvider } from '@bprogress/next/app'
 import { HeroUIProvider } from '@heroui/react'
-import { ThemeProvider } from 'next-themes'
 import { useRouter } from 'next/navigation'
+import { ThemeProvider } from 'next-themes'
 import type { FC, ReactNode } from 'react'
 import { Toaster } from 'sonner'
 
@@ -20,7 +20,14 @@ const Providers: FC<Props> = ({ children }) => {
 				shallowRouting
 				color="#000"
 			/>
-			<Toaster />
+			<Toaster
+				toastOptions={{
+					classNames: {
+						toast:
+							'dark:!bg-background dark:!text-foreground dark:!border dark:!border-gray-700',
+					},
+				}}
+			/>
 			<HeroUIProvider navigate={router.push}>{children}</HeroUIProvider>
 		</ThemeProvider>
 	)
