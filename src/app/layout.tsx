@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import '@/app/globals.css'
 import Providers from '@/app/providers'
-import { generateMetadata } from '@/utils/generate-metadata'
+import { generateMetadata } from '@/shared/utils/generate-metadata'
 // Supports weights 200-800
 import '@fontsource-variable/manrope'
 

@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(bun run:*)",
+      "Bash(bun add:*)",
+      "Bash(grep -r \"prefix.*Math.round.*1e10\\\\|current.*0\" /c/Users/ElverDavidPeñate/Documents/workspace/projects/nextjs/generator-qr-sass/node_modules/ --include=*.js -l)",
+      "Bash(grep -rn default.createContext /c/Users/ElverDavidPeñate/Documents/workspace/projects/nextjs/generator-qr-sass/node_modules/@heroui/ --include=*.js)"
+    ]
+  }
+}

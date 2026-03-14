@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import { createProfile } from '@/features/auth/services/create-profile'
-import { createClient } from '@/lib/supabase/server'
-import { getProfile } from '@/services/get-profile'
+import { createClient } from '@/shared/lib/supabase/server'
+import { getProfile } from '@/features/auth/services/queries/get-profile'
 
 export async function GET(request: Request) {
 	try {

@@ -1,5 +1,5 @@
 'use server'
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/shared/lib/supabase/server'
 
 enum Role {
 	ADMIN = 'admin',
@@ -18,7 +18,9 @@ interface Params {
 
 export const createProfile = async (profile: Params) => {
 	const supabase = await createClient()
-	const { data, error } = await supabase.from('profiles').insert([profile])
+	const { data, error } = await supabase
+		.from('profiles')
+		.upsert([profile], { onConflict: 'id', ignoreDuplicates: true })
 
 	if (error) {
 		return { error: error.message }

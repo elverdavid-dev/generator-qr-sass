@@ -1,4 +1,4 @@
-import QRTypeSelector from '@/features/qr/components/qr-type-selector'
+import QRTypeSelector from '@/features/qr-codes/components/qr-type-selector'
 
 const page = () => {
 	return (

@@ -1,6 +1,7 @@
 'use client'
 import { Button } from '@heroui/react'
-import { Home01Icon } from 'hugeicons-react'
+import { Home01Icon } from '@hugeicons/core-free-icons'
+import {HugeiconsIcon} from '@hugeicons/react'
 import Link from 'next/link'
 
 export default function NotFound() {
@@ -16,7 +17,7 @@ export default function NotFound() {
 			<Button
 				as={Link}
 				href="/"
-				startContent={<Home01Icon size={18} />}
+				startContent={<HugeiconsIcon icon={Home01Icon} size={18} />}
 				color="primary"
 			>
 				Return Home

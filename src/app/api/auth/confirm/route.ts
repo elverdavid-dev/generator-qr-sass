@@ -2,7 +2,7 @@ import type { EmailOtpType } from '@supabase/supabase-js'
 import { redirect } from 'next/navigation'
 import type { NextRequest } from 'next/server'
 import { createProfile } from '@/features/auth/services/create-profile'
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/shared/lib/supabase/server'
 
 export async function GET(request: NextRequest) {
 	// obtener los params de la url

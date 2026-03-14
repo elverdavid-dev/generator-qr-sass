@@ -1,7 +1,8 @@
 'use client'
 
 import { Button } from '@heroui/react'
-import { Home01Icon, ReloadIcon } from 'hugeicons-react'
+import { Home01Icon, ReloadIcon } from '@hugeicons/core-free-icons'
+import {HugeiconsIcon} from '@hugeicons/react'
 import Link from 'next/link'
 import { useEffect } from 'react'
 
@@ -23,14 +24,14 @@ export default function ErrorPage({ error, reset }: Props) {
 				<Button
 					as={Link}
 					href="/"
-					startContent={<Home01Icon size={18} />}
+					startContent={<HugeiconsIcon icon={Home01Icon} size={18} />}
 					variant="light"
 				>
 					Go back
 				</Button>
 				<Button
 					onPress={() => reset()}
-					startContent={<ReloadIcon size={18} strokeWidth={2} />}
+					startContent={<HugeiconsIcon icon={ReloadIcon} size={18} strokeWidth={2} />}
 					color="primary"
 				>
 					Try again

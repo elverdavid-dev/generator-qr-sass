@@ -1,7 +1,7 @@
 'use client'
 import { Navbar, NavbarBrand, NavbarContent } from '@heroui/react'
-import Logo from '@/components/logo'
-import ThemeToggle from '@/components/theme/theme-toggle'
+import Logo from '@/shared/components/logo'
+import ThemeToggle from '@/shared/components/theme/theme-toggle'
 
 const HeaderAuth = () => {
 	return (

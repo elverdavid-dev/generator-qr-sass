@@ -1,6 +1,6 @@
 'use server'
 import type { AuthFormData } from '@/features/auth/schema/auth-form-data'
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/shared/lib/supabase/server'
 
 export const loginService = async ({ email, password }: AuthFormData) => {
 	const supabase = await createClient()
