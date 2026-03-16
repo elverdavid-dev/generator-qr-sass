@@ -32,54 +32,102 @@ import { updateQr } from '@/features/qr-codes/services/mutations/update-qr'
 import QrPreview from '@/features/qr-codes/components/qr-preview'
 import type { Folder, QrCode } from '@/shared/types/database.types'
 
-const QR_TYPES = [
-	{ id: 'url', name: 'URL', icon: GlobeIcon, color: 'bg-blue-500', placeholder: 'https://ejemplo.com' },
-	{ id: 'text', name: 'Texto', icon: Message01Icon, color: 'bg-green-500', placeholder: 'Escribe tu mensaje...' },
-	{ id: 'email', name: 'Email', icon: Mail02Icon, color: 'bg-purple-500', placeholder: 'correo@ejemplo.com' },
-	{ id: 'phone', name: 'Teléfono', icon: SmartPhone01Icon, color: 'bg-orange-500', placeholder: '+1234567890' },
-	{ id: 'wifi', name: 'WiFi', icon: Wifi01Icon, color: 'bg-indigo-500', placeholder: 'WIFI:T:WPA;S:MiRed;P:contraseña;;' },
-	{ id: 'vcard', name: 'Contacto', icon: UserIcon, color: 'bg-pink-500', placeholder: 'BEGIN:VCARD\nVERSION:3.0\nFN:Nombre\nEND:VCARD' },
-	{ id: 'location', name: 'Ubicación', icon: Location01Icon, color: 'bg-red-500', placeholder: 'geo:40.7128,-74.0060' },
-	{ id: 'event', name: 'Evento', icon: Calendar03Icon, color: 'bg-yellow-500', placeholder: 'BEGIN:VEVENT\nSUMMARY:Mi Evento\nEND:VEVENT' },
-	{ id: 'payment', name: 'Pago', icon: CreditCardIcon, color: 'bg-gray-500', placeholder: 'https://pago.ejemplo.com' },
-]
-
-const DOT_STYLES = [
-	{ id: 'square', name: 'Cuadrado' },
-	{ id: 'dots', name: 'Puntos' },
-	{ id: 'rounded', name: 'Redondeado' },
-	{ id: 'classy', name: 'Clásico' },
-	{ id: 'classy-rounded', name: 'Clásico R.' },
-	{ id: 'extra-rounded', name: 'Extra R.' },
-]
-
-const CORNER_SQUARE_STYLES = [
-	{ id: 'square', name: 'Cuadrado' },
-	{ id: 'dot', name: 'Círculo' },
-	{ id: 'extra-rounded', name: 'Redondeado' },
-]
-
-const CORNER_DOT_STYLES = [
-	{ id: 'square', name: 'Cuadrado' },
-	{ id: 'dot', name: 'Círculo' },
-]
-
-const FRAME_STYLES = [
-	{ id: 'none', name: 'Ninguno' },
-	{ id: 'simple', name: 'Simple' },
-	{ id: 'rounded', name: 'Redondeado' },
-	{ id: 'bold', name: 'Grueso' },
-]
+export interface QrEditFormTranslations {
+	qrType: string
+	name: string
+	namePlaceholder: string
+	content: string
+	dotStyle: string
+	outerCorners: string
+	innerCorners: string
+	colors: string
+	background: string
+	qrColor: string
+	colorGradient: string
+	enableGradient: string
+	color2: string
+	gradientType: string
+	linear: string
+	radial: string
+	frame: string
+	frameColor: string
+	frameText: string
+	framePlaceholder: string
+	logo: string
+	changeLogo: string
+	uploadLogo: string
+	folder: string
+	noFolder: string
+	protection: string
+	password: string
+	passwordPlaceholder: string
+	expiry: string
+	maxScans: string
+	maxScansPlaceholder: string
+	deviceRedirect: string
+	deviceRedirectDesc: string
+	iosUrl: string
+	androidUrl: string
+	cancel: string
+	submit: string
+	preview: string
+	noName: string
+	updated: string
+	dot: { square: string; dots: string; rounded: string; classic: string; classicR: string; extraR: string }
+	corner: { square: string; circle: string }
+	frameStyle: { none: string; simple: string; rounded: string; thick: string }
+	types: { url: string; text: string; email: string; phone: string; wifi: string; contact: string; location: string; event: string; payment: string }
+}
 
 interface Props {
 	qr: QrCode
 	folders: Folder[]
+	translations: QrEditFormTranslations
 }
 
-const QrEditForm = ({ qr, folders }: Props) => {
+const QrEditForm = ({ qr, folders, translations }: Props) => {
 	const router = useRouter()
 	const fileInputRef = useRef<HTMLInputElement>(null)
 	const [logoPreview, setLogoPreview] = useState<string | null>(qr.logo_url ?? null)
+
+	const QR_TYPES = [
+		{ id: 'url', name: translations.types.url, icon: GlobeIcon, color: 'bg-blue-500', placeholder: 'https://example.com' },
+		{ id: 'text', name: translations.types.text, icon: Message01Icon, color: 'bg-green-500', placeholder: 'Write your message...' },
+		{ id: 'email', name: translations.types.email, icon: Mail02Icon, color: 'bg-purple-500', placeholder: 'email@example.com' },
+		{ id: 'phone', name: translations.types.phone, icon: SmartPhone01Icon, color: 'bg-orange-500', placeholder: '+1234567890' },
+		{ id: 'wifi', name: translations.types.wifi, icon: Wifi01Icon, color: 'bg-indigo-500', placeholder: 'WIFI:T:WPA;S:NetworkName;P:password;;' },
+		{ id: 'vcard', name: translations.types.contact, icon: UserIcon, color: 'bg-pink-500', placeholder: 'BEGIN:VCARD\nVERSION:3.0\nFN:Name\nEND:VCARD' },
+		{ id: 'location', name: translations.types.location, icon: Location01Icon, color: 'bg-red-500', placeholder: 'geo:40.7128,-74.0060' },
+		{ id: 'event', name: translations.types.event, icon: Calendar03Icon, color: 'bg-yellow-500', placeholder: 'BEGIN:VEVENT\nSUMMARY:My Event\nEND:VEVENT' },
+		{ id: 'payment', name: translations.types.payment, icon: CreditCardIcon, color: 'bg-gray-500', placeholder: 'https://payment.example.com' },
+	]
+
+	const DOT_STYLES = [
+		{ id: 'square', name: translations.dot.square },
+		{ id: 'dots', name: translations.dot.dots },
+		{ id: 'rounded', name: translations.dot.rounded },
+		{ id: 'classy', name: translations.dot.classic },
+		{ id: 'classy-rounded', name: translations.dot.classicR },
+		{ id: 'extra-rounded', name: translations.dot.extraR },
+	]
+
+	const CORNER_SQUARE_STYLES = [
+		{ id: 'square', name: translations.corner.square },
+		{ id: 'dot', name: translations.corner.circle },
+		{ id: 'extra-rounded', name: translations.dot.rounded },
+	]
+
+	const CORNER_DOT_STYLES = [
+		{ id: 'square', name: translations.corner.square },
+		{ id: 'dot', name: translations.corner.circle },
+	]
+
+	const FRAME_STYLES = [
+		{ id: 'none', name: translations.frameStyle.none },
+		{ id: 'simple', name: translations.frameStyle.simple },
+		{ id: 'rounded', name: translations.frameStyle.rounded },
+		{ id: 'bold', name: translations.frameStyle.thick },
+	]
 
 	const {
 		register,
@@ -102,7 +150,7 @@ const QrEditForm = ({ qr, folders }: Props) => {
 			dot_gradient_type: (qr.dot_gradient_type as 'linear' | 'radial') ?? 'linear',
 			frame_style: (qr.frame_style as 'none' | 'simple' | 'rounded' | 'bold') ?? 'none',
 			frame_color: qr.frame_color ?? '#000000',
-			frame_text: qr.frame_text ?? 'ESCANÉAME',
+			frame_text: qr.frame_text ?? translations.framePlaceholder,
 			folder_id: qr.folder_id ?? undefined,
 			password: qr.password ?? undefined,
 			expires_at: qr.expires_at ? qr.expires_at.slice(0, 16) : undefined,
@@ -137,7 +185,7 @@ const QrEditForm = ({ qr, folders }: Props) => {
 			toast.error(result.error)
 			return
 		}
-		toast.success('QR actualizado correctamente')
+		toast.success(translations.updated)
 		router.push('/dashboard/qrs')
 	}
 
@@ -168,7 +216,7 @@ const QrEditForm = ({ qr, folders }: Props) => {
 
 				{/* QR Type */}
 				<div>
-					{sectionTitle('Tipo de QR')}
+					{sectionTitle(translations.qrType)}
 					<div className="grid grid-cols-3 gap-2">
 						{QR_TYPES.map((type) => (
 							<button
@@ -193,10 +241,10 @@ const QrEditForm = ({ qr, folders }: Props) => {
 
 				{/* Name */}
 				<div>
-					{sectionTitle('Nombre del QR')}
+					{sectionTitle(translations.name)}
 					<Input
 						{...register('name')}
-						placeholder="Ej. Mi página web"
+						placeholder={translations.namePlaceholder}
 						isInvalid={!!errors.name}
 						errorMessage={errors.name?.message}
 						variant="bordered"
@@ -205,7 +253,7 @@ const QrEditForm = ({ qr, folders }: Props) => {
 
 				{/* Content */}
 				<div>
-					{sectionTitle('Contenido')}
+					{sectionTitle(translations.content)}
 					<Input
 						{...register('data')}
 						placeholder={selectedType.placeholder}
@@ -217,7 +265,7 @@ const QrEditForm = ({ qr, folders }: Props) => {
 
 				{/* Dot style */}
 				<div>
-					{sectionTitle('Estilo de puntos')}
+					{sectionTitle(translations.dotStyle)}
 					<div className="grid grid-cols-3 gap-2">
 						{DOT_STYLES.map((style) => (
 							<button
@@ -234,7 +282,7 @@ const QrEditForm = ({ qr, folders }: Props) => {
 
 				{/* Corner square style */}
 				<div>
-					{sectionTitle('Esquinas externas')}
+					{sectionTitle(translations.outerCorners)}
 					<div className="grid grid-cols-3 gap-2">
 						{CORNER_SQUARE_STYLES.map((style) => (
 							<button
@@ -251,7 +299,7 @@ const QrEditForm = ({ qr, folders }: Props) => {
 
 				{/* Corner dot style */}
 				<div>
-					{sectionTitle('Esquinas internas')}
+					{sectionTitle(translations.innerCorners)}
 					<div className="grid grid-cols-2 gap-2">
 						{CORNER_DOT_STYLES.map((style) => (
 							<button
@@ -268,10 +316,10 @@ const QrEditForm = ({ qr, folders }: Props) => {
 
 				{/* Colors */}
 				<div>
-					{sectionTitle('Colores')}
+					{sectionTitle(translations.colors)}
 					<div className="flex gap-4">
 						<div className="flex flex-col gap-1">
-							<label className="text-xs text-default-500">Fondo</label>
+							<label className="text-xs text-default-500">{translations.background}</label>
 							<div className="flex items-center gap-2 p-2 border border-divider rounded-xl bg-content1">
 								<input
 									type="color"
@@ -282,7 +330,7 @@ const QrEditForm = ({ qr, folders }: Props) => {
 							</div>
 						</div>
 						<div className="flex flex-col gap-1">
-							<label className="text-xs text-default-500">Color QR</label>
+							<label className="text-xs text-default-500">{translations.qrColor}</label>
 							<div className="flex items-center gap-2 p-2 border border-divider rounded-xl bg-content1">
 								<input
 									type="color"
@@ -297,10 +345,10 @@ const QrEditForm = ({ qr, folders }: Props) => {
 
 				{/* Gradient */}
 				<div>
-					{sectionTitle('Degradado de color')}
+					{sectionTitle(translations.colorGradient)}
 					<div className="flex flex-col gap-3">
 						<div className="flex items-center justify-between p-3 bg-content1 border border-divider rounded-xl">
-							<span className="text-sm text-default-600">Activar degradado</span>
+							<span className="text-sm text-default-600">{translations.enableGradient}</span>
 							<button
 								type="button"
 								onClick={() => setValue('dot_color_2', hasGradient ? null : '#ff6600')}
@@ -320,7 +368,7 @@ const QrEditForm = ({ qr, folders }: Props) => {
 						{hasGradient && (
 							<div className="flex gap-3 items-end">
 								<div className="flex flex-col gap-1">
-									<label className="text-xs text-default-500">Color 2</label>
+									<label className="text-xs text-default-500">{translations.color2}</label>
 									<div className="flex items-center gap-2 p-2 border border-divider rounded-xl bg-content1">
 										<input
 											type="color"
@@ -331,21 +379,21 @@ const QrEditForm = ({ qr, folders }: Props) => {
 									</div>
 								</div>
 								<div className="flex flex-col gap-1 flex-1">
-									<label className="text-xs text-default-500">Tipo</label>
+									<label className="text-xs text-default-500">{translations.gradientType}</label>
 									<div className="grid grid-cols-2 gap-2">
 										<button
 											type="button"
 											onClick={() => setValue('dot_gradient_type', 'linear')}
 											className={styleButtonClass(watchedGradientType === 'linear')}
 										>
-											Lineal
+											{translations.linear}
 										</button>
 										<button
 											type="button"
 											onClick={() => setValue('dot_gradient_type', 'radial')}
 											className={styleButtonClass(watchedGradientType === 'radial')}
 										>
-											Radial
+											{translations.radial}
 										</button>
 									</div>
 								</div>
@@ -356,7 +404,7 @@ const QrEditForm = ({ qr, folders }: Props) => {
 
 				{/* Frame */}
 				<div>
-					{sectionTitle('Marco')}
+					{sectionTitle(translations.frame)}
 					<div className="flex flex-col gap-3">
 						<div className="grid grid-cols-4 gap-2">
 							{FRAME_STYLES.map((style) => (
@@ -373,7 +421,7 @@ const QrEditForm = ({ qr, folders }: Props) => {
 						{hasFrame && (
 							<div className="flex gap-3">
 								<div className="flex flex-col gap-1">
-									<label className="text-xs text-default-500">Color marco</label>
+									<label className="text-xs text-default-500">{translations.frameColor}</label>
 									<div className="flex items-center gap-2 p-2 border border-divider rounded-xl bg-content1">
 										<input
 											type="color"
@@ -383,10 +431,10 @@ const QrEditForm = ({ qr, folders }: Props) => {
 									</div>
 								</div>
 								<div className="flex flex-col gap-1 flex-1">
-									<label className="text-xs text-default-500">Texto del marco</label>
+									<label className="text-xs text-default-500">{translations.frameText}</label>
 									<input
 										{...register('frame_text')}
-										placeholder="ESCANÉAME"
+										placeholder={translations.framePlaceholder}
 										className="w-full p-2.5 border border-divider rounded-xl bg-content1 text-default-600 text-sm focus:outline-none focus:border-primary uppercase"
 									/>
 								</div>
@@ -397,7 +445,7 @@ const QrEditForm = ({ qr, folders }: Props) => {
 
 				{/* Logo */}
 				<div>
-					{sectionTitle('Logo (opcional)')}
+					{sectionTitle(translations.logo)}
 					<input
 						ref={fileInputRef}
 						type="file"
@@ -413,12 +461,12 @@ const QrEditForm = ({ qr, folders }: Props) => {
 						{logoPreview ? (
 							<>
 								<img src={logoPreview} alt="Logo" className="w-8 h-8 object-contain rounded" />
-								<span className="text-sm">Cambiar logo</span>
+								<span className="text-sm">{translations.changeLogo}</span>
 							</>
 						) : (
 							<>
 								<HugeiconsIcon icon={ImageUploadIcon} size={20} />
-								<span className="text-sm">Subir logo PNG o SVG</span>
+								<span className="text-sm">{translations.uploadLogo}</span>
 							</>
 						)}
 					</button>
@@ -427,12 +475,12 @@ const QrEditForm = ({ qr, folders }: Props) => {
 				{/* Folder */}
 				{folders.length > 0 && (
 					<div>
-						{sectionTitle('Carpeta (opcional)')}
+						{sectionTitle(translations.folder)}
 						<select
 							{...register('folder_id')}
 							className="w-full p-2.5 border border-divider rounded-xl bg-content1 text-default-600 text-sm focus:outline-none focus:border-primary"
 						>
-							<option value="">Sin carpeta</option>
+							<option value="">{translations.noFolder}</option>
 							{folders.map((folder) => (
 								<option key={folder.id} value={folder.id}>
 									{folder.name}
@@ -446,18 +494,18 @@ const QrEditForm = ({ qr, folders }: Props) => {
 				<div className="bg-content1 border border-divider rounded-2xl p-4 flex flex-col gap-4">
 					<div className="flex items-center gap-2 text-default-600">
 						<HugeiconsIcon icon={LockPasswordIcon} size={16} />
-						<span className="font-semibold text-sm">Protección y límites</span>
+						<span className="font-semibold text-sm">{translations.protection}</span>
 					</div>
 					<div className="grid grid-cols-1 gap-3">
 						<div>
 							<label className="text-xs text-default-500 mb-1 block">
 								<HugeiconsIcon icon={LockPasswordIcon} size={12} className="inline mr-1" />
-								Contraseña (opcional)
+								{translations.password}
 							</label>
 							<input
 								{...register('password')}
 								type="text"
-								placeholder="Ej. mi-clave-123"
+								placeholder={translations.passwordPlaceholder}
 								className="w-full p-2.5 border border-divider rounded-xl bg-content2 text-default-600 text-sm focus:outline-none focus:border-primary"
 							/>
 						</div>
@@ -465,7 +513,7 @@ const QrEditForm = ({ qr, folders }: Props) => {
 							<div>
 								<label className="text-xs text-default-500 mb-1 block">
 									<HugeiconsIcon icon={Calendar03Icon} size={12} className="inline mr-1" />
-									Expira el (opcional)
+									{translations.expiry}
 								</label>
 								<input
 									{...register('expires_at')}
@@ -476,13 +524,13 @@ const QrEditForm = ({ qr, folders }: Props) => {
 							<div>
 								<label className="text-xs text-default-500 mb-1 block">
 									<HugeiconsIcon icon={ListViewIcon} size={12} className="inline mr-1" />
-									Máx. escaneos (opcional)
+									{translations.maxScans}
 								</label>
 								<input
 									{...register('max_scans')}
 									type="number"
 									min={1}
-									placeholder="Ej. 100"
+									placeholder={translations.maxScansPlaceholder}
 									className="w-full p-2.5 border border-divider rounded-xl bg-content2 text-default-600 text-sm focus:outline-none focus:border-primary"
 								/>
 							</div>
@@ -495,14 +543,14 @@ const QrEditForm = ({ qr, folders }: Props) => {
 					<div className="bg-content1 border border-divider rounded-2xl p-4 flex flex-col gap-4">
 						<div className="flex items-center gap-2 text-default-600">
 							<HugeiconsIcon icon={SmartPhone02Icon} size={16} />
-							<span className="font-semibold text-sm">Redirección por dispositivo</span>
+							<span className="font-semibold text-sm">{translations.deviceRedirect}</span>
 						</div>
 						<p className="text-xs text-default-400 -mt-2">
-							Redirige a URLs distintas según el dispositivo del usuario. Si se deja vacío, usa el contenido principal.
+							{translations.deviceRedirectDesc}
 						</p>
 						<div className="grid grid-cols-1 gap-3">
 							<div>
-								<label className="text-xs text-default-500 mb-1 block">URL para iOS (App Store)</label>
+								<label className="text-xs text-default-500 mb-1 block">{translations.iosUrl}</label>
 								<input
 									{...register('ios_url')}
 									type="url"
@@ -511,7 +559,7 @@ const QrEditForm = ({ qr, folders }: Props) => {
 								/>
 							</div>
 							<div>
-								<label className="text-xs text-default-500 mb-1 block">URL para Android (Play Store)</label>
+								<label className="text-xs text-default-500 mb-1 block">{translations.androidUrl}</label>
 								<input
 									{...register('android_url')}
 									type="url"
@@ -531,10 +579,10 @@ const QrEditForm = ({ qr, folders }: Props) => {
 						variant="flat"
 						startContent={<HugeiconsIcon icon={ArrowLeft02Icon} size={16} />}
 					>
-						Cancelar
+						{translations.cancel}
 					</Button>
 					<Button type="submit" color="primary" isLoading={isSubmitting} className="flex-1">
-						Guardar cambios
+						{translations.submit}
 					</Button>
 				</div>
 			</div>
@@ -542,7 +590,7 @@ const QrEditForm = ({ qr, folders }: Props) => {
 			{/* Right: Live preview */}
 			<div className="w-72 shrink-0">
 				<div className="sticky top-6">
-					<h2 className="font-semibold mb-3 text-default-700">Vista previa</h2>
+					<h2 className="font-semibold mb-3 text-default-700">{translations.preview}</h2>
 					<div className="bg-content1 border border-divider rounded-2xl p-6 flex flex-col items-center gap-4 shadow-sm">
 						<QrPreview
 							value={qrValue}
@@ -556,13 +604,13 @@ const QrEditForm = ({ qr, folders }: Props) => {
 							dotGradientType={watchedGradientType ?? 'linear'}
 							frameStyle={watchedFrameStyle ?? 'none'}
 							frameColor={watchedFrameColor ?? '#000000'}
-							frameText={watchedFrameText ?? 'ESCANÉAME'}
+							frameText={watchedFrameText ?? translations.framePlaceholder}
 							logoUrl={logoPreview}
 							className="rounded-lg overflow-hidden"
 						/>
 						<div className="text-center">
 							<p className="font-semibold text-sm capitalize truncate max-w-48">
-								{watchedName || 'Sin nombre'}
+								{watchedName || translations.noName}
 							</p>
 							<span
 								className={cn(

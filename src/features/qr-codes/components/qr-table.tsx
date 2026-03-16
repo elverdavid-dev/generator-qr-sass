@@ -19,14 +19,57 @@ import { QRS_PAGE_SIZE } from '@/features/qr-codes/constants'
 import QrActions from './qr-actions'
 import QrPreview from './qr-preview'
 
+interface ActionsTranslations {
+	title: string
+	download: string
+	viewDetails: string
+	moveToFolder: string
+	deactivate: string
+	activate: string
+	edit: string
+	delete: string
+	deactivated: string
+	activated: string
+	deleteTitle: string
+	deleteMessage: string
+	deleted: string
+}
+
+interface FolderTranslations {
+	moveTitle: string
+	moveDesc: string
+	noFolders: string
+	moved: string
+}
+
+interface DownloadTranslations {
+	title: string
+	cancel: string
+	scanMe: string
+}
+
+interface QrTableTranslations {
+	active: string
+	inactive: string
+	scans: string
+	total: string
+	website: string
+	noFolder: string
+	noResults: string
+	actions: ActionsTranslations
+	folder: FolderTranslations
+	download: DownloadTranslations
+}
+
 interface Props {
 	qrs: QrCode[]
 	folders: Folder[]
 	total: number
 	page: number
+	translations: QrTableTranslations
 }
 
-const QrTable = ({ qrs, folders, total, page }: Props) => {
+const QrTable = ({ qrs, folders, total, page, translations }: Props) => {
 	const router = useRouter()
 	const searchParams = useSearchParams()
 	const totalPages = Math.ceil(total / QRS_PAGE_SIZE)
@@ -44,7 +87,7 @@ const QrTable = ({ qrs, folders, total, page }: Props) => {
 	if (qrs.length === 0) {
 		return (
 			<div className="text-center text-default-400 py-16">
-				No se encontraron códigos QR
+				{translations.noResults}
 			</div>
 		)
 	}
@@ -69,7 +112,7 @@ const QrTable = ({ qrs, folders, total, page }: Props) => {
 							/>
 							<div className="min-w-0">
 								<span className="text-xs text-primary font-medium">
-									{qr.qr_type === 'url' ? 'Sitio web' : qr.qr_type}
+									{qr.qr_type === 'url' ? translations.website : qr.qr_type}
 								</span>
 								<h3 className="font-semibold capitalize truncate max-w-48">
 									{qr.name}
@@ -85,7 +128,7 @@ const QrTable = ({ qrs, folders, total, page }: Props) => {
 						<div className="flex-col gap-1 min-w-0 max-md:hidden flex">
 							<span className="text-sm text-default-500 flex items-center gap-1">
 								<HugeiconsIcon icon={Folder01Icon} size={14} />
-								{qr.folders?.name ?? 'Sin carpeta'}
+								{qr.folders?.name ?? translations.noFolder}
 							</span>
 							<a
 								href={qr.data}
@@ -107,12 +150,12 @@ const QrTable = ({ qrs, folders, total, page }: Props) => {
 							{qr.is_active ? (
 								<span className="text-emerald-500 flex items-center gap-1">
 									<HugeiconsIcon icon={CheckmarkCircle02Icon} size={16} />
-									Activo
+									{translations.active}
 								</span>
 							) : (
 								<span className="text-danger flex items-center gap-1">
 									<HugeiconsIcon icon={CancelCircleIcon} size={16} />
-									Inactivo
+									{translations.inactive}
 								</span>
 							)}
 						</div>
@@ -122,12 +165,12 @@ const QrTable = ({ qrs, folders, total, page }: Props) => {
 							<HugeiconsIcon icon={FingerPrintScanIcon} size={16} />
 							<span>
 								<strong className="text-lg text-primary">{qr.scan_count ?? 0}</strong>{' '}
-								escaneos
+								{translations.scans}
 							</span>
 						</div>
 
 						{/* Actions */}
-						<QrActions qr={qr} folders={folders} />
+						<QrActions qr={qr} folders={folders} translations={translations} />
 					</div>
 				))}
 			</section>
@@ -135,7 +178,7 @@ const QrTable = ({ qrs, folders, total, page }: Props) => {
 			{totalPages > 1 && (
 				<div className="flex items-center justify-between mt-6 pb-4">
 					<p className="text-sm text-default-400">
-						{total} QR{total !== 1 ? 's' : ''} en total
+						{total} QR{total !== 1 ? 's' : ''} {translations.total}
 					</p>
 					<Pagination
 						page={page}

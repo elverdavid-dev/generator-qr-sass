@@ -13,17 +13,22 @@ interface DataPoint {
 	count: number
 }
 
+interface Translations {
+	chartTitle: string
+	chartTotal: string
+	chartScans: string
+	daily: string
+	weekly: string
+	monthly: string
+	scansLabel: string
+}
+
 interface Props {
 	scansPerDay: DataPoint[]
 	scansPerWeek: DataPoint[]
 	scansPerMonth: DataPoint[]
+	translations: Translations
 }
-
-const PERIODS: { key: Period; label: string }[] = [
-	{ key: 'day', label: 'Diario' },
-	{ key: 'week', label: 'Semanal' },
-	{ key: 'month', label: 'Mensual' },
-]
 
 const formatLabel = (date: string, period: Period): string => {
 	if (period === 'month') {
@@ -39,8 +44,14 @@ const formatLabel = (date: string, period: Period): string => {
 	return d.toLocaleString('es', { day: '2-digit', month: 'short' })
 }
 
-export default function ChartArea({ scansPerDay, scansPerWeek, scansPerMonth }: Props) {
+export default function ChartArea({ scansPerDay, scansPerWeek, scansPerMonth, translations }: Props) {
 	const [period, setPeriod] = useState<Period>('day')
+
+	const PERIODS: { key: Period; label: string }[] = [
+		{ key: 'day', label: translations.daily },
+		{ key: 'week', label: translations.weekly },
+		{ key: 'month', label: translations.monthly },
+	]
 
 	const datasets: Record<Period, DataPoint[]> = {
 		day: scansPerDay,
@@ -80,7 +91,7 @@ export default function ChartArea({ scansPerDay, scansPerWeek, scansPerMonth }: 
 		},
 		tooltip: {
 			theme: 'dark',
-			y: { formatter: (v) => `${v} escaneos` },
+			y: { formatter: (v) => `${v} ${translations.chartScans}` },
 		},
 	}
 
@@ -89,11 +100,11 @@ export default function ChartArea({ scansPerDay, scansPerWeek, scansPerMonth }: 
 			{/* Header */}
 			<div className="flex flex-wrap items-start justify-between gap-3 mb-4">
 				<div>
-					<h3 className="font-semibold text-base">Escaneos en el tiempo</h3>
+					<h3 className="font-semibold text-base">{translations.chartTitle}</h3>
 					<p className="text-xs text-default-400 mt-0.5">
-						Total:{' '}
+						{translations.chartTotal}:{' '}
 						<span className="font-semibold text-default-600">{total.toLocaleString('es')}</span>{' '}
-						escaneos
+						{translations.chartScans}
 					</p>
 				</div>
 
@@ -119,7 +130,7 @@ export default function ChartArea({ scansPerDay, scansPerWeek, scansPerMonth }: 
 			<ReactApexChart
 				type="area"
 				options={options}
-				series={[{ name: 'Escaneos', data: data.map((d) => d.count) }]}
+				series={[{ name: translations.scansLabel, data: data.map((d) => d.count) }]}
 				height={260}
 			/>
 		</div>

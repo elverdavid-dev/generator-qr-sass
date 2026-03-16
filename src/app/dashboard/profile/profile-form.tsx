@@ -10,11 +10,25 @@ import { toast } from 'sonner'
 import { updateProfile } from '@/features/auth/services/mutations/update-profile'
 import type { Profile } from '@/shared/types/database.types'
 
-interface Props {
-	profile: Profile
+interface ProfileFormTranslations {
+	email: string
+	name: string
+	namePlaceholder: string
+	surname: string
+	surnamePlaceholder: string
+	phone: string
+	phonePlaceholder: string
+	changePhoto: string
+	save: string
+	successMessage: string
 }
 
-export default function ProfileForm({ profile }: Props) {
+interface Props {
+	profile: Profile
+	translations: ProfileFormTranslations
+}
+
+export default function ProfileForm({ profile, translations }: Props) {
 	const [isPending, startTransition] = useTransition()
 	const [avatarPreview, setAvatarPreview] = useState<string>(profile.avatar_url ?? '')
 	const [avatarFile, setAvatarFile] = useState<File | null>(null)
@@ -42,7 +56,7 @@ export default function ProfileForm({ profile }: Props) {
 			if (result.error) {
 				toast.error(result.error)
 			} else {
-				toast.success('Perfil actualizado correctamente')
+				toast.success(translations.successMessage)
 				setAvatarFile(null)
 			}
 		})
@@ -73,12 +87,12 @@ export default function ProfileForm({ profile }: Props) {
 						onChange={handleAvatarChange}
 					/>
 				</div>
-				<p className="text-xs text-default-400">Haz clic en el ícono para cambiar foto</p>
+				<p className="text-xs text-default-400">{translations.changePhoto}</p>
 			</div>
 
 			{/* Email (read only) */}
 			<Input
-				label="Correo electrónico"
+				label={translations.email}
 				value={profile.email}
 				isReadOnly
 				variant="bordered"
@@ -89,26 +103,26 @@ export default function ProfileForm({ profile }: Props) {
 			<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
 				<Input
 					name="name"
-					label="Nombre"
+					label={translations.name}
 					defaultValue={profile.name ?? ''}
 					variant="bordered"
-					placeholder="Tu nombre"
+					placeholder={translations.namePlaceholder}
 				/>
 				<Input
 					name="surname"
-					label="Apellido"
+					label={translations.surname}
 					defaultValue={profile.surname ?? ''}
 					variant="bordered"
-					placeholder="Tu apellido"
+					placeholder={translations.surnamePlaceholder}
 				/>
 			</div>
 
 			<Input
 				name="phone"
-				label="Teléfono"
+				label={translations.phone}
 				defaultValue={profile.phone ?? ''}
 				variant="bordered"
-				placeholder="+1 234 567 890"
+				placeholder={translations.phonePlaceholder}
 				type="tel"
 			/>
 
@@ -119,7 +133,7 @@ export default function ProfileForm({ profile }: Props) {
 				startContent={!isPending && <HugeiconsIcon icon={UserEdit01Icon} size={16} />}
 				className="self-end"
 			>
-				Guardar cambios
+				{translations.save}
 			</Button>
 		</form>
 	)

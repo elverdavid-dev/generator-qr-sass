@@ -41,8 +41,16 @@ interface TooltipState {
 	y: number
 }
 
+interface MapTranslations {
+	unknown: string
+	less: string
+	more: string
+	scans: string
+}
+
 interface Props {
 	data: Record<string, number>
+	translations: MapTranslations
 }
 
 // Build a numeric → scan count map
@@ -72,7 +80,7 @@ const getColor = (count: number, max: number): string => {
 	return `rgb(${r},${g},${b})`
 }
 
-export default function WorldMapChart({ data }: Props) {
+export default function WorldMapChart({ data, translations }: Props) {
 	const [tooltip, setTooltip] = useState<TooltipState | null>(null)
 
 	const numericMap = buildNumericMap(data)
@@ -112,7 +120,7 @@ export default function WorldMapChart({ data }: Props) {
 										}}
 										onMouseEnter={(e) => {
 											if (count === 0) return
-											const name = alpha2 ? getCountryName(alpha2) : geo.properties?.name ?? 'Desconocido'
+											const name = alpha2 ? getCountryName(alpha2) : geo.properties?.name ?? translations.unknown
 											setTooltip({ name, scans: count, x: e.clientX, y: e.clientY })
 										}}
 										onMouseMove={(e) => {
@@ -133,13 +141,13 @@ export default function WorldMapChart({ data }: Props) {
 					style={{ left: tooltip.x + 12, top: tooltip.y - 36 }}
 				>
 					<span className="font-semibold">{tooltip.name}</span>
-					<span className="ml-2 opacity-80">{tooltip.scans} escaneos</span>
+					<span className="ml-2 opacity-80">{tooltip.scans} {translations.scans}</span>
 				</div>
 			)}
 
 			{/* Legend */}
 			<div className="flex items-center gap-2 mt-2 justify-end">
-				<span className="text-xs text-default-400">Menos</span>
+				<span className="text-xs text-default-400">{translations.less}</span>
 				<div className="flex h-2 w-24 rounded overflow-hidden">
 					{[0.1, 0.3, 0.5, 0.7, 0.9].map((t) => (
 						<div
@@ -149,7 +157,7 @@ export default function WorldMapChart({ data }: Props) {
 						/>
 					))}
 				</div>
-				<span className="text-xs text-default-400">Más</span>
+				<span className="text-xs text-default-400">{translations.more}</span>
 			</div>
 		</div>
 	)

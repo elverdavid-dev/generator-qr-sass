@@ -3,6 +3,7 @@ import { Home01Icon } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 import { Suspense } from 'react'
 import { redirect } from 'next/navigation'
+import { getTranslations } from 'next-intl/server'
 import { getSession } from '@/shared/lib/supabase/get-session'
 import { getQrs } from '@/features/qr-codes/services/queries/get-qrs'
 import { searchQrs } from '@/features/qr-codes/services/queries/search-qrs'
@@ -27,6 +28,8 @@ const QrSkeletons = () => (
 )
 
 const QrsPage = async ({ searchParams }: Props) => {
+	const t = await getTranslations('qrs')
+	const tFolders = await getTranslations('folders')
 	const { data: session } = await getSession()
 	if (!session?.user) redirect('/login')
 
@@ -53,35 +56,93 @@ const QrsPage = async ({ searchParams }: Props) => {
 			? (qrsResult.value.count ?? 0)
 			: 0
 
+	const qrTableTranslations = {
+		active: t('active'),
+		inactive: t('inactive'),
+		scans: t('scans'),
+		total: t('total'),
+		website: t('website'),
+		noFolder: t('noFolder'),
+		noResults: t('noResults'),
+		actions: {
+			title: t('actions.title'),
+			download: t('actions.download'),
+			viewDetails: t('actions.viewDetails'),
+			moveToFolder: t('actions.moveToFolder'),
+			deactivate: t('actions.deactivate'),
+			activate: t('actions.activate'),
+			edit: t('actions.edit'),
+			delete: t('actions.delete'),
+			deactivated: t('actions.deactivated'),
+			activated: t('actions.activated'),
+			deleteTitle: t('actions.deleteTitle'),
+			deleteMessage: t('actions.deleteMessage'),
+			deleted: t('actions.deleted'),
+		},
+		folder: {
+			moveTitle: t('folder.moveTitle'),
+			moveDesc: t('folder.moveDesc'),
+			noFolders: t('folder.noFolders'),
+			moved: t('folder.moved'),
+		},
+		download: {
+			title: t('download.title'),
+			cancel: t('download.cancel'),
+			scanMe: t('download.scanMe'),
+		},
+	}
+
 	return (
 		<>
 			<Breadcrumbs className="py-4">
 				<BreadcrumbItem href="/dashboard">
 					<HugeiconsIcon icon={Home01Icon} size={16} />
 				</BreadcrumbItem>
-				<BreadcrumbItem>Mis QR Codes</BreadcrumbItem>
+				<BreadcrumbItem>{t('title')}</BreadcrumbItem>
 			</Breadcrumbs>
 
 			<div className="flex items-center justify-between py-6">
 				<div>
-					<h1 className="text-3xl font-bold">Mis QR Codes</h1>
+					<h1 className="text-3xl font-bold">{t('title')}</h1>
 					<p className="text-default-500 mt-1">
-						Gestiona todos tus códigos QR desde un solo lugar
+						{t('subtitle')}
 					</p>
 				</div>
-				<CreateQrButton />
+				<CreateQrButton label={t('createNew')} />
 			</div>
 
-			<FoldersSection folders={folders} />
+			<FoldersSection
+				folders={folders}
+				translations={{
+					title: tFolders('title'),
+					newFolder: tFolders('newFolder'),
+					editFolder: tFolders('editFolder'),
+					noFolders: tFolders('noFolders'),
+					name: tFolders('name'),
+					namePlaceholder: tFolders('namePlaceholder'),
+					cancel: tFolders('cancel'),
+					save: tFolders('save'),
+					create: tFolders('create'),
+					created: tFolders('created'),
+					updated: tFolders('updated'),
+					actions: tFolders('actions'),
+					viewContents: tFolders('viewContents'),
+					editName: tFolders('editName'),
+					delete: tFolders('delete'),
+					deleteTitle: tFolders('deleteTitle'),
+					deleteMessage: tFolders('deleteMessage'),
+					deleted: tFolders('deleted'),
+				}}
+			/>
 
 			<div className="mt-6">
 				<Suspense>
-					<SearchInput />
+					<SearchInput placeholder={t('search')} />
 				</Suspense>
 			</div>
 
 			<Suspense fallback={<QrSkeletons />} key={`${q ?? ''}-${currentPage}`}>
-				<QrTable qrs={qrs} folders={folders} total={total} page={currentPage} />
+				<QrTable qrs={qrs} folders={folders} total={total} page={currentPage} translations={qrTableTranslations} />
 			</Suspense>
 		</>
 	)

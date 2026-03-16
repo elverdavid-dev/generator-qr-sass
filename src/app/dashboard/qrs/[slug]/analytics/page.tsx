@@ -7,6 +7,7 @@ import {
 import { HugeiconsIcon } from '@hugeicons/react'
 import { BreadcrumbItem, Breadcrumbs } from '@heroui/breadcrumbs'
 import { redirect, notFound } from 'next/navigation'
+import { getTranslations } from 'next-intl/server'
 import { BackToQrButton } from '../qr-nav-buttons'
 import { getSession } from '@/shared/lib/supabase/get-session'
 import { getQrBySlug } from '@/features/qr-codes/services/queries/get-qr-by-slug'
@@ -25,6 +26,8 @@ interface Props {
 }
 
 const QrAnalyticsPage = async ({ params }: Props) => {
+	const t = await getTranslations('analytics')
+	const tQrs = await getTranslations('qrs')
 	const { slug } = await params
 	const { data: session } = await getSession()
 	if (!session?.user) redirect('/login')
@@ -38,7 +41,7 @@ const QrAnalyticsPage = async ({ params }: Props) => {
 	if (error || !analytics) {
 		return (
 			<div className="flex items-center justify-center h-64 text-default-400">
-				No se pudieron cargar las analíticas
+				{t('failedLoad')}
 			</div>
 		)
 	}
@@ -68,17 +71,54 @@ const QrAnalyticsPage = async ({ params }: Props) => {
 		series: Object.values(record),
 	})
 
+	const chartAreaTranslations = {
+		chartTitle: t('chartTitle'),
+		chartTotal: t('chartTotal'),
+		chartScans: t('chartScans'),
+		daily: t('daily'),
+		weekly: t('weekly'),
+		monthly: t('monthly'),
+		scansLabel: t('scansLabel'),
+	}
+
+	const chartBarTranslations = {
+		scansLabel: t('scansLabel'),
+	}
+
+	const worldMapTranslations = {
+		scansDemography: t('scansDemography'),
+		countryDistribution: t('countryDistribution'),
+		loadingMap: t('loadingMap'),
+		unknown: t('unknown'),
+		less: t('less'),
+		more: t('more'),
+		scans: t('chartScans'),
+	}
+
+	const recentScansTranslations = {
+		recentScans: t('recentScans'),
+		lastActivities: t('lastActivities'),
+		activities: t('activities'),
+		noScansRecorded: t('noScansRecorded'),
+		qrColumn: t('qrColumn'),
+		countryColumn: t('countryColumn'),
+		platformColumn: t('platformColumn'),
+		uniqueColumn: t('uniqueColumn'),
+		uniqueScan: t('uniqueScan'),
+		repeatScan: t('repeatScan'),
+	}
+
 	return (
 		<div className="pb-12">
 			<Breadcrumbs className="py-4">
 				<BreadcrumbItem href="/dashboard">
 					<HugeiconsIcon icon={Home01Icon} size={16} />
 				</BreadcrumbItem>
-				<BreadcrumbItem href="/dashboard/qrs">Mis QR Codes</BreadcrumbItem>
+				<BreadcrumbItem href="/dashboard/qrs">{tQrs('title')}</BreadcrumbItem>
 				<BreadcrumbItem href={`/dashboard/qrs/${slug}`} className="capitalize">
 					{typedQr.name}
 				</BreadcrumbItem>
-				<BreadcrumbItem>Analíticas</BreadcrumbItem>
+				<BreadcrumbItem>{t('title')}</BreadcrumbItem>
 			</Breadcrumbs>
 
 			<div className="py-6 flex items-start justify-between gap-4">
@@ -87,9 +127,9 @@ const QrAnalyticsPage = async ({ params }: Props) => {
 						<HugeiconsIcon icon={Analytics02Icon} size={22} className="text-primary" />
 						<h1 className="text-3xl font-bold capitalize">{typedQr.name}</h1>
 					</div>
-					<p className="text-default-500">Rendimiento individual del código QR</p>
+					<p className="text-default-500">{t('individualTitle')}</p>
 				</div>
-				<BackToQrButton slug={slug} />
+				<BackToQrButton slug={slug} label={tQrs('nav.back')} />
 			</div>
 
 			{/* ── Metric cards + radial gauge ── */}
@@ -97,48 +137,48 @@ const QrAnalyticsPage = async ({ params }: Props) => {
 				<div className="lg:col-span-2 grid grid-cols-2 gap-4">
 					<MetricCard
 						icon={FingerPrintScanIcon}
-						label="Escaneos totales"
+						label={t('totalScans')}
 						amount={totalScans}
 						change={monthChange}
-						subInfo={`${uniqueScans.toLocaleString('es')} únicos`}
+						subInfo={`${uniqueScans.toLocaleString('es')} ${t('unique')}`}
 						iconBg="bg-indigo-50 dark:bg-indigo-950/40"
 						iconColor="text-indigo-600 dark:text-indigo-400"
 					/>
 					<MetricCard
 						icon={Clock01Icon}
-						label="Escaneos hoy"
+						label={t('todayScans')}
 						amount={todayScans}
-						subInfo={`${weekScans.toLocaleString('es')} esta semana`}
+						subInfo={`${weekScans.toLocaleString('es')} ${t('thisWeek')}`}
 						iconBg="bg-violet-50 dark:bg-violet-950/40"
 						iconColor="text-violet-600 dark:text-violet-400"
 					/>
 					<MetricCard
 						icon={Clock01Icon}
-						label="Esta semana"
+						label={t('thisWeekLabel')}
 						amount={weekScans}
 						change={weekChange}
-						subInfo={`${monthScans.toLocaleString('es')} este mes`}
+						subInfo={`${monthScans.toLocaleString('es')} ${t('thisMonth')}`}
 						iconBg="bg-amber-50 dark:bg-amber-950/40"
 						iconColor="text-amber-600 dark:text-amber-400"
 					/>
 					<MetricCard
 						icon={FingerPrintScanIcon}
-						label="Escaneos únicos"
+						label={t('uniqueScans')}
 						amount={uniqueScans}
-						subInfo={`${uniqueRate}% del total`}
+						subInfo={`${uniqueRate}% ${t('ofTotal')}`}
 						iconBg="bg-emerald-50 dark:bg-emerald-950/40"
 						iconColor="text-emerald-600 dark:text-emerald-400"
 					/>
 				</div>
 
 				<RadialGauge
-					title="Tasa de unicidad"
-					subtitle="Escaneos únicos vs. totales"
+					title={t('uniquenessRate')}
+					subtitle={t('uniqueVsTotal')}
 					value={uniqueRate}
 					stats={[
-						{ label: 'Esta semana', value: weekScans, change: weekChange },
-						{ label: 'Este mes', value: monthScans, change: monthChange },
-						{ label: 'Únicos', value: uniqueScans },
+						{ label: t('thisWeekLabel'), value: weekScans, change: weekChange },
+						{ label: t('thisMonthLabel'), value: monthScans, change: monthChange },
+						{ label: t('uniqueLabel'), value: uniqueScans },
 					]}
 				/>
 			</div>
@@ -151,31 +191,32 @@ const QrAnalyticsPage = async ({ params }: Props) => {
 							scansPerDay={scansPerDay}
 							scansPerWeek={scansPerWeek}
 							scansPerMonth={scansPerMonth}
+							translations={chartAreaTranslations}
 						/>
 					</div>
 
 					{/* ── Map + Recent scans ── */}
 					{Object.keys(byCountry).length > 0 ? (
 						<div className="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
-							<WorldMap data={byCountry} />
-							<RecentScansTable scans={recentScans} />
+							<WorldMap data={byCountry} translations={worldMapTranslations} />
+							<RecentScansTable scans={recentScans} translations={recentScansTranslations} />
 						</div>
 					) : (
 						<div className="mt-6">
-							<RecentScansTable scans={recentScans} />
+							<RecentScansTable scans={recentScans} translations={recentScansTranslations} />
 						</div>
 					)}
 
 					{/* ── Device donuts ── */}
 					<div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6">
-						<ChartDonut title="Sistema operativo" {...toChart(byOs)} />
+						<ChartDonut title={t('os')} {...toChart(byOs)} />
 						<ChartDonut
-							title="Navegador"
+							title={t('browser')}
 							{...toChart(byBrowser)}
 							colors={['#10b981', '#34d399', '#6ee7b7', '#a7f3d0', '#d1fae5']}
 						/>
 						<ChartDonut
-							title="Dispositivo"
+							title={t('device')}
 							{...toChart(byDevice)}
 							colors={['#6366f1', '#818cf8', '#a5b4fc', '#c7d2fe']}
 						/>
@@ -184,10 +225,11 @@ const QrAnalyticsPage = async ({ params }: Props) => {
 					{/* ── By hour ── */}
 					<div className="mt-6">
 						<ChartBar
-							title="Escaneos por hora del día"
+							title={t('scansByHourDay')}
 							labels={Array.from({ length: 24 }, (_, i) => `${i}h`)}
 							series={byHour}
 							color="#6366f1"
+							translations={chartBarTranslations}
 						/>
 					</div>
 				</>
@@ -196,8 +238,8 @@ const QrAnalyticsPage = async ({ params }: Props) => {
 					<div className="opacity-25">
 						<HugeiconsIcon icon={FingerPrintScanIcon} size={36} />
 					</div>
-					<p className="font-medium text-sm">Aún no hay escaneos</p>
-					<p className="text-xs">Los datos aparecerán cuando alguien escanee este QR</p>
+					<p className="font-medium text-sm">{t('noScans')}</p>
+					<p className="text-xs">{t('noScansDescSingle')}</p>
 				</div>
 			)}
 		</div>

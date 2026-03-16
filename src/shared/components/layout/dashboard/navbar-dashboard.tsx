@@ -4,12 +4,13 @@ import ProfileButton from '@/shared/components/profile-button'
 import ThemeToggle from '@/shared/components/theme/theme-toggle'
 import LogoutButton from '@/shared/components/logout-button'
 import LanguageSwitcher from '@/shared/components/language-switcher'
-import { getLocale } from 'next-intl/server'
+import { getLocale, getTranslations } from 'next-intl/server'
 
 const NavbarDashboard = async () => {
 	const { data: session } = await getSession()
 	const userId = session?.user?.id
 	const locale = await getLocale()
+	const t = await getTranslations('language')
 
 	let profile = null
 	if (userId) {
@@ -19,7 +20,7 @@ const NavbarDashboard = async () => {
 
 	return (
 		<header className="flex items-center justify-end gap-x-2 px-6 py-3 border-b border-divider bg-background">
-			<LanguageSwitcher currentLocale={locale} />
+			<LanguageSwitcher currentLocale={locale} selectLabel={t('select')} loadingMessage={t('loading')} />
 			<ThemeToggle />
 			{profile ? (
 				<ProfileButton

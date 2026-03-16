@@ -20,11 +20,30 @@ const ConfirmDeleteModal = dynamic(
 )
 const CreateFolderModal = dynamic(() => import('./create-folder-modal'))
 
-interface Props {
-	folder: Folder
+interface FolderActionsTranslations {
+	actions: string
+	viewContents: string
+	editName: string
+	delete: string
+	deleteTitle: string
+	deleteMessage: string
+	deleted: string
+	editFolder: string
+	name: string
+	namePlaceholder: string
+	cancel: string
+	save: string
+	create: string
+	created: string
+	updated: string
 }
 
-const FolderActions: FC<Props> = ({ folder }) => {
+interface Props {
+	folder: Folder
+	translations: FolderActionsTranslations
+}
+
+const FolderActions: FC<Props> = ({ folder, translations }) => {
 	const deleteDisc = useDisclosure()
 	const editDisc = useDisclosure()
 
@@ -36,20 +55,20 @@ const FolderActions: FC<Props> = ({ folder }) => {
 						<HugeiconsIcon icon={MoreHorizontalIcon} size={18} />
 					</Button>
 				</DropdownTrigger>
-				<DropdownMenu aria-label="Acciones de carpeta">
+				<DropdownMenu aria-label={translations.actions}>
 					<DropdownItem
 						key="view"
 						href={`/dashboard/qrs/folder/${folder.slug}`}
 						startContent={<HugeiconsIcon icon={ViewIcon} size={16} />}
 					>
-						Ver contenido
+						{translations.viewContents}
 					</DropdownItem>
 					<DropdownItem
 						key="edit"
 						startContent={<HugeiconsIcon icon={Edit02Icon} size={16} />}
 						onPress={editDisc.onOpen}
 					>
-						Editar nombre
+						{translations.editName}
 					</DropdownItem>
 					<DropdownItem
 						key="delete"
@@ -58,7 +77,7 @@ const FolderActions: FC<Props> = ({ folder }) => {
 						startContent={<HugeiconsIcon icon={Delete02Icon} size={16} />}
 						onPress={deleteDisc.onOpen}
 					>
-						Eliminar carpeta
+						{translations.delete}
 					</DropdownItem>
 				</DropdownMenu>
 			</Dropdown>
@@ -68,15 +87,26 @@ const FolderActions: FC<Props> = ({ folder }) => {
 				onOpenChange={deleteDisc.onOpenChange}
 				onClose={deleteDisc.onClose}
 				onDelete={() => deleteFolder(folder.id)}
-				title="Eliminar carpeta"
-				description="Los QRs de esta carpeta quedarán sin carpeta asignada."
-				notification_message="Carpeta eliminada"
+				title={translations.deleteTitle}
+				description={translations.deleteMessage}
+				notification_message={translations.deleted}
 			/>
 			<CreateFolderModal
 				isOpen={editDisc.isOpen}
 				onOpenChange={editDisc.onOpenChange}
 				onClose={editDisc.onClose}
 				folder={folder}
+				translations={{
+					editFolder: translations.editFolder,
+					newFolder: translations.editFolder,
+					name: translations.name,
+					namePlaceholder: translations.namePlaceholder,
+					cancel: translations.cancel,
+					save: translations.save,
+					create: translations.create,
+					created: translations.created,
+					updated: translations.updated,
+				}}
 			/>
 		</>
 	)

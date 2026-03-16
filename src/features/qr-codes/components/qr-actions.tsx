@@ -31,12 +31,48 @@ const ConfirmDeleteModal = dynamic(
 )
 const FolderSelectorModal = dynamic(() => import('./folder-selector-modal'))
 
+interface ActionsTranslations {
+	title: string
+	download: string
+	viewDetails: string
+	moveToFolder: string
+	deactivate: string
+	activate: string
+	edit: string
+	delete: string
+	deactivated: string
+	activated: string
+	deleteTitle: string
+	deleteMessage: string
+	deleted: string
+}
+
+interface FolderTranslations {
+	moveTitle: string
+	moveDesc: string
+	noFolders: string
+	moved: string
+}
+
+interface DownloadTranslations {
+	title: string
+	cancel: string
+	scanMe: string
+}
+
+interface QrTableTranslations {
+	actions: ActionsTranslations
+	folder: FolderTranslations
+	download: DownloadTranslations
+}
+
 interface Props {
 	qr: QrCode
 	folders: Folder[]
+	translations: QrTableTranslations
 }
 
-const QrActions = ({ qr, folders }: Props) => {
+const QrActions = ({ qr, folders, translations }: Props) => {
 	const [isPending, startTransition] = useTransition()
 	const downloadDisc = useDisclosure()
 	const deleteDisc = useDisclosure()
@@ -48,7 +84,7 @@ const QrActions = ({ qr, folders }: Props) => {
 			if (error) {
 				toast.error(error)
 			} else {
-				toast.success(qr.is_active ? 'QR desactivado' : 'QR activado')
+				toast.success(qr.is_active ? translations.actions.deactivated : translations.actions.activated)
 			}
 		})
 	}
@@ -61,27 +97,27 @@ const QrActions = ({ qr, folders }: Props) => {
 						<HugeiconsIcon icon={MoreHorizontalIcon} size={18} />
 					</Button>
 				</DropdownTrigger>
-				<DropdownMenu aria-label="Acciones del QR">
+				<DropdownMenu aria-label={translations.actions.title}>
 					<DropdownItem
 						key="download"
 						startContent={<HugeiconsIcon icon={Download04Icon} size={16} />}
 						onPress={downloadDisc.onOpen}
 					>
-						Descargar
+						{translations.actions.download}
 					</DropdownItem>
 					<DropdownItem
 						key="view"
 						href={`/dashboard/qrs/${qr.slug}`}
 						startContent={<HugeiconsIcon icon={ViewIcon} size={16} />}
 					>
-						Ver detalles
+						{translations.actions.viewDetails}
 					</DropdownItem>
 					<DropdownItem
 						key="folder"
 						startContent={<HugeiconsIcon icon={Folder01Icon} size={16} />}
 						onPress={folderDisc.onOpen}
 					>
-						Mover a carpeta
+						{translations.actions.moveToFolder}
 					</DropdownItem>
 					<DropdownItem
 						key="toggle"
@@ -89,14 +125,14 @@ const QrActions = ({ qr, folders }: Props) => {
 						onPress={handleToggleStatus}
 						isDisabled={isPending}
 					>
-						{qr.is_active ? 'Desactivar' : 'Activar'}
+						{qr.is_active ? translations.actions.deactivate : translations.actions.activate}
 					</DropdownItem>
 					<DropdownItem
 						key="edit"
 						href={`/dashboard/qrs/${qr.slug}/edit`}
 						startContent={<HugeiconsIcon icon={Edit02Icon} size={16} />}
 					>
-						Editar
+						{translations.actions.edit}
 					</DropdownItem>
 					<DropdownItem
 						key="delete"
@@ -105,7 +141,7 @@ const QrActions = ({ qr, folders }: Props) => {
 						startContent={<HugeiconsIcon icon={Delete02Icon} size={16} />}
 						onPress={deleteDisc.onOpen}
 					>
-						Eliminar
+						{translations.actions.delete}
 					</DropdownItem>
 				</DropdownMenu>
 			</Dropdown>
@@ -115,15 +151,16 @@ const QrActions = ({ qr, folders }: Props) => {
 				onOpenChange={downloadDisc.onOpenChange}
 				onClose={downloadDisc.onClose}
 				qr={qr}
+				translations={translations.download}
 			/>
 			<ConfirmDeleteModal
 				isOpen={deleteDisc.isOpen}
 				onOpenChange={deleteDisc.onOpenChange}
 				onClose={deleteDisc.onClose}
 				onDelete={() => deleteQr(qr.id)}
-				title="Eliminar QR"
-				description="¿Estás seguro? Esta acción no se puede deshacer."
-				notification_message="QR eliminado correctamente"
+				title={translations.actions.deleteTitle}
+				description={translations.actions.deleteMessage}
+				notification_message={translations.actions.deleted}
 			/>
 			<FolderSelectorModal
 				isOpen={folderDisc.isOpen}
@@ -131,6 +168,7 @@ const QrActions = ({ qr, folders }: Props) => {
 				onClose={folderDisc.onClose}
 				folders={folders}
 				qrId={qr.id}
+				translations={translations.folder}
 			/>
 		</>
 	)

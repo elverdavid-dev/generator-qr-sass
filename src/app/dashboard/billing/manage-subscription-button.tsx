@@ -4,7 +4,11 @@ import { Button } from '@heroui/button'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
-export default function ManageSubscriptionButton() {
+interface Props {
+	label: string
+}
+
+export default function ManageSubscriptionButton({ label }: Props) {
 	const router = useRouter()
 	const [loading, setLoading] = useState(false)
 
@@ -28,7 +32,7 @@ export default function ManageSubscriptionButton() {
 			onPress={handleClick}
 			className="font-semibold"
 		>
-			Gestionar suscripción
+			{label}
 		</Button>
 	)
 }

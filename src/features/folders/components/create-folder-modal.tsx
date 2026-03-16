@@ -18,14 +18,27 @@ import { updateFolder } from '@/features/folders/services/mutations/update-folde
 import { folderSchema, type FolderFormData } from '@/features/folders/schemas/folder-schema'
 import type { Folder } from '@/shared/types/database.types'
 
+interface CreateFolderTranslations {
+	editFolder: string
+	newFolder: string
+	name: string
+	namePlaceholder: string
+	cancel: string
+	save: string
+	create: string
+	created: string
+	updated: string
+}
+
 interface Props {
 	folder?: Folder
 	isOpen: boolean
 	onOpenChange: VoidFunction
 	onClose: VoidFunction
+	translations: CreateFolderTranslations
 }
 
-const CreateFolderModal: FC<Props> = ({ folder, isOpen, onOpenChange, onClose }) => {
+const CreateFolderModal: FC<Props> = ({ folder, isOpen, onOpenChange, onClose, translations }) => {
 	const [isPending, startTransition] = useTransition()
 	const {
 		register,
@@ -47,7 +60,7 @@ const CreateFolderModal: FC<Props> = ({ folder, isOpen, onOpenChange, onClose })
 				toast.error(result.error)
 				return
 			}
-			toast.success(folder ? 'Carpeta actualizada' : 'Carpeta creada')
+			toast.success(folder ? translations.updated : translations.created)
 			reset()
 			onClose()
 		})
@@ -57,14 +70,14 @@ const CreateFolderModal: FC<Props> = ({ folder, isOpen, onOpenChange, onClose })
 		<Modal isOpen={isOpen} onOpenChange={onOpenChange}>
 			<ModalContent>
 				<ModalHeader>
-					{folder ? 'Editar carpeta' : 'Nueva carpeta'}
+					{folder ? translations.editFolder : translations.newFolder}
 				</ModalHeader>
 				<ModalBody>
 					<form id="folder-form" onSubmit={handleSubmit(onSubmit)}>
 						<Input
-							label="Nombre"
+							label={translations.name}
 							labelPlacement="outside"
-							placeholder="Ej: Clientes, Marketing..."
+							placeholder={translations.namePlaceholder}
 							variant="bordered"
 							{...register('name')}
 							isInvalid={!!errors.name}
@@ -74,7 +87,7 @@ const CreateFolderModal: FC<Props> = ({ folder, isOpen, onOpenChange, onClose })
 				</ModalBody>
 				<ModalFooter>
 					<Button variant="bordered" onPress={onClose}>
-						Cancelar
+						{translations.cancel}
 					</Button>
 					<Button
 						color="primary"
@@ -82,7 +95,7 @@ const CreateFolderModal: FC<Props> = ({ folder, isOpen, onOpenChange, onClose })
 						form="folder-form"
 						isLoading={isPending}
 					>
-						{folder ? 'Guardar cambios' : 'Crear carpeta'}
+						{folder ? translations.save : translations.create}
 					</Button>
 				</ModalFooter>
 			</ModalContent>

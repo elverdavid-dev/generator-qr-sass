@@ -3,6 +3,7 @@ import Image from 'next/image'
 
 interface Props {
 	data: Record<string, number>
+	scansLabel: string
 }
 
 const getCountryName = (code: string): string => {
@@ -13,7 +14,7 @@ const getCountryName = (code: string): string => {
 	}
 }
 
-const CountryList: FC<Props> = ({ data }) => {
+const CountryList: FC<Props> = ({ data, scansLabel }) => {
 	const entries = Object.entries(data).sort((a, b) => b[1] - a[1])
 	const total = entries.reduce((s, [, v]) => s + v, 0)
 
@@ -44,7 +45,7 @@ const CountryList: FC<Props> = ({ data }) => {
 							<div className="flex justify-between items-center mb-1.5">
 								<div>
 									<span className="text-sm font-semibold text-default-700">{name}</span>
-									<span className="ml-2 text-xs text-default-400">{count.toLocaleString('es')} escaneos</span>
+									<span className="ml-2 text-xs text-default-400">{count.toLocaleString('es')} {scansLabel}</span>
 								</div>
 								<span className="text-sm font-bold text-default-600 ml-2">{pct}%</span>
 							</div>

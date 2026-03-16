@@ -11,8 +11,22 @@ interface Scan {
 	createdAt: string
 }
 
+interface RecentScansTranslations {
+	recentScans: string
+	lastActivities: string
+	activities: string
+	noScansRecorded: string
+	qrColumn: string
+	countryColumn: string
+	platformColumn: string
+	uniqueColumn: string
+	uniqueScan: string
+	repeatScan: string
+}
+
 interface Props {
 	scans: Scan[]
+	translations: RecentScansTranslations
 }
 
 const getCountryName = (code: string): string => {
@@ -23,29 +37,29 @@ const getCountryName = (code: string): string => {
 	}
 }
 
-const RecentScansTable: FC<Props> = ({ scans }) => {
+const RecentScansTable: FC<Props> = ({ scans, translations }) => {
 	return (
 		<div className="bg-content1 border border-divider rounded-2xl p-5 shadow-sm flex flex-col h-full">
 			{/* Header */}
 			<div className="flex items-center justify-between mb-4">
 				<div>
-					<h3 className="font-semibold text-base">Escaneos recientes</h3>
-					<p className="text-xs text-default-400 mt-0.5">Últimas {scans.length} actividades</p>
+					<h3 className="font-semibold text-base">{translations.recentScans}</h3>
+					<p className="text-xs text-default-400 mt-0.5">{translations.lastActivities} {scans.length} {translations.activities}</p>
 				</div>
 			</div>
 
 			{scans.length === 0 ? (
 				<div className="flex-1 flex items-center justify-center text-default-400 text-sm">
-					Sin escaneos registrados
+					{translations.noScansRecorded}
 				</div>
 			) : (
 				<div className="flex flex-col divide-y divide-divider overflow-auto">
 					{/* Column headers */}
 					<div className="grid grid-cols-[1fr_auto_auto_auto] gap-3 pb-2.5 text-xs font-medium text-default-400">
-						<span>QR</span>
-						<span>País</span>
-						<span>Plataforma</span>
-						<span>Único</span>
+						<span>{translations.qrColumn}</span>
+						<span>{translations.countryColumn}</span>
+						<span>{translations.platformColumn}</span>
+						<span>{translations.uniqueColumn}</span>
 					</div>
 
 					{scans.map((scan, i) => (
@@ -103,7 +117,7 @@ const RecentScansTable: FC<Props> = ({ scans }) => {
 											: 'bg-default-100 text-default-500'
 									}`}
 								>
-									{scan.isUnique ? 'Único' : 'Repetido'}
+									{scan.isUnique ? translations.uniqueScan : translations.repeatScan}
 								</span>
 							</div>
 						</div>

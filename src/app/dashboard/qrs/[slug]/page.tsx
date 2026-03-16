@@ -10,6 +10,7 @@ import {
 } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 import { redirect, notFound } from 'next/navigation'
+import { getTranslations } from 'next-intl/server'
 import { getSession } from '@/shared/lib/supabase/get-session'
 import QrPreview from '@/features/qr-codes/components/qr-preview'
 import { getQrBySlug } from '@/features/qr-codes/services/queries/get-qr-by-slug'
@@ -22,6 +23,7 @@ interface Props {
 }
 
 const QrDetailPage = async ({ params }: Props) => {
+	const t = await getTranslations('qrs')
 	const { slug } = await params
 	const { data: session } = await getSession()
 	if (!session?.user) redirect('/login')
@@ -38,16 +40,16 @@ const QrDetailPage = async ({ params }: Props) => {
 				<BreadcrumbItem href="/dashboard">
 					<HugeiconsIcon icon={Home01Icon} size={16} />
 				</BreadcrumbItem>
-				<BreadcrumbItem href="/dashboard/qrs">Mis QR Codes</BreadcrumbItem>
+				<BreadcrumbItem href="/dashboard/qrs">{t('title')}</BreadcrumbItem>
 				<BreadcrumbItem className="capitalize">{typedQr.name}</BreadcrumbItem>
 			</Breadcrumbs>
 
 			<div className="py-6 flex items-start justify-between gap-4">
 				<div>
 					<h1 className="text-3xl font-bold capitalize">{typedQr.name}</h1>
-					<p className="text-default-500 mt-1">Detalles del código QR</p>
+					<p className="text-default-500 mt-1">{t('detail.totalScans')}</p>
 				</div>
-				<ViewAnalyticsButton slug={slug} />
+				<ViewAnalyticsButton slug={slug} label={t('nav.viewAnalytics')} />
 			</div>
 
 			<div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -79,7 +81,7 @@ const QrDetailPage = async ({ params }: Props) => {
 						<div className="bg-content1 border border-divider rounded-2xl p-4 shadow-sm">
 							<div className="flex items-center gap-2 text-default-500 mb-1">
 								<HugeiconsIcon icon={FingerPrintScanIcon} size={16} />
-								<span className="text-sm">Escaneos totales</span>
+								<span className="text-sm">{t('detail.totalScans')}</span>
 							</div>
 							<p className="text-3xl font-bold text-primary">{typedQr.scan_count ?? 0}</p>
 						</div>
@@ -90,10 +92,10 @@ const QrDetailPage = async ({ params }: Props) => {
 								) : (
 									<HugeiconsIcon icon={CancelCircleIcon} size={16} className="text-danger" />
 								)}
-								<span className="text-sm">Estado</span>
+								<span className="text-sm">{t('detail.status')}</span>
 							</div>
 							<p className={`text-lg font-semibold ${typedQr.is_active ? 'text-emerald-500' : 'text-danger'}`}>
-								{typedQr.is_active ? 'Activo' : 'Inactivo'}
+								{typedQr.is_active ? t('active') : t('inactive')}
 							</p>
 						</div>
 					</div>
@@ -103,14 +105,14 @@ const QrDetailPage = async ({ params }: Props) => {
 						<div className="flex items-start gap-3">
 							<HugeiconsIcon icon={Link01Icon} size={16} className="text-default-400 mt-0.5 shrink-0" />
 							<div className="min-w-0">
-								<p className="text-xs text-default-400 mb-1">Contenido</p>
+								<p className="text-xs text-default-400 mb-1">{t('detail.content')}</p>
 								<p className="text-sm text-default-700 break-all">{typedQr.data}</p>
 							</div>
 						</div>
 						<div className="flex items-start gap-3">
 							<HugeiconsIcon icon={QrCodeIcon} size={16} className="text-default-400 mt-0.5 shrink-0" />
 							<div>
-								<p className="text-xs text-default-400 mb-1">URL de rastreo</p>
+								<p className="text-xs text-default-400 mb-1">{t('detail.trackingUrl')}</p>
 								<a
 									href={trackingUrl}
 									target="_blank"
@@ -124,7 +126,7 @@ const QrDetailPage = async ({ params }: Props) => {
 						<div className="flex items-center gap-3">
 							<HugeiconsIcon icon={Calendar03Icon} size={16} className="text-default-400 shrink-0" />
 							<div>
-								<p className="text-xs text-default-400 mb-1">Creado</p>
+								<p className="text-xs text-default-400 mb-1">{t('detail.createdAt')}</p>
 								<p className="text-sm text-default-700">{formatDate(typedQr.created_at)}</p>
 							</div>
 						</div>

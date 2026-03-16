@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import { ThemeProvider } from 'next-themes'
 import type { FC, ReactNode } from 'react'
 import { Toaster } from 'sonner'
+import { LoaderProvider } from '@/shared/context/loader-context'
 
 interface Props {
 	children: ReactNode
@@ -28,7 +29,9 @@ const Providers: FC<Props> = ({ children }) => {
 					},
 				}}
 			/>
-			<HeroUIProvider navigate={router.push}>{children}</HeroUIProvider>
+			<HeroUIProvider navigate={router.push}>
+				<LoaderProvider>{children}</LoaderProvider>
+			</HeroUIProvider>
 		</ThemeProvider>
 	)
 }

@@ -9,6 +9,7 @@ import {
 import { HugeiconsIcon } from '@hugeicons/react'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
+import { getTranslations } from 'next-intl/server'
 import { getSession } from '@/shared/lib/supabase/get-session'
 import { getProfile } from '@/features/auth/services/queries/get-profile'
 import { getDashboardStats } from '@/features/analytics/services/queries/get-dashboard-stats'
@@ -46,6 +47,7 @@ const StatCard = ({
 )
 
 const DashboardPage = async () => {
+	const t = await getTranslations('dashboard')
 	const { data: session } = await getSession()
 	if (!session?.user) redirect('/login')
 
@@ -57,9 +59,9 @@ const DashboardPage = async () => {
 	const profile = profileResult.data
 	const stats = statsResult.data
 
-	const firstName = profile?.name?.split(' ')[0] ?? profile?.email?.split('@')[0] ?? 'Usuario'
+	const firstName = profile?.name?.split(' ')[0] ?? profile?.email?.split('@')[0] ?? t('user')
 	const hour = new Date().getHours()
-	const greeting = hour < 12 ? 'Buenos días' : hour < 18 ? 'Buenas tardes' : 'Buenas noches'
+	const greeting = hour < 12 ? t('greeting.morning') : hour < 18 ? t('greeting.afternoon') : t('greeting.evening')
 
 	return (
 		<div className="pb-12">
@@ -77,36 +79,36 @@ const DashboardPage = async () => {
 					className="flex items-center gap-2 bg-primary text-white px-4 py-2 rounded-xl text-sm font-semibold hover:bg-primary/90 transition-colors shrink-0"
 				>
 					<HugeiconsIcon icon={Add01Icon} size={16} />
-					Crear QR
+					{t('createQr')}
 				</Link>
 			</div>
 
 			<div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
 				<StatCard
 					icon={QrCodeIcon}
-					label="QRs creados"
+					label={t('stats.totalQrs')}
 					value={stats?.totalQrs ?? 0}
-					sub={`${stats?.activeQrs ?? 0} activos`}
+					sub={`${stats?.activeQrs ?? 0} ${t('stats.active')}`}
 					iconBg="bg-blue-50 dark:bg-blue-950/40"
 					iconColor="text-blue-600 dark:text-blue-400"
 				/>
 				<StatCard
 					icon={CheckmarkCircle02Icon}
-					label="QRs activos"
+					label={t('stats.activeQrs')}
 					value={stats?.activeQrs ?? 0}
 					iconBg="bg-emerald-50 dark:bg-emerald-950/40"
 					iconColor="text-emerald-600 dark:text-emerald-400"
 				/>
 				<StatCard
 					icon={Clock01Icon}
-					label="Escaneos hoy"
+					label={t('stats.todayScans')}
 					value={stats?.todayScans ?? 0}
 					iconBg="bg-violet-50 dark:bg-violet-950/40"
 					iconColor="text-violet-600 dark:text-violet-400"
 				/>
 				<StatCard
 					icon={FingerPrintScanIcon}
-					label="Escaneos este mes"
+					label={t('stats.monthScans')}
 					value={stats?.monthScans ?? 0}
 					iconBg="bg-amber-50 dark:bg-amber-950/40"
 					iconColor="text-amber-600 dark:text-amber-400"
@@ -115,18 +117,18 @@ const DashboardPage = async () => {
 
 			<div className="mt-8">
 				<div className="flex items-center justify-between mb-4">
-					<h2 className="text-lg font-semibold">QRs recientes</h2>
+					<h2 className="text-lg font-semibold">{t('recentQrs')}</h2>
 					<Link href="/dashboard/qrs" className="text-sm text-primary hover:underline">
-						Ver todos →
+						{t('viewAll')}
 					</Link>
 				</div>
 
 				{!stats?.recentQrs?.length ? (
 					<div className="bg-content1 border border-divider rounded-2xl p-10 flex flex-col items-center gap-3 text-default-400">
 						<HugeiconsIcon icon={QrCodeIcon} size={32} className="opacity-30" />
-						<p className="text-sm font-medium">Aún no tienes QRs</p>
+						<p className="text-sm font-medium">{t('noQrs')}</p>
 						<Link href="/dashboard/qrs/new" className="text-xs text-primary hover:underline">
-							Crear tu primer QR
+							{t('createFirst')}
 						</Link>
 					</div>
 				) : (
@@ -151,7 +153,7 @@ const DashboardPage = async () => {
 								</div>
 								<div className="text-right shrink-0">
 									<p className="text-sm font-bold text-primary">{qr.scan_count ?? 0}</p>
-									<p className="text-xs text-default-400">escaneos</p>
+									<p className="text-xs text-default-400">{t('scans')}</p>
 								</div>
 								<div className="text-right shrink-0 hidden md:flex flex-col items-end gap-0.5">
 									<span className="text-xs text-default-400 flex items-center gap-1">
@@ -159,7 +161,7 @@ const DashboardPage = async () => {
 										{formatDate(qr.created_at)}
 									</span>
 									<span className={`text-xs font-medium ${qr.is_active ? 'text-emerald-500' : 'text-danger'}`}>
-										{qr.is_active ? 'Activo' : 'Inactivo'}
+										{qr.is_active ? t('active') : t('inactive')}
 									</span>
 								</div>
 							</Link>

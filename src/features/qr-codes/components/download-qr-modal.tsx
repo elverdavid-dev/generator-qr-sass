@@ -21,11 +21,18 @@ const FORMATS = [
 
 type Format = (typeof FORMATS)[number]['ext']
 
+interface DownloadTranslations {
+	title: string
+	cancel: string
+	scanMe: string
+}
+
 interface Props {
 	isOpen: boolean
 	onOpenChange: VoidFunction
 	onClose: VoidFunction
 	qr: QrCode
+	translations: DownloadTranslations
 }
 
 function roundRect(
@@ -49,7 +56,7 @@ function roundRect(
 	ctx.closePath()
 }
 
-const DownloadQrModal: FC<Props> = ({ isOpen, onOpenChange, onClose, qr }) => {
+const DownloadQrModal: FC<Props> = ({ isOpen, onOpenChange, onClose, qr, translations }) => {
 	const containerRef = useRef<HTMLDivElement>(null)
 	// biome-ignore lint/suspicious/noExplicitAny: qr-code-styling instance
 	const instanceRef = useRef<any>(null)
@@ -164,7 +171,7 @@ const DownloadQrModal: FC<Props> = ({ isOpen, onOpenChange, onClose, qr }) => {
 		ctx.textAlign = 'center'
 		ctx.textBaseline = 'middle'
 		const textY = qrSize + (borderWidth + padding) * 2 + textAreaHeight / 2 - borderWidth / 2
-		ctx.fillText(qr.frame_text ?? 'ESCANÉAME', totalWidth / 2, textY)
+		ctx.fillText(qr.frame_text ?? translations.scanMe, totalWidth / 2, textY)
 
 		// Download
 		const mimeType = ext === 'svg' ? 'image/png' : `image/${ext}`
@@ -189,7 +196,7 @@ const DownloadQrModal: FC<Props> = ({ isOpen, onOpenChange, onClose, qr }) => {
 	return (
 		<Modal isOpen={isOpen} onOpenChange={onOpenChange}>
 			<ModalContent>
-				<ModalHeader>Descargar QR — {qr.name}</ModalHeader>
+				<ModalHeader>{translations.title}{qr.name}</ModalHeader>
 				<ModalBody className="flex items-center justify-center py-6">
 					{hasFrame ? (
 						<div
@@ -222,7 +229,7 @@ const DownloadQrModal: FC<Props> = ({ isOpen, onOpenChange, onClose, qr }) => {
 									textTransform: 'uppercase',
 								}}
 							>
-								{qr.frame_text ?? 'ESCANÉAME'}
+								{qr.frame_text ?? translations.scanMe}
 							</span>
 						</div>
 					) : (
@@ -247,7 +254,7 @@ const DownloadQrModal: FC<Props> = ({ isOpen, onOpenChange, onClose, qr }) => {
 						))}
 					</div>
 					<Button variant="light" onPress={onClose} className="w-full">
-						Cancelar
+						{translations.cancel}
 					</Button>
 				</ModalFooter>
 			</ModalContent>

@@ -2,11 +2,11 @@ import {
 	FingerPrintScanIcon,
 	QrCodeIcon,
 	Clock01Icon,
-	Calendar03Icon,
 	ChartColumnIcon,
 } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 import { redirect } from 'next/navigation'
+import { getTranslations } from 'next-intl/server'
 import { getSession } from '@/shared/lib/supabase/get-session'
 import { getAnalytics } from '@/features/analytics/services/queries/get-analytics'
 import MetricCard from '@/features/analytics/components/metric-card'
@@ -18,6 +18,7 @@ import RecentScansTable from '@/features/analytics/components/recent-scans-table
 import WorldMap from '@/features/analytics/components/world-map'
 
 const page = async () => {
+	const t = await getTranslations('analytics')
 	const { data: session } = await getSession()
 	if (!session?.user) redirect('/login')
 
@@ -26,7 +27,7 @@ const page = async () => {
 	if (error || !analytics) {
 		return (
 			<div className="flex items-center justify-center h-64 text-default-400">
-				No se pudieron cargar las analíticas
+				{t('failedLoad')}
 			</div>
 		)
 	}
@@ -64,11 +65,48 @@ const page = async () => {
 
 	const hasScans = totalScansAllTime > 0
 
+	const chartAreaTranslations = {
+		chartTitle: t('chartTitle'),
+		chartTotal: t('chartTotal'),
+		chartScans: t('chartScans'),
+		daily: t('daily'),
+		weekly: t('weekly'),
+		monthly: t('monthly'),
+		scansLabel: t('scansLabel'),
+	}
+
+	const chartBarTranslations = {
+		scansLabel: t('scansLabel'),
+	}
+
+	const worldMapTranslations = {
+		scansDemography: t('scansDemography'),
+		countryDistribution: t('countryDistribution'),
+		loadingMap: t('loadingMap'),
+		unknown: t('unknown'),
+		less: t('less'),
+		more: t('more'),
+		scans: t('chartScans'),
+	}
+
+	const recentScansTranslations = {
+		recentScans: t('recentScans'),
+		lastActivities: t('lastActivities'),
+		activities: t('activities'),
+		noScansRecorded: t('noScansRecorded'),
+		qrColumn: t('qrColumn'),
+		countryColumn: t('countryColumn'),
+		platformColumn: t('platformColumn'),
+		uniqueColumn: t('uniqueColumn'),
+		uniqueScan: t('uniqueScan'),
+		repeatScan: t('repeatScan'),
+	}
+
 	return (
 		<div className="pb-12">
 			<div className="py-6">
-				<h1 className="text-3xl font-bold">Analíticas</h1>
-				<p className="text-default-500 mt-1">Rendimiento de tus códigos QR</p>
+				<h1 className="text-3xl font-bold">{t('title')}</h1>
+				<p className="text-default-500 mt-1">{t('subtitle')}</p>
 			</div>
 
 			{/* ── 4 metric cards + radial gauge ── */}
@@ -76,48 +114,48 @@ const page = async () => {
 				<div className="lg:col-span-2 grid grid-cols-2 gap-4">
 					<MetricCard
 						icon={QrCodeIcon}
-						label="QRs creados"
+						label={t('qrsCreated')}
 						amount={totalQrs}
-						subInfo={`${activeQrs} activos · ${inactiveQrs} inactivos`}
+						subInfo={`${activeQrs} ${t('active')} · ${inactiveQrs} ${t('inactive')}`}
 						iconBg="bg-blue-50 dark:bg-blue-950/40"
 						iconColor="text-blue-600 dark:text-blue-400"
 					/>
 					<MetricCard
 						icon={FingerPrintScanIcon}
-						label="Escaneos totales"
+						label={t('totalScans')}
 						amount={totalScansAllTime}
 						change={monthChange}
-						subInfo={`${uniqueScans.toLocaleString('es')} únicos`}
+						subInfo={`${uniqueScans.toLocaleString('es')} ${t('unique')}`}
 						iconBg="bg-indigo-50 dark:bg-indigo-950/40"
 						iconColor="text-indigo-600 dark:text-indigo-400"
 					/>
 					<MetricCard
 						icon={Clock01Icon}
-						label="Escaneos hoy"
+						label={t('todayScans')}
 						amount={todayScans}
-						subInfo={`${weekScans.toLocaleString('es')} esta semana`}
+						subInfo={`${weekScans.toLocaleString('es')} ${t('thisWeek')}`}
 						iconBg="bg-violet-50 dark:bg-violet-950/40"
 						iconColor="text-violet-600 dark:text-violet-400"
 					/>
 					<MetricCard
 						icon={ChartColumnIcon}
-						label="Promedio por QR"
+						label={t('avgPerQr')}
 						amount={avgScansPerQr}
 						change={weekChange}
-						subInfo={`${monthScans.toLocaleString('es')} este mes`}
+						subInfo={`${monthScans.toLocaleString('es')} ${t('thisMonth')}`}
 						iconBg="bg-amber-50 dark:bg-amber-950/40"
 						iconColor="text-amber-600 dark:text-amber-400"
 					/>
 				</div>
 
 				<RadialGauge
-					title="Tasa de unicidad"
-					subtitle="Escaneos únicos vs. totales"
+					title={t('uniquenessRate')}
+					subtitle={t('uniqueVsTotal')}
 					value={uniqueRate}
 					stats={[
-						{ label: 'Esta semana', value: weekScans, change: weekChange },
-						{ label: 'Este mes', value: monthScans, change: monthChange },
-						{ label: 'Únicos', value: uniqueScans },
+						{ label: t('thisWeekLabel'), value: weekScans, change: weekChange },
+						{ label: t('thisMonthLabel'), value: monthScans, change: monthChange },
+						{ label: t('uniqueLabel'), value: uniqueScans },
 					]}
 				/>
 			</div>
@@ -130,31 +168,32 @@ const page = async () => {
 							scansPerDay={scansPerDay}
 							scansPerWeek={scansPerWeek}
 							scansPerMonth={scansPerMonth}
+							translations={chartAreaTranslations}
 						/>
 					</div>
 
 					{/* ── Map + Recent scans ── */}
 					{Object.keys(byCountry).length > 0 ? (
 						<div className="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
-							<WorldMap data={byCountry} />
-							<RecentScansTable scans={recentScans} />
+							<WorldMap data={byCountry} translations={worldMapTranslations} />
+							<RecentScansTable scans={recentScans} translations={recentScansTranslations} />
 						</div>
 					) : (
 						<div className="mt-6">
-							<RecentScansTable scans={recentScans} />
+							<RecentScansTable scans={recentScans} translations={recentScansTranslations} />
 						</div>
 					)}
 
 					{/* ── Device donuts ── */}
 					<div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6">
-						<ChartDonut title="Sistema operativo" {...toChart(byOs)} />
+						<ChartDonut title={t('os')} {...toChart(byOs)} />
 						<ChartDonut
-							title="Navegador"
+							title={t('browser')}
 							{...toChart(byBrowser)}
 							colors={['#10b981', '#34d399', '#6ee7b7', '#a7f3d0', '#d1fae5']}
 						/>
 						<ChartDonut
-							title="Dispositivo"
+							title={t('device')}
 							{...toChart(byDevice)}
 							colors={['#6366f1', '#818cf8', '#a5b4fc', '#c7d2fe']}
 						/>
@@ -163,18 +202,20 @@ const page = async () => {
 					{/* ── By hour + Top QRs ── */}
 					<div className="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
 						<ChartBar
-							title="Escaneos por hora"
+							title={t('scansByHour')}
 							labels={Array.from({ length: 24 }, (_, i) => `${i}h`)}
 							series={byHour}
 							color="#6366f1"
+							translations={chartBarTranslations}
 						/>
 						{topQrs.some((q) => q.scans > 0) && (
 							<ChartBar
-								title="Top QRs más escaneados"
+								title={t('topQrs')}
 								labels={topQrs.map((q) => q.name)}
 								series={topQrs.map((q) => q.scans)}
 								horizontal
 								color="#10b981"
+								translations={chartBarTranslations}
 							/>
 						)}
 					</div>
@@ -183,7 +224,7 @@ const page = async () => {
 					{Object.keys(byQrType).length > 1 && (
 						<div className="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
 							<ChartDonut
-								title="Tipos de QR"
+								title={t('qrTypes')}
 								{...toChart(byQrType)}
 								colors={['#3641f5', '#f59e0b', '#10b981', '#ef4444', '#8b5cf6', '#ec4899']}
 							/>
@@ -195,8 +236,8 @@ const page = async () => {
 					<div className="opacity-25">
 						<HugeiconsIcon icon={FingerPrintScanIcon} size={36} />
 					</div>
-					<p className="font-medium text-sm">Aún no hay escaneos</p>
-					<p className="text-xs">Los datos aparecerán cuando alguien escanee tus QRs</p>
+					<p className="font-medium text-sm">{t('noScans')}</p>
+					<p className="text-xs">{t('noScansDesc')}</p>
 				</div>
 			)}
 		</div>

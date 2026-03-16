@@ -11,18 +11,52 @@ import { formatDate } from '@/shared/utils/format-date'
 
 const CreateFolderModal = dynamic(() => import('./create-folder-modal'))
 
-interface Props {
-	folders: Folder[]
+interface FoldersSectionTranslations {
+	title: string
+	newFolder: string
+	editFolder: string
+	noFolders: string
+	name: string
+	namePlaceholder: string
+	cancel: string
+	save: string
+	create: string
+	created: string
+	updated: string
+	actions: string
+	viewContents: string
+	editName: string
+	delete: string
+	deleteTitle: string
+	deleteMessage: string
+	deleted: string
 }
 
-const FoldersSection: FC<Props> = ({ folders }) => {
+interface Props {
+	folders: Folder[]
+	translations: FoldersSectionTranslations
+}
+
+const FoldersSection: FC<Props> = ({ folders, translations }) => {
 	const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure()
+
+	const modalTranslations = {
+		editFolder: translations.editFolder,
+		newFolder: translations.newFolder,
+		name: translations.name,
+		namePlaceholder: translations.namePlaceholder,
+		cancel: translations.cancel,
+		save: translations.save,
+		create: translations.create,
+		created: translations.created,
+		updated: translations.updated,
+	}
 
 	return (
 		<section className="mt-6">
 			<div className="flex items-center justify-between mb-3">
 				<div className="flex items-center gap-2">
-					<h2 className="font-semibold text-default-700">Carpetas</h2>
+					<h2 className="font-semibold text-default-700">{translations.title}</h2>
 					<span className="text-xs text-default-400 bg-default-100 px-2 py-0.5 rounded-full">
 						{folders.length}
 					</span>
@@ -33,13 +67,13 @@ const FoldersSection: FC<Props> = ({ folders }) => {
 					startContent={<HugeiconsIcon icon={Add01Icon} size={16} />}
 					onPress={onOpen}
 				>
-					Nueva carpeta
+					{translations.newFolder}
 				</Button>
 			</div>
 
 			{folders.length === 0 ? (
 				<p className="text-sm text-default-400 py-4">
-					Aún no tienes carpetas. Crea una para organizar tus QRs.
+					{translations.noFolders}
 				</p>
 			) : (
 				<div className="flex items-start gap-3 overflow-x-auto pb-2">
@@ -57,7 +91,7 @@ const FoldersSection: FC<Props> = ({ folders }) => {
 										{folder.qr_count ?? 0} QRs
 									</span>
 								</div>
-								<FolderActions folder={folder} />
+								<FolderActions folder={folder} translations={translations} />
 							</div>
 							<p className="font-semibold capitalize truncate mt-1">
 								{folder.name}
@@ -75,6 +109,7 @@ const FoldersSection: FC<Props> = ({ folders }) => {
 				isOpen={isOpen}
 				onOpenChange={onOpenChange}
 				onClose={onClose}
+				translations={modalTranslations}
 			/>
 		</section>
 	)

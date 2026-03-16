@@ -7,6 +7,7 @@ import LanguageSwitcher from '@/shared/components/language-switcher'
 
 const Header = async () => {
 	const t = await getTranslations('nav')
+	const tLang = await getTranslations('language')
 	const locale = await getLocale()
 
 	return (
@@ -19,7 +20,7 @@ const Header = async () => {
 					<Link href="/login">{t('login')}</Link>
 				</NavbarItem>
 				<NavbarItem>
-					<LanguageSwitcher currentLocale={locale} />
+					<LanguageSwitcher currentLocale={locale} selectLabel={tLang('select')} loadingMessage={tLang('loading')} />
 				</NavbarItem>
 				<NavbarItem>
 					<ThemeToggle />

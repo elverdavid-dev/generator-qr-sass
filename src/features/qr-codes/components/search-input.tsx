@@ -6,7 +6,11 @@ import { HugeiconsIcon } from '@hugeicons/react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useDebouncedCallback } from 'use-debounce'
 
-const SearchInput = () => {
+interface Props {
+	placeholder: string
+}
+
+const SearchInput = ({ placeholder }: Props) => {
 	const router = useRouter()
 	const searchParams = useSearchParams()
 	const query = searchParams.get('q')?.toString()
@@ -23,7 +27,7 @@ const SearchInput = () => {
 
 	return (
 		<Input
-			placeholder="Buscar QR..."
+			placeholder={placeholder}
 			variant="bordered"
 			autoComplete="off"
 			isClearable

@@ -5,14 +5,18 @@ import { Add01Icon } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 import Link from 'next/link'
 
-const CreateQrButton = () => (
+interface Props {
+	label: string
+}
+
+const CreateQrButton = ({ label }: Props) => (
 	<Button
 		as={Link}
 		href="/dashboard/qrs/new"
 		color="primary"
 		startContent={<HugeiconsIcon icon={Add01Icon} size={18} />}
 	>
-		Crear QR
+		{label}
 	</Button>
 )
 

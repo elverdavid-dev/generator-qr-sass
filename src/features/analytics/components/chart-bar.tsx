@@ -6,6 +6,10 @@ import type { ApexOptions } from 'apexcharts'
 
 const ReactApexChart = dynamic(() => import('react-apexcharts'), { ssr: false })
 
+interface Translations {
+	scansLabel: string
+}
+
 interface Props {
 	title: string
 	labels: string[]
@@ -13,6 +17,7 @@ interface Props {
 	horizontal?: boolean
 	color?: string
 	height?: number
+	translations: Translations
 }
 
 const ChartBar: FC<Props> = ({
@@ -22,6 +27,7 @@ const ChartBar: FC<Props> = ({
 	horizontal = false,
 	color = '#3641f5',
 	height = 280,
+	translations,
 }) => {
 	const options: ApexOptions = {
 		chart: {
@@ -52,7 +58,7 @@ const ChartBar: FC<Props> = ({
 			<ReactApexChart
 				type="bar"
 				options={options}
-				series={[{ name: 'Escaneos', data: series }]}
+				series={[{ name: translations.scansLabel, data: series }]}
 				height={height}
 			/>
 		</div>
