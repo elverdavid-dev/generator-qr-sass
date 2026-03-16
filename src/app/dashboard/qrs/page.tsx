@@ -14,7 +14,7 @@ import CreateQrButton from '@/features/qr-codes/components/create-qr-button'
 import type { Folder, QrCode } from '@/shared/types/database.types'
 
 interface Props {
-	searchParams: Promise<{ q?: string }>
+	searchParams: Promise<{ q?: string; page?: string }>
 }
 
 const QrSkeletons = () => (
@@ -26,15 +26,16 @@ const QrSkeletons = () => (
 	</div>
 )
 
-const page = async ({ searchParams }: Props) => {
+const QrsPage = async ({ searchParams }: Props) => {
 	const { data: session } = await getSession()
 	if (!session?.user) redirect('/login')
 
-	const { q } = await searchParams
+	const { q, page: pageParam } = await searchParams
+	const currentPage = Math.max(1, Number(pageParam) || 1)
 
 	const [foldersResult, qrsResult] = await Promise.allSettled([
 		getFolders(),
-		q ? searchQrs(q) : getQrs(),
+		q ? searchQrs(q, currentPage) : getQrs(currentPage),
 	])
 
 	const folders: Folder[] =
@@ -46,6 +47,11 @@ const page = async ({ searchParams }: Props) => {
 		qrsResult.status === 'fulfilled'
 			? (qrsResult.value.data as QrCode[]) ?? []
 			: []
+
+	const total =
+		qrsResult.status === 'fulfilled' && 'count' in qrsResult.value
+			? (qrsResult.value.count ?? 0)
+			: 0
 
 	return (
 		<>
@@ -74,11 +80,11 @@ const page = async ({ searchParams }: Props) => {
 				</Suspense>
 			</div>
 
-			<Suspense fallback={<QrSkeletons />} key={`${q ?? ''}-${qrs.length}`}>
-				<QrTable qrs={qrs} folders={folders} />
+			<Suspense fallback={<QrSkeletons />} key={`${q ?? ''}-${currentPage}`}>
+				<QrTable qrs={qrs} folders={folders} total={total} page={currentPage} />
 			</Suspense>
 		</>
 	)
 }
 
-export default page
+export default QrsPage

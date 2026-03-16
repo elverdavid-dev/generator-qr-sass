@@ -10,18 +10,37 @@ import {
 	Link01Icon,
 } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
+import { Pagination } from '@heroui/pagination'
+import { useRouter, useSearchParams } from 'next/navigation'
 import type { Folder, QrCode } from '@/shared/types/database.types'
 import { formatDate } from '@/shared/utils/format-date'
 import { getTrackingUrl } from '@/shared/utils/get-tracking-url'
+import { QRS_PAGE_SIZE } from '@/features/qr-codes/constants'
 import QrActions from './qr-actions'
 import QrPreview from './qr-preview'
 
 interface Props {
 	qrs: QrCode[]
 	folders: Folder[]
+	total: number
+	page: number
 }
 
-const QrTable = ({ qrs, folders }: Props) => {
+const QrTable = ({ qrs, folders, total, page }: Props) => {
+	const router = useRouter()
+	const searchParams = useSearchParams()
+	const totalPages = Math.ceil(total / QRS_PAGE_SIZE)
+
+	const handlePageChange = (newPage: number) => {
+		const params = new URLSearchParams(searchParams.toString())
+		if (newPage === 1) {
+			params.delete('page')
+		} else {
+			params.set('page', String(newPage))
+		}
+		router.push(`?${params.toString()}`)
+	}
+
 	if (qrs.length === 0) {
 		return (
 			<div className="text-center text-default-400 py-16">
@@ -31,86 +50,104 @@ const QrTable = ({ qrs, folders }: Props) => {
 	}
 
 	return (
-		<section className="flex flex-col gap-3 mt-3">
-			{qrs.map((qr) => (
-				<div
-					key={qr.id}
-					className="flex items-center justify-between gap-6 p-5 bg-content1 rounded-2xl border border-divider shadow-sm"
-				>
-					{/* QR preview + info */}
-					<div className="flex items-center gap-4 min-w-0">
-						<QrPreview
-							value={getTrackingUrl(qr.slug)}
-							size={56}
-							fgColor={qr.fg_color}
-							bgColor={qr.bg_color}
-							dotStyle={qr.dot_style ?? 'square'}
-							className="rounded-lg border border-divider shrink-0 overflow-hidden"
-						/>
-						<div className="min-w-0">
-							<span className="text-xs text-primary font-medium">
-								{qr.qr_type === 'url' ? 'Sitio web' : qr.qr_type}
+		<div>
+			<section className="flex flex-col gap-3 mt-3">
+				{qrs.map((qr) => (
+					<div
+						key={qr.id}
+						className="flex items-center justify-between gap-6 p-5 bg-content1 rounded-2xl border border-divider shadow-sm"
+					>
+						{/* QR preview + info */}
+						<div className="flex items-center gap-4 min-w-0">
+							<QrPreview
+								value={getTrackingUrl(qr.slug)}
+								size={56}
+								fgColor={qr.fg_color}
+								bgColor={qr.bg_color}
+								dotStyle={qr.dot_style ?? 'square'}
+								className="rounded-lg border border-divider shrink-0 overflow-hidden"
+							/>
+							<div className="min-w-0">
+								<span className="text-xs text-primary font-medium">
+									{qr.qr_type === 'url' ? 'Sitio web' : qr.qr_type}
+								</span>
+								<h3 className="font-semibold capitalize truncate max-w-48">
+									{qr.name}
+								</h3>
+								<span className="text-xs text-default-400 flex items-center gap-1">
+									<HugeiconsIcon icon={Calendar03Icon} size={12} />
+									{formatDate(qr.created_at)}
+								</span>
+							</div>
+						</div>
+
+						{/* Folder + link */}
+						<div className="flex-col gap-1 min-w-0 max-md:hidden flex">
+							<span className="text-sm text-default-500 flex items-center gap-1">
+								<HugeiconsIcon icon={Folder01Icon} size={14} />
+								{qr.folders?.name ?? 'Sin carpeta'}
 							</span>
-							<h3 className="font-semibold capitalize truncate max-w-48">
-								{qr.name}
-							</h3>
+							<a
+								href={qr.data}
+								target="_blank"
+								rel="noopener noreferrer"
+								className="text-sm text-primary flex items-center gap-1 underline truncate max-w-52"
+							>
+								<HugeiconsIcon icon={Link01Icon} size={14} />
+								{qr.data}
+							</a>
 							<span className="text-xs text-default-400 flex items-center gap-1">
-								<HugeiconsIcon icon={Calendar03Icon} size={12} />
-								{formatDate(qr.created_at)}
+								<HugeiconsIcon icon={Edit02Icon} size={12} />
+								{formatDate(qr.updated_at)}
 							</span>
 						</div>
-					</div>
 
-					{/* Folder + link */}
-					<div className="flex-col gap-1 min-w-0 max-md:hidden flex">
-						<span className="text-sm text-default-500 flex items-center gap-1">
-							<HugeiconsIcon icon={Folder01Icon} size={14} />
-							{qr.folders?.name ?? 'Sin carpeta'}
-						</span>
-						<a
-							href={qr.data}
-							target="_blank"
-							rel="noopener noreferrer"
-							className="text-sm text-primary flex items-center gap-1 underline truncate max-w-52"
-						>
-							<HugeiconsIcon icon={Link01Icon} size={14} />
-							{qr.data}
-						</a>
-						<span className="text-xs text-default-400 flex items-center gap-1">
-							<HugeiconsIcon icon={Edit02Icon} size={12} />
-							{formatDate(qr.updated_at)}
-						</span>
-					</div>
+						{/* Status */}
+						<div className="text-sm shrink-0">
+							{qr.is_active ? (
+								<span className="text-emerald-500 flex items-center gap-1">
+									<HugeiconsIcon icon={CheckmarkCircle02Icon} size={16} />
+									Activo
+								</span>
+							) : (
+								<span className="text-danger flex items-center gap-1">
+									<HugeiconsIcon icon={CancelCircleIcon} size={16} />
+									Inactivo
+								</span>
+							)}
+						</div>
 
-					{/* Status */}
-					<div className="text-sm shrink-0">
-						{qr.is_active ? (
-							<span className="text-emerald-500 flex items-center gap-1">
-								<HugeiconsIcon icon={CheckmarkCircle02Icon} size={16} />
-								Activo
+						{/* Scan count */}
+						<div className="text-sm text-default-500 flex items-center gap-1 shrink-0">
+							<HugeiconsIcon icon={FingerPrintScanIcon} size={16} />
+							<span>
+								<strong className="text-lg text-primary">{qr.scan_count ?? 0}</strong>{' '}
+								escaneos
 							</span>
-						) : (
-							<span className="text-danger flex items-center gap-1">
-								<HugeiconsIcon icon={CancelCircleIcon} size={16} />
-								Inactivo
-							</span>
-						)}
-					</div>
+						</div>
 
-					{/* Scan count */}
-					<div className="text-sm text-default-500 flex items-center gap-1 shrink-0">
-						<HugeiconsIcon icon={FingerPrintScanIcon} size={16} />
-						<span>
-							<strong className="text-lg text-primary">{qr.scan_count ?? 0}</strong>{' '}
-							escaneos
-						</span>
+						{/* Actions */}
+						<QrActions qr={qr} folders={folders} />
 					</div>
+				))}
+			</section>
 
-					{/* Actions */}
-					<QrActions qr={qr} folders={folders} />
+			{totalPages > 1 && (
+				<div className="flex items-center justify-between mt-6 pb-4">
+					<p className="text-sm text-default-400">
+						{total} QR{total !== 1 ? 's' : ''} en total
+					</p>
+					<Pagination
+						page={page}
+						total={totalPages}
+						onChange={handlePageChange}
+						color="primary"
+						variant="flat"
+						showControls
+					/>
 				</div>
-			))}
-		</section>
+			)}
+		</div>
 	)
 }
 

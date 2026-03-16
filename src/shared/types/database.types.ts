@@ -6,6 +6,10 @@ export interface Profile {
 	phone: string | null
 	avatar_url: string | null
 	role: 'admin' | 'user'
+	plan: 'free' | 'pro' | 'business'
+	ls_customer_id: string | null
+	ls_subscription_id: string | null
+	plan_expires_at: string | null
 	created_at: string
 }
 
@@ -22,10 +26,20 @@ export interface QrCode {
 	dot_style: string
 	corner_square_style: string
 	corner_dot_style: string
+	dot_color_2: string | null
+	dot_gradient_type: string
+	frame_style: string
+	frame_color: string
+	frame_text: string
 	logo_url: string | null
 	logo_path: string | null
 	scan_count: number
 	is_active: boolean
+	expires_at: string | null
+	max_scans: number | null
+	password: string | null
+	ios_url: string | null
+	android_url: string | null
 	created_at: string
 	updated_at: string
 	// joined

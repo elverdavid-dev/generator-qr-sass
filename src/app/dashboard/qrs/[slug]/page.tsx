@@ -15,6 +15,7 @@ import QrPreview from '@/features/qr-codes/components/qr-preview'
 import { getQrBySlug } from '@/features/qr-codes/services/queries/get-qr-by-slug'
 import { formatDate } from '@/shared/utils/format-date'
 import type { QrCode } from '@/shared/types/database.types'
+import { ViewAnalyticsButton } from './qr-nav-buttons'
 
 interface Props {
 	params: Promise<{ slug: string }>
@@ -41,9 +42,12 @@ const QrDetailPage = async ({ params }: Props) => {
 				<BreadcrumbItem className="capitalize">{typedQr.name}</BreadcrumbItem>
 			</Breadcrumbs>
 
-			<div className="py-6">
-				<h1 className="text-3xl font-bold capitalize">{typedQr.name}</h1>
-				<p className="text-default-500 mt-1">Detalles del código QR</p>
+			<div className="py-6 flex items-start justify-between gap-4">
+				<div>
+					<h1 className="text-3xl font-bold capitalize">{typedQr.name}</h1>
+					<p className="text-default-500 mt-1">Detalles del código QR</p>
+				</div>
+				<ViewAnalyticsButton slug={slug} />
 			</div>
 
 			<div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -97,14 +101,14 @@ const QrDetailPage = async ({ params }: Props) => {
 					{/* Details */}
 					<div className="bg-content1 border border-divider rounded-2xl p-6 shadow-sm flex flex-col gap-4">
 						<div className="flex items-start gap-3">
-							<HugeiconsIcon icon={Link01Icon} size={16} className="text-default-400 mt-0.5 flex-shrink-0" />
+							<HugeiconsIcon icon={Link01Icon} size={16} className="text-default-400 mt-0.5 shrink-0" />
 							<div className="min-w-0">
 								<p className="text-xs text-default-400 mb-1">Contenido</p>
 								<p className="text-sm text-default-700 break-all">{typedQr.data}</p>
 							</div>
 						</div>
 						<div className="flex items-start gap-3">
-							<HugeiconsIcon icon={QrCodeIcon} size={16} className="text-default-400 mt-0.5 flex-shrink-0" />
+							<HugeiconsIcon icon={QrCodeIcon} size={16} className="text-default-400 mt-0.5 shrink-0" />
 							<div>
 								<p className="text-xs text-default-400 mb-1">URL de rastreo</p>
 								<a
@@ -118,7 +122,7 @@ const QrDetailPage = async ({ params }: Props) => {
 							</div>
 						</div>
 						<div className="flex items-center gap-3">
-							<HugeiconsIcon icon={Calendar03Icon} size={16} className="text-default-400 flex-shrink-0" />
+							<HugeiconsIcon icon={Calendar03Icon} size={16} className="text-default-400 shrink-0" />
 							<div>
 								<p className="text-xs text-default-400 mb-1">Creado</p>
 								<p className="text-sm text-default-700">{formatDate(typedQr.created_at)}</p>

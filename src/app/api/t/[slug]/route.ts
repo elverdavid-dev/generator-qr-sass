@@ -11,40 +11,48 @@ export async function GET(
 	const { slug } = await params
 	const supabase = await createClient()
 
-	// 1. Get raw IP (use fallback for local dev)
 	const forwardedFor = request.headers.get('x-forwarded-for')
 	const ip = forwardedFor ? forwardedFor.split(',')[0].trim() : '127.0.0.1'
 
-	// 2. Parse user agent
 	const userAgent = request.headers.get('user-agent') ?? ''
 	const parser = new UAParser(userAgent)
 	const browser = parser.getBrowser().name ?? 'Unknown'
 	const os = parser.getOS().name ?? 'Unknown'
 	const deviceType = parser.getDevice().type ?? 'Desktop'
 
-	// 3. Fetch QR by slug
 	const { data: qr, error } = await supabase
 		.from('qrs')
-		.select('id, user_id, data, is_active, scan_count')
+		.select('id, user_id, data, qr_type, is_active, scan_count, expires_at, max_scans, password, ios_url, android_url')
 		.eq('slug', slug)
 		.single()
 
 	if (error || !qr) {
-		return NextResponse.redirect(
-			new URL('/qr-not-found', request.url),
-		)
+		return NextResponse.redirect(new URL('/qr-not-found', request.url))
 	}
 
 	if (!qr.is_active) {
-		return NextResponse.redirect(
-			new URL('/qr-inactive', request.url),
-		)
+		return NextResponse.redirect(new URL('/qr-inactive', request.url))
 	}
 
-	// 4. Geolocation (non-blocking)
+	// Check expiration
+	if (qr.expires_at && new Date(qr.expires_at) < new Date()) {
+		return NextResponse.redirect(new URL('/qr-expired', request.url))
+	}
+
+	// Check scan limit
+	if (qr.max_scans !== null && (qr.scan_count ?? 0) >= qr.max_scans) {
+		return NextResponse.redirect(new URL('/qr-limit', request.url))
+	}
+
+	// Password protected — redirect to gate without tracking
+	if (qr.password) {
+		return NextResponse.redirect(new URL(`/qr-gate/${slug}`, request.url))
+	}
+
+	// Geolocation
 	const geo = await getGeoLocation(ip)
 
-	// 5. Check if unique scan (same IP in last 24h)
+	// Check unique scan (same IP in last 24h)
 	const since = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString()
 	const { data: previousScan } = await supabase
 		.from('qr_scans')
@@ -56,13 +64,8 @@ export async function GET(
 
 	const isUniqueScan = !previousScan
 
-	// 6. Increment scan count
-	await supabase
-		.from('qrs')
-		.update({ scan_count: (qr.scan_count ?? 0) + 1 })
-		.eq('id', qr.id)
+	await supabase.rpc('increment_scan_count', { qr_id: qr.id })
 
-	// 7. Save scan record
 	await saveScan({
 		qr_id: qr.id,
 		user_id: qr.user_id,
@@ -74,6 +77,32 @@ export async function GET(
 		...geo,
 	})
 
-	// 8. Redirect to target URL
-	return NextResponse.redirect(qr.data)
+	if (!isUrlType(qr.qr_type)) {
+		return NextResponse.redirect(new URL(`/qr-view/${slug}`, request.url))
+	}
+
+	const redirectUrl = resolveRedirectUrl(qr.data, qr.ios_url, qr.android_url, os)
+	return NextResponse.redirect(redirectUrl)
+}
+
+const URL_TYPES = new Set(['url', 'payment'])
+
+function isUrlType(qrType: string): boolean {
+	return URL_TYPES.has(qrType)
+}
+
+function resolveRedirectUrl(
+	defaultUrl: string,
+	iosUrl: string | null,
+	androidUrl: string | null,
+	os: string,
+): string {
+	const osLower = os.toLowerCase()
+	if ((osLower.includes('ios') || osLower.includes('iphone') || osLower.includes('ipad')) && iosUrl) {
+		return iosUrl
+	}
+	if (osLower.includes('android') && androidUrl) {
+		return androidUrl
+	}
+	return defaultUrl
 }

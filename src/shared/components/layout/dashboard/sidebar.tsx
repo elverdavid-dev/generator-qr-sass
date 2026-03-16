@@ -1,27 +1,32 @@
 'use client'
 
 import { Button } from '@heroui/react'
-import { Analytics02Icon, ArrowLeft01Icon, ArrowRight01Icon, Clock01Icon, DashboardSquare02Icon, QrCodeIcon } from '@hugeicons/core-free-icons'
+import { Analytics02Icon, ArrowLeft01Icon, ArrowRight01Icon, Crown02Icon, DashboardSquare02Icon, QrCodeIcon, UserAccountIcon } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 import { cn } from '@heroui/react'
 import Link from 'next/link'
 import Logo from '@/shared/components/logo'
 import SidebarItem from './sidebar-item'
 import { useSidebarStore } from '@/shared/lib/zustand/sidebar-store'
+import type { PlanId } from '@/features/billing/config/plans'
 
-const Sidebar = () => {
+interface Props {
+	plan?: PlanId
+}
+
+const Sidebar = ({ plan = 'free' }: Props) => {
 	const { isOpen, toggleSidebar } = useSidebarStore()
 
 	return (
 		<aside
 			className={cn(
-				'h-screen flex-shrink-0 border-r border-divider bg-background transition-all duration-300',
+				'h-screen shrink-0 border-r border-divider bg-background transition-all duration-300',
 				isOpen ? 'w-60' : 'w-16',
 			)}
 		>
 			<nav className="h-full flex flex-col p-3 gap-y-2">
 				{/* Header */}
-				<div className="flex items-center justify-between py-2 min-h-[52px]">
+				<div className="flex items-center justify-between py-2 min-h-13">
 					{isOpen && <Logo />}
 					<Button
 						isIconOnly
@@ -45,16 +50,66 @@ const Sidebar = () => {
 					<CollapsedNav />
 				)}
 
-				{/* Upgrade plan */}
-				{isOpen && (
-					<div className="flex flex-col gap-y-2 bg-default-100 p-4 rounded-xl mt-auto">
-						<div className="flex items-center gap-x-2 text-default-500 justify-center">
-							<HugeiconsIcon icon={Clock01Icon} size={16} />
-							<span className="text-xs font-medium">10 días restantes</span>
+				{/* Plan CTA / badge */}
+				{plan === 'free' && isOpen && (
+					<div className="flex flex-col gap-y-2 bg-linear-to-br from-primary/10 to-secondary/10 border border-primary/20 p-4 rounded-xl mt-auto">
+						<div className="flex items-center gap-x-2 text-default-600">
+							<HugeiconsIcon icon={Crown02Icon} size={15} className="text-primary" />
+							<span className="text-xs font-semibold">Plan Free</span>
 						</div>
+						<p className="text-xs text-default-500 leading-snug">
+							Tienes 3 QRs máximo. Actualiza para crear ilimitados.
+						</p>
 						<Button color="primary" size="sm" as={Link} href="/pricing">
-							Mejorar plan
+							Mejorar a Pro
 						</Button>
+					</div>
+				)}
+
+				{plan !== 'free' && isOpen && (
+					<div className="flex flex-col gap-y-2 bg-linear-to-br from-amber-500/10 to-orange-500/10 border border-amber-500/20 p-4 rounded-xl mt-auto">
+						<div className="flex items-center justify-between">
+							<div className="flex items-center gap-x-2">
+								<HugeiconsIcon icon={Crown02Icon} size={15} className="text-amber-500" />
+								<span className="text-xs font-bold text-amber-600 dark:text-amber-400 uppercase tracking-wide">
+									Plan {plan === 'pro' ? 'Pro' : 'Business'}
+								</span>
+							</div>
+							<span className="text-[10px] bg-amber-500/20 text-amber-600 dark:text-amber-400 px-2 py-0.5 rounded-full font-semibold">
+								Activo
+							</span>
+						</div>
+						<Link
+							href="/dashboard/billing"
+							className="text-xs text-default-500 hover:text-primary transition-colors"
+						>
+							Gestionar suscripción →
+						</Link>
+					</div>
+				)}
+
+				{/* Collapsed icons */}
+				{plan === 'free' && !isOpen && (
+					<div className="mt-auto pb-2 flex justify-center">
+						<Link
+							href="/pricing"
+							title="Mejorar a Pro"
+							className="flex items-center justify-center p-2 rounded-lg text-primary hover:bg-primary/10 transition-colors"
+						>
+							<HugeiconsIcon icon={Crown02Icon} size={20} />
+						</Link>
+					</div>
+				)}
+
+				{plan !== 'free' && !isOpen && (
+					<div className="mt-auto pb-2 flex justify-center">
+						<Link
+							href="/dashboard/billing"
+							title={`Plan ${plan}`}
+							className="flex items-center justify-center p-2 rounded-lg text-amber-500 hover:bg-amber-500/10 transition-colors"
+						>
+							<HugeiconsIcon icon={Crown02Icon} size={20} />
+						</Link>
 					</div>
 				)}
 			</nav>
@@ -71,7 +126,7 @@ const CollapsedNav = () => {
 	]
 
 	return (
-		<div className="flex flex-col gap-1 mt-4">
+		<div className="flex flex-col gap-1 mt-4 flex-1">
 			{items.map(({ icon, href, label }) => (
 				<Link
 					key={href}
@@ -82,6 +137,22 @@ const CollapsedNav = () => {
 					<HugeiconsIcon icon={icon} size={20} />
 				</Link>
 			))}
+			<div className="mt-auto pt-4 border-t border-divider flex flex-col gap-1">
+				<Link
+					href="/dashboard/profile"
+					title="Perfil"
+					className="flex items-center justify-center p-2 rounded-lg text-default-500 hover:text-primary hover:bg-primary/5 transition-colors"
+				>
+					<HugeiconsIcon icon={UserAccountIcon} size={20} />
+				</Link>
+				<Link
+					href="/dashboard/billing"
+					title="Facturación"
+					className="flex items-center justify-center p-2 rounded-lg text-default-500 hover:text-primary hover:bg-primary/5 transition-colors"
+				>
+					<HugeiconsIcon icon={Crown02Icon} size={20} />
+				</Link>
+			</div>
 		</div>
 	)
 }
