@@ -48,7 +48,7 @@ const MetricCard: FC<Props> = ({
 
 			<div>
 				<p className="text-[1.75rem] font-bold leading-none tabular-nums">
-					{amount.toLocaleString('es')}
+					{amount.toLocaleString()}
 				</p>
 				<p className="text-sm text-default-400 mt-1">{label}</p>
 				{subInfo && (

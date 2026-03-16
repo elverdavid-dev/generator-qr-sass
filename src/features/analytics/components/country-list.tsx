@@ -45,7 +45,7 @@ const CountryList: FC<Props> = ({ data, scansLabel }) => {
 							<div className="flex justify-between items-center mb-1.5">
 								<div>
 									<span className="text-sm font-semibold text-default-700">{name}</span>
-									<span className="ml-2 text-xs text-default-400">{count.toLocaleString('es')} {scansLabel}</span>
+									<span className="ml-2 text-xs text-default-400">{count.toLocaleString()} {scansLabel}</span>
 								</div>
 								<span className="text-sm font-bold text-default-600 ml-2">{pct}%</span>
 							</div>

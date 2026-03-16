@@ -7,7 +7,7 @@ import {
 import { HugeiconsIcon } from '@hugeicons/react'
 import { BreadcrumbItem, Breadcrumbs } from '@heroui/breadcrumbs'
 import { redirect, notFound } from 'next/navigation'
-import { getTranslations } from 'next-intl/server'
+import { getLocale, getTranslations } from 'next-intl/server'
 import { BackToQrButton } from '../qr-nav-buttons'
 import { getSession } from '@/shared/lib/supabase/get-session'
 import { getQrBySlug } from '@/features/qr-codes/services/queries/get-qr-by-slug'
@@ -19,6 +19,7 @@ import ChartBar from '@/features/analytics/components/chart-bar'
 import ChartDonut from '@/features/analytics/components/chart-donut'
 import RecentScansTable from '@/features/analytics/components/recent-scans-table'
 import WorldMap from '@/features/analytics/components/world-map'
+import ExportCsvButton from '@/features/analytics/components/export-csv-button'
 import type { QrCode } from '@/shared/types/database.types'
 
 interface Props {
@@ -26,8 +27,7 @@ interface Props {
 }
 
 const QrAnalyticsPage = async ({ params }: Props) => {
-	const t = await getTranslations('analytics')
-	const tQrs = await getTranslations('qrs')
+	const [t, tQrs, locale] = await Promise.all([getTranslations('analytics'), getTranslations('qrs'), getLocale()])
 	const { slug } = await params
 	const { data: session } = await getSession()
 	if (!session?.user) redirect('/login')
@@ -129,7 +129,10 @@ const QrAnalyticsPage = async ({ params }: Props) => {
 					</div>
 					<p className="text-default-500">{t('individualTitle')}</p>
 				</div>
+				<div classMName="flex items-center gap-2">
+				<ExportCsvButton label={t('exportCsv')} errorLabel={t('exportError')} qrId={qr.id} />
 				<BackToQrButton slug={slug} label={tQrs('nav.back')} />
+			</div>
 			</div>
 
 			{/* ── Metric cards + radial gauge ── */}
@@ -140,7 +143,7 @@ const QrAnalyticsPage = async ({ params }: Props) => {
 						label={t('totalScans')}
 						amount={totalScans}
 						change={monthChange}
-						subInfo={`${uniqueScans.toLocaleString('es')} ${t('unique')}`}
+						subInfo={`${uniqueScans.toLocaleString(locale)} ${t('unique')}`}
 						iconBg="bg-indigo-50 dark:bg-indigo-950/40"
 						iconColor="text-indigo-600 dark:text-indigo-400"
 					/>
@@ -148,7 +151,7 @@ const QrAnalyticsPage = async ({ params }: Props) => {
 						icon={Clock01Icon}
 						label={t('todayScans')}
 						amount={todayScans}
-						subInfo={`${weekScans.toLocaleString('es')} ${t('thisWeek')}`}
+						subInfo={`${weekScans.toLocaleString(locale)} ${t('thisWeek')}`}
 						iconBg="bg-violet-50 dark:bg-violet-950/40"
 						iconColor="text-violet-600 dark:text-violet-400"
 					/>
@@ -157,7 +160,7 @@ const QrAnalyticsPage = async ({ params }: Props) => {
 						label={t('thisWeekLabel')}
 						amount={weekScans}
 						change={weekChange}
-						subInfo={`${monthScans.toLocaleString('es')} ${t('thisMonth')}`}
+						subInfo={`${monthScans.toLocaleString(locale)} ${t('thisMonth')}`}
 						iconBg="bg-amber-50 dark:bg-amber-950/40"
 						iconColor="text-amber-600 dark:text-amber-400"
 					/>

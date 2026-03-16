@@ -6,7 +6,7 @@ import {
 } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 import { redirect } from 'next/navigation'
-import { getTranslations } from 'next-intl/server'
+import { getLocale, getTranslations } from 'next-intl/server'
 import { getSession } from '@/shared/lib/supabase/get-session'
 import { getAnalytics } from '@/features/analytics/services/queries/get-analytics'
 import MetricCard from '@/features/analytics/components/metric-card'
@@ -16,9 +16,10 @@ import ChartArea from '@/features/analytics/components/chart-area'
 import ChartBar from '@/features/analytics/components/chart-bar'
 import RecentScansTable from '@/features/analytics/components/recent-scans-table'
 import WorldMap from '@/features/analytics/components/world-map'
+import ExportCsvButton from '@/features/analytics/components/export-csv-button'
 
 const page = async () => {
-	const t = await getTranslations('analytics')
+	const [t, locale] = await Promise.all([getTranslations('analytics'), getLocale()])
 	const { data: session } = await getSession()
 	if (!session?.user) redirect('/login')
 
@@ -104,9 +105,12 @@ const page = async () => {
 
 	return (
 		<div className="pb-12">
-			<div className="py-6">
-				<h1 className="text-3xl font-bold">{t('title')}</h1>
-				<p className="text-default-500 mt-1">{t('subtitle')}</p>
+			<div className="py-6 flex items-start justify-between gap-4">
+				<div>
+					<h1 className="text-3xl font-bold">{t('title')}</h1>
+					<p className="text-default-500 mt-1">{t('subtitle')}</p>
+				</div>
+				<ExportCsvButton label={t('exportCsv')} errorLabel={t('exportError')} />
 			</div>
 
 			{/* ── 4 metric cards + radial gauge ── */}
@@ -125,7 +129,7 @@ const page = async () => {
 						label={t('totalScans')}
 						amount={totalScansAllTime}
 						change={monthChange}
-						subInfo={`${uniqueScans.toLocaleString('es')} ${t('unique')}`}
+						subInfo={`${uniqueScans.toLocaleString(locale)} ${t('unique')}`}
 						iconBg="bg-indigo-50 dark:bg-indigo-950/40"
 						iconColor="text-indigo-600 dark:text-indigo-400"
 					/>
@@ -133,7 +137,7 @@ const page = async () => {
 						icon={Clock01Icon}
 						label={t('todayScans')}
 						amount={todayScans}
-						subInfo={`${weekScans.toLocaleString('es')} ${t('thisWeek')}`}
+						subInfo={`${weekScans.toLocaleString(locale)} ${t('thisWeek')}`}
 						iconBg="bg-violet-50 dark:bg-violet-950/40"
 						iconColor="text-violet-600 dark:text-violet-400"
 					/>
@@ -142,7 +146,7 @@ const page = async () => {
 						label={t('avgPerQr')}
 						amount={avgScansPerQr}
 						change={weekChange}
-						subInfo={`${monthScans.toLocaleString('es')} ${t('thisMonth')}`}
+						subInfo={`${monthScans.toLocaleString(locale)} ${t('thisMonth')}`}
 						iconBg="bg-amber-50 dark:bg-amber-950/40"
 						iconColor="text-amber-600 dark:text-amber-400"
 					/>

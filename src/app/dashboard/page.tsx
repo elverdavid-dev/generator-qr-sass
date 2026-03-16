@@ -9,7 +9,7 @@ import {
 import { HugeiconsIcon } from '@hugeicons/react'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
-import { getTranslations } from 'next-intl/server'
+import { getLocale, getTranslations } from 'next-intl/server'
 import { getSession } from '@/shared/lib/supabase/get-session'
 import { getProfile } from '@/features/auth/services/queries/get-profile'
 import { getDashboardStats } from '@/features/analytics/services/queries/get-dashboard-stats'
@@ -39,7 +39,7 @@ const StatCard = ({
 			<HugeiconsIcon icon={icon} size={18} className={iconColor} />
 		</div>
 		<div>
-			<p className="text-[1.75rem] font-bold leading-none tabular-nums">{value.toLocaleString('es')}</p>
+			<p className="text-[1.75rem] font-bold leading-none tabular-nums">{value.toLocaleString(locale)}</p>
 			<p className="text-sm text-default-400 mt-1">{label}</p>
 			{sub && <p className="text-xs text-default-300 mt-0.5">{sub}</p>}
 		</div>
@@ -47,7 +47,7 @@ const StatCard = ({
 )
 
 const DashboardPage = async () => {
-	const t = await getTranslations('dashboard')
+	const [t, locale] = await Promise.all([getTranslations('dashboard'), getLocale()])
 	const { data: session } = await getSession()
 	if (!session?.user) redirect('/login')
 
@@ -71,7 +71,7 @@ const DashboardPage = async () => {
 						{greeting}, {firstName} 👋
 					</h1>
 					<p className="text-default-500 mt-1 capitalize">
-						{new Date().toLocaleDateString('es', { weekday: 'long', day: 'numeric', month: 'long' })}
+						{new Date().toLocaleDateString(locale, { weekday: 'long', day: 'numeric', month: 'long' })}
 					</p>
 				</div>
 				<Link

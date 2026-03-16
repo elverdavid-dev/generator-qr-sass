@@ -103,7 +103,7 @@ export default function ChartArea({ scansPerDay, scansPerWeek, scansPerMonth, tr
 					<h3 className="font-semibold text-base">{translations.chartTitle}</h3>
 					<p className="text-xs text-default-400 mt-0.5">
 						{translations.chartTotal}:{' '}
-						<span className="font-semibold text-default-600">{total.toLocaleString('es')}</span>{' '}
+						<span className="font-semibold text-default-600">{total.toLocaleString()}</span>{' '}
 						{translations.chartScans}
 					</p>
 				</div>

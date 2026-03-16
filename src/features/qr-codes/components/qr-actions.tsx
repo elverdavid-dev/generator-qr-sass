@@ -14,6 +14,7 @@ import {
 	Edit02Icon,
 	Folder01Icon,
 	MoreHorizontalIcon,
+	StarIcon,
 	ToggleOnIcon,
 	ViewIcon,
 } from '@hugeicons/core-free-icons'
@@ -22,6 +23,7 @@ import dynamic from 'next/dynamic'
 import { useTransition } from 'react'
 import { toast } from 'sonner'
 import { deleteQr } from '@/features/qr-codes/services/mutations/delete-qr'
+import { toggleQrFavorite } from '@/features/qr-codes/services/mutations/toggle-qr-favorite'
 import { toggleQrStatus } from '@/features/qr-codes/services/mutations/toggle-qr-status'
 import type { Folder, QrCode } from '@/shared/types/database.types'
 
@@ -45,6 +47,10 @@ interface ActionsTranslations {
 	deleteTitle: string
 	deleteMessage: string
 	deleted: string
+	addFavorite: string
+	removeFavorite: string
+	favoriteAdded: string
+	favoriteRemoved: string
 }
 
 interface FolderTranslations {
@@ -89,6 +95,17 @@ const QrActions = ({ qr, folders, translations }: Props) => {
 		})
 	}
 
+	const handleToggleFavorite = () => {
+		startTransition(async () => {
+			const { error } = await toggleQrFavorite(qr.id, !qr.is_favorite)
+			if (error) {
+				toast.error(error)
+			} else {
+				toast.success(qr.is_favorite ? translations.actions.favoriteRemoved : translations.actions.favoriteAdded)
+			}
+		})
+	}
+
 	return (
 		<>
 			<Dropdown>
@@ -126,6 +143,20 @@ const QrActions = ({ qr, folders, translations }: Props) => {
 						isDisabled={isPending}
 					>
 						{qr.is_active ? translations.actions.deactivate : translations.actions.activate}
+					</DropdownItem>
+					<DropdownItem
+						key="favorite"
+						startContent={
+							<HugeiconsIcon
+								icon={StarIcon}
+								size={16}
+								className={qr.is_favorite ? 'text-warning' : ''}
+							/>
+						}
+						onPress={handleToggleFavorite}
+						isDisabled={isPending}
+					>
+						{qr.is_favorite ? translations.actions.removeFavorite : translations.actions.addFavorite}
 					</DropdownItem>
 					<DropdownItem
 						key="edit"

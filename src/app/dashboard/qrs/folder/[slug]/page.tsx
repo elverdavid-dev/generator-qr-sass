@@ -1,21 +1,20 @@
 import { BreadcrumbItem, Breadcrumbs } from '@heroui/breadcrumbs'
-import { Home01Icon } from '@hugeicons/core-free-icons'
+import { Folder01Icon, Home01Icon } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
-import { redirect } from 'next/navigation'
+import Link from 'next/link'
+import { notFound, redirect } from 'next/navigation'
 import { getTranslations } from 'next-intl/server'
 import { Suspense } from 'react'
-import FoldersSection from '@/features/folders/components/folders-section'
+import { getFolderBySlug } from '@/features/folders/services/queries/get-folder-by-slug'
 import { getFolders } from '@/features/folders/services/queries/get-folders'
-import CreateQrButton from '@/features/qr-codes/components/create-qr-button'
 import QrTable from '@/features/qr-codes/components/qr-table'
-import SearchInput from '@/features/qr-codes/components/search-input'
-import { getQrs } from '@/features/qr-codes/services/queries/get-qrs'
-import { searchQrs } from '@/features/qr-codes/services/queries/search-qrs'
+import { getQrsByFolder } from '@/features/qr-codes/services/queries/get-qrs-by-folder'
 import { getSession } from '@/shared/lib/supabase/get-session'
 import type { Folder, QrCode } from '@/shared/types/database.types'
 
 interface Props {
-	searchParams: Promise<{ q?: string; page?: string }>
+	params: Promise<{ slug: string }>
+	searchParams: Promise<{ page?: string }>
 }
 
 const QrSkeletons = () => (
@@ -27,27 +26,26 @@ const QrSkeletons = () => (
 	</div>
 )
 
-const QrsPage = async ({ searchParams }: Props) => {
+const FolderViewPage = async ({ params, searchParams }: Props) => {
 	const t = await getTranslations('qrs')
-	const tFolders = await getTranslations('folders')
+	const { slug } = await params
+	const { page: pageParam } = await searchParams
+	const currentPage = Math.max(1, Number(pageParam) || 1)
+
 	const { data: session } = await getSession()
 	if (!session?.user) redirect('/login')
 
-	const { q, page: pageParam } = await searchParams
-	const currentPage = Math.max(1, Number(pageParam) || 1)
+	const folderResult = await getFolderBySlug(slug)
+	const folder = 'data' in folderResult ? (folderResult.data as Folder) : null
+	if (!folder) notFound()
 
-	const [foldersResult, qrsResult] = await Promise.allSettled([
+	const [qrsResult, foldersResult] = await Promise.allSettled([
+		getQrsByFolder(folder.id, currentPage),
 		getFolders(),
-		q ? searchQrs(q, currentPage) : getQrs(currentPage),
 	])
 
-	const folders: Folder[] =
-		foldersResult.status === 'fulfilled'
-			? (foldersResult.value.data as Folder[]) ?? []
-			: []
-
 	const qrs: QrCode[] =
-		qrsResult.status === 'fulfilled'
+		qrsResult.status === 'fulfilled' && 'data' in qrsResult.value
 			? (qrsResult.value.data as QrCode[]) ?? []
 			: []
 
@@ -56,6 +54,11 @@ const QrsPage = async ({ searchParams }: Props) => {
 			? (qrsResult.value.count ?? 0)
 			: 0
 
+	const folders: Folder[] =
+		foldersResult.status === 'fulfilled' && 'data' in foldersResult.value
+			? (foldersResult.value.data as Folder[]) ?? []
+			: []
+
 	const qrTableTranslations = {
 		active: t('active'),
 		inactive: t('inactive'),
@@ -63,7 +66,7 @@ const QrsPage = async ({ searchParams }: Props) => {
 		total: t('total'),
 		website: t('website'),
 		noFolder: t('noFolder'),
-		noResults: t('noResults'),
+		noResults: t('folderView.empty'),
 		actions: {
 			title: t('actions.title'),
 			download: t('actions.download'),
@@ -102,54 +105,42 @@ const QrsPage = async ({ searchParams }: Props) => {
 				<BreadcrumbItem href="/dashboard">
 					<HugeiconsIcon icon={Home01Icon} size={16} />
 				</BreadcrumbItem>
-				<BreadcrumbItem>{t('title')}</BreadcrumbItem>
+				<BreadcrumbItem href="/dashboard/qrs">{t('title')}</BreadcrumbItem>
+				<BreadcrumbItem>
+					<HugeiconsIcon icon={Folder01Icon} size={14} className="mr-1" />
+					{folder.name}
+				</BreadcrumbItem>
 			</Breadcrumbs>
 
 			<div className="flex items-center justify-between py-6">
 				<div>
-					<h1 className="text-3xl font-bold">{t('title')}</h1>
-					<p className="text-default-500 mt-1">
-						{t('subtitle')}
-					</p>
+					<div className="flex items-center gap-2">
+						<span className="bg-primary/10 p-2 rounded-xl">
+							<HugeiconsIcon icon={Folder01Icon} size={20} className="text-primary" />
+						</span>
+						<h1 className="text-3xl font-bold capitalize">{folder.name}</h1>
+					</div>
+					<p className="text-default-500 mt-1">{t('folderView.subtitle')}</p>
 				</div>
-				<CreateQrButton label={t('createNew')} />
+				<Link
+					href="/dashboard/qrs"
+					className="text-sm text-default-500 hover:text-primary transition-colors"
+				>
+					← {t('folderView.backToQrs')}
+				</Link>
 			</div>
 
-			<FoldersSection
-				folders={folders}
-				translations={{
-					title: tFolders('title'),
-					newFolder: tFolders('newFolder'),
-					editFolder: tFolders('editFolder'),
-					noFolders: tFolders('noFolders'),
-					name: tFolders('name'),
-					namePlaceholder: tFolders('namePlaceholder'),
-					cancel: tFolders('cancel'),
-					save: tFolders('save'),
-					create: tFolders('create'),
-					created: tFolders('created'),
-					updated: tFolders('updated'),
-					actions: tFolders('actions'),
-					viewContents: tFolders('viewContents'),
-					editName: tFolders('editName'),
-					delete: tFolders('delete'),
-					deleteTitle: tFolders('deleteTitle'),
-					deleteMessage: tFolders('deleteMessage'),
-					deleted: tFolders('deleted'),
-				}}
-			/>
-
-			<div className="mt-6">
-				<Suspense>
-					<SearchInput placeholder={t('search')} />
-				</Suspense>
-			</div>
-
-			<Suspense fallback={<QrSkeletons />} key={`${q ?? ''}-${currentPage}`}>
-				<QrTable qrs={qrs} folders={folders} total={total} page={currentPage} translations={qrTableTranslations} />
+			<Suspense fallback={<QrSkeletons />} key={currentPage}>
+				<QrTable
+					qrs={qrs}
+					folders={folders}
+					total={total}
+					page={currentPage}
+					translations={qrTableTranslations}
+				/>
 			</Suspense>
 		</>
 	)
 }
 
-export default QrsPage
+export default FolderViewPage

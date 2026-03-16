@@ -111,6 +111,11 @@
     "website": "Website",
     "noFolder": "No folder",
     "noResults": "No QR codes found",
+    "folderView": {
+      "subtitle": "QR codes in this folder",
+      "backToQrs": "Back to QR codes",
+      "empty": "This folder has no QR codes yet"
+    },
     "table": {
       "name": "Name",
       "scans": "Scans",
@@ -149,7 +154,11 @@
       "activated": "QR activated",
       "deleteTitle": "Delete QR",
       "deleteMessage": "Are you sure? This action cannot be undone.",
-      "deleted": "QR deleted successfully"
+      "deleted": "QR deleted successfully",
+      "addFavorite": "Add to favorites",
+      "removeFavorite": "Remove from favorites",
+      "favoriteAdded": "Added to favorites",
+      "favoriteRemoved": "Removed from favorites"
     },
     "nav": {
       "viewAnalytics": "View analytics",
@@ -317,6 +326,8 @@
     "less": "Less",
     "more": "More",
     "failedLoad": "Could not load analytics",
+    "exportCsv": "Export CSV",
+    "exportError": "Could not export data",
     "uniqueScansLabel": "Unique scans",
     "countries": "Countries",
     "topCountry": "Top country",
@@ -333,6 +344,13 @@
       "90d": "90 days",
       "all": "All time"
     }
+  },
+  "favorites": {
+    "title": "Favorites",
+    "subtitle": "Your starred QR codes",
+    "empty": "No favorites yet",
+    "emptyDesc": "Mark QR codes as favorites to find them quickly here",
+    "goToQrs": "Go to my QR codes"
   },
   "billing": {
     "title": "Billing",

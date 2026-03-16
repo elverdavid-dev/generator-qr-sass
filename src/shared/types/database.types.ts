@@ -35,6 +35,7 @@ export interface QrCode {
 	logo_path: string | null
 	scan_count: number
 	is_active: boolean
+	is_favorite: boolean
 	expires_at: string | null
 	max_scans: number | null
 	password: string | null

@@ -111,6 +111,11 @@
     "website": "Sitio web",
     "noFolder": "Sin carpeta",
     "noResults": "No se encontraron códigos QR",
+    "folderView": {
+      "subtitle": "Códigos QR en esta carpeta",
+      "backToQrs": "Volver a mis QRs",
+      "empty": "Esta carpeta no tiene códigos QR aún"
+    },
     "table": {
       "name": "Nombre",
       "scans": "Escaneos",
@@ -149,7 +154,11 @@
       "activated": "QR activado",
       "deleteTitle": "Eliminar QR",
       "deleteMessage": "¿Estás seguro? Esta acción no se puede deshacer.",
-      "deleted": "QR eliminado correctamente"
+      "deleted": "QR eliminado correctamente",
+      "addFavorite": "Agregar a favoritos",
+      "removeFavorite": "Quitar de favoritos",
+      "favoriteAdded": "Agregado a favoritos",
+      "favoriteRemoved": "Quitado de favoritos"
     },
     "nav": {
       "viewAnalytics": "Ver analíticas",
@@ -317,6 +326,8 @@
     "less": "Menos",
     "more": "Más",
     "failedLoad": "No se pudieron cargar las analíticas",
+    "exportCsv": "Exportar CSV",
+    "exportError": "No se pudo exportar los datos",
     "uniqueScansLabel": "Escaneos únicos",
     "countries": "Países",
     "topCountry": "País principal",
@@ -333,6 +344,13 @@
       "90d": "90 días",
       "all": "Todo"
     }
+  },
+  "favorites": {
+    "title": "Favoritos",
+    "subtitle": "Tus códigos QR destacados",
+    "empty": "Sin favoritos aún",
+    "emptyDesc": "Marca códigos QR como favoritos para encontrarlos rápidamente aquí",
+    "goToQrs": "Ir a mis QR codes"
   },
   "billing": {
     "title": "Facturación",

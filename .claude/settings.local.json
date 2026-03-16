@@ -4,7 +4,11 @@
       "Bash(bun run:*)",
       "Bash(bun add:*)",
       "Bash(grep -r \"prefix.*Math.round.*1e10\\\\|current.*0\" /c/Users/ElverDavidPeñate/Documents/workspace/projects/nextjs/generator-qr-sass/node_modules/ --include=*.js -l)",
-      "Bash(grep -rn default.createContext /c/Users/ElverDavidPeñate/Documents/workspace/projects/nextjs/generator-qr-sass/node_modules/@heroui/ --include=*.js)"
+      "Bash(grep -rn default.createContext /c/Users/ElverDavidPeñate/Documents/workspace/projects/nextjs/generator-qr-sass/node_modules/@heroui/ --include=*.js)",
+      "Bash(node -e \"const rsm = require\\(''react-simple-maps''\\); console.log\\(Object.keys\\(rsm\\)\\)\")",
+      "Bash(node -e \"const icons = require\\(''@hugeicons/core-free-icons''\\); console.log\\(''ChartBarLineIcon'' in icons ? ''OK'' : ''NOT FOUND''\\)\")",
+      "Bash(node -e \"const m = require\\(''''@hugeicons/core-free-icons''''\\); console.log\\(Object.keys\\(m\\).filter\\(k => /analytic|chart|graph|stat/i.test\\(k\\)\\).join\\(''''\\\\n''''\\)\\)\")",
+      "Bash(node --input-type=module:*)"
     ]
   }
 }
