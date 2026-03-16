@@ -1,32 +1,20 @@
-import { Navbar, NavbarBrand, NavbarContent, NavbarItem } from '@heroui/react'
-import Link from 'next/link'
 import { getLocale, getTranslations } from 'next-intl/server'
-import Logo from '@/shared/components/logo'
-import ThemeToggle from '@/shared/components/theme/theme-toggle'
-import LanguageSwitcher from '@/shared/components/language-switcher'
+import HeaderClient from './header-client'
 
 const Header = async () => {
-	const t = await getTranslations('nav')
-	const tLang = await getTranslations('language')
-	const locale = await getLocale()
+	const [t, tLang, locale] = await Promise.all([
+		getTranslations('nav'),
+		getTranslations('language'),
+		getLocale(),
+	])
 
 	return (
-		<Navbar maxWidth="full" isBlurred className="bg-background/75">
-			<NavbarBrand>
-				<Logo />
-			</NavbarBrand>
-			<NavbarContent justify="end">
-				<NavbarItem>
-					<Link href="/login">{t('login')}</Link>
-				</NavbarItem>
-				<NavbarItem>
-					<LanguageSwitcher currentLocale={locale} selectLabel={tLang('select')} loadingMessage={tLang('loading')} />
-				</NavbarItem>
-				<NavbarItem>
-					<ThemeToggle />
-				</NavbarItem>
-			</NavbarContent>
-		</Navbar>
+		<HeaderClient
+			loginLabel={t('login')}
+			currentLocale={locale}
+			langSelectLabel={tLang('select')}
+			langLoadingMessage={tLang('loading')}
+		/>
 	)
 }
 
