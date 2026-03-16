@@ -1,7 +1,23 @@
+import { getTranslations } from 'next-intl/server'
 import RegisterForm from '@/features/auth/components/register-form'
 
-const page = () => {
-	return <RegisterForm />
+const RegisterPage = async () => {
+	const t = await getTranslations('auth.register')
+
+	return (
+		<RegisterForm
+			translations={{
+				title: t('title'),
+				subtitle: t('subtitle'),
+				email: t('email'),
+				submit: t('submit'),
+				loading: t('loading'),
+				hasAccount: t('hasAccount'),
+				signIn: t('signIn'),
+				orRegisterWith: t('orRegisterWith'),
+			}}
+		/>
+	)
 }
 
-export default page
+export default RegisterPage

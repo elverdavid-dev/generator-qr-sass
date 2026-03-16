@@ -3,10 +3,13 @@ import { getProfile } from '@/features/auth/services/queries/get-profile'
 import ProfileButton from '@/shared/components/profile-button'
 import ThemeToggle from '@/shared/components/theme/theme-toggle'
 import LogoutButton from '@/shared/components/logout-button'
+import LanguageSwitcher from '@/shared/components/language-switcher'
+import { getLocale } from 'next-intl/server'
 
 const NavbarDashboard = async () => {
 	const { data: session } = await getSession()
 	const userId = session?.user?.id
+	const locale = await getLocale()
 
 	let profile = null
 	if (userId) {
@@ -16,6 +19,7 @@ const NavbarDashboard = async () => {
 
 	return (
 		<header className="flex items-center justify-end gap-x-2 px-6 py-3 border-b border-divider bg-background">
+			<LanguageSwitcher currentLocale={locale} />
 			<ThemeToggle />
 			{profile ? (
 				<ProfileButton

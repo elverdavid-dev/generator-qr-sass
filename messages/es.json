@@ -1,0 +1,249 @@
+{
+  "common": {
+    "save": "Guardar cambios",
+    "cancel": "Cancelar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "loading": "Cargando...",
+    "back": "Volver",
+    "create": "Crear",
+    "search": "Buscar",
+    "active": "Activo",
+    "inactive": "Inactivo",
+    "yes": "Sí",
+    "no": "No",
+    "scans": "escaneos",
+    "backToHome": "Volver al inicio"
+  },
+  "nav": {
+    "login": "Iniciar sesión",
+    "register": "Registrarse",
+    "pricing": "Precios"
+  },
+  "auth": {
+    "login": {
+      "title": "Iniciar sesión",
+      "subtitle": "Ingrese sus datos para iniciar sesión",
+      "email": "Correo",
+      "password": "Contraseña",
+      "forgotPassword": "¿Olvidaste tu contraseña?",
+      "submit": "Iniciar sesión",
+      "loading": "Cargando...",
+      "noAccount": "¿No tienes una cuenta?",
+      "signUp": "Regístrate",
+      "orLoginWith": "O iniciar sesión con",
+      "withGoogle": "Continuar con Google"
+    },
+    "register": {
+      "title": "Crear cuenta",
+      "subtitle": "Ingrese sus datos para registrarse",
+      "email": "Correo",
+      "password": "Contraseña",
+      "submit": "Registrarse",
+      "loading": "Cargando...",
+      "hasAccount": "¿Ya tienes una cuenta?",
+      "signIn": "Inicia sesión",
+      "orRegisterWith": "O registrarse con",
+      "withGoogle": "Continuar con Google"
+    },
+    "resetPassword": {
+      "title": "Restablecer contraseña",
+      "subtitle": "Te enviaremos un enlace para restablecer tu contraseña",
+      "email": "Correo electrónico",
+      "submit": "Enviar enlace",
+      "loading": "Enviando...",
+      "backToLogin": "Volver al inicio de sesión",
+      "successMessage": "Revisa tu correo electrónico"
+    },
+    "confirmEmail": {
+      "title": "Confirma tu correo",
+      "message": "Te hemos enviado un enlace de confirmación. Revisa tu bandeja de entrada.",
+      "backToLogin": "Volver al inicio de sesión"
+    }
+  },
+  "sidebar": {
+    "navigation": "Navegación",
+    "account": "Cuenta",
+    "dashboard": "Dashboard",
+    "myQrs": "Mis QR Codes",
+    "analytics": "Analíticas",
+    "profile": "Perfil",
+    "billing": "Facturación",
+    "upgradeToPro": "Mejorar a Pro",
+    "freePlan": "Plan Free",
+    "freePlanDesc": "Tienes 3 QRs máximo. Actualiza para crear ilimitados.",
+    "manageSub": "Gestionar suscripción →",
+    "planActive": "Activo"
+  },
+  "dashboard": {
+    "greeting": {
+      "morning": "Buenos días",
+      "afternoon": "Buenas tardes",
+      "evening": "Buenas noches"
+    },
+    "createQr": "Crear QR",
+    "stats": {
+      "totalQrs": "QRs creados",
+      "activeQrs": "QRs activos",
+      "todayScans": "Escaneos hoy",
+      "monthScans": "Escaneos este mes",
+      "active": "activos"
+    },
+    "recentQrs": "QRs recientes",
+    "viewAll": "Ver todos →",
+    "noQrs": "Aún no tienes QRs",
+    "createFirst": "Crear tu primer QR"
+  },
+  "qrs": {
+    "title": "Mis QR Codes",
+    "subtitle": "Gestiona todos tus códigos QR",
+    "createNew": "Crear QR",
+    "search": "Buscar QRs...",
+    "table": {
+      "name": "Nombre",
+      "scans": "Escaneos",
+      "status": "Estado",
+      "created": "Creado",
+      "actions": "Acciones"
+    },
+    "empty": "No tienes QRs aún",
+    "emptySearch": "No se encontraron resultados",
+    "new": {
+      "title": "Nuevo QR Code",
+      "subtitle": "Personaliza tu código QR"
+    },
+    "edit": {
+      "title": "Editar QR Code",
+      "subtitle": "Modifica tu código QR"
+    },
+    "form": {
+      "name": "Nombre del QR",
+      "namePlaceholder": "Ej: Mi sitio web",
+      "url": "URL de destino",
+      "urlPlaceholder": "https://ejemplo.com",
+      "folder": "Carpeta",
+      "noFolder": "Sin carpeta",
+      "colors": "Colores",
+      "fgColor": "Color de puntos",
+      "bgColor": "Color de fondo",
+      "dotStyle": "Estilo de puntos",
+      "cornerStyle": "Estilo de esquinas",
+      "logo": "Logo",
+      "uploadLogo": "Subir logo",
+      "frame": "Marco",
+      "frameText": "Texto del marco",
+      "advanced": "Opciones avanzadas",
+      "expiry": "Fecha de expiración",
+      "maxScans": "Máximo de escaneos",
+      "password": "Contraseña",
+      "iosUrl": "URL para iOS",
+      "androidUrl": "URL para Android",
+      "submit": "Crear QR",
+      "submitEdit": "Guardar cambios"
+    },
+    "delete": {
+      "title": "Eliminar QR",
+      "message": "¿Estás seguro de que quieres eliminar este QR? Esta acción no se puede deshacer.",
+      "confirm": "Eliminar",
+      "cancel": "Cancelar"
+    },
+    "viewAnalytics": "Ver analíticas",
+    "downloadQr": "Descargar QR",
+    "copyLink": "Copiar enlace",
+    "linkCopied": "¡Enlace copiado!"
+  },
+  "analytics": {
+    "title": "Analíticas",
+    "subtitle": "Estadísticas de tus códigos QR",
+    "totalScans": "Escaneos totales",
+    "uniqueScans": "Escaneos únicos",
+    "countries": "Países",
+    "topCountry": "País principal",
+    "scansByDay": "Escaneos por día",
+    "scansByDevice": "Por dispositivo",
+    "scansByBrowser": "Por navegador",
+    "scansByOS": "Por sistema operativo",
+    "recentScans": "Escaneos recientes",
+    "worldMap": "Mapa de escaneos",
+    "noData": "Sin datos aún",
+    "noDataDesc": "Los datos aparecerán cuando tu QR sea escaneado",
+    "period": {
+      "7d": "7 días",
+      "30d": "30 días",
+      "90d": "90 días",
+      "all": "Todo"
+    }
+  },
+  "billing": {
+    "title": "Facturación",
+    "subtitle": "Gestiona tu plan y suscripción",
+    "currentPlan": "Plan actual",
+    "free": "Gratis",
+    "active": "Activo",
+    "manageSub": "Gestionar suscripción",
+    "upgradeToPro": "Mejorar a Pro",
+    "viewPlans": "Ver todos los planes",
+    "whatsIncluded": "¿Qué incluye Pro?",
+    "cancelNote": "Al gestionar tu suscripción puedes cancelar, cambiar de plan o actualizar tu método de pago. La cancelación es efectiva al final del período actual.",
+    "perMonth": "/ mes"
+  },
+  "profile": {
+    "title": "Mi perfil",
+    "subtitle": "Gestiona tu información personal",
+    "email": "Correo electrónico",
+    "name": "Nombre",
+    "namePlaceholder": "Tu nombre",
+    "surname": "Apellido",
+    "surnamePlaceholder": "Tu apellido",
+    "phone": "Teléfono",
+    "phonePlaceholder": "+1 234 567 890",
+    "changePhoto": "Haz clic en el ícono para cambiar foto",
+    "save": "Guardar cambios",
+    "successMessage": "Perfil actualizado correctamente"
+  },
+  "pricing": {
+    "title": "Precios simples y transparentes",
+    "subtitle": "Empieza gratis. Escala cuando lo necesites. Sin sorpresas.",
+    "mostPopular": "Más popular",
+    "forever": "para siempre",
+    "perMonth": "/mes",
+    "currentPlan": "Plan actual",
+    "goToDashboard": "Ir al dashboard",
+    "startFree": "Empezar gratis",
+    "choosePro": "Elegir Pro",
+    "chooseBusiness": "Elegir Business",
+    "questions": "¿Preguntas?",
+    "contactUs": "Contáctanos",
+    "cancelAnytime": "Cancela en cualquier momento, sin penalizaciones."
+  },
+  "qrGate": {
+    "expired": {
+      "title": "QR expirado",
+      "description": "Este código QR ya no está disponible porque ha superado su fecha de expiración."
+    },
+    "inactive": {
+      "title": "QR inactivo",
+      "description": "Este código QR ha sido desactivado por su propietario."
+    },
+    "limit": {
+      "title": "Límite alcanzado",
+      "description": "Este código QR ha alcanzado el número máximo de escaneos permitidos."
+    },
+    "notFound": {
+      "title": "QR no encontrado",
+      "description": "Este código QR no existe o ha sido eliminado."
+    },
+    "password": {
+      "title": "QR protegido",
+      "description": "Este QR requiere contraseña para acceder.",
+      "placeholder": "Ingresa la contraseña",
+      "submit": "Acceder",
+      "error": "Contraseña incorrecta"
+    }
+  },
+  "language": {
+    "es": "Español",
+    "en": "English",
+    "select": "Idioma"
+  }
+}

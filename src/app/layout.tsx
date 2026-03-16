@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import '@/app/globals.css'
 import Providers from '@/app/providers'
 import { generateMetadata } from '@/shared/utils/generate-metadata'
-// Supports weights 200-800
+import { getLocale } from 'next-intl/server'
 import '@fontsource-variable/manrope'
 
 export const metadata: Metadata = generateMetadata({
@@ -10,13 +10,15 @@ export const metadata: Metadata = generateMetadata({
 	description: 'QR Generator',
 })
 
-export default function RootLayout({
+export default async function RootLayout({
 	children,
 }: Readonly<{
 	children: React.ReactNode
 }>) {
+	const locale = await getLocale()
+
 	return (
-		<html lang="es" suppressHydrationWarning>
+		<html lang={locale} suppressHydrationWarning>
 			<body>
 				<Providers>{children}</Providers>
 			</body>

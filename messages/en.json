@@ -1,0 +1,249 @@
+{
+  "common": {
+    "save": "Save changes",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "loading": "Loading...",
+    "back": "Back",
+    "create": "Create",
+    "search": "Search",
+    "active": "Active",
+    "inactive": "Inactive",
+    "yes": "Yes",
+    "no": "No",
+    "scans": "scans",
+    "backToHome": "Back to home"
+  },
+  "nav": {
+    "login": "Sign in",
+    "register": "Sign up",
+    "pricing": "Pricing"
+  },
+  "auth": {
+    "login": {
+      "title": "Sign in",
+      "subtitle": "Enter your credentials to sign in",
+      "email": "Email",
+      "password": "Password",
+      "forgotPassword": "Forgot your password?",
+      "submit": "Sign in",
+      "loading": "Loading...",
+      "noAccount": "Don't have an account?",
+      "signUp": "Sign up",
+      "orLoginWith": "Or sign in with",
+      "withGoogle": "Continue with Google"
+    },
+    "register": {
+      "title": "Create account",
+      "subtitle": "Enter your details to register",
+      "email": "Email",
+      "password": "Password",
+      "submit": "Sign up",
+      "loading": "Loading...",
+      "hasAccount": "Already have an account?",
+      "signIn": "Sign in",
+      "orRegisterWith": "Or register with",
+      "withGoogle": "Continue with Google"
+    },
+    "resetPassword": {
+      "title": "Reset password",
+      "subtitle": "We'll send you a link to reset your password",
+      "email": "Email address",
+      "submit": "Send reset link",
+      "loading": "Sending...",
+      "backToLogin": "Back to sign in",
+      "successMessage": "Check your email inbox"
+    },
+    "confirmEmail": {
+      "title": "Confirm your email",
+      "message": "We've sent you a confirmation link. Check your inbox.",
+      "backToLogin": "Back to sign in"
+    }
+  },
+  "sidebar": {
+    "navigation": "Navigation",
+    "account": "Account",
+    "dashboard": "Dashboard",
+    "myQrs": "My QR Codes",
+    "analytics": "Analytics",
+    "profile": "Profile",
+    "billing": "Billing",
+    "upgradeToPro": "Upgrade to Pro",
+    "freePlan": "Free Plan",
+    "freePlanDesc": "You have a max of 3 QRs. Upgrade to create unlimited.",
+    "manageSub": "Manage subscription →",
+    "planActive": "Active"
+  },
+  "dashboard": {
+    "greeting": {
+      "morning": "Good morning",
+      "afternoon": "Good afternoon",
+      "evening": "Good evening"
+    },
+    "createQr": "Create QR",
+    "stats": {
+      "totalQrs": "QRs created",
+      "activeQrs": "Active QRs",
+      "todayScans": "Scans today",
+      "monthScans": "Scans this month",
+      "active": "active"
+    },
+    "recentQrs": "Recent QRs",
+    "viewAll": "View all →",
+    "noQrs": "No QRs yet",
+    "createFirst": "Create your first QR"
+  },
+  "qrs": {
+    "title": "My QR Codes",
+    "subtitle": "Manage all your QR codes",
+    "createNew": "Create QR",
+    "search": "Search QRs...",
+    "table": {
+      "name": "Name",
+      "scans": "Scans",
+      "status": "Status",
+      "created": "Created",
+      "actions": "Actions"
+    },
+    "empty": "No QRs yet",
+    "emptySearch": "No results found",
+    "new": {
+      "title": "New QR Code",
+      "subtitle": "Customize your QR code"
+    },
+    "edit": {
+      "title": "Edit QR Code",
+      "subtitle": "Modify your QR code"
+    },
+    "form": {
+      "name": "QR Name",
+      "namePlaceholder": "E.g: My website",
+      "url": "Destination URL",
+      "urlPlaceholder": "https://example.com",
+      "folder": "Folder",
+      "noFolder": "No folder",
+      "colors": "Colors",
+      "fgColor": "Dot color",
+      "bgColor": "Background color",
+      "dotStyle": "Dot style",
+      "cornerStyle": "Corner style",
+      "logo": "Logo",
+      "uploadLogo": "Upload logo",
+      "frame": "Frame",
+      "frameText": "Frame text",
+      "advanced": "Advanced options",
+      "expiry": "Expiration date",
+      "maxScans": "Max scans",
+      "password": "Password",
+      "iosUrl": "iOS URL",
+      "androidUrl": "Android URL",
+      "submit": "Create QR",
+      "submitEdit": "Save changes"
+    },
+    "delete": {
+      "title": "Delete QR",
+      "message": "Are you sure you want to delete this QR? This action cannot be undone.",
+      "confirm": "Delete",
+      "cancel": "Cancel"
+    },
+    "viewAnalytics": "View analytics",
+    "downloadQr": "Download QR",
+    "copyLink": "Copy link",
+    "linkCopied": "Link copied!"
+  },
+  "analytics": {
+    "title": "Analytics",
+    "subtitle": "Statistics for your QR codes",
+    "totalScans": "Total scans",
+    "uniqueScans": "Unique scans",
+    "countries": "Countries",
+    "topCountry": "Top country",
+    "scansByDay": "Scans per day",
+    "scansByDevice": "By device",
+    "scansByBrowser": "By browser",
+    "scansByOS": "By OS",
+    "recentScans": "Recent scans",
+    "worldMap": "Scan map",
+    "noData": "No data yet",
+    "noDataDesc": "Data will appear when your QR is scanned",
+    "period": {
+      "7d": "7 days",
+      "30d": "30 days",
+      "90d": "90 days",
+      "all": "All time"
+    }
+  },
+  "billing": {
+    "title": "Billing",
+    "subtitle": "Manage your plan and subscription",
+    "currentPlan": "Current plan",
+    "free": "Free",
+    "active": "Active",
+    "manageSub": "Manage subscription",
+    "upgradeToPro": "Upgrade to Pro",
+    "viewPlans": "View all plans",
+    "whatsIncluded": "What's included in Pro?",
+    "cancelNote": "By managing your subscription you can cancel, change plan or update your payment method. Cancellation is effective at the end of the current period.",
+    "perMonth": "/ month"
+  },
+  "profile": {
+    "title": "My profile",
+    "subtitle": "Manage your personal information",
+    "email": "Email address",
+    "name": "First name",
+    "namePlaceholder": "Your first name",
+    "surname": "Last name",
+    "surnamePlaceholder": "Your last name",
+    "phone": "Phone",
+    "phonePlaceholder": "+1 234 567 890",
+    "changePhoto": "Click the icon to change photo",
+    "save": "Save changes",
+    "successMessage": "Profile updated successfully"
+  },
+  "pricing": {
+    "title": "Simple, transparent pricing",
+    "subtitle": "Start free. Scale when you need it. No surprises.",
+    "mostPopular": "Most popular",
+    "forever": "forever",
+    "perMonth": "/month",
+    "currentPlan": "Current plan",
+    "goToDashboard": "Go to dashboard",
+    "startFree": "Start for free",
+    "choosePro": "Choose Pro",
+    "chooseBusiness": "Choose Business",
+    "questions": "Questions?",
+    "contactUs": "Contact us",
+    "cancelAnytime": "Cancel anytime, no penalties."
+  },
+  "qrGate": {
+    "expired": {
+      "title": "QR expired",
+      "description": "This QR code is no longer available because it has passed its expiration date."
+    },
+    "inactive": {
+      "title": "QR inactive",
+      "description": "This QR code has been deactivated by its owner."
+    },
+    "limit": {
+      "title": "Scan limit reached",
+      "description": "This QR code has reached its maximum number of allowed scans."
+    },
+    "notFound": {
+      "title": "QR not found",
+      "description": "This QR code does not exist or has been deleted."
+    },
+    "password": {
+      "title": "Protected QR",
+      "description": "This QR requires a password to access.",
+      "placeholder": "Enter the password",
+      "submit": "Access",
+      "error": "Incorrect password"
+    }
+  },
+  "language": {
+    "es": "Español",
+    "en": "English",
+    "select": "Language"
+  }
+}

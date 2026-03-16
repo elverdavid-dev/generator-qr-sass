@@ -8,14 +8,29 @@ import GoogleLoginButton from '@/features/auth/components/google-login-button'
 import GooglePlaceholderButton from '@/features/auth/components/google-placeholder-button'
 import { useRegister } from '@/features/auth/hooks/use-register'
 
-const RegisterForm = () => {
+interface RegisterTranslations {
+	title: string
+	subtitle: string
+	email: string
+	submit: string
+	loading: string
+	hasAccount: string
+	signIn: string
+	orRegisterWith: string
+}
+
+interface Props {
+	translations: RegisterTranslations
+}
+
+const RegisterForm = ({ translations: t }: Props) => {
 	const { form, onSubmit, isLoading } = useRegister()
 
 	return (
 		<section className="md:w-[460px] mx-auto mt-5 p-10">
-			<h1 className="font-bold text-2xl">Crear cuenta</h1>
+			<h1 className="font-bold text-2xl">{t.title}</h1>
 			<h2 className="text-gray-600 dark:text-gray-400 text-sm pb-10">
-				Ingrese sus datos para registrarse
+				{t.subtitle}
 			</h2>
 
 			<Suspense fallback={<GooglePlaceholderButton />}>
@@ -24,17 +39,14 @@ const RegisterForm = () => {
 
 			<div className="flex items-center gap-4 text-gray-500 dark:text-gray-400 py-3">
 				<div className="h-[1px] flex-1 bg-gray-300 dark:bg-gray-700" />
-				<span>O registrarse con</span>
+				<span>{t.orRegisterWith}</span>
 				<div className="h-[1px] flex-1 bg-gray-300 dark:bg-gray-700" />
 			</div>
 
-			<form
-				onSubmit={form.handleSubmit(onSubmit)}
-				className="flex flex-col gap-y-5"
-			>
+			<form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-y-5">
 				<InputEmail
 					{...form.register('email')}
-					label="Correo"
+					label={t.email}
 					isInvalid={!!form.formState.errors.email}
 					errorMessage={form.formState.errors.email?.message}
 				/>
@@ -43,21 +55,15 @@ const RegisterForm = () => {
 					isInvalid={!!form.formState.errors.password}
 					errorMessage={form.formState.errors.password?.message}
 				/>
-				<Button
-					size="lg"
-					fullWidth
-					type="submit"
-					color="primary"
-					isLoading={isLoading}
-				>
-					{isLoading ? 'Cargando...' : 'Crear cuenta'}
+				<Button size="lg" fullWidth type="submit" color="primary" isLoading={isLoading}>
+					{isLoading ? t.loading : t.submit}
 				</Button>
 			</form>
 
 			<div className="py-5">
-				<span>¿Ya tienes una cuenta? </span>
+				<span>{t.hasAccount} </span>
 				<Link href="/login" className="underline text-primary font-medium">
-					Inicia sesión
+					{t.signIn}
 				</Link>
 			</div>
 		</section>

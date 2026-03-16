@@ -8,32 +8,45 @@ import GoogleLoginButton from '@/features/auth/components/google-login-button'
 import GooglePlaceholderButton from '@/features/auth/components/google-placeholder-button'
 import { useLogin } from '@/features/auth/hooks/use-login'
 
-const LoginForm = () => {
+interface LoginTranslations {
+	title: string
+	subtitle: string
+	email: string
+	forgotPassword: string
+	submit: string
+	loading: string
+	noAccount: string
+	signUp: string
+	orLoginWith: string
+}
+
+interface Props {
+	translations: LoginTranslations
+}
+
+const LoginForm = ({ translations: t }: Props) => {
 	const { form, onSubmit, isLoading } = useLogin()
+
 	return (
 		<section className="md:w-[460px] mx-auto mt-5 p-10">
-			<h1 className="font-bold text-2xl">Iniciar sesión</h1>
+			<h1 className="font-bold text-2xl">{t.title}</h1>
 			<h2 className="text-gray-600 dark:text-gray-400 text-sm pb-10">
-				Ingrese sus datos para iniciar sesión
+				{t.subtitle}
 			</h2>
 			<Suspense fallback={<GooglePlaceholderButton />}>
 				<GoogleLoginButton />
 			</Suspense>
 
-			{/* Divider  */}
 			<div className="flex items-center gap-4 text-gray-500 dark:text-gray-400 py-3">
 				<div className="h-[1px] flex-1 bg-gray-300 dark:bg-gray-700" />
-				<span>O iniciar sesión con</span>
+				<span>{t.orLoginWith}</span>
 				<div className="h-[1px] flex-1 bg-gray-300 dark:bg-gray-700" />
 			</div>
 
-			<form
-				onSubmit={form.handleSubmit(onSubmit)}
-				className="flex flex-col gap-y-5"
-			>
+			<form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-y-5">
 				<InputEmail
 					{...form.register('email')}
-					label="Correo"
+					label={t.email}
 					isInvalid={!!form.formState.errors.email}
 					errorMessage={form.formState.errors.email?.message}
 				/>
@@ -42,26 +55,17 @@ const LoginForm = () => {
 					isInvalid={!!form.formState.errors.password}
 					errorMessage={form.formState.errors.password?.message}
 				/>
-				<Link
-					href={'/reset-password'}
-					className="w-full text-end underline text-sm"
-				>
-					¿Olvidaste tu contraseña?
+				<Link href="/reset-password" className="w-full text-end underline text-sm">
+					{t.forgotPassword}
 				</Link>
-				<Button
-					size="lg"
-					fullWidth
-					type="submit"
-					color="primary"
-					isLoading={isLoading}
-				>
-					{isLoading ? 'Cargando...' : 'Iniciar sesión'}
+				<Button size="lg" fullWidth type="submit" color="primary" isLoading={isLoading}>
+					{isLoading ? t.loading : t.submit}
 				</Button>
 			</form>
 			<div className="py-5">
-				<span>¿No tienes una cuenta? </span>
+				<span>{t.noAccount} </span>
 				<Link href="/register" className="underline text-primary font-medium">
-					Regístrate
+					{t.signUp}
 				</Link>
 			</div>
 		</section>

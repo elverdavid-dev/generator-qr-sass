@@ -10,11 +10,24 @@ import SidebarItem from './sidebar-item'
 import { useSidebarStore } from '@/shared/lib/zustand/sidebar-store'
 import type { PlanId } from '@/features/billing/config/plans'
 
-interface Props {
-	plan?: PlanId
+interface SidebarTranslations {
+	navLabel: string
+	accountLabel: string
+	navItems: { name: string; path: string }[]
+	bottomItems: { name: string; path: string }[]
+	freePlan: string
+	freePlanDesc: string
+	upgradeToPro: string
+	manageSub: string
+	planActive: string
 }
 
-const Sidebar = ({ plan = 'free' }: Props) => {
+interface Props {
+	plan?: PlanId
+	translations: SidebarTranslations
+}
+
+const Sidebar = ({ plan = 'free', translations }: Props) => {
 	const { isOpen, toggleSidebar } = useSidebarStore()
 
 	return (
@@ -45,7 +58,12 @@ const Sidebar = ({ plan = 'free' }: Props) => {
 
 				{/* Nav items */}
 				{isOpen ? (
-					<SidebarItem />
+					<SidebarItem
+						navLabel={translations.navLabel}
+						accountLabel={translations.accountLabel}
+						navItems={translations.navItems}
+						bottomItems={translations.bottomItems}
+					/>
 				) : (
 					<CollapsedNav />
 				)}
@@ -55,13 +73,13 @@ const Sidebar = ({ plan = 'free' }: Props) => {
 					<div className="flex flex-col gap-y-2 bg-linear-to-br from-primary/10 to-secondary/10 border border-primary/20 p-4 rounded-xl mt-auto">
 						<div className="flex items-center gap-x-2 text-default-600">
 							<HugeiconsIcon icon={Crown02Icon} size={15} className="text-primary" />
-							<span className="text-xs font-semibold">Plan Free</span>
+							<span className="text-xs font-semibold">{translations.freePlan}</span>
 						</div>
 						<p className="text-xs text-default-500 leading-snug">
-							Tienes 3 QRs máximo. Actualiza para crear ilimitados.
+							{translations.freePlanDesc}
 						</p>
 						<Button color="primary" size="sm" as={Link} href="/pricing">
-							Mejorar a Pro
+							{translations.upgradeToPro}
 						</Button>
 					</div>
 				)}
@@ -76,14 +94,14 @@ const Sidebar = ({ plan = 'free' }: Props) => {
 								</span>
 							</div>
 							<span className="text-[10px] bg-amber-500/20 text-amber-600 dark:text-amber-400 px-2 py-0.5 rounded-full font-semibold">
-								Activo
+								{translations.planActive}
 							</span>
 						</div>
 						<Link
 							href="/dashboard/billing"
 							className="text-xs text-default-500 hover:text-primary transition-colors"
 						>
-							Gestionar suscripción →
+							{translations.manageSub}
 						</Link>
 					</div>
 				)}
@@ -93,7 +111,7 @@ const Sidebar = ({ plan = 'free' }: Props) => {
 					<div className="mt-auto pb-2 flex justify-center">
 						<Link
 							href="/pricing"
-							title="Mejorar a Pro"
+							title={translations.upgradeToPro}
 							className="flex items-center justify-center p-2 rounded-lg text-primary hover:bg-primary/10 transition-colors"
 						>
 							<HugeiconsIcon icon={Crown02Icon} size={20} />
@@ -121,8 +139,8 @@ const Sidebar = ({ plan = 'free' }: Props) => {
 const CollapsedNav = () => {
 	const items = [
 		{ icon: DashboardSquare02Icon, href: '/dashboard', label: 'Dashboard' },
-		{ icon: QrCodeIcon, href: '/dashboard/qrs', label: 'Mis QR Codes' },
-		{ icon: Analytics02Icon, href: '/dashboard/analytics', label: 'Analíticas' },
+		{ icon: QrCodeIcon, href: '/dashboard/qrs', label: 'QR Codes' },
+		{ icon: Analytics02Icon, href: '/dashboard/analytics', label: 'Analytics' },
 	]
 
 	return (
@@ -140,14 +158,14 @@ const CollapsedNav = () => {
 			<div className="mt-auto pt-4 border-t border-divider flex flex-col gap-1">
 				<Link
 					href="/dashboard/profile"
-					title="Perfil"
+					title="Profile"
 					className="flex items-center justify-center p-2 rounded-lg text-default-500 hover:text-primary hover:bg-primary/5 transition-colors"
 				>
 					<HugeiconsIcon icon={UserAccountIcon} size={20} />
 				</Link>
 				<Link
 					href="/dashboard/billing"
-					title="Facturación"
+					title="Billing"
 					className="flex items-center justify-center p-2 rounded-lg text-default-500 hover:text-primary hover:bg-primary/5 transition-colors"
 				>
 					<HugeiconsIcon icon={Crown02Icon} size={20} />
