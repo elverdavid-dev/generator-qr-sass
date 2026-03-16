@@ -1,7 +1,7 @@
 'use client'
 
 import { Button } from '@heroui/react'
-import { Analytics02Icon, ArrowLeft01Icon, ArrowRight01Icon, Crown02Icon, DashboardSquare02Icon, QrCodeIcon, UserAccountIcon } from '@hugeicons/core-free-icons'
+import { Analytics02Icon, ArrowLeft01Icon, ArrowRight01Icon, Crown02Icon, DashboardSquare02Icon, QrCodeIcon, StarIcon, UserAccountIcon } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 import { cn } from '@heroui/react'
 import Link from 'next/link'
@@ -141,6 +141,7 @@ const CollapsedNav = () => {
 		{ icon: DashboardSquare02Icon, href: '/dashboard', label: 'Dashboard' },
 		{ icon: QrCodeIcon, href: '/dashboard/qrs', label: 'QR Codes' },
 		{ icon: Analytics02Icon, href: '/dashboard/analytics', label: 'Analytics' },
+		{ icon: StarIcon, href: '/dashboard/favorites', label: 'Favorites' },
 	]
 
 	return (

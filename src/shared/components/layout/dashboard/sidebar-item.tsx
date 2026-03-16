@@ -6,6 +6,7 @@ import {
 	Crown02Icon,
 	DashboardSquare02Icon,
 	QrCodeIcon,
+	StarIcon,
 	UserAccountIcon,
 } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
@@ -30,6 +31,7 @@ const NAV_ICONS: Record<string, any> = {
 	'/dashboard': DashboardSquare02Icon,
 	'/dashboard/qrs': QrCodeIcon,
 	'/dashboard/analytics': Analytics02Icon,
+	'/dashboard/favorites': StarIcon,
 	'/dashboard/profile': UserAccountIcon,
 	'/dashboard/billing': Crown02Icon,
 }

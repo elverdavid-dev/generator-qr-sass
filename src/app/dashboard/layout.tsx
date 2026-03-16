@@ -21,6 +21,7 @@ const DashboardLayout = async ({ children }: PropsWithChildren) => {
 			{ name: t('dashboard'), path: '/dashboard' },
 			{ name: t('myQrs'), path: '/dashboard/qrs' },
 			{ name: t('analytics'), path: '/dashboard/analytics' },
+			{ name: t('favorites'), path: '/dashboard/favorites' },
 		],
 		bottomItems: [
 			{ name: t('profile'), path: '/dashboard/profile' },
