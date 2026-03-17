@@ -1,7 +1,7 @@
 'use client'
 
 import { Button } from '@heroui/react'
-import { Analytics02Icon, ArrowLeft01Icon, ArrowRight01Icon, Crown02Icon, DashboardSquare02Icon, QrCodeIcon, StarIcon, UserAccountIcon } from '@hugeicons/core-free-icons'
+import { Analytics02Icon, ArrowLeft01Icon, ArrowRight01Icon, Crown02Icon, DashboardSquare02Icon, QrCodeIcon, StarIcon, UserAccountIcon, WebhookIcon } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 import { cn } from '@heroui/react'
 import Link from 'next/link'
@@ -170,6 +170,13 @@ const CollapsedNav = () => {
 					className="flex items-center justify-center p-2 rounded-lg text-default-500 hover:text-primary hover:bg-primary/5 transition-colors"
 				>
 					<HugeiconsIcon icon={Crown02Icon} size={20} />
+				</Link>
+				<Link
+					href="/dashboard/webhooks"
+					title="Webhooks"
+					className="flex items-center justify-center p-2 rounded-lg text-default-500 hover:text-primary hover:bg-primary/5 transition-colors"
+				>
+					<HugeiconsIcon icon={WebhookIcon} size={20} />
 				</Link>
 			</div>
 		</div>

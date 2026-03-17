@@ -82,6 +82,16 @@ export interface QrTemplate {
 	created_at: string
 }
 
+export interface Webhook {
+	id: string
+	user_id: string
+	name: string
+	url: string
+	secret: string | null
+	is_active: boolean
+	created_at: string
+}
+
 export interface QrScan {
 	id: string
 	qr_id: string

@@ -8,6 +8,7 @@ import {
 	QrCodeIcon,
 	StarIcon,
 	UserAccountIcon,
+	WebhookIcon,
 } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 import Link from 'next/link'
@@ -34,6 +35,7 @@ const NAV_ICONS: Record<string, any> = {
 	'/dashboard/favorites': StarIcon,
 	'/dashboard/profile': UserAccountIcon,
 	'/dashboard/billing': Crown02Icon,
+	'/dashboard/webhooks': WebhookIcon,
 }
 
 const SidebarItem = ({ navLabel, accountLabel, navItems, bottomItems }: Props) => {

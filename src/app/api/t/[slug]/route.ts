@@ -3,6 +3,7 @@ import { NextResponse, type NextRequest } from 'next/server'
 import { createClient } from '@/shared/lib/supabase/server'
 import { getGeoLocation } from '@/features/tracking/services/get-geo-location'
 import { saveScan } from '@/features/tracking/services/save-scan'
+import { deliverWebhooks } from '@/features/webhooks/services/deliver-webhooks'
 
 export async function GET(
 	request: NextRequest,
@@ -23,7 +24,7 @@ export async function GET(
 	// Also check custom_slug
 	const { data: qr, error } = await supabase
 		.from('qrs')
-		.select('id, user_id, data, qr_type, is_active, scan_count, expires_at, max_scans, password, ios_url, android_url, utm_source, utm_medium, utm_campaign, utm_term, utm_content')
+		.select('id, user_id, name, data, qr_type, is_active, scan_count, expires_at, max_scans, password, ios_url, android_url, utm_source, utm_medium, utm_campaign, utm_term, utm_content')
 		.or(`slug.eq.${slug},custom_slug.eq.${slug}`)
 		.single()
 
@@ -77,6 +78,25 @@ export async function GET(
 		is_unique_scan: isUniqueScan,
 		...geo,
 	})
+
+	// Fire-and-forget webhook delivery
+	deliverWebhooks(qr.user_id, {
+		event: 'qr.scanned',
+		qr_id: qr.id,
+		qr_name: qr.name,
+		slug,
+		timestamp: new Date().toISOString(),
+		scan: {
+			ip,
+			browser,
+			os,
+			device_type: deviceType,
+			country: geo.country ?? null,
+			region: geo.region ?? null,
+			city: geo.city ?? null,
+			is_unique: isUniqueScan,
+		},
+	}).catch(() => {})
 
 	if (!isUrlType(qr.qr_type)) {
 		return NextResponse.redirect(new URL(`/qr-view/${slug}`, request.url))
