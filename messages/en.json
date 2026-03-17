@@ -463,6 +463,97 @@
 			"error": "Incorrect password"
 		}
 	},
+	"landing": {
+		"hero": {
+			"badge": "Generate QRs in seconds",
+			"headline1": "Create QR codes",
+			"headline2": "professional",
+			"headline3": "effortlessly",
+			"subtitle": "Generate, customize and track your QR codes in one place. Real-time analytics, dynamic redirects and stunning designs.",
+			"ctaPrimary": "Create QR for free",
+			"ctaSecondary": "View pricing",
+			"noCreditCard": "No credit card required · Cancel anytime",
+			"mockupDynamic": "Dynamic QR · Active",
+			"mockupScans": "Scans",
+			"mockupCountries": "Countries",
+			"mockupUptime": "Uptime",
+			"badge150": "150+ Countries",
+			"badge150Sub": "global reach",
+			"badge10k": "10k+ QRs",
+			"badge10kSub": "already created"
+		},
+		"stats": {
+			"qrs": "QRs created",
+			"scans": "Total scans",
+			"uptime": "Guaranteed uptime",
+			"countries": "Countries reached"
+		},
+		"howItWorks": {
+			"label": "Process",
+			"title": "As simple as 1, 2, 3",
+			"subtitle": "In less than a minute your QR code is ready to use.",
+			"step1Title": "Choose the type",
+			"step1Desc": "URL, WiFi, vCard contact, social media, restaurant menu and more. We have the type you need.",
+			"step2Title": "Customize the design",
+			"step2Desc": "Choose colors, module shapes, add your logo and create a QR that represents your brand.",
+			"step3Title": "Download and share",
+			"step3Desc": "Export in high-resolution PNG, SVG or PDF. Or share directly with a short link."
+		},
+		"features": {
+			"label": "Features",
+			"title": "Everything you need",
+			"subtitle": "Professional tools designed to scale with your business.",
+			"analyticsTitle": "Real-time analytics",
+			"analyticsDesc": "Visualize scans by country, device and time. Make decisions based on real data.",
+			"customTitle": "Customizable QRs",
+			"customDesc": "Adapt colors, shapes and add your logo. Each QR can reflect your brand identity.",
+			"dynamicTitle": "Dynamic redirects",
+			"dynamicDesc": "Change the destination URL without reprinting the QR. Perfect for campaigns and print materials.",
+			"passwordTitle": "Password protection",
+			"passwordDesc": "Restrict access to your content with a password. Full control over who scans.",
+			"formatsTitle": "Multiple formats",
+			"formatsDesc": "Download in high-resolution PNG, SVG or PDF. Ready for print and digital use.",
+			"foldersTitle": "Folder management",
+			"foldersDesc": "Organize your QRs in folders and find what you need instantly, without clutter."
+		},
+		"pricing": {
+			"label": "Pricing",
+			"title": "Plans for everyone",
+			"subtitle": "Start free and scale when you need it. No surprises.",
+			"mostPopular": "Most popular",
+			"forever": "forever",
+			"perMonth": "per month",
+			"viewAll": "View all details",
+			"freeName": "Free",
+			"freeDesc": "Perfect to get started and explore.",
+			"freeBullet1": "Up to 3 active QRs",
+			"freeBullet2": "PNG and SVG formats",
+			"freeBullet3": "Basic analytics",
+			"freeCta": "Start for free",
+			"proName": "Pro",
+			"proDesc": "For creators and freelancers.",
+			"proBullet1": "Unlimited QRs",
+			"proBullet2": "Dynamic redirects",
+			"proBullet3": "Full analytics",
+			"proCta": "Choose Pro",
+			"businessName": "Business",
+			"businessDesc": "Teams and growing brands.",
+			"businessBullet1": "Everything in Pro",
+			"businessBullet2": "Multiple users",
+			"businessBullet3": "Priority support",
+			"businessCta": "Choose Business"
+		},
+		"cta": {
+			"title": "Ready to get started?",
+			"subtitle": "Join thousands of teams that already trust QR Generator for their campaigns, businesses and personal projects.",
+			"button": "Create free account",
+			"noCreditCard": "No credit card required · Cancel anytime"
+		},
+		"meta": {
+			"title": "QR Generator — Create professional QR codes",
+			"description": "Generate, customize and track your QR codes in seconds. Real-time analytics, dynamic redirects and stunning designs."
+		}
+	},
 	"language": {
 		"es": "Español",
 		"en": "English",

@@ -463,6 +463,97 @@
 			"error": "Contraseña incorrecta"
 		}
 	},
+	"landing": {
+		"hero": {
+			"badge": "Genera QRs en segundos",
+			"headline1": "Crea códigos QR",
+			"headline2": "profesionales",
+			"headline3": "sin esfuerzo",
+			"subtitle": "Genera, personaliza y rastrea tus códigos QR en un solo lugar. Analytics en tiempo real, redirecciones dinámicas y diseños impresionantes.",
+			"ctaPrimary": "Crear QR gratis",
+			"ctaSecondary": "Ver precios",
+			"noCreditCard": "Sin tarjeta de crédito · Cancela cuando quieras",
+			"mockupDynamic": "QR dinámico · Activo",
+			"mockupScans": "Escaneos",
+			"mockupCountries": "Países",
+			"mockupUptime": "Uptime",
+			"badge150": "150+ Países",
+			"badge150Sub": "alcance global",
+			"badge10k": "10k+ QRs",
+			"badge10kSub": "ya creados"
+		},
+		"stats": {
+			"qrs": "QRs creados",
+			"scans": "Escaneos totales",
+			"uptime": "Uptime garantizado",
+			"countries": "Países alcanzados"
+		},
+		"howItWorks": {
+			"label": "Proceso",
+			"title": "Tan simple como 1, 2, 3",
+			"subtitle": "En menos de un minuto tienes tu código QR listo para usar.",
+			"step1Title": "Elige el tipo",
+			"step1Desc": "URL, WiFi, contacto vCard, redes sociales, menú de restaurante y más. Tenemos el tipo que necesitas.",
+			"step2Title": "Personaliza el diseño",
+			"step2Desc": "Selecciona colores, formas de módulo, añade tu logo y crea un QR que represente tu marca.",
+			"step3Title": "Descarga y comparte",
+			"step3Desc": "Exporta en PNG, SVG o PDF de alta resolución. O comparte directamente con un enlace corto."
+		},
+		"features": {
+			"label": "Características",
+			"title": "Todo lo que necesitas",
+			"subtitle": "Herramientas profesionales pensadas para escalar con tu negocio.",
+			"analyticsTitle": "Analytics en tiempo real",
+			"analyticsDesc": "Visualiza escaneos por país, dispositivo y hora. Toma decisiones basadas en datos reales.",
+			"customTitle": "QR personalizables",
+			"customDesc": "Adapta colores, formas y añade tu logo. Cada QR puede reflejar la identidad de tu marca.",
+			"dynamicTitle": "Redirecciones dinámicas",
+			"dynamicDesc": "Cambia la URL destino sin reimprimir el QR. Ideal para campañas y materiales físicos.",
+			"passwordTitle": "Protección con contraseña",
+			"passwordDesc": "Restringe el acceso a tu contenido con una contraseña. Control total sobre quién escanea.",
+			"formatsTitle": "Múltiples formatos",
+			"formatsDesc": "Descarga en PNG, SVG o PDF en alta resolución. Listo para impresión y uso digital.",
+			"foldersTitle": "Gestión de carpetas",
+			"foldersDesc": "Organiza tus QRs en carpetas y encuentra lo que necesitas al instante, sin desorden."
+		},
+		"pricing": {
+			"label": "Precios",
+			"title": "Planes para todos",
+			"subtitle": "Comienza gratis y escala cuando lo necesites. Sin sorpresas.",
+			"mostPopular": "Más popular",
+			"forever": "para siempre",
+			"perMonth": "por mes",
+			"viewAll": "Ver todos los detalles",
+			"freeName": "Free",
+			"freeDesc": "Ideal para empezar y explorar.",
+			"freeBullet1": "Hasta 3 QRs activos",
+			"freeBullet2": "Formatos PNG y SVG",
+			"freeBullet3": "Analytics básico",
+			"freeCta": "Comenzar gratis",
+			"proName": "Pro",
+			"proDesc": "Para creadores y freelancers.",
+			"proBullet1": "QRs ilimitados",
+			"proBullet2": "Redirecciones dinámicas",
+			"proBullet3": "Analytics completo",
+			"proCta": "Elegir Pro",
+			"businessName": "Business",
+			"businessDesc": "Equipos y marcas en crecimiento.",
+			"businessBullet1": "Todo de Pro incluido",
+			"businessBullet2": "Múltiples usuarios",
+			"businessBullet3": "Soporte prioritario",
+			"businessCta": "Elegir Business"
+		},
+		"cta": {
+			"title": "¿Listo para empezar?",
+			"subtitle": "Únete a miles de equipos que ya confían en QR Generator para sus campañas, negocios y proyectos personales.",
+			"button": "Crear cuenta gratis",
+			"noCreditCard": "Sin tarjeta de crédito · Cancela cuando quieras"
+		},
+		"meta": {
+			"title": "QR Generator — Crea códigos QR profesionales",
+			"description": "Genera, personaliza y rastrea tus códigos QR en segundos. Analytics en tiempo real, redirecciones dinámicas y diseños impresionantes."
+		}
+	},
 	"language": {
 		"es": "Español",
 		"en": "English",
