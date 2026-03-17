@@ -163,7 +163,9 @@
 			"favoriteAdded": "Added to favorites",
 			"favoriteRemoved": "Removed from favorites",
 			"share": "Share QR",
-			"shareCopied": "Link copied to clipboard!"
+			"shareCopied": "Link copied to clipboard!",
+			"saveFromQr": "Save as template",
+			"templateSaved": "Template saved"
 		},
 		"nav": {
 			"viewAnalytics": "View analytics",
@@ -285,6 +287,20 @@
 		"customSlug": "Custom URL",
 		"customSlugPlaceholder": "my-brand-2024",
 		"customSlugDesc": "Lowercase letters, numbers and hyphens only",
+		"templates": {
+			"title": "My templates",
+			"empty": "No templates yet. Save a QR style to reuse it.",
+			"apply": "Apply template",
+			"delete": "Delete template",
+			"deleted": "Template deleted",
+			"upgradeRequired": "Upgrade to Pro to save and use style templates",
+			"saveAs": "Save as template",
+			"saveTitle": "Save template",
+			"namePlaceholder": "E.g. My blue brand",
+			"save": "Save",
+			"saved": "Template saved",
+			"saveFromQr": "Save as template"
+		},
 		"bulk": {
 			"selected": "selected",
 			"deleteSelected": "Delete",

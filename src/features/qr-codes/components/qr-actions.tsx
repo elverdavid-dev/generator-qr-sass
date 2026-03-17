@@ -15,6 +15,7 @@ import {
 	Folder01Icon,
 	MoreHorizontalIcon,
 	Share01Icon,
+	FloppyDiskIcon,
 	StarIcon,
 	ToggleOnIcon,
 	ViewIcon,
@@ -28,12 +29,14 @@ import { toggleQrFavorite } from '@/features/qr-codes/services/mutations/toggle-
 import { toggleQrStatus } from '@/features/qr-codes/services/mutations/toggle-qr-status'
 import type { Folder, QrCode } from '@/shared/types/database.types'
 import { usePlan } from '@/shared/context/plan-context'
+import { saveTemplate } from '@/features/qr-codes/services/mutations/template-actions'
 
 const DownloadQrModal = dynamic(() => import('./download-qr-modal'))
 const ConfirmDeleteModal = dynamic(
 	() => import('@/shared/components/confirm-delete-modal'),
 )
 const FolderSelectorModal = dynamic(() => import('./folder-selector-modal'))
+const SaveTemplateModal = dynamic(() => import('./save-template-modal'))
 
 interface ActionsTranslations {
 	title: string
@@ -55,6 +58,8 @@ interface ActionsTranslations {
 	favoriteRemoved: string
 	share: string
 	shareCopied: string
+	saveFromQr: string
+	templateSaved: string
 }
 
 interface FolderTranslations {
@@ -86,9 +91,11 @@ const QrActions = ({ qr, folders, translations }: Props) => {
 	const [isPending, startTransition] = useTransition()
 	const { hasFeature } = usePlan()
 	const canShare = hasFeature('shareQr')
+	const canTemplates = hasFeature('templates')
 	const downloadDisc = useDisclosure()
 	const deleteDisc = useDisclosure()
 	const folderDisc = useDisclosure()
+	const saveTemplateDisc = useDisclosure()
 
 	const handleToggleStatus = () => {
 		startTransition(async () => {
@@ -181,6 +188,15 @@ const QrActions = ({ qr, folders, translations }: Props) => {
 						{translations.actions.share}
 					</DropdownItem>
 					<DropdownItem
+						key="save-template"
+						startContent={<HugeiconsIcon icon={FloppyDiskIcon} size={16} />}
+						onPress={canTemplates ? saveTemplateDisc.onOpen : undefined}
+						isDisabled={!canTemplates}
+						description={!canTemplates ? 'Pro' : undefined}
+					>
+						{translations.actions.saveFromQr}
+					</DropdownItem>
+					<DropdownItem
 						key="edit"
 						href={`/dashboard/qrs/${qr.slug}/edit`}
 						startContent={<HugeiconsIcon icon={Edit02Icon} size={16} />}
@@ -222,6 +238,32 @@ const QrActions = ({ qr, folders, translations }: Props) => {
 				folders={folders}
 				qrId={qr.id}
 				translations={translations.folder}
+			/>
+			<SaveTemplateModal
+				isOpen={saveTemplateDisc.isOpen}
+				onOpenChange={saveTemplateDisc.onOpenChange}
+				onClose={saveTemplateDisc.onClose}
+				templateData={{
+					fg_color: qr.fg_color,
+					bg_color: qr.bg_color,
+					dot_style: qr.dot_style,
+					corner_square_style: qr.corner_square_style,
+					corner_dot_style: qr.corner_dot_style,
+					dot_color_2: qr.dot_color_2 ?? null,
+					dot_gradient_type: qr.dot_gradient_type,
+					frame_style: qr.frame_style,
+					frame_color: qr.frame_color,
+					frame_text: qr.frame_text,
+					logo_url: qr.logo_url ?? null,
+				}}
+				onSaved={() => {}}
+				translations={{
+					title: translations.actions.saveFromQr,
+					namePlaceholder: "Ej. Mi marca",
+					cancel: "Cancelar",
+					save: "Guardar",
+					saved: translations.actions.templateSaved,
+				}}
 			/>
 		</>
 	)

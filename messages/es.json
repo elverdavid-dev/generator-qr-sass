@@ -163,7 +163,9 @@
 			"favoriteAdded": "Agregado a favoritos",
 			"favoriteRemoved": "Quitado de favoritos",
 			"share": "Compartir QR",
-			"shareCopied": "¡Enlace copiado al portapapeles!"
+			"shareCopied": "¡Enlace copiado al portapapeles!",
+			"saveFromQr": "Guardar como plantilla",
+			"templateSaved": "Plantilla guardada"
 		},
 		"nav": {
 			"viewAnalytics": "Ver analíticas",
@@ -285,6 +287,20 @@
 		"customSlug": "URL personalizada",
 		"customSlugPlaceholder": "mi-marca-2024",
 		"customSlugDesc": "Solo letras minúsculas, números y guiones",
+		"templates": {
+			"title": "Mis plantillas",
+			"empty": "Aún no tienes plantillas. Guarda el estilo de un QR para reutilizarlo.",
+			"apply": "Aplicar plantilla",
+			"delete": "Eliminar plantilla",
+			"deleted": "Plantilla eliminada",
+			"upgradeRequired": "Actualiza a Pro para guardar y usar plantillas de estilo",
+			"saveAs": "Guardar como plantilla",
+			"saveTitle": "Guardar plantilla",
+			"namePlaceholder": "Ej. Mi marca azul",
+			"save": "Guardar",
+			"saved": "Plantilla guardada",
+			"saveFromQr": "Guardar como plantilla"
+		},
 		"bulk": {
 			"selected": "seleccionados",
 			"deleteSelected": "Eliminar",

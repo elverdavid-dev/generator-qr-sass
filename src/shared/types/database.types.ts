@@ -63,6 +63,24 @@ export interface Folder {
 	qr_count?: number
 }
 
+export interface QrTemplate {
+	id: string
+	user_id: string
+	name: string
+	fg_color: string
+	bg_color: string
+	dot_style: string
+	corner_square_style: string
+	corner_dot_style: string
+	dot_color_2: string | null
+	dot_gradient_type: string
+	frame_style: string
+	frame_color: string
+	frame_text: string
+	logo_url: string | null
+	created_at: string
+}
+
 export interface QrScan {
 	id: string
 	qr_id: string

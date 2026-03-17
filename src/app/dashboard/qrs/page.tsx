@@ -84,6 +84,8 @@ const QrsPage = async ({ searchParams }: Props) => {
 			favoriteRemoved: t('actions.favoriteRemoved'),
 			share: t('actions.share'),
 			shareCopied: t('actions.shareCopied'),
+			saveFromQr: t('actions.saveFromQr'),
+			templateSaved: t('actions.templateSaved'),
 		},
 		folder: {
 			moveTitle: t('folder.moveTitle'),

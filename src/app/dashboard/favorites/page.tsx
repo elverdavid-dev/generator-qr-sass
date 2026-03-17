@@ -58,6 +58,8 @@ const FavoritesPage = async () => {
 			favoriteRemoved: tQrs('actions.favoriteRemoved'),
 			share: tQrs('actions.share'),
 			shareCopied: tQrs('actions.shareCopied'),
+			saveFromQr: tQrs('actions.saveFromQr'),
+			templateSaved: tQrs('actions.templateSaved'),
 		},
 		folder: {
 			moveTitle: tQrs('folder.moveTitle'),

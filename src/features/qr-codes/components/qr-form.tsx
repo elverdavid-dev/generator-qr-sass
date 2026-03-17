@@ -22,6 +22,7 @@ import {
 	ListViewIcon,
 	LinkSquare01Icon,
 	Crown02Icon,
+	FloppyDiskIcon,
 } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 import Link from 'next/link'
@@ -33,8 +34,13 @@ import { cn } from '@heroui/theme'
 import { qrSchema, type QrFormData } from '@/features/qr-codes/schemas/qr-schema'
 import { createQr } from '@/features/qr-codes/services/mutations/create-qr'
 import QrPreview from '@/features/qr-codes/components/qr-preview'
-import type { Folder } from '@/shared/types/database.types'
+import type { Folder, QrTemplate } from '@/shared/types/database.types'
 import { usePlan } from '@/shared/context/plan-context'
+import { useDisclosure } from '@heroui/react'
+import dynamic from 'next/dynamic'
+
+const TemplateSelector = dynamic(() => import('./template-selector'))
+const SaveTemplateModal = dynamic(() => import('./save-template-modal'))
 
 export interface QrFormTranslations {
 	qrType: string
@@ -90,19 +96,35 @@ export interface QrFormTranslations {
 	corner: { square: string; circle: string }
 	frameStyle: { none: string; simple: string; rounded: string; thick: string }
 	types: { url: string; text: string; email: string; phone: string; wifi: string; contact: string; location: string; event: string; payment: string }
+	templates: {
+		title: string
+		empty: string
+		apply: string
+		delete: string
+		deleted: string
+		upgradeRequired: string
+		saveAs: string
+		saveTitle: string
+		namePlaceholder: string
+		save: string
+		saved: string
+	}
 }
 
 interface Props {
 	folders: Folder[]
 	translations: QrFormTranslations
+	templates?: QrTemplate[]
 }
 
-const QrForm = ({ folders, translations }: Props) => {
+const QrForm = ({ folders, translations, templates = [] }: Props) => {
 	const router = useRouter()
 	const fileInputRef = useRef<HTMLInputElement>(null)
 	const [logoPreview, setLogoPreview] = useState<string | null>(null)
 	const { hasFeature } = usePlan()
 	const canCustomSlug = hasFeature('customSlug')
+	const canTemplates = hasFeature('templates')
+	const saveTemplateDisc = useDisclosure()
 
 	const QR_TYPES = [
 		{ id: 'url', name: translations.types.url, icon: GlobeIcon, color: 'bg-blue-500', placeholder: 'https://example.com' },
@@ -194,6 +216,19 @@ const QrForm = ({ folders, translations }: Props) => {
 		router.push('/dashboard/qrs')
 	}
 
+	const handleApplyTemplate = (t: QrTemplate) => {
+		setValue('fg_color', t.fg_color)
+		setValue('bg_color', t.bg_color)
+		setValue('dot_style', t.dot_style)
+		setValue('corner_square_style', t.corner_square_style)
+		setValue('corner_dot_style', t.corner_dot_style)
+		setValue('dot_color_2', t.dot_color_2 ?? null)
+		setValue('dot_gradient_type', t.dot_gradient_type)
+		setValue('frame_style', t.frame_style as 'none' | 'simple' | 'rounded' | 'bold')
+		setValue('frame_color', t.frame_color)
+		setValue('frame_text', t.frame_text)
+	}
+
 	const handleLogoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const file = e.target.files?.[0]
 		if (!file) return
@@ -215,9 +250,17 @@ const QrForm = ({ folders, translations }: Props) => {
 	)
 
 	return (
+		<>
 		<form onSubmit={handleSubmit(onSubmit)} className="flex gap-8">
 			{/* Left: Config panel */}
 			<div className="flex-1 flex flex-col gap-6">
+
+				{/* Templates */}
+				<TemplateSelector
+					templates={templates}
+					onApply={handleApplyTemplate}
+					translations={translations.templates}
+				/>
 
 				{/* QR Type */}
 				<div>
@@ -651,6 +694,16 @@ const QrForm = ({ folders, translations }: Props) => {
 					>
 						{translations.cancel}
 					</Button>
+					{canTemplates && (
+						<Button
+							type="button"
+							variant="flat"
+							startContent={<HugeiconsIcon icon={FloppyDiskIcon} size={16} />}
+							onPress={saveTemplateDisc.onOpen}
+						>
+							{translations.templates.saveAs}
+						</Button>
+					)}
 					<Button type="submit" color="primary" isLoading={isSubmitting} className="flex-1">
 						{translations.submit}
 					</Button>
@@ -695,6 +748,33 @@ const QrForm = ({ folders, translations }: Props) => {
 				</div>
 			</div>
 		</form>
+
+		<SaveTemplateModal
+			isOpen={saveTemplateDisc.isOpen}
+			onOpenChange={saveTemplateDisc.onOpenChange}
+			onClose={saveTemplateDisc.onClose}
+			templateData={{
+				fg_color: watchedFg ?? '#000000',
+				bg_color: watchedBg ?? '#ffffff',
+				dot_style: watchedDotStyle ?? 'square',
+				corner_square_style: watchedCornerSquare ?? 'square',
+				corner_dot_style: watchedCornerDot ?? 'square',
+				dot_color_2: watchedDotColor2 ?? null,
+				dot_gradient_type: watchedGradientType ?? 'linear',
+				frame_style: watchedFrameStyle ?? 'none',
+				frame_color: watchedFrameColor ?? '#000000',
+				frame_text: watchedFrameText ?? '',
+			}}
+			onSaved={() => {}}
+			translations={{
+				title: translations.templates.saveTitle,
+				namePlaceholder: translations.templates.namePlaceholder,
+				cancel: translations.cancel,
+				save: translations.templates.save,
+				saved: translations.templates.saved,
+			}}
+		/>
+	</>
 	)
 }
 

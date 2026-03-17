@@ -5,15 +5,19 @@ import { redirect } from 'next/navigation'
 import { getTranslations } from 'next-intl/server'
 import { getSession } from '@/shared/lib/supabase/get-session'
 import { getFolders } from '@/features/folders/services/queries/get-folders'
+import { getTemplates } from '@/features/qr-codes/services/queries/get-templates'
 import QrForm from '@/features/qr-codes/components/qr-form'
-import type { Folder } from '@/shared/types/database.types'
+import type { Folder, QrTemplate } from '@/shared/types/database.types'
 
 const NewQrPage = async () => {
 	const t = await getTranslations('qrs')
 	const { data: session } = await getSession()
 	if (!session?.user) redirect('/login')
 
-	const { data: folders } = await getFolders()
+	const [{ data: folders }, { data: templates }] = await Promise.all([
+		getFolders(),
+		getTemplates(),
+	])
 
 	const formTranslations = {
 		qrType: t('form.qrType'),
@@ -94,6 +98,19 @@ const NewQrPage = async () => {
 			event: t('types.event'),
 			payment: t('types.payment'),
 		},
+		templates: {
+			title: t('templates.title'),
+			empty: t('templates.empty'),
+			apply: t('templates.apply'),
+			delete: t('templates.delete'),
+			deleted: t('templates.deleted'),
+			upgradeRequired: t('templates.upgradeRequired'),
+			saveAs: t('templates.saveAs'),
+			saveTitle: t('templates.saveTitle'),
+			namePlaceholder: t('templates.namePlaceholder'),
+			save: t('templates.save'),
+			saved: t('templates.saved'),
+		},
 	}
 
 	return (
@@ -120,7 +137,11 @@ const NewQrPage = async () => {
 				</div>
 			</div>
 
-			<QrForm folders={(folders as Folder[]) ?? []} translations={formTranslations} />
+			<QrForm
+					folders={(folders as Folder[]) ?? []}
+					templates={(templates as QrTemplate[]) ?? []}
+					translations={formTranslations}
+				/>
 		</>
 	)
 }

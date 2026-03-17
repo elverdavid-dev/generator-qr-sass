@@ -50,6 +50,8 @@ interface ActionsTranslations {
 	favoriteRemoved: string
 	share: string
 	shareCopied: string
+	saveFromQr: string
+	templateSaved: string
 }
 
 interface FolderTranslations {
