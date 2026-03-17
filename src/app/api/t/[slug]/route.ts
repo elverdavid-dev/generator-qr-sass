@@ -20,10 +20,11 @@ export async function GET(
 	const os = parser.getOS().name ?? 'Unknown'
 	const deviceType = parser.getDevice().type ?? 'Desktop'
 
+	// Also check custom_slug
 	const { data: qr, error } = await supabase
 		.from('qrs')
-		.select('id, user_id, data, qr_type, is_active, scan_count, expires_at, max_scans, password, ios_url, android_url')
-		.eq('slug', slug)
+		.select('id, user_id, data, qr_type, is_active, scan_count, expires_at, max_scans, password, ios_url, android_url, utm_source, utm_medium, utm_campaign, utm_term, utm_content')
+		.or(`slug.eq.${slug},custom_slug.eq.${slug}`)
 		.single()
 
 	if (error || !qr) {
@@ -81,7 +82,13 @@ export async function GET(
 		return NextResponse.redirect(new URL(`/qr-view/${slug}`, request.url))
 	}
 
-	const redirectUrl = resolveRedirectUrl(qr.data, qr.ios_url, qr.android_url, os)
+	const redirectUrl = resolveRedirectUrl(qr.data, qr.ios_url, qr.android_url, os, {
+		utm_source: qr.utm_source,
+		utm_medium: qr.utm_medium,
+		utm_campaign: qr.utm_campaign,
+		utm_term: qr.utm_term,
+		utm_content: qr.utm_content,
+	})
 	return NextResponse.redirect(redirectUrl)
 }
 
@@ -91,18 +98,39 @@ function isUrlType(qrType: string): boolean {
 	return URL_TYPES.has(qrType)
 }
 
+interface UtmParams {
+	utm_source?: string | null
+	utm_medium?: string | null
+	utm_campaign?: string | null
+	utm_term?: string | null
+	utm_content?: string | null
+}
+
 function resolveRedirectUrl(
 	defaultUrl: string,
 	iosUrl: string | null,
 	androidUrl: string | null,
 	os: string,
+	utm: UtmParams = {},
 ): string {
 	const osLower = os.toLowerCase()
+	let base = defaultUrl
 	if ((osLower.includes('ios') || osLower.includes('iphone') || osLower.includes('ipad')) && iosUrl) {
-		return iosUrl
+		base = iosUrl
+	} else if (osLower.includes('android') && androidUrl) {
+		base = androidUrl
 	}
-	if (osLower.includes('android') && androidUrl) {
-		return androidUrl
+
+	// Append UTM params only for HTTP URLs
+	try {
+		const url = new URL(base)
+		if (utm.utm_source) url.searchParams.set('utm_source', utm.utm_source)
+		if (utm.utm_medium) url.searchParams.set('utm_medium', utm.utm_medium)
+		if (utm.utm_campaign) url.searchParams.set('utm_campaign', utm.utm_campaign)
+		if (utm.utm_term) url.searchParams.set('utm_term', utm.utm_term)
+		if (utm.utm_content) url.searchParams.set('utm_content', utm.utm_content)
+		return url.toString()
+	} catch {
+		return base
 	}
-	return defaultUrl
 }

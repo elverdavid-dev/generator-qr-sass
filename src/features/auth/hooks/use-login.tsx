@@ -1,6 +1,5 @@
 'use client'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useRouter } from 'next/navigation'
 import { useTransition } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
@@ -11,7 +10,6 @@ import {
 import { loginService } from '@/features/auth/services/login'
 
 export const useLogin = () => {
-	const router = useRouter()
 	const [isLoading, startTransition] = useTransition()
 	//form
 	const form = useForm<AuthFormData>({
@@ -26,8 +24,8 @@ export const useLogin = () => {
 				return
 			}
 			toast.success('Inicio de sesión exitoso')
-			router.push('/dashboard/qrs')
 			form.reset()
+			window.location.href = '/dashboard/qrs'
 		})
 	}
 	return {

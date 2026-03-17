@@ -9,8 +9,14 @@ import { getLocale, getTranslations } from 'next-intl/server'
 const NavbarDashboard = async () => {
 	const { data: session } = await getSession()
 	const userId = session?.user?.id
-	const locale = await getLocale()
-	const t = await getTranslations('language')
+	const [locale, tLang, tProfile, tBilling, tNav, tCommon] = await Promise.all([
+		getLocale(),
+		getTranslations('language'),
+		getTranslations('profile'),
+		getTranslations('billing'),
+		getTranslations('nav'),
+		getTranslations('common'),
+	])
 
 	let profile = null
 	if (userId) {
@@ -20,12 +26,21 @@ const NavbarDashboard = async () => {
 
 	return (
 		<header className="flex items-center justify-end gap-x-2 px-6 py-3 border-b border-divider bg-background">
-			<LanguageSwitcher currentLocale={locale} selectLabel={t('select')} loadingMessage={t('loading')} />
+			<LanguageSwitcher currentLocale={locale} selectLabel={tLang('select')} loadingMessage={tLang('loading')} />
 			<ThemeToggle />
 			{profile ? (
 				<ProfileButton
 					avatar_url={profile.avatar_url ?? ''}
-					full_name={profile.name ?? profile.email}
+					full_name={profile.name ?? profile.email ?? ''}
+					email={session?.user?.email}
+					translations={{
+						myAccount: tProfile('title'),
+						profile: tProfile('title'),
+						billing: tBilling('title'),
+						pricing: tNav('pricing'),
+						logout: tCommon('logout'),
+						loggingOut: tCommon('loggingOut'),
+					}}
 				/>
 			) : (
 				<LogoutButton />

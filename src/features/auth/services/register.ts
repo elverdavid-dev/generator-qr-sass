@@ -1,3 +1,5 @@
+'use server'
+
 import { createClient } from '@/shared/lib/supabase/server'
 import type { AuthFormData } from '../schema/auth-form-data'
 

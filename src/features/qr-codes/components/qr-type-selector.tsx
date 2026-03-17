@@ -104,7 +104,7 @@ const QrTypeSelector = () => {
 				<div
 					key={qrType.id}
 					className={cn(
-						'p-4 rounded-2xl hover:shadow-lg flex items-center gap-4 border border-gray-200 bg-white',
+						'p-4 rounded-2xl hover:shadow-lg flex items-center gap-4 border border-divider bg-content1',
 					)}
 				>
 					<div
@@ -117,7 +117,7 @@ const QrTypeSelector = () => {
 					</div>
 					<div className="flex flex-col">
 						<h2 className="font-semibold">{qrType.name}</h2>
-						<p className="text-sm text-gray-500">{qrType.description}</p>
+						<p className="text-sm text-default-500">{qrType.description}</p>
 					</div>
 				</div>
 			))}

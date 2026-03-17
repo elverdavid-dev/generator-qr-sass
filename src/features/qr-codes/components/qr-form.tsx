@@ -20,6 +20,8 @@ import {
 	LockPasswordIcon,
 	Timer02Icon,
 	ListViewIcon,
+	LinkSquare01Icon,
+	Crown02Icon,
 } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 import Link from 'next/link'
@@ -32,6 +34,7 @@ import { qrSchema, type QrFormData } from '@/features/qr-codes/schemas/qr-schema
 import { createQr } from '@/features/qr-codes/services/mutations/create-qr'
 import QrPreview from '@/features/qr-codes/components/qr-preview'
 import type { Folder } from '@/shared/types/database.types'
+import { usePlan } from '@/shared/context/plan-context'
 
 export interface QrFormTranslations {
 	qrType: string
@@ -73,6 +76,15 @@ export interface QrFormTranslations {
 	submit: string
 	preview: string
 	noName: string
+	customSlug: string
+	customSlugPlaceholder: string
+	customSlugDesc: string
+	utm: string
+	utmSource: string
+	utmMedium: string
+	utmCampaign: string
+	utmTerm: string
+	utmContent: string
 	created: string
 	dot: { square: string; dots: string; rounded: string; classic: string; classicR: string; extraR: string }
 	corner: { square: string; circle: string }
@@ -89,6 +101,8 @@ const QrForm = ({ folders, translations }: Props) => {
 	const router = useRouter()
 	const fileInputRef = useRef<HTMLInputElement>(null)
 	const [logoPreview, setLogoPreview] = useState<string | null>(null)
+	const { hasFeature } = usePlan()
+	const canCustomSlug = hasFeature('customSlug')
 
 	const QR_TYPES = [
 		{ id: 'url', name: translations.types.url, icon: GlobeIcon, color: 'bg-blue-500', placeholder: 'https://example.com' },
@@ -242,6 +256,32 @@ const QrForm = ({ folders, translations }: Props) => {
 					/>
 				</div>
 
+				{/* Custom slug (Pro+) */}
+				<div>
+					<div className="flex items-center justify-between mb-1">
+						<label className="flex items-center gap-1.5 text-sm font-medium text-default-700">
+							<HugeiconsIcon icon={LinkSquare01Icon} size={14} />
+							{translations.customSlug}
+						</label>
+						{!canCustomSlug && (
+							<span className="flex items-center gap-1 text-xs text-primary font-medium">
+								<HugeiconsIcon icon={Crown02Icon} size={12} />
+								Pro
+							</span>
+						)}
+					</div>
+					<Input
+						{...register('custom_slug')}
+						placeholder={translations.customSlugPlaceholder}
+						isDisabled={!canCustomSlug}
+						isInvalid={!!errors.custom_slug}
+						errorMessage={errors.custom_slug?.message}
+						variant="bordered"
+						description={canCustomSlug ? translations.customSlugDesc : undefined}
+						startContent={<span className="text-xs text-default-400 shrink-0">qr/</span>}
+					/>
+				</div>
+
 				{/* Content */}
 				<div>
 					{sectionTitle(translations.content)}
@@ -350,7 +390,7 @@ const QrForm = ({ folders, translations }: Props) => {
 							>
 								<span
 									className={cn(
-										'absolute top-1 w-4 h-4 rounded-full bg-white shadow transition-transform',
+										'absolute top-1 w-4 h-4 rounded-full bg-white dark:bg-default-300 shadow transition-transform',
 										hasGradient ? 'translate-x-5' : 'translate-x-1',
 									)}
 								/>
@@ -528,6 +568,45 @@ const QrForm = ({ folders, translations }: Props) => {
 						</div>
 					</div>
 				</div>
+
+
+				{/* UTM Parameters (Pro+) — only for URL types */}
+				{(watchedType === 'url' || watchedType === 'payment') && (
+					<div className="bg-content1 border border-divider rounded-2xl p-4 flex flex-col gap-4">
+						<div className="flex items-center justify-between">
+							<div className="flex items-center gap-2 text-default-600">
+								<HugeiconsIcon icon={LinkSquare01Icon} size={16} />
+								<span className="font-semibold text-sm">{translations.utm}</span>
+							</div>
+							{!hasFeature('utmParams') && (
+								<span className="flex items-center gap-1 text-xs text-primary font-medium">
+									<HugeiconsIcon icon={Crown02Icon} size={12} />
+									Pro
+								</span>
+							)}
+						</div>
+						<div className="grid grid-cols-2 gap-3">
+							{[
+								{ field: 'utm_source', label: translations.utmSource, placeholder: 'google' },
+								{ field: 'utm_medium', label: translations.utmMedium, placeholder: 'qr' },
+								{ field: 'utm_campaign', label: translations.utmCampaign, placeholder: 'promo-verano' },
+								{ field: 'utm_term', label: translations.utmTerm, placeholder: 'keyword' },
+								{ field: 'utm_content', label: translations.utmContent, placeholder: 'variante-a' },
+							].map(({ field, label, placeholder }) => (
+								<div key={field}>
+									<label className="text-xs text-default-500 mb-1 block">{label}</label>
+									<input
+										{...register(field as any)}
+										type="text"
+										placeholder={placeholder}
+										disabled={!canCustomSlug && !hasFeature('utmParams')}
+										className="w-full p-2.5 border border-divider rounded-xl bg-content2 text-default-600 text-sm focus:outline-none focus:border-primary disabled:opacity-50 disabled:cursor-not-allowed"
+									/>
+								</div>
+							))}
+						</div>
+					</div>
+				)}
 
 				{/* Device targeting — only for URL-based types */}
 				{(watchedType === 'url' || watchedType === 'payment') && (

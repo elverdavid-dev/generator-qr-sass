@@ -29,6 +29,20 @@ export const qrSchema = z.object({
 	// Device targeting
 	ios_url: z.string().optional().nullable(),
 	android_url: z.string().optional().nullable(),
+	// UTM parameters (Pro+)
+	utm_source: z.string().optional().nullable(),
+	utm_medium: z.string().optional().nullable(),
+	utm_campaign: z.string().optional().nullable(),
+	utm_term: z.string().optional().nullable(),
+	utm_content: z.string().optional().nullable(),
+	// Custom slug (Pro+)
+	custom_slug: z
+		.string()
+		.regex(/^[a-z0-9-]+$/, 'Solo letras minúsculas, números y guiones')
+		.min(3, 'Mínimo 3 caracteres')
+		.max(50, 'Máximo 50 caracteres')
+		.optional()
+		.nullable(),
 })
 
 export type QrFormData = z.infer<typeof qrSchema>

@@ -94,6 +94,19 @@ const QrsPage = async ({ searchParams }: Props) => {
 			cancel: t('download.cancel'),
 			scanMe: t('download.scanMe'),
 		},
+		bulk: {
+			selected: t('bulk.selected'),
+			deleteSelected: t('bulk.deleteSelected'),
+			activateSelected: t('bulk.activateSelected'),
+			deactivateSelected: t('bulk.deactivateSelected'),
+			moveSelected: t('bulk.moveSelected'),
+			confirmDelete: t('bulk.confirmDelete'),
+			deleted: t('bulk.deleted'),
+			activated: t('bulk.activated'),
+			deactivated: t('bulk.deactivated'),
+			moved: t('bulk.moved'),
+			upgradeRequired: t('bulk.upgradeRequired'),
+		},
 	}
 
 	return (

@@ -41,6 +41,12 @@ export interface QrCode {
 	password: string | null
 	ios_url: string | null
 	android_url: string | null
+	custom_slug: string | null
+	utm_source: string | null
+	utm_medium: string | null
+	utm_campaign: string | null
+	utm_term: string | null
+	utm_content: string | null
 	created_at: string
 	updated_at: string
 	// joined

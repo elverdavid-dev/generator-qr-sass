@@ -4,7 +4,7 @@ import { getSession } from '@/shared/lib/supabase/get-session'
 import { uploadImage } from '@/shared/lib/supabase/upload-image'
 import { generateSlug } from '@/shared/utils/generate-slug'
 import type { QrFormData } from '@/features/qr-codes/schemas/qr-schema'
-import { canCreateQr } from '@/features/billing/config/plans'
+import { canCreateQr, hasFeature } from '@/features/billing/config/plans'
 import type { PlanId } from '@/features/billing/config/plans'
 
 export const createQr = async (formData: QrFormData) => {
@@ -42,7 +42,21 @@ export const createQr = async (formData: QrFormData) => {
 		logo_path = upload.image_path
 	}
 
-	const slug = generateSlug(formData.name)
+	// Use custom slug if plan allows and it's provided
+	let slug: string
+	if (formData.custom_slug && hasFeature(plan, 'customSlug')) {
+		// Check slug uniqueness
+		const { count: slugCount } = await supabase
+			.from('qrs')
+			.select('id', { count: 'exact', head: true })
+			.eq('slug', formData.custom_slug)
+		if ((slugCount ?? 0) > 0) {
+			return { error: 'Ese slug ya está en uso. Elige otro.' }
+		}
+		slug = formData.custom_slug
+	} else {
+		slug = generateSlug(formData.name)
+	}
 
 	const { data, error } = await supabase
 		.from('qrs')
@@ -67,6 +81,12 @@ export const createQr = async (formData: QrFormData) => {
 			max_scans: formData.max_scans ?? null,
 			ios_url: formData.ios_url || null,
 			android_url: formData.android_url || null,
+			custom_slug: hasFeature(plan, 'customSlug') ? (formData.custom_slug || null) : null,
+			utm_source: hasFeature(plan, 'utmParams') ? (formData.utm_source || null) : null,
+			utm_medium: hasFeature(plan, 'utmParams') ? (formData.utm_medium || null) : null,
+			utm_campaign: hasFeature(plan, 'utmParams') ? (formData.utm_campaign || null) : null,
+			utm_term: hasFeature(plan, 'utmParams') ? (formData.utm_term || null) : null,
+			utm_content: hasFeature(plan, 'utmParams') ? (formData.utm_content || null) : null,
 			slug,
 			logo_url,
 			logo_path,

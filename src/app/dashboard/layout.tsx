@@ -5,6 +5,7 @@ import { getProfile } from '@/features/auth/services/queries/get-profile'
 import { getTranslations } from 'next-intl/server'
 import type { PropsWithChildren } from 'react'
 import type { PlanId } from '@/features/billing/config/plans'
+import { PlanProvider } from '@/shared/context/plan-context'
 
 const DashboardLayout = async ({ children }: PropsWithChildren) => {
 	const { data: session } = await getSession()
@@ -35,17 +36,19 @@ const DashboardLayout = async ({ children }: PropsWithChildren) => {
 	}
 
 	return (
-		<div className="flex h-screen w-screen overflow-hidden">
-			<Sidebar plan={plan} translations={sidebarTranslations} />
-			<div className="flex flex-col flex-1 min-w-0">
-				<NavbarDashboard />
-				<main className="flex-1 overflow-y-auto">
-					<section className="container mx-auto px-6 py-2">
-						{children}
-					</section>
-				</main>
+		<PlanProvider plan={plan}>
+			<div className="flex h-screen w-screen overflow-hidden">
+				<Sidebar plan={plan} translations={sidebarTranslations} />
+				<div className="flex flex-col flex-1 min-w-0">
+					<NavbarDashboard />
+					<main className="flex-1 overflow-y-auto">
+						<section className="container mx-auto px-6 py-2">
+							{children}
+						</section>
+					</main>
+				</div>
 			</div>
-		</div>
+		</PlanProvider>
 	)
 }
 

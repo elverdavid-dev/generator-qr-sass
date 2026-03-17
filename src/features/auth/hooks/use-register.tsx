@@ -1,6 +1,5 @@
 'use client'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useRouter } from 'next/navigation'
 import { useTransition } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
@@ -11,7 +10,6 @@ import {
 import { registerService } from '@/features/auth/services/register'
 
 export const useRegister = () => {
-	const router = useRouter()
 	const [isLoading, startTransition] = useTransition()
 
 	const form = useForm<AuthFormData>({
@@ -26,8 +24,8 @@ export const useRegister = () => {
 				return
 			}
 			toast.success('Cuenta creada. Revisa tu correo para confirmarla.')
-			router.push('/confirm-email')
 			form.reset()
+			window.location.href = '/confirm-email'
 		})
 	}
 

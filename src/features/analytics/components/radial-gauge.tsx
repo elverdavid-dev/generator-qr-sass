@@ -48,6 +48,7 @@ export default function RadialGauge({
 						fontSize: '2rem',
 						fontWeight: 700,
 						offsetY: 10,
+						color: isDark ? '#e2e8f0' : '#1e2939',
 						formatter: (val) => `${val}%`,
 					},
 				},
@@ -89,7 +90,7 @@ export default function RadialGauge({
 					>
 						<span className="text-xs text-default-400">{stat.label}</span>
 						<div className="flex items-center gap-1">
-							<span className="font-bold tabular-nums">{stat.value.toLocaleString()}</span>
+							<span className="font-bold tabular-nums text-foreground">{stat.value.toLocaleString()}</span>
 							{stat.change !== null && stat.change !== undefined && (
 								<span
 									className={`text-xs font-semibold ${

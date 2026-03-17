@@ -8,14 +8,23 @@ import {
 	FingerPrintScanIcon,
 	Folder01Icon,
 	Link01Icon,
+	Delete02Icon,
+	Tick02Icon,
+	Cancel01Icon,
+	Crown02Icon,
 } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 import { Pagination } from '@heroui/pagination'
+import { Button } from '@heroui/button'
 import { useRouter, useSearchParams } from 'next/navigation'
+import { useState, useTransition } from 'react'
+import { toast } from 'sonner'
 import type { Folder, QrCode } from '@/shared/types/database.types'
 import { formatDate } from '@/shared/utils/format-date'
 import { getTrackingUrl } from '@/shared/utils/get-tracking-url'
 import { QRS_PAGE_SIZE } from '@/features/qr-codes/constants'
+import { usePlan } from '@/shared/context/plan-context'
+import { bulkDeleteQrs, bulkMoveToFolder, bulkToggleActive } from '@/features/qr-codes/services/mutations/bulk-qr-actions'
 import QrActions from './qr-actions'
 import QrPreview from './qr-preview'
 
@@ -33,6 +42,10 @@ interface ActionsTranslations {
 	deleteTitle: string
 	deleteMessage: string
 	deleted: string
+	addFavorite?: string
+	removeFavorite?: string
+	favoriteAdded?: string
+	favoriteRemoved?: string
 }
 
 interface FolderTranslations {
@@ -48,6 +61,20 @@ interface DownloadTranslations {
 	scanMe: string
 }
 
+interface BulkTranslations {
+	selected: string
+	deleteSelected: string
+	activateSelected: string
+	deactivateSelected: string
+	moveSelected: string
+	confirmDelete: string
+	deleted: string
+	activated: string
+	deactivated: string
+	moved: string
+	upgradeRequired: string
+}
+
 interface QrTableTranslations {
 	active: string
 	inactive: string
@@ -59,6 +86,7 @@ interface QrTableTranslations {
 	actions: ActionsTranslations
 	folder: FolderTranslations
 	download: DownloadTranslations
+	bulk?: BulkTranslations
 }
 
 interface Props {
@@ -73,37 +101,156 @@ const QrTable = ({ qrs, folders, total, page, translations }: Props) => {
 	const router = useRouter()
 	const searchParams = useSearchParams()
 	const totalPages = Math.ceil(total / QRS_PAGE_SIZE)
+	const { hasFeature } = usePlan()
+	const canBulk = hasFeature('bulkActions')
+
+	const [selected, setSelected] = useState<Set<string>>(new Set())
+	const [isPending, startTransition] = useTransition()
+
+	const bulk = translations.bulk
+
+	const toggleSelect = (id: string) => {
+		setSelected((prev) => {
+			const next = new Set(prev)
+			if (next.has(id)) next.delete(id)
+			else next.add(id)
+			return next
+		})
+	}
+
+	const toggleAll = () => {
+		if (selected.size === qrs.length) setSelected(new Set())
+		else setSelected(new Set(qrs.map((q) => q.id)))
+	}
+
+	const clearSelection = () => setSelected(new Set())
+
+	const handleBulkDelete = () => {
+		if (!bulk) return
+		if (!window.confirm(bulk.confirmDelete)) return
+		startTransition(async () => {
+			const res = await bulkDeleteQrs(Array.from(selected))
+			if (res.error) { toast.error(res.error); return }
+			toast.success(bulk.deleted)
+			clearSelection()
+		})
+	}
+
+	const handleBulkToggle = (active: boolean) => {
+		if (!bulk) return
+		startTransition(async () => {
+			const res = await bulkToggleActive(Array.from(selected), active)
+			if (res.error) { toast.error(res.error); return }
+			toast.success(active ? bulk.activated : bulk.deactivated)
+			clearSelection()
+		})
+	}
+
+	const handleBulkMove = (folderId: string | null) => {
+		if (!bulk) return
+		startTransition(async () => {
+			const res = await bulkMoveToFolder(Array.from(selected), folderId)
+			if (res.error) { toast.error(res.error); return }
+			toast.success(bulk.moved)
+			clearSelection()
+		})
+	}
 
 	const handlePageChange = (newPage: number) => {
 		const params = new URLSearchParams(searchParams.toString())
-		if (newPage === 1) {
-			params.delete('page')
-		} else {
-			params.set('page', String(newPage))
-		}
+		if (newPage === 1) params.delete('page')
+		else params.set('page', String(newPage))
 		router.push(`?${params.toString()}`)
 	}
 
 	if (qrs.length === 0) {
-		return (
-			<div className="text-center text-default-400 py-16">
-				{translations.noResults}
-			</div>
-		)
+		return <div className="text-center text-default-400 py-16">{translations.noResults}</div>
 	}
 
 	return (
 		<div>
+			{/* Bulk toolbar */}
+			{canBulk && selected.size > 0 && bulk && (
+				<div className="sticky top-2 z-10 mb-3 flex items-center gap-2 bg-content1 border border-primary/30 rounded-2xl px-4 py-2.5 shadow-md">
+					<span className="text-sm font-semibold text-primary mr-2">
+						{selected.size} {bulk.selected}
+					</span>
+					<Button size="sm" variant="flat" color="danger" isDisabled={isPending}
+						startContent={<HugeiconsIcon icon={Delete02Icon} size={14} />}
+						onPress={handleBulkDelete}>
+						{bulk.deleteSelected}
+					</Button>
+					<Button size="sm" variant="flat" color="success" isDisabled={isPending}
+						startContent={<HugeiconsIcon icon={Tick02Icon} size={14} />}
+						onPress={() => handleBulkToggle(true)}>
+						{bulk.activateSelected}
+					</Button>
+					<Button size="sm" variant="flat" isDisabled={isPending}
+						startContent={<HugeiconsIcon icon={Cancel01Icon} size={14} />}
+						onPress={() => handleBulkToggle(false)}>
+						{bulk.deactivateSelected}
+					</Button>
+					{folders.length > 0 && (
+						<select
+							onChange={(e) => handleBulkMove(e.target.value || null)}
+							defaultValue=""
+							disabled={isPending}
+							className="text-sm bg-content2 border border-divider rounded-lg px-2 py-1 text-default-600"
+						>
+							<option value="" disabled>{bulk.moveSelected}</option>
+							<option value="">{translations.noFolder}</option>
+							{folders.map((f) => (
+								<option key={f.id} value={f.id}>{f.name}</option>
+							))}
+						</select>
+					)}
+					<button type="button" onClick={clearSelection} className="ml-auto text-xs text-default-400 hover:text-default-600">✕</button>
+				</div>
+			)}
+
+			{/* Upgrade hint for free users */}
+			{!canBulk && bulk && (
+				<div className="mb-3 flex items-center gap-2 bg-primary/5 border border-primary/20 rounded-xl px-4 py-2">
+					<HugeiconsIcon icon={Crown02Icon} size={14} className="text-primary" />
+					<span className="text-xs text-default-500">{bulk.upgradeRequired}</span>
+				</div>
+			)}
+
 			<section className="flex flex-col gap-3 mt-3">
+				{/* Select all row */}
+				{canBulk && (
+					<div className="flex items-center gap-3 px-1">
+						<input
+							type="checkbox"
+							checked={selected.size === qrs.length && qrs.length > 0}
+							onChange={toggleAll}
+							className="w-4 h-4 accent-primary cursor-pointer"
+						/>
+						<span className="text-xs text-default-400">Seleccionar todo</span>
+					</div>
+				)}
+
 				{qrs.map((qr) => (
 					<div
 						key={qr.id}
-						className="flex items-center justify-between gap-6 p-5 bg-content1 rounded-2xl border border-divider shadow-sm"
+						className={`flex items-center justify-between gap-6 p-5 bg-content1 rounded-2xl border shadow-sm transition-colors ${
+							selected.has(qr.id) ? 'border-primary/40 bg-primary/5' : 'border-divider'
+						}`}
 					>
+						{/* Checkbox */}
+						{canBulk && (
+							<input
+								type="checkbox"
+								checked={selected.has(qr.id)}
+								onChange={() => toggleSelect(qr.id)}
+								className="w-4 h-4 accent-primary cursor-pointer shrink-0"
+							/>
+						)}
+
 						{/* QR preview + info */}
-						<div className="flex items-center gap-4 min-w-0">
+						<div className="flex items-center gap-4 min-w-0 flex-1">
 							<QrPreview
-								value={getTrackingUrl(qr.slug)}
+								value={getTrackingUrl(qr.custom_slug ?? qr.slug)}
 								size={56}
 								fgColor={qr.fg_color}
 								bgColor={qr.bg_color}
@@ -114,9 +261,7 @@ const QrTable = ({ qrs, folders, total, page, translations }: Props) => {
 								<span className="text-xs text-primary font-medium">
 									{qr.qr_type === 'url' ? translations.website : qr.qr_type}
 								</span>
-								<h3 className="font-semibold capitalize truncate max-w-48">
-									{qr.name}
-								</h3>
+								<h3 className="font-semibold capitalize truncate max-w-48">{qr.name}</h3>
 								<span className="text-xs text-default-400 flex items-center gap-1">
 									<HugeiconsIcon icon={Calendar03Icon} size={12} />
 									{formatDate(qr.created_at)}
