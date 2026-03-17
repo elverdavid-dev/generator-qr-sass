@@ -6,6 +6,9 @@ import { getTranslations } from 'next-intl/server'
 import type { PropsWithChildren } from 'react'
 import type { PlanId } from '@/features/billing/config/plans'
 import { PlanProvider } from '@/shared/context/plan-context'
+import dynamic from 'next/dynamic'
+
+const OnboardingModal = dynamic(() => import('@/features/onboarding/components/onboarding-modal'))
 
 const DashboardLayout = async ({ children }: PropsWithChildren) => {
 	const { data: session } = await getSession()
@@ -13,7 +16,11 @@ const DashboardLayout = async ({ children }: PropsWithChildren) => {
 		? (await getProfile({ user_id: session.user.id })).data
 		: null
 	const plan: PlanId = profile?.plan ?? 'free'
-	const t = await getTranslations('sidebar')
+	const needsOnboarding = profile?.onboarding_completed === false
+	const [t, tOnboarding] = await Promise.all([
+		getTranslations('sidebar'),
+		getTranslations('onboarding'),
+	])
 
 	const sidebarTranslations = {
 		navLabel: t('navigation'),
@@ -35,8 +42,25 @@ const DashboardLayout = async ({ children }: PropsWithChildren) => {
 		planActive: t('planActive'),
 	}
 
+	const onboardingTranslations = {
+		step1Title: tOnboarding('step1Title'),
+		step1Desc: tOnboarding('step1Desc'),
+		step2Title: tOnboarding('step2Title'),
+		step2Desc: tOnboarding('step2Desc'),
+		step3Title: tOnboarding('step3Title'),
+		step3Desc: tOnboarding('step3Desc'),
+		step4Title: tOnboarding('step4Title'),
+		step4Desc: tOnboarding('step4Desc'),
+		next: tOnboarding('next'),
+		back: tOnboarding('back'),
+		skip: tOnboarding('skip'),
+		getStarted: tOnboarding('getStarted'),
+		stepOf: tOnboarding('stepOf'),
+	}
+
 	return (
 		<PlanProvider plan={plan}>
+			{needsOnboarding && <OnboardingModal translations={onboardingTranslations} />}
 			<div className="flex h-screen w-screen overflow-hidden">
 				<Sidebar plan={plan} translations={sidebarTranslations} />
 				<div className="flex flex-col flex-1 min-w-0">

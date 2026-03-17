@@ -463,6 +463,21 @@
 			"error": "Incorrect password"
 		}
 	},
+	"onboarding": {
+		"step1Title": "Welcome to QR Generator! 🎉",
+		"step1Desc": "You're about to create professional QR codes in seconds. We'll guide you to get started on the right foot.",
+		"step2Title": "Create your first QR",
+		"step2Desc": "Choose the content type, customize colors and styles, and download your QR in high-quality PNG or SVG.",
+		"step3Title": "Track every scan",
+		"step3Desc": "Our analytics dashboard shows you who scans, from which country and device, in real time.",
+		"step4Title": "All set to begin!",
+		"step4Desc": "Your account is configured. Now create your first QR and share it with the world.",
+		"next": "Next",
+		"back": "Back",
+		"skip": "Skip",
+		"getStarted": "Create my first QR",
+		"stepOf": "of"
+	},
 	"landing": {
 		"hero": {
 			"badge": "Generate QRs in seconds",
