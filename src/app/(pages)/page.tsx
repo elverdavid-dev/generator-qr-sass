@@ -44,14 +44,14 @@ const QrMockup = () => {
 	]
 
 	return (
-		<div className="p-3 bg-white rounded-xl shadow-sm">
-			<div className="grid gap-px" style={{ gridTemplateColumns: `repeat(21, 1fr)` }}>
+		<div className="p-3 bg-white rounded-xl shadow-sm inline-block">
+			<div style={{ display: 'grid', gridTemplateColumns: 'repeat(21, 8px)', gap: '1px' }}>
 				{rows.map((row, ri) =>
 					row.map((cell, ci) => (
 						<div
 							// biome-ignore lint/suspicious/noArrayIndexKey: static decorative pattern
 							key={`${ri}-${ci}`}
-							className={`aspect-square rounded-[1px] ${cell ? 'bg-zinc-900' : 'bg-transparent'}`}
+							style={{ width: 8, height: 8, borderRadius: 1, background: cell ? '#18181b' : 'transparent' }}
 						/>
 					)),
 				)}
