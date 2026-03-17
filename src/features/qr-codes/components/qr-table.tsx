@@ -16,6 +16,8 @@ import {
 import { HugeiconsIcon } from '@hugeicons/react'
 import { Pagination } from '@heroui/pagination'
 import { Button } from '@heroui/button'
+import { Checkbox } from '@heroui/checkbox'
+import { Select, SelectItem } from '@heroui/select'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useState, useTransition } from 'react'
 import { toast } from 'sonner'
@@ -42,10 +44,10 @@ interface ActionsTranslations {
 	deleteTitle: string
 	deleteMessage: string
 	deleted: string
-	addFavorite?: string
-	removeFavorite?: string
-	favoriteAdded?: string
-	favoriteRemoved?: string
+	addFavorite: string
+	removeFavorite: string
+	favoriteAdded: string
+	favoriteRemoved: string
 }
 
 interface FolderTranslations {
@@ -171,7 +173,7 @@ const QrTable = ({ qrs, folders, total, page, translations }: Props) => {
 		<div>
 			{/* Bulk toolbar */}
 			{canBulk && selected.size > 0 && bulk && (
-				<div className="sticky top-2 z-10 mb-3 flex items-center gap-2 bg-content1 border border-primary/30 rounded-2xl px-4 py-2.5 shadow-md">
+				<div className="mt-4 mb-3 flex items-center gap-2 bg-content1 border border-primary/30 rounded-2xl px-4 py-2.5 shadow-md">
 					<span className="text-sm font-semibold text-primary mr-2">
 						{selected.size} {bulk.selected}
 					</span>
@@ -191,18 +193,19 @@ const QrTable = ({ qrs, folders, total, page, translations }: Props) => {
 						{bulk.deactivateSelected}
 					</Button>
 					{folders.length > 0 && (
-						<select
-							onChange={(e) => handleBulkMove(e.target.value || null)}
-							defaultValue=""
-							disabled={isPending}
-							className="text-sm bg-content2 border border-divider rounded-lg px-2 py-1 text-default-600"
+						<Select
+							size="sm"
+							placeholder={bulk.moveSelected}
+							isDisabled={isPending}
+							className="w-44"
+							variant="flat"
+							items={[{ id: 'none', name: translations.noFolder }, ...folders]}
+							onChange={(e) => {
+								if (e.target.value !== '') handleBulkMove(e.target.value === 'none' ? null : e.target.value)
+							}}
 						>
-							<option value="" disabled>{bulk.moveSelected}</option>
-							<option value="">{translations.noFolder}</option>
-							{folders.map((f) => (
-								<option key={f.id} value={f.id}>{f.name}</option>
-							))}
-						</select>
+							{(item) => <SelectItem key={item.id}>{item.name}</SelectItem>}
+						</Select>
 					)}
 					<button type="button" onClick={clearSelection} className="ml-auto text-xs text-default-400 hover:text-default-600">✕</button>
 				</div>
@@ -220,13 +223,15 @@ const QrTable = ({ qrs, folders, total, page, translations }: Props) => {
 				{/* Select all row */}
 				{canBulk && (
 					<div className="flex items-center gap-3 px-1">
-						<input
-							type="checkbox"
-							checked={selected.size === qrs.length && qrs.length > 0}
-							onChange={toggleAll}
-							className="w-4 h-4 accent-primary cursor-pointer"
-						/>
-						<span className="text-xs text-default-400">Seleccionar todo</span>
+						<Checkbox
+							isSelected={selected.size === qrs.length && qrs.length > 0}
+							isIndeterminate={selected.size > 0 && selected.size < qrs.length}
+							onValueChange={toggleAll}
+							size="sm"
+							color="primary"
+						>
+							<span className="text-xs text-default-400">Seleccionar todo</span>
+						</Checkbox>
 					</div>
 				)}
 
@@ -239,11 +244,12 @@ const QrTable = ({ qrs, folders, total, page, translations }: Props) => {
 					>
 						{/* Checkbox */}
 						{canBulk && (
-							<input
-								type="checkbox"
-								checked={selected.has(qr.id)}
-								onChange={() => toggleSelect(qr.id)}
-								className="w-4 h-4 accent-primary cursor-pointer shrink-0"
+							<Checkbox
+								isSelected={selected.has(qr.id)}
+								onValueChange={() => toggleSelect(qr.id)}
+								size="sm"
+								color="primary"
+								className="shrink-0"
 							/>
 						)}
 
