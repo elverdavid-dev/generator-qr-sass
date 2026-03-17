@@ -1,6 +1,7 @@
 'use client'
 
 import dynamic from 'next/dynamic'
+import { useTheme } from 'next-themes'
 import type { FC } from 'react'
 import type { ApexOptions } from 'apexcharts'
 
@@ -29,28 +30,36 @@ const ChartBar: FC<Props> = ({
 	height = 280,
 	translations,
 }) => {
+	const { resolvedTheme } = useTheme()
+	const isDark = resolvedTheme === 'dark'
+	const labelColor = isDark ? '#8d9db0' : '#64748b'
+	const titleColor = isDark ? '#e2e8f0' : '#1e2939'
+
 	const options: ApexOptions = {
 		chart: {
 			type: 'bar',
 			fontFamily: 'Manrope Variable, sans-serif',
 			toolbar: { show: false },
+			background: 'transparent',
 		},
 		title: {
 			text: title,
-			style: { fontSize: '15px', fontWeight: 600 },
+			style: { fontSize: '15px', fontWeight: 600, color: titleColor },
 		},
 		plotOptions: {
 			bar: { horizontal, borderRadius: 4 },
 		},
 		xaxis: {
 			categories: labels,
-			labels: { style: { fontSize: '12px' } },
+			labels: { style: { fontSize: '12px', colors: labelColor } },
+			axisBorder: { show: false },
+			axisTicks: { show: false },
 		},
-		yaxis: { min: 0, labels: { style: { fontSize: '12px' } } },
+		yaxis: { min: 0, labels: { style: { fontSize: '12px', colors: labelColor } } },
 		dataLabels: { enabled: false },
 		colors: [color],
-		grid: { borderColor: 'rgba(128,128,128,0.1)', strokeDashArray: 4 },
-		tooltip: { theme: 'dark' },
+		grid: { borderColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)', strokeDashArray: 4 },
+		tooltip: { theme: isDark ? 'dark' : 'light' },
 	}
 
 	return (

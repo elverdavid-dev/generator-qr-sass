@@ -1,6 +1,7 @@
 'use client'
 
 import dynamic from 'next/dynamic'
+import { useTheme } from 'next-themes'
 import { useState } from 'react'
 import type { ApexOptions } from 'apexcharts'
 
@@ -46,6 +47,9 @@ const formatLabel = (date: string, period: Period): string => {
 
 export default function ChartArea({ scansPerDay, scansPerWeek, scansPerMonth, translations }: Props) {
 	const [period, setPeriod] = useState<Period>('day')
+	const { resolvedTheme } = useTheme()
+	const isDark = resolvedTheme === 'dark'
+	const labelColor = isDark ? '#8d9db0' : '#64748b'
 
 	const PERIODS: { key: Period; label: string }[] = [
 		{ key: 'day', label: translations.daily },
@@ -72,11 +76,11 @@ export default function ChartArea({ scansPerDay, scansPerWeek, scansPerMonth, tr
 		xaxis: {
 			categories: data.map((d) => formatLabel(d.date, period)),
 			tickAmount: Math.min(data.length, 8),
-			labels: { style: { fontSize: '11px', colors: '#94a3b8' }, rotate: 0 },
+			labels: { style: { fontSize: '11px', colors: labelColor }, rotate: 0 },
 			axisBorder: { show: false },
 			axisTicks: { show: false },
 		},
-		yaxis: { min: 0, labels: { style: { fontSize: '11px', colors: '#94a3b8' } } },
+		yaxis: { min: 0, labels: { style: { fontSize: '11px', colors: labelColor } } },
 		dataLabels: { enabled: false },
 		stroke: { curve: 'smooth', width: 2.5 },
 		fill: {

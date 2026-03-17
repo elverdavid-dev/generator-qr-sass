@@ -25,6 +25,7 @@ const StatCard = ({
 	sub,
 	iconBg,
 	iconColor,
+	locale,
 }: {
 	// biome-ignore lint/suspicious/noExplicitAny: HugeIcons type
 	icon: any
@@ -33,6 +34,7 @@ const StatCard = ({
 	sub?: string
 	iconBg: string
 	iconColor: string
+	locale: string
 }) => (
 	<div className="bg-content1 border border-divider rounded-2xl p-5 shadow-sm flex flex-col gap-3">
 		<div className={`w-9 h-9 flex items-center justify-center ${iconBg} rounded-xl`}>
@@ -91,6 +93,7 @@ const DashboardPage = async () => {
 					sub={`${stats?.activeQrs ?? 0} ${t('stats.active')}`}
 					iconBg="bg-blue-50 dark:bg-blue-950/40"
 					iconColor="text-blue-600 dark:text-blue-400"
+				locale={locale}
 				/>
 				<StatCard
 					icon={CheckmarkCircle02Icon}
@@ -98,6 +101,7 @@ const DashboardPage = async () => {
 					value={stats?.activeQrs ?? 0}
 					iconBg="bg-emerald-50 dark:bg-emerald-950/40"
 					iconColor="text-emerald-600 dark:text-emerald-400"
+				locale={locale}
 				/>
 				<StatCard
 					icon={Clock01Icon}
@@ -105,6 +109,7 @@ const DashboardPage = async () => {
 					value={stats?.todayScans ?? 0}
 					iconBg="bg-violet-50 dark:bg-violet-950/40"
 					iconColor="text-violet-600 dark:text-violet-400"
+				locale={locale}
 				/>
 				<StatCard
 					icon={FingerPrintScanIcon}
@@ -112,6 +117,7 @@ const DashboardPage = async () => {
 					value={stats?.monthScans ?? 0}
 					iconBg="bg-amber-50 dark:bg-amber-950/40"
 					iconColor="text-amber-600 dark:text-amber-400"
+				locale={locale}
 				/>
 			</div>
 

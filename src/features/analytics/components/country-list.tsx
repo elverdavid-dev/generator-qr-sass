@@ -29,7 +29,7 @@ const CountryList: FC<Props> = ({ data, scansLabel }) => {
 				return (
 					<div key={code} className="flex items-center gap-3">
 						{/* Circular flag */}
-						<div className="w-9 h-9 shrink-0 rounded-full overflow-hidden border-2 border-white dark:border-default-200 shadow-sm">
+						<div className="w-9 h-9 shrink-0 rounded-full overflow-hidden border-2 border-background shadow-sm">
 							<Image
 								src={`https://flagcdn.com/40x30/${code.toLowerCase()}.png`}
 								alt={name}

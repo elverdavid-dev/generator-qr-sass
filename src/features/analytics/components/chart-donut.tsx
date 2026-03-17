@@ -1,6 +1,7 @@
 'use client'
 
 import dynamic from 'next/dynamic'
+import { useTheme } from 'next-themes'
 import type { FC } from 'react'
 import type { ApexOptions } from 'apexcharts'
 
@@ -19,22 +20,29 @@ const ChartDonut: FC<Props> = ({
 	series,
 	colors = ['#3641f5', '#7592ff', '#9CB9FF', '#B8CEFF', '#D4E2FF'],
 }) => {
+	const { resolvedTheme } = useTheme()
+	const isDark = resolvedTheme === 'dark'
+	const titleColor = isDark ? '#e2e8f0' : '#1e2939'
+	const legendColor = isDark ? '#8d9db0' : '#64748b'
+
 	const options: ApexOptions = {
 		colors,
 		labels,
 		title: {
 			text: title,
 			align: 'center',
-			style: { fontSize: '15px', fontWeight: 600 },
+			style: { fontSize: '15px', fontWeight: 600, color: titleColor },
 		},
 		legend: {
 			position: 'bottom',
 			fontSize: '13px',
 			markers: { size: 5 },
+			labels: { colors: legendColor },
 		},
 		chart: {
 			type: 'donut',
 			fontFamily: 'Manrope Variable, sans-serif',
+			background: 'transparent',
 		},
 		tooltip: { enabled: false },
 		states: { hover: { filter: { type: 'none' } } },
@@ -46,7 +54,8 @@ const ChartDonut: FC<Props> = ({
 					size: '60%',
 					labels: {
 						show: true,
-						name: { show: true, fontSize: '16px', fontWeight: 600 },
+						name: { show: true, fontSize: '16px', fontWeight: 600, color: titleColor },
+						value: { color: titleColor },
 					},
 				},
 			},

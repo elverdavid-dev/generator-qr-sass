@@ -1,5 +1,6 @@
 'use client'
 
+import { useTheme } from 'next-themes'
 import { useState } from 'react'
 import { ComposableMap, Geographies, Geography, ZoomableGroup } from 'react-simple-maps'
 
@@ -70,8 +71,8 @@ const getCountryName = (code: string): string => {
 }
 
 // Blue gradient: no scans → light; many scans → deep blue
-const getColor = (count: number, max: number): string => {
-	if (count === 0) return '#e2e8f0'
+const getColor = (count: number, max: number, isDark: boolean): string => {
+	if (count === 0) return isDark ? '#334155' : '#e2e8f0'
 	const t = Math.min(count / max, 1)
 	// interpolate from #bfdbfe (blue-200) → #1d4ed8 (blue-700)
 	const r = Math.round(191 + (29 - 191) * t)
@@ -82,6 +83,8 @@ const getColor = (count: number, max: number): string => {
 
 export default function WorldMapChart({ data, translations }: Props) {
 	const [tooltip, setTooltip] = useState<TooltipState | null>(null)
+	const { resolvedTheme } = useTheme()
+	const isDark = resolvedTheme === 'dark'
 
 	const numericMap = buildNumericMap(data)
 	const max = Math.max(...Object.values(numericMap), 1)
@@ -110,12 +113,12 @@ export default function WorldMapChart({ data, translations }: Props) {
 									<Geography
 										key={geo.rsmKey}
 										geography={geo}
-										fill={getColor(count, max)}
-										stroke="#fff"
+										fill={getColor(count, max, isDark)}
+										stroke={isDark ? '#1e293b' : '#fff'}
 										strokeWidth={0.4}
 										style={{
 											default: { outline: 'none', cursor: count > 0 ? 'pointer' : 'default' },
-											hover: { outline: 'none', fill: count > 0 ? '#2563eb' : '#cbd5e1' },
+											hover: { outline: 'none', fill: count > 0 ? '#2563eb' : isDark ? '#475569' : '#cbd5e1' },
 											pressed: { outline: 'none' },
 										}}
 										onMouseEnter={(e) => {
@@ -153,7 +156,7 @@ export default function WorldMapChart({ data, translations }: Props) {
 						<div
 							key={t}
 							className="flex-1"
-							style={{ background: getColor(t * max, max) }}
+							style={{ background: getColor(t * max, max, isDark) }}
 						/>
 					))}
 				</div>

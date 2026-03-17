@@ -1,6 +1,7 @@
 'use client'
 
 import dynamic from 'next/dynamic'
+import { useTheme } from 'next-themes'
 import type { ApexOptions } from 'apexcharts'
 
 const ReactApexChart = dynamic(() => import('react-apexcharts'), { ssr: false })
@@ -26,6 +27,9 @@ export default function RadialGauge({
 	stats,
 	color = '#3641f5',
 }: Props) {
+	const { resolvedTheme } = useTheme()
+	const isDark = resolvedTheme === 'dark'
+
 	const options: ApexOptions = {
 		chart: {
 			type: 'radialBar',
@@ -37,7 +41,7 @@ export default function RadialGauge({
 				startAngle: -135,
 				endAngle: 135,
 				hollow: { size: '65%' },
-				track: { background: '#e2e8f0', strokeWidth: '100%', margin: 0 },
+				track: { background: isDark ? '#334155' : '#e2e8f0', strokeWidth: '100%', margin: 0 },
 				dataLabels: {
 					name: { show: false },
 					value: {
