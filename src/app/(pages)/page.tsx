@@ -13,7 +13,6 @@ import {
 } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 import Link from 'next/link'
-import { Button } from '@heroui/button'
 
 // ─────────────────────────────────────────────────────────────────────────────
 // QR Mockup — purely decorative, simulates a QR code with CSS
@@ -101,27 +100,13 @@ const HeroSection = () => (
 
 				{/* CTA buttons */}
 				<div className="flex flex-wrap gap-3">
-					<Button
-						as={Link}
-						href="/register"
-						color="primary"
-						size="lg"
-						radius="full"
-						className="font-semibold px-7"
-						endContent={<HugeiconsIcon icon={ArrowRight02Icon} size={16} />}
-					>
+					<Link href="/register" className="inline-flex items-center gap-2 bg-primary text-white font-semibold px-7 py-3 rounded-full text-base hover:bg-primary/90 transition-colors">
 						Crear QR gratis
-					</Button>
-					<Button
-						as={Link}
-						href="/pricing"
-						variant="bordered"
-						size="lg"
-						radius="full"
-						className="font-semibold px-7 border-divider"
-					>
+						<HugeiconsIcon icon={ArrowRight02Icon} size={16} />
+					</Link>
+					<Link href="/pricing" className="inline-flex items-center gap-2 border border-divider font-semibold px-7 py-3 rounded-full text-base hover:bg-content2 transition-colors">
 						Ver precios
-					</Button>
+					</Link>
 				</div>
 
 				{/* Social proof */}
@@ -471,16 +456,12 @@ const PricingTeaserSection = () => (
 							))}
 						</ul>
 
-						<Button
-							as={Link}
+						<Link
 							href={plan.href}
-							color={plan.highlighted ? 'primary' : 'default'}
-							variant={plan.highlighted ? 'solid' : 'bordered'}
-							radius="full"
-							className={`w-full font-semibold ${!plan.highlighted ? 'border-divider' : ''}`}
+							className={`w-full inline-flex justify-center items-center font-semibold py-2.5 rounded-full transition-colors ${plan.highlighted ? 'bg-primary text-white hover:bg-primary/90' : 'border border-divider hover:bg-content2'}`}
 						>
 							{plan.cta}
-						</Button>
+						</Link>
 					</div>
 				))}
 			</div>
@@ -528,17 +509,10 @@ const FinalCtaSection = () => (
 					campañas, negocios y proyectos personales.
 				</p>
 
-				<Button
-					as={Link}
-					href="/register"
-					color="primary"
-					size="lg"
-					radius="full"
-					className="font-bold px-10 text-base shadow-lg shadow-primary/20"
-					endContent={<HugeiconsIcon icon={ArrowRight02Icon} size={17} />}
-				>
+				<Link href="/register" className="inline-flex items-center gap-2 bg-primary text-white font-bold px-10 py-3.5 rounded-full text-base shadow-lg shadow-primary/20 hover:bg-primary/90 transition-colors">
 					Crear cuenta gratis
-				</Button>
+					<HugeiconsIcon icon={ArrowRight02Icon} size={17} />
+				</Link>
 
 				<p className="text-sm text-default-400">
 					Sin tarjeta de crédito · Cancela cuando quieras
