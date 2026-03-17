@@ -161,7 +161,9 @@
 			"addFavorite": "Agregar a favoritos",
 			"removeFavorite": "Quitar de favoritos",
 			"favoriteAdded": "Agregado a favoritos",
-			"favoriteRemoved": "Quitado de favoritos"
+			"favoriteRemoved": "Quitado de favoritos",
+			"share": "Compartir QR",
+			"shareCopied": "¡Enlace copiado al portapapeles!"
 		},
 		"nav": {
 			"viewAnalytics": "Ver analíticas",

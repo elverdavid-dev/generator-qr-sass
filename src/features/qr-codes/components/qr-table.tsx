@@ -48,6 +48,8 @@ interface ActionsTranslations {
 	removeFavorite: string
 	favoriteAdded: string
 	favoriteRemoved: string
+	share: string
+	shareCopied: string
 }
 
 interface FolderTranslations {

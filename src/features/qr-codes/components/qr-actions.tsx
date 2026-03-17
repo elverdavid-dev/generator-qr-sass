@@ -14,6 +14,7 @@ import {
 	Edit02Icon,
 	Folder01Icon,
 	MoreHorizontalIcon,
+	Share01Icon,
 	StarIcon,
 	ToggleOnIcon,
 	ViewIcon,
@@ -26,6 +27,7 @@ import { deleteQr } from '@/features/qr-codes/services/mutations/delete-qr'
 import { toggleQrFavorite } from '@/features/qr-codes/services/mutations/toggle-qr-favorite'
 import { toggleQrStatus } from '@/features/qr-codes/services/mutations/toggle-qr-status'
 import type { Folder, QrCode } from '@/shared/types/database.types'
+import { usePlan } from '@/shared/context/plan-context'
 
 const DownloadQrModal = dynamic(() => import('./download-qr-modal'))
 const ConfirmDeleteModal = dynamic(
@@ -51,6 +53,8 @@ interface ActionsTranslations {
 	removeFavorite: string
 	favoriteAdded: string
 	favoriteRemoved: string
+	share: string
+	shareCopied: string
 }
 
 interface FolderTranslations {
@@ -80,6 +84,8 @@ interface Props {
 
 const QrActions = ({ qr, folders, translations }: Props) => {
 	const [isPending, startTransition] = useTransition()
+	const { hasFeature } = usePlan()
+	const canShare = hasFeature('shareQr')
 	const downloadDisc = useDisclosure()
 	const deleteDisc = useDisclosure()
 	const folderDisc = useDisclosure()
@@ -104,6 +110,13 @@ const QrActions = ({ qr, folders, translations }: Props) => {
 				toast.success(qr.is_favorite ? translations.actions.favoriteRemoved : translations.actions.favoriteAdded)
 			}
 		})
+	}
+
+	const handleShare = async () => {
+		const slug = qr.custom_slug ?? qr.slug
+		const shareUrl = `${window.location.origin}/share/${slug}`
+		await navigator.clipboard.writeText(shareUrl)
+		toast.success(translations.actions.shareCopied)
 	}
 
 	return (
@@ -157,6 +170,15 @@ const QrActions = ({ qr, folders, translations }: Props) => {
 						isDisabled={isPending}
 					>
 						{qr.is_favorite ? translations.actions.removeFavorite : translations.actions.addFavorite}
+					</DropdownItem>
+					<DropdownItem
+						key="share"
+						startContent={<HugeiconsIcon icon={Share01Icon} size={16} />}
+						onPress={canShare ? handleShare : undefined}
+						isDisabled={!canShare}
+						description={!canShare ? 'Pro' : undefined}
+					>
+						{translations.actions.share}
 					</DropdownItem>
 					<DropdownItem
 						key="edit"
