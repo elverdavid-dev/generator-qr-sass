@@ -5,47 +5,32 @@ import { createProfile } from '@/features/auth/services/create-profile'
 import { createClient } from '@/shared/lib/supabase/server'
 
 export async function GET(request: NextRequest) {
-	// obtener los params de la url
 	const { searchParams } = new URL(request.url)
-	// obtener el token_hash
 	const token_hash = searchParams.get('token_hash')
-	// obtener el type
 	const type = searchParams.get('type') as EmailOtpType | null
-	// obtener el next
 	const next = searchParams.get('next') ?? '/'
 
-	try {
-		// verificar si el token_hash y el type existen
-		if (token_hash && type) {
-			const supabase = await createClient()
-			// verificar el token_hash y el type
-			const { error, data } = await supabase.auth.verifyOtp({
-				type,
-				token_hash,
-			})
-
-			// verificar si el usuario existe
-			if (data.user) {
-				// crear el perfil del usuario
-				const { error: errorCreateUserProfile } = await createProfile({
-					id: data.user.id,
-					email: data.user.user_metadata.email,
-				})
-				// verificar si hay un error al crear el perfil
-				if (errorCreateUserProfile) {
-					console.error('errorCreateUserProfile', errorCreateUserProfile)
-				}
-			}
-
-			// verificar si hay un error
-			if (!error) {
-				// redirigir al usuario a la url de redireccionamiento
-				redirect(next)
-			}
-		}
-	} catch (error) {
-		// verificar si hay un error
-		console.error('error', error)
+	if (!token_hash || !type) {
 		redirect('/error')
 	}
+
+	const supabase = await createClient()
+	const { error, data } = await supabase.auth.verifyOtp({ type, token_hash })
+
+	if (error) {
+		console.error('verifyOtp error', error)
+		redirect('/error')
+	}
+
+	if (data.user) {
+		const { error: errorCreateUserProfile } = await createProfile({
+			id: data.user.id,
+			email: data.user.user_metadata.email,
+		})
+		if (errorCreateUserProfile) {
+			console.error('errorCreateUserProfile', errorCreateUserProfile)
+		}
+	}
+
+	redirect(next)
 }

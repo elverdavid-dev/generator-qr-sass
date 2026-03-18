@@ -1,18 +1,18 @@
 'use client'
 
-import { useState, useTransition } from 'react'
-import { Modal, ModalContent, ModalBody } from '@heroui/modal'
 import { Button } from '@heroui/button'
-import { useRouter } from 'next/navigation'
+import { Modal, ModalBody, ModalContent } from '@heroui/modal'
 import {
-	QrCodeIcon,
-	FingerPrintScanIcon,
-	CheckmarkCircle02Icon,
-	SparklesIcon,
-	ArrowRight02Icon,
 	ArrowLeft02Icon,
+	ArrowRight02Icon,
+	CheckmarkCircle02Icon,
+	FingerPrintScanIcon,
+	QrCodeIcon,
+	SparklesIcon,
 } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
+import { useRouter } from 'next/navigation'
+import { useState } from 'react'
 import { completeOnboarding } from '@/features/onboarding/actions/complete-onboarding'
 
 interface Translations {
@@ -60,7 +60,7 @@ const STEPS = [
 
 export default function OnboardingModal({ translations: t }: Props) {
 	const [step, setStep] = useState(0)
-	const [isPending, startTransition] = useTransition()
+	const [done, setDone] = useState(false)
 	const router = useRouter()
 
 	const steps = [
@@ -75,11 +75,14 @@ export default function OnboardingModal({ translations: t }: Props) {
 	const isLast = step === steps.length - 1
 
 	const finish = (goToNew = false) => {
-		startTransition(async () => {
-			await completeOnboarding()
-			if (goToNew) router.push('/dashboard/qrs/new')
-		})
+		setDone(true)
+		completeOnboarding()
+		if (goToNew) {
+			router.push('/dashboard/qrs/new')
+		}
 	}
+
+	if (done) return null
 
 	return (
 		<Modal
@@ -92,8 +95,12 @@ export default function OnboardingModal({ translations: t }: Props) {
 			<ModalContent>
 				<ModalBody className="p-0 overflow-hidden">
 					{/* Illustration area */}
-					<div className={`bg-gradient-to-br ${config.illustrationBg} flex items-center justify-center py-12`}>
-						<div className={`w-24 h-24 rounded-3xl flex items-center justify-center ${config.color} shadow-lg`}>
+					<div
+						className={`bg-gradient-to-br ${config.illustrationBg} flex items-center justify-center py-12`}
+					>
+						<div
+							className={`w-24 h-24 rounded-3xl flex items-center justify-center ${config.color} shadow-lg`}
+						>
 							<HugeiconsIcon icon={config.icon} size={44} />
 						</div>
 					</div>
@@ -107,7 +114,11 @@ export default function OnboardingModal({ translations: t }: Props) {
 									<div
 										key={i}
 										className={`h-1.5 rounded-full transition-all duration-300 ${
-											i === step ? 'w-6 bg-primary' : i < step ? 'w-3 bg-primary/40' : 'w-3 bg-default-200'
+											i === step
+												? 'w-6 bg-primary'
+												: i < step
+													? 'w-3 bg-primary/40'
+													: 'w-3 bg-default-200'
 										}`}
 									/>
 								))}
@@ -119,7 +130,9 @@ export default function OnboardingModal({ translations: t }: Props) {
 
 						{/* Text */}
 						<div>
-							<h2 className="text-2xl font-bold text-foreground mb-2">{current.title}</h2>
+							<h2 className="text-2xl font-bold text-foreground mb-2">
+								{current.title}
+							</h2>
 							<p className="text-default-500 leading-relaxed">{current.desc}</p>
 						</div>
 
@@ -129,8 +142,8 @@ export default function OnboardingModal({ translations: t }: Props) {
 								<Button
 									variant="flat"
 									isIconOnly
-									onPress={() => setStep(s => s - 1)}
-									isDisabled={isPending}
+									onPress={() => setStep((s) => s - 1)}
+									isDisabled={done}
 								>
 									<HugeiconsIcon icon={ArrowLeft02Icon} size={18} />
 								</Button>
@@ -142,7 +155,7 @@ export default function OnboardingModal({ translations: t }: Props) {
 									size="sm"
 									className="text-default-400"
 									onPress={() => finish(false)}
-									isDisabled={isPending}
+									isDisabled={done}
 								>
 									{t.skip}
 								</Button>
@@ -155,8 +168,10 @@ export default function OnboardingModal({ translations: t }: Props) {
 									color="primary"
 									radius="full"
 									className="px-6 font-semibold"
-									endContent={<HugeiconsIcon icon={ArrowRight02Icon} size={16} />}
-									isLoading={isPending}
+									endContent={
+										<HugeiconsIcon icon={ArrowRight02Icon} size={16} />
+									}
+									isLoading={done}
 									onPress={() => finish(true)}
 								>
 									{t.getStarted}
@@ -166,9 +181,11 @@ export default function OnboardingModal({ translations: t }: Props) {
 									color="primary"
 									radius="full"
 									className="px-6 font-semibold"
-									endContent={<HugeiconsIcon icon={ArrowRight02Icon} size={16} />}
-									onPress={() => setStep(s => s + 1)}
-									isDisabled={isPending}
+									endContent={
+										<HugeiconsIcon icon={ArrowRight02Icon} size={16} />
+									}
+									onPress={() => setStep((s) => s + 1)}
+									isDisabled={done}
 								>
 									{t.next}
 								</Button>

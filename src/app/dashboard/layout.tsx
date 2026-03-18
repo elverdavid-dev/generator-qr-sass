@@ -1,14 +1,17 @@
-import NavbarDashboard from '@/shared/components/layout/dashboard/navbar-dashboard'
-import Sidebar from '@/shared/components/layout/dashboard/sidebar'
-import { getSession } from '@/shared/lib/supabase/get-session'
-import { getProfile } from '@/features/auth/services/queries/get-profile'
+import dynamic from 'next/dynamic'
 import { getTranslations } from 'next-intl/server'
 import type { PropsWithChildren } from 'react'
+import { getProfile } from '@/features/auth/services/queries/get-profile'
 import type { PlanId } from '@/features/billing/config/plans'
+import NavbarDashboard from '@/shared/components/layout/dashboard/navbar-dashboard'
+import Sidebar from '@/shared/components/layout/dashboard/sidebar'
 import { PlanProvider } from '@/shared/context/plan-context'
-import dynamic from 'next/dynamic'
+import { getSession } from '@/shared/lib/supabase/get-session'
+import { createClient } from '@/shared/lib/supabase/server'
 
-const OnboardingModal = dynamic(() => import('@/features/onboarding/components/onboarding-modal'))
+const OnboardingModal = dynamic(
+	() => import('@/features/onboarding/components/onboarding-modal'),
+)
 
 const DashboardLayout = async ({ children }: PropsWithChildren) => {
 	const { data: session } = await getSession()
@@ -16,7 +19,16 @@ const DashboardLayout = async ({ children }: PropsWithChildren) => {
 		? (await getProfile({ user_id: session.user.id })).data
 		: null
 	const plan: PlanId = profile?.plan ?? 'free'
-	const needsOnboarding = profile?.onboarding_completed === false
+
+	let needsOnboarding = false
+	if (profile?.onboarding_completed === false) {
+		const supabase = await createClient()
+		const { count } = await supabase
+			.from('qrs')
+			.select('id', { count: 'exact', head: true })
+			.eq('user_id', profile.id)
+		needsOnboarding = (count ?? 0) === 0
+	}
 	const [t, tOnboarding] = await Promise.all([
 		getTranslations('sidebar'),
 		getTranslations('onboarding'),
@@ -61,7 +73,9 @@ const DashboardLayout = async ({ children }: PropsWithChildren) => {
 
 	return (
 		<PlanProvider plan={plan}>
-			{needsOnboarding && <OnboardingModal translations={onboardingTranslations} />}
+			{needsOnboarding && (
+				<OnboardingModal translations={onboardingTranslations} />
+			)}
 			<div className="flex h-screen w-screen overflow-hidden">
 				<Sidebar plan={plan} translations={sidebarTranslations} />
 				<div className="flex flex-col flex-1 min-w-0">
