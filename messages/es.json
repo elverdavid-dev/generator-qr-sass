@@ -77,7 +77,8 @@
 		"freePlan": "Plan Free",
 		"freePlanDesc": "Tienes 3 QRs máximo. Actualiza para crear ilimitados.",
 		"manageSub": "Gestionar suscripción →",
-		"planActive": "Activo"
+		"planActive": "Activo",
+		"api": "API"
 	},
 	"dashboard": {
 		"user": "Usuario",
@@ -625,5 +626,31 @@
 		"upgradeCta": "Actualizar a Business",
 		"howItWorksTitle": "¿Cómo funciona?",
 		"howItWorksDesc": "Cada vez que se escaníe uno de tus QRs, enviaremos una petición POST a tus endpoints con los datos del escaneo (IP, país, dispositivo, etc.). Puedes usar un secreto para verificar la autenticidad de los eventos."
+	},
+	"api": {
+		"title": "API Pública",
+		"subtitle": "Genera claves para integrar tu app con nuestra API REST.",
+		"newKey": "Nueva clave",
+		"noKeys": "Sin claves API",
+		"noKeysDesc": "Genera tu primera clave para empezar a usar la API.",
+		"created": "Creada",
+		"lastUsed": "Último uso",
+		"never": "Nunca",
+		"revoke": "Revocar",
+		"revokeConfirm": "¿Revocar esta clave?",
+		"revokeDesc": "Esta acción es irreversible. Cualquier integración que use esta clave dejará de funcionar.",
+		"cancel": "Cancelar",
+		"generating": "Generando...",
+		"keyReady": "Clave generada",
+		"keyReadyDesc": "Copia tu clave ahora. No podrás verla de nuevo una vez que cierres este modal.",
+		"copyKey": "Copiar clave",
+		"copied": "Copiada al portapapeles",
+		"close": "Entendido, ya la copié",
+		"nameLabel": "Nombre de la clave",
+		"namePlaceholder": "Ej. Mi app, Producción...",
+		"generate": "Generar",
+		"docsTitle": "Endpoints disponibles",
+		"docsAuth": "Autentícate enviando tu clave en el header Authorization de cada request.",
+		"active": "Activa"
 	}
 }
