@@ -48,6 +48,7 @@ const DashboardLayout = async ({ children }: PropsWithChildren) => {
 			{ name: t('billing'), path: '/dashboard/billing' },
 			{ name: t('webhooks'), path: '/dashboard/webhooks' },
 			{ name: t('api'), path: '/dashboard/api' },
+			{ name: t('team'), path: '/dashboard/team' },
 		],
 		freePlan: t('freePlan'),
 		freePlanDesc: t('freePlanDesc'),

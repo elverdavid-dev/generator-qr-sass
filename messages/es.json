@@ -78,7 +78,8 @@
 		"freePlanDesc": "Tienes 3 QRs máximo. Actualiza para crear ilimitados.",
 		"manageSub": "Gestionar suscripción →",
 		"planActive": "Activo",
-		"api": "API"
+		"api": "API",
+		"team": "Equipo"
 	},
 	"dashboard": {
 		"user": "Usuario",
@@ -652,5 +653,34 @@
 		"docsTitle": "Endpoints disponibles",
 		"docsAuth": "Autentícate enviando tu clave en el header Authorization de cada request.",
 		"active": "Activa"
+	},
+	"team": {
+		"title": "Gestión de equipo",
+		"subtitle": "Invita hasta 10 personas a colaborar en tu workspace.",
+		"invite": "Invitar miembro",
+		"noMembers": "Sin miembros",
+		"noMembersDesc": "Invita a tu equipo para colaborar juntos.",
+		"emailLabel": "Correo electrónico",
+		"roleLabel": "Rol",
+		"roleMember": "Miembro",
+		"roleAdmin": "Admin",
+		"sendInvite": "Enviar invitación",
+		"sending": "Enviando...",
+		"cancel": "Cancelar",
+		"remove": "Eliminar",
+		"removeConfirm": "¿Eliminar miembro?",
+		"removeDesc": "Este miembro perderá acceso al workspace inmediatamente.",
+		"pending": "Pendiente",
+		"active": "Activo",
+		"admin": "Admin",
+		"member": "Miembro",
+		"joined": "Se unió",
+		"invited": "Invitado",
+		"never": "Nunca",
+		"inviteSent": "Invitación enviada. Comparte el link si el email no llega.",
+		"inviteLink": "Link de invitación",
+		"copyLink": "Copiar link",
+		"copied": "Copiado al portapapeles",
+		"slotsUsed": "miembros activos"
 	}
 }

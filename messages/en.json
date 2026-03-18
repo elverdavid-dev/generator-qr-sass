@@ -78,7 +78,8 @@
 		"freePlanDesc": "You have a max of 3 QRs. Upgrade to create unlimited.",
 		"manageSub": "Manage subscription →",
 		"planActive": "Active",
-		"api": "API"
+		"api": "API",
+		"team": "Team"
 	},
 	"dashboard": {
 		"user": "User",
@@ -652,5 +653,34 @@
 		"docsTitle": "Available endpoints",
 		"docsAuth": "Authenticate by sending your key in the Authorization header of each request.",
 		"active": "Active"
+	},
+	"team": {
+		"title": "Team management",
+		"subtitle": "Invite up to 10 people to collaborate in your workspace.",
+		"invite": "Invite member",
+		"noMembers": "No members",
+		"noMembersDesc": "Invite your team to collaborate together.",
+		"emailLabel": "Email address",
+		"roleLabel": "Role",
+		"roleMember": "Member",
+		"roleAdmin": "Admin",
+		"sendInvite": "Send invite",
+		"sending": "Sending...",
+		"cancel": "Cancel",
+		"remove": "Remove",
+		"removeConfirm": "Remove member?",
+		"removeDesc": "This member will immediately lose access to the workspace.",
+		"pending": "Pending",
+		"active": "Active",
+		"admin": "Admin",
+		"member": "Member",
+		"joined": "Joined",
+		"invited": "Invited",
+		"never": "Never",
+		"inviteSent": "Invitation sent. Share the link if the email does not arrive.",
+		"inviteLink": "Invite link",
+		"copyLink": "Copy link",
+		"copied": "Copied to clipboard",
+		"slotsUsed": "active members"
 	}
 }
