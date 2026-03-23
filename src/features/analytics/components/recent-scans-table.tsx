@@ -1,5 +1,5 @@
-import type { FC } from 'react'
 import Image from 'next/image'
+import type { FC } from 'react'
 
 interface Scan {
 	qrName?: string
@@ -43,8 +43,13 @@ const RecentScansTable: FC<Props> = ({ scans, translations }) => {
 			{/* Header */}
 			<div className="flex items-center justify-between mb-4">
 				<div>
-					<h3 className="font-semibold text-base">{translations.recentScans}</h3>
-					<p className="text-xs text-default-400 mt-0.5">{translations.lastActivities} {scans.length} {translations.activities}</p>
+					<h3 className="font-semibold text-base">
+						{translations.recentScans}
+					</h3>
+					<p className="text-xs text-default-400 mt-0.5">
+						{translations.lastActivities} {scans.length}{' '}
+						{translations.activities}
+					</p>
 				</div>
 			</div>
 
@@ -63,13 +68,20 @@ const RecentScansTable: FC<Props> = ({ scans, translations }) => {
 					</div>
 
 					{scans.map((scan, i) => (
-						<div key={i} className="grid grid-cols-[1fr_auto_auto_auto] gap-3 py-3 items-center">
+						<div
+							key={i}
+							className="grid grid-cols-[1fr_auto_auto_auto] gap-3 py-3 items-center"
+						>
 							{/* QR name / date */}
 							<div className="min-w-0">
 								{scan.qrName ? (
-									<p className="text-sm font-semibold text-default-700 truncate">{scan.qrName}</p>
+									<p className="text-sm font-semibold text-default-700 truncate">
+										{scan.qrName}
+									</p>
 								) : null}
-								<p className={`text-xs text-default-400 ${scan.qrName ? 'mt-0.5' : 'text-sm font-medium text-default-700'}`}>
+								<p
+									className={`text-xs text-default-400 ${scan.qrName ? 'mt-0.5' : 'text-sm font-medium text-default-700'}`}
+								>
 									{new Date(scan.createdAt).toLocaleString('es', {
 										day: '2-digit',
 										month: 'short',
@@ -104,7 +116,9 @@ const RecentScansTable: FC<Props> = ({ scans, translations }) => {
 
 							{/* OS + Browser */}
 							<div className="text-right shrink-0">
-								<p className="text-xs font-medium text-default-600">{scan.os}</p>
+								<p className="text-xs font-medium text-default-600">
+									{scan.os}
+								</p>
 								<p className="text-xs text-default-400">{scan.browser}</p>
 							</div>
 
@@ -117,7 +131,9 @@ const RecentScansTable: FC<Props> = ({ scans, translations }) => {
 											: 'bg-default-100 text-default-500'
 									}`}
 								>
-									{scan.isUnique ? translations.uniqueScan : translations.repeatScan}
+									{scan.isUnique
+										? translations.uniqueScan
+										: translations.repeatScan}
 								</span>
 							</div>
 						</div>

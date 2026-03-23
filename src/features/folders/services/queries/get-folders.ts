@@ -1,6 +1,6 @@
 'use server'
-import { createClient } from '@/shared/lib/supabase/server'
 import { getSession } from '@/shared/lib/supabase/get-session'
+import { createClient } from '@/shared/lib/supabase/server'
 
 export const getFolders = async () => {
 	const { data: session } = await getSession()

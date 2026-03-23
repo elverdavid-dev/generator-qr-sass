@@ -27,18 +27,22 @@ export const createApiKey = async (name: string) => {
 	const keyHash = hashApiKey(rawKey)
 	const keyPrefix = rawKey.slice(0, 12)
 
-	const { error } = await supabase.from('api_keys').insert({
-		user_id: session.user.id,
-		name,
-		key_hash: keyHash,
-		key_prefix: keyPrefix,
-	})
+	const { data: inserted, error } = await supabase
+		.from('api_keys')
+		.insert({
+			user_id: session.user.id,
+			name,
+			key_hash: keyHash,
+			key_prefix: keyPrefix,
+		})
+		.select('id')
+		.single()
 
-	if (error) return { error: error.message }
+	if (error || !inserted) return { error: error?.message ?? 'Error al crear la clave' }
 
 	revalidatePath('/dashboard/api')
 	// Devolvemos la key en texto plano UNA SOLA VEZ
-	return { key: rawKey }
+	return { key: rawKey, id: inserted.id }
 }
 
 export const revokeApiKey = async (id: string) => {

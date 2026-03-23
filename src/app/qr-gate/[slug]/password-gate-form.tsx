@@ -48,9 +48,7 @@ const PasswordGateForm = ({ slug }: Props) => {
 				className="w-full p-3 border border-divider rounded-xl bg-content2 text-sm focus:outline-none focus:border-primary"
 				autoFocus
 			/>
-			{error && (
-				<p className="text-danger text-xs text-center">{error}</p>
-			)}
+			{error && <p className="text-danger text-xs text-center">{error}</p>}
 			<button
 				type="submit"
 				disabled={loading || !password}

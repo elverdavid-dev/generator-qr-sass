@@ -2,11 +2,11 @@
 import { Button } from '@heroui/react'
 import Link from 'next/link'
 import { Suspense } from 'react'
-import InputEmail from '@/shared/components/input-email'
-import InputPassword from '@/shared/components/input-password'
 import GoogleLoginButton from '@/features/auth/components/google-login-button'
 import GooglePlaceholderButton from '@/features/auth/components/google-placeholder-button'
 import { useLogin } from '@/features/auth/hooks/use-login'
+import InputEmail from '@/shared/components/input-email'
+import InputPassword from '@/shared/components/input-password'
 
 interface LoginTranslations {
 	title: string
@@ -43,7 +43,10 @@ const LoginForm = ({ translations: t }: Props) => {
 				<div className="h-[1px] flex-1 bg-gray-300 dark:bg-gray-700" />
 			</div>
 
-			<form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-y-5">
+			<form
+				onSubmit={form.handleSubmit(onSubmit)}
+				className="flex flex-col gap-y-5"
+			>
 				<InputEmail
 					{...form.register('email')}
 					label={t.email}
@@ -55,10 +58,19 @@ const LoginForm = ({ translations: t }: Props) => {
 					isInvalid={!!form.formState.errors.password}
 					errorMessage={form.formState.errors.password?.message}
 				/>
-				<Link href="/reset-password" className="w-full text-end underline text-sm">
+				<Link
+					href="/reset-password"
+					className="w-full text-end underline text-sm"
+				>
 					{t.forgotPassword}
 				</Link>
-				<Button size="lg" fullWidth type="submit" color="primary" isLoading={isLoading}>
+				<Button
+					size="lg"
+					fullWidth
+					type="submit"
+					color="primary"
+					isLoading={isLoading}
+				>
 					{isLoading ? t.loading : t.submit}
 				</Button>
 			</form>

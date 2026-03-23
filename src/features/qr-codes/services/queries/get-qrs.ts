@@ -1,7 +1,7 @@
 'use server'
-import { createClient } from '@/shared/lib/supabase/server'
-import { getSession } from '@/shared/lib/supabase/get-session'
 import { QRS_PAGE_SIZE } from '@/features/qr-codes/constants'
+import { getSession } from '@/shared/lib/supabase/get-session'
+import { createClient } from '@/shared/lib/supabase/server'
 
 export const getQrs = async (page = 1) => {
 	const { data: session } = await getSession()

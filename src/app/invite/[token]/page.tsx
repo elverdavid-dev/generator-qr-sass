@@ -37,7 +37,10 @@ export default async function InvitePage({ params }: Props) {
 		redirect('/dashboard')
 	}
 
-	const ownerProfile = invite.profiles as { name: string | null; email: string } | null
+	const rawProfile = invite.profiles as unknown
+	const ownerProfile = Array.isArray(rawProfile)
+		? (rawProfile[0] as { name: string | null; email: string } | undefined) ?? null
+		: (rawProfile as { name: string | null; email: string } | null)
 
 	return (
 		<AcceptInviteClient

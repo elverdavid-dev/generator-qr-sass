@@ -1,6 +1,6 @@
 'use server'
-import { createClient } from '@/shared/lib/supabase/server'
 import { getSession } from '@/shared/lib/supabase/get-session'
+import { createClient } from '@/shared/lib/supabase/server'
 
 export const getQrAnalytics = async (qrId: string) => {
 	const { data: session } = await getSession()
@@ -18,7 +18,11 @@ export const getQrAnalytics = async (qrId: string) => {
 	if (error) return { error: error.message }
 
 	const now = new Date()
-	const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+	const startOfToday = new Date(
+		now.getFullYear(),
+		now.getMonth(),
+		now.getDate(),
+	)
 	const startOfWeek = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000)
 	const startOfMonth = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000)
 	const startOfPrevWeek = new Date(now.getTime() - 14 * 24 * 60 * 60 * 1000)
@@ -26,11 +30,18 @@ export const getQrAnalytics = async (qrId: string) => {
 
 	const totalScans = scans.length
 	const uniqueScans = scans.filter((s) => s.is_unique_scan).length
-	const uniqueRate = totalScans > 0 ? Math.round((uniqueScans / totalScans) * 100) : 0
+	const uniqueRate =
+		totalScans > 0 ? Math.round((uniqueScans / totalScans) * 100) : 0
 
-	const todayScans = scans.filter((s) => new Date(s.created_at) >= startOfToday).length
-	const weekScans = scans.filter((s) => new Date(s.created_at) >= startOfWeek).length
-	const monthScans = scans.filter((s) => new Date(s.created_at) >= startOfMonth).length
+	const todayScans = scans.filter(
+		(s) => new Date(s.created_at) >= startOfToday,
+	).length
+	const weekScans = scans.filter(
+		(s) => new Date(s.created_at) >= startOfWeek,
+	).length
+	const monthScans = scans.filter(
+		(s) => new Date(s.created_at) >= startOfMonth,
+	).length
 
 	const prevWeekScans = scans.filter((s) => {
 		const d = new Date(s.created_at)
@@ -42,9 +53,13 @@ export const getQrAnalytics = async (qrId: string) => {
 	}).length
 
 	const weekChange =
-		prevWeekScans > 0 ? Math.round(((weekScans - prevWeekScans) / prevWeekScans) * 100) : null
+		prevWeekScans > 0
+			? Math.round(((weekScans - prevWeekScans) / prevWeekScans) * 100)
+			: null
 	const monthChange =
-		prevMonthScans > 0 ? Math.round(((monthScans - prevMonthScans) / prevMonthScans) * 100) : null
+		prevMonthScans > 0
+			? Math.round(((monthScans - prevMonthScans) / prevMonthScans) * 100)
+			: null
 
 	// Scans per day (last 30 days)
 	const scansPerDayMap: Record<string, number> = {}
@@ -56,7 +71,10 @@ export const getQrAnalytics = async (qrId: string) => {
 		const key = scan.created_at.slice(0, 10)
 		if (key in scansPerDayMap) scansPerDayMap[key]++
 	}
-	const scansPerDay = Object.entries(scansPerDayMap).map(([date, count]) => ({ date, count }))
+	const scansPerDay = Object.entries(scansPerDayMap).map(([date, count]) => ({
+		date,
+		count,
+	}))
 
 	// Scans per week (last 12 weeks)
 	const scansPerWeekMap: Record<string, number> = {}
@@ -71,7 +89,10 @@ export const getQrAnalytics = async (qrId: string) => {
 		const key = d.toISOString().slice(0, 10)
 		if (key in scansPerWeekMap) scansPerWeekMap[key]++
 	}
-	const scansPerWeek = Object.entries(scansPerWeekMap).map(([date, count]) => ({ date, count }))
+	const scansPerWeek = Object.entries(scansPerWeekMap).map(([date, count]) => ({
+		date,
+		count,
+	}))
 
 	// Scans per month (last 12 months)
 	const scansPerMonthMap: Record<string, number> = {}
@@ -83,7 +104,9 @@ export const getQrAnalytics = async (qrId: string) => {
 		const key = scan.created_at.slice(0, 7)
 		if (key in scansPerMonthMap) scansPerMonthMap[key]++
 	}
-	const scansPerMonth = Object.entries(scansPerMonthMap).map(([date, count]) => ({ date, count }))
+	const scansPerMonth = Object.entries(scansPerMonthMap).map(
+		([date, count]) => ({ date, count }),
+	)
 
 	// By hour
 	const byHour = Array<number>(24).fill(0)

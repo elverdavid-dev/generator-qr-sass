@@ -1,14 +1,14 @@
 'use server'
 
-import { createClient } from '@/shared/lib/supabase/server'
-import { getSession } from '@/shared/lib/supabase/get-session'
 import { revalidatePath } from 'next/cache'
+import { createAdminClient } from '@/shared/lib/supabase/admin'
+import { getSession } from '@/shared/lib/supabase/get-session'
 
 export const completeOnboarding = async () => {
 	const { data: session } = await getSession()
 	if (!session?.user) return { error: 'No autenticado' }
 
-	const supabase = await createClient()
+	const supabase = createAdminClient()
 	const { error } = await supabase
 		.from('profiles')
 		.update({ onboarding_completed: true })

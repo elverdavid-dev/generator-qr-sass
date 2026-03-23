@@ -1,8 +1,8 @@
 'use client'
 
+import type { ApexOptions } from 'apexcharts'
 import dynamic from 'next/dynamic'
 import { useTheme } from 'next-themes'
-import type { ApexOptions } from 'apexcharts'
 
 const ReactApexChart = dynamic(() => import('react-apexcharts'), { ssr: false })
 
@@ -41,7 +41,11 @@ export default function RadialGauge({
 				startAngle: -135,
 				endAngle: 135,
 				hollow: { size: '65%' },
-				track: { background: isDark ? '#334155' : '#e2e8f0', strokeWidth: '100%', margin: 0 },
+				track: {
+					background: isDark ? '#334155' : '#e2e8f0',
+					strokeWidth: '100%',
+					margin: 0,
+				},
 				dataLabels: {
 					name: { show: false },
 					value: {
@@ -90,7 +94,9 @@ export default function RadialGauge({
 					>
 						<span className="text-xs text-default-400">{stat.label}</span>
 						<div className="flex items-center gap-1">
-							<span className="font-bold tabular-nums text-foreground">{stat.value.toLocaleString()}</span>
+							<span className="font-bold tabular-nums text-foreground">
+								{stat.value.toLocaleString()}
+							</span>
 							{stat.change !== null && stat.change !== undefined && (
 								<span
 									className={`text-xs font-semibold ${

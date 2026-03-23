@@ -1,12 +1,23 @@
 'use client'
 
-import { useState, type ReactNode } from 'react'
-import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from '@heroui/react'
-import { LockIcon, Crown02Icon } from '@hugeicons/core-free-icons'
+import {
+	Button,
+	Modal,
+	ModalBody,
+	ModalContent,
+	ModalFooter,
+	ModalHeader,
+} from '@heroui/react'
+import { Crown02Icon, LockIcon } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 import Link from 'next/link'
+import { type ReactNode, useState } from 'react'
+import {
+	getRequiredPlanForFeature,
+	PLANS,
+	type PlanFeatures,
+} from '@/features/billing/config/plans'
 import { usePlan } from '@/shared/context/plan-context'
-import { getRequiredPlanForFeature, PLANS, type PlanFeatures } from '@/features/billing/config/plans'
 
 interface Props {
 	feature: keyof PlanFeatures
@@ -15,9 +26,13 @@ interface Props {
 	showLocked?: boolean
 }
 
-const PLAN_LABELS = { pro: 'Pro', business: 'Business' }
+const PLAN_LABELS: Record<string, string> = { pro: 'Pro', business: 'Business' }
 
-export default function PlanGuard({ feature, children, showLocked = false }: Props) {
+export default function PlanGuard({
+	feature,
+	children,
+	showLocked = false,
+}: Props) {
 	const { hasFeature } = usePlan()
 	const [open, setOpen] = useState(false)
 
@@ -40,7 +55,9 @@ export default function PlanGuard({ feature, children, showLocked = false }: Pro
 				<div className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-background/60 backdrop-blur-[2px] rounded-2xl">
 					<div className="bg-content2 border border-divider rounded-xl px-4 py-2 flex items-center gap-2 shadow-md">
 						<HugeiconsIcon icon={LockIcon} size={16} className="text-primary" />
-						<span className="text-sm font-semibold">Requiere plan {PLAN_LABELS[requiredPlan]}</span>
+						<span className="text-sm font-semibold">
+							Requiere plan {PLAN_LABELS[requiredPlan]}
+						</span>
 					</div>
 				</div>
 			</div>
@@ -48,7 +65,7 @@ export default function PlanGuard({ feature, children, showLocked = false }: Pro
 			<UpgradeModal
 				open={open}
 				onClose={() => setOpen(false)}
-				requiredPlan={requiredPlan}
+				requiredPlan={requiredPlan as 'pro' | 'business'}
 				planPrice={planConfig.price}
 			/>
 		</>
@@ -87,7 +104,7 @@ export function UpgradeButton({
 			<UpgradeModal
 				open={open}
 				onClose={() => setOpen(false)}
-				requiredPlan={requiredPlan}
+				requiredPlan={requiredPlan as 'pro' | 'business'}
 				planPrice={planConfig.price}
 			/>
 		</>
@@ -111,7 +128,11 @@ function UpgradeModal({
 				<ModalHeader className="flex flex-col gap-1">
 					<div className="flex items-center gap-2">
 						<div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
-							<HugeiconsIcon icon={Crown02Icon} size={18} className="text-primary" />
+							<HugeiconsIcon
+								icon={Crown02Icon}
+								size={18}
+								className="text-primary"
+							/>
 						</div>
 						<span>Función exclusiva</span>
 					</div>
@@ -119,8 +140,10 @@ function UpgradeModal({
 				<ModalBody>
 					<p className="text-default-500 text-sm">
 						Esta función está disponible en el plan{' '}
-						<span className="font-semibold text-foreground">{PLAN_LABELS[requiredPlan]}</span>.
-						Actualiza tu plan para desbloquearla.
+						<span className="font-semibold text-foreground">
+							{PLAN_LABELS[requiredPlan]}
+						</span>
+						. Actualiza tu plan para desbloquearla.
 					</p>
 					<div className="mt-2 bg-primary/5 border border-primary/20 rounded-xl p-4">
 						<p className="text-sm font-semibold text-primary">
@@ -128,7 +151,10 @@ function UpgradeModal({
 						</p>
 						<ul className="mt-2 space-y-1">
 							{PLANS[requiredPlan].features.slice(0, 4).map((f) => (
-								<li key={f} className="text-xs text-default-500 flex items-center gap-1.5">
+								<li
+									key={f}
+									className="text-xs text-default-500 flex items-center gap-1.5"
+								>
 									<span className="text-primary">✓</span> {f}
 								</li>
 							))}
@@ -139,7 +165,13 @@ function UpgradeModal({
 					<Button variant="flat" onPress={onClose} size="sm">
 						Ahora no
 					</Button>
-					<Button as={Link} href="/pricing" color="primary" size="sm" onPress={onClose}>
+					<Button
+						as={Link}
+						href="/pricing"
+						color="primary"
+						size="sm"
+						onPress={onClose}
+					>
 						Ver planes
 					</Button>
 				</ModalFooter>

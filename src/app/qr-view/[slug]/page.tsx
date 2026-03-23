@@ -33,7 +33,9 @@ const QrViewPage = async ({ params }: Props) => {
 		<div className="min-h-screen flex items-center justify-center p-4">
 			<div className="w-full max-w-sm bg-content1 border border-divider rounded-2xl p-8 shadow-md flex flex-col gap-5">
 				<div className="flex flex-col gap-1">
-					<span className="text-xs text-default-400 uppercase tracking-wide">{label}</span>
+					<span className="text-xs text-default-400 uppercase tracking-wide">
+						{label}
+					</span>
 					<h1 className="text-xl font-bold capitalize">{qr.name}</h1>
 				</div>
 

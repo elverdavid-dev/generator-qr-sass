@@ -1,12 +1,12 @@
 import { BreadcrumbItem, Breadcrumbs } from '@heroui/breadcrumbs'
 import { Edit02Icon, Home01Icon } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
-import { redirect, notFound } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 import { getTranslations } from 'next-intl/server'
-import { getSession } from '@/shared/lib/supabase/get-session'
-import { getQrBySlug } from '@/features/qr-codes/services/queries/get-qr-by-slug'
 import { getFolders } from '@/features/folders/services/queries/get-folders'
 import QrEditForm from '@/features/qr-codes/components/qr-edit-form'
+import { getQrBySlug } from '@/features/qr-codes/services/queries/get-qr-by-slug'
+import { getSession } from '@/shared/lib/supabase/get-session'
 import type { Folder, QrCode } from '@/shared/types/database.types'
 
 interface Props {
@@ -33,7 +33,7 @@ const EditQrPage = async ({ params }: Props) => {
 
 	const folders: Folder[] =
 		foldersResult.status === 'fulfilled'
-			? (foldersResult.value.data as Folder[]) ?? []
+			? ((foldersResult.value.data as Folder[]) ?? [])
 			: []
 
 	const formTranslations = {
@@ -130,7 +130,11 @@ const EditQrPage = async ({ params }: Props) => {
 			<div className="py-6">
 				<div className="flex items-center gap-3">
 					<div className="p-2 bg-primary/10 rounded-xl">
-						<HugeiconsIcon icon={Edit02Icon} size={24} className="text-primary" />
+						<HugeiconsIcon
+							icon={Edit02Icon}
+							size={24}
+							className="text-primary"
+						/>
 					</div>
 					<div>
 						<h1 className="text-3xl font-bold">{t('edit.title')}</h1>

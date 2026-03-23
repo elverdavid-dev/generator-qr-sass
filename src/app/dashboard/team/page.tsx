@@ -53,9 +53,14 @@ export default async function TeamPage() {
 		slotsUsed: t('slotsUsed'),
 	}
 
+	const normalizedMembers = (members ?? []).map((m) => ({
+		...m,
+		profiles: Array.isArray(m.profiles) ? (m.profiles[0] ?? null) : m.profiles,
+	})) as Parameters<typeof TeamManager>[0]['initialMembers']
+
 	return (
 		<TeamManager
-			initialMembers={(members ?? []) as Parameters<typeof TeamManager>[0]['initialMembers']}
+			initialMembers={normalizedMembers}
 			maxMembers={10}
 			translations={translations}
 		/>

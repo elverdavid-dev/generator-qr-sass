@@ -1,8 +1,8 @@
+import { type NextRequest, NextResponse } from 'next/server'
 import { UAParser } from 'ua-parser-js'
-import { NextResponse, type NextRequest } from 'next/server'
-import { createAdminClient } from '@/shared/lib/supabase/admin'
 import { getGeoLocation } from '@/features/tracking/services/get-geo-location'
 import { saveScan } from '@/features/tracking/services/save-scan'
+import { createAdminClient } from '@/shared/lib/supabase/admin'
 
 export async function POST(request: NextRequest) {
 	const { slug, password } = await request.json()
@@ -15,7 +15,9 @@ export async function POST(request: NextRequest) {
 
 	const { data: qr } = await supabase
 		.from('qrs')
-		.select('id, user_id, data, qr_type, is_active, scan_count, expires_at, max_scans, password, ios_url, android_url')
+		.select(
+			'id, user_id, data, qr_type, is_active, scan_count, expires_at, max_scans, password, ios_url, android_url',
+		)
 		.eq('slug', slug)
 		.single()
 
@@ -28,11 +30,17 @@ export async function POST(request: NextRequest) {
 	}
 
 	if (qr.max_scans !== null && (qr.scan_count ?? 0) >= qr.max_scans) {
-		return NextResponse.json({ error: 'Este QR ha alcanzado su límite de escaneos' }, { status: 429 })
+		return NextResponse.json(
+			{ error: 'Este QR ha alcanzado su límite de escaneos' },
+			{ status: 429 },
+		)
 	}
 
 	if (qr.password !== password) {
-		return NextResponse.json({ error: 'Contraseña incorrecta' }, { status: 401 })
+		return NextResponse.json(
+			{ error: 'Contraseña incorrecta' },
+			{ status: 401 },
+		)
 	}
 
 	// Tracking
@@ -76,7 +84,12 @@ export async function POST(request: NextRequest) {
 		redirectUrl = `/qr-view/${slug}`
 	} else {
 		const osLower = os.toLowerCase()
-		if ((osLower.includes('ios') || osLower.includes('iphone') || osLower.includes('ipad')) && qr.ios_url) {
+		if (
+			(osLower.includes('ios') ||
+				osLower.includes('iphone') ||
+				osLower.includes('ipad')) &&
+			qr.ios_url
+		) {
 			redirectUrl = qr.ios_url
 		} else if (osLower.includes('android') && qr.android_url) {
 			redirectUrl = qr.android_url

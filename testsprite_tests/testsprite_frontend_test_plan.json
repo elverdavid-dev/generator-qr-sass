@@ -1,0 +1,3144 @@
+[
+  {
+    "id": "TC001",
+    "title": "Register with valid email and password redirects to Confirm Email page",
+    "description": "Verifies a new user can submit the registration form successfully and is redirected to the email confirmation page.",
+    "category": "User Registration",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /register"
+      },
+      {
+        "type": "action",
+        "description": "Type \"newuser+e2e1@example.com\" into the email input field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"ValidPassw0rd!\" into the password input field"
+      },
+      {
+        "type": "action",
+        "description": "Click Register button to submit"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"success\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/confirm-email\""
+      }
+    ]
+  },
+  {
+    "id": "TC002",
+    "title": "Register with invalid email shows validation error and stays on Register page",
+    "description": "Verifies invalid email format is rejected with visible validation errors and no redirect occurs.",
+    "category": "User Registration",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /register"
+      },
+      {
+        "type": "action",
+        "description": "Type \"not-an-email\" into the email input field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"ValidPassw0rd!\" into the password input field"
+      },
+      {
+        "type": "action",
+        "description": "Click Register button to submit"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"invalid\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/register\""
+      }
+    ]
+  },
+  {
+    "id": "TC003",
+    "title": "Register with empty email shows required-field validation and stays on Register page",
+    "description": "Verifies the email field is required and the form cannot be submitted with email left blank.",
+    "category": "User Registration",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /register"
+      },
+      {
+        "type": "action",
+        "description": "Type \"ValidPassw0rd!\" into the password input field"
+      },
+      {
+        "type": "action",
+        "description": "Click Register button to submit"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"email\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"required\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/register\""
+      }
+    ]
+  },
+  {
+    "id": "TC004",
+    "title": "Register with empty password shows required-field validation and stays on Register page",
+    "description": "Verifies the password field is required and the form cannot be submitted with password left blank.",
+    "category": "User Registration",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /register"
+      },
+      {
+        "type": "action",
+        "description": "Type \"newuser+e2e2@example.com\" into the email input field"
+      },
+      {
+        "type": "action",
+        "description": "Click Register button to submit"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"password\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"required\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/register\""
+      }
+    ]
+  },
+  {
+    "id": "TC005",
+    "title": "Register with very short password shows validation error and stays on Register page",
+    "description": "Verifies password length/strength validation triggers a visible error and prevents submission.",
+    "category": "User Registration",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /register"
+      },
+      {
+        "type": "action",
+        "description": "Type \"newuser+e2e3@example.com\" into the email input field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"123\" into the password input field"
+      },
+      {
+        "type": "action",
+        "description": "Click Register button to submit"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"password\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"too\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/register\""
+      }
+    ]
+  },
+  {
+    "id": "TC006",
+    "title": "Register with already-used email shows error and stays on Register page",
+    "description": "Verifies attempting to register with an existing email shows a visible error message and does not redirect.",
+    "category": "User Registration",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /register"
+      },
+      {
+        "type": "action",
+        "description": "Type \"existing.user@example.com\" into the email input field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"ValidPassw0rd!\" into the password input field"
+      },
+      {
+        "type": "action",
+        "description": "Click Register button to submit"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"already\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/register\""
+      }
+    ]
+  },
+  {
+    "id": "TC007",
+    "title": "Confirm Email page can be reached directly and shows confirmation guidance",
+    "description": "Verifies the confirm email page renders and provides visible instructions after registration.",
+    "category": "User Registration",
+    "priority": "Low",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /confirm-email"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"confirm\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"email\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/confirm-email\""
+      }
+    ]
+  },
+  {
+    "id": "TC008",
+    "title": "Email/password login redirects to dashboard",
+    "description": "Verifies a user can log in with valid email/password and is redirected to the dashboard.",
+    "category": "User Login",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Login\" is visible"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email input field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password input field"
+      },
+      {
+        "type": "action",
+        "description": "Click the Login button to submit"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard\""
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Dashboard\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC009",
+    "title": "Invalid password shows error and stays on login",
+    "description": "Verifies an incorrect password shows an invalid-credentials error and the user remains on the login page.",
+    "category": "User Login",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"valid.user@example.com\" into the email input field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"wrong-password\" into the password input field"
+      },
+      {
+        "type": "action",
+        "description": "Click the Login button to submit"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"invalid\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/login\""
+      }
+    ]
+  },
+  {
+    "id": "TC010",
+    "title": "Empty submit shows required field validation",
+    "description": "Verifies the login form prevents submission and shows validation when required fields are empty.",
+    "category": "User Login",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Click the Login button to submit"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"email\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"password\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/login\""
+      }
+    ]
+  },
+  {
+    "id": "TC011",
+    "title": "Password-only submit shows email required validation",
+    "description": "Verifies submitting with only a password shows an email validation message and stays on the login page.",
+    "category": "User Login",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"some-password\" into the password input field"
+      },
+      {
+        "type": "action",
+        "description": "Click the Login button to submit"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"email\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/login\""
+      }
+    ]
+  },
+  {
+    "id": "TC012",
+    "title": "Email-only submit shows password required validation",
+    "description": "Verifies submitting with only an email shows a password validation message and stays on the login page.",
+    "category": "User Login",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"valid.user@example.com\" into the email input field"
+      },
+      {
+        "type": "action",
+        "description": "Click the Login button to submit"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"password\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/login\""
+      }
+    ]
+  },
+  {
+    "id": "TC013",
+    "title": "Invalid email format is rejected on the login form",
+    "description": "Verifies the email field validates format and prevents login submission when the email is malformed.",
+    "category": "User Login",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"not-an-email\" into the email input field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"some-password\" into the password input field"
+      },
+      {
+        "type": "action",
+        "description": "Click the Login button to submit"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"email\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/login\""
+      }
+    ]
+  },
+  {
+    "id": "TC014",
+    "title": "Request password reset with a registered email shows success feedback",
+    "description": "Verifies a user can request a password reset email and sees a success confirmation.",
+    "category": "Password Reset",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /reset-password"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Reset password\" is visible"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email input field"
+      },
+      {
+        "type": "action",
+        "description": "Click the send reset link button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text indicating an email was sent is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Check your email\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC015",
+    "title": "Request password reset with an unknown email shows error feedback",
+    "description": "Verifies the form shows an error when a non-existent email is submitted.",
+    "category": "Password Reset",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /reset-password"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Reset password\" is visible"
+      },
+      {
+        "type": "action",
+        "description": "Type \"nonexistent.user.987654@example.com\" into the email input field"
+      },
+      {
+        "type": "action",
+        "description": "Click the send reset link button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text indicating the request failed or email was not found is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the email input field is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC016",
+    "title": "Submitting with an empty email shows validation feedback",
+    "description": "Verifies the reset form prevents submission and displays validation when email is missing.",
+    "category": "Password Reset",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /reset-password"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Reset password\" is visible"
+      },
+      {
+        "type": "action",
+        "description": "Click the send reset link button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text indicating email is required is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the email input field is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC017",
+    "title": "Submitting with an invalid email format shows validation feedback",
+    "description": "Verifies the reset form validates email format and shows an error for malformed input.",
+    "category": "Password Reset",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /reset-password"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Reset password\" is visible"
+      },
+      {
+        "type": "action",
+        "description": "Type \"not-an-email\" into the email input field"
+      },
+      {
+        "type": "action",
+        "description": "Click the send reset link button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text indicating a valid email is required is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the email input field is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC018",
+    "title": "Resubmitting after an error with a valid email shows success feedback",
+    "description": "Verifies a user can correct an invalid submission and successfully request a reset email afterward.",
+    "category": "Password Reset",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /reset-password"
+      },
+      {
+        "type": "action",
+        "description": "Type \"bad\" into the email input field"
+      },
+      {
+        "type": "action",
+        "description": "Click the send reset link button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text indicating a valid email is required is visible"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email input field"
+      },
+      {
+        "type": "action",
+        "description": "Click the send reset link button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text indicating an email was sent is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC019",
+    "title": "Trimming behavior: email with leading/trailing spaces can be submitted successfully",
+    "description": "Verifies the form handles common user input of emails with extra spaces and still provides success feedback.",
+    "category": "Password Reset",
+    "priority": "Low",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /reset-password"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Reset password\" is visible"
+      },
+      {
+        "type": "action",
+        "description": "Type \"  {{LOGIN_USER}}  \" into the email input field"
+      },
+      {
+        "type": "action",
+        "description": "Click the send reset link button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text indicating an email was sent is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Check your email\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC020",
+    "title": "Dashboard shows key metric cards and recent QR codes list for authenticated user",
+    "description": "Verifies the dashboard overview loads and displays the four key metric cards and a recent QR codes list.",
+    "category": "Dashboard Overview",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click on the \"Log in\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard\""
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Total QR codes\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Active QR codes\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Recent\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC021",
+    "title": "Dashboard displays Total QR codes metric value",
+    "description": "Verifies the Total QR codes metric card shows a visible numeric value on the dashboard.",
+    "category": "Dashboard Overview",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click on the \"Log in\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard\""
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Total QR codes\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"Total QR codes metric value\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC022",
+    "title": "Dashboard displays Active QR codes metric value",
+    "description": "Verifies the Active QR codes metric card shows a visible numeric value on the dashboard.",
+    "category": "Dashboard Overview",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click on the \"Log in\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard\""
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Active QR codes\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"Active QR codes metric value\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC023",
+    "title": "Dashboard displays Today's scans metric value",
+    "description": "Verifies the Today’s scan count metric card appears with a visible value.",
+    "category": "Dashboard Overview",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click on the \"Log in\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard\""
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Today\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"Today's scan count metric value\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC024",
+    "title": "Dashboard displays Monthly scans metric value",
+    "description": "Verifies the monthly scan count metric card appears with a visible value.",
+    "category": "Dashboard Overview",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click on the \"Log in\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard\""
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Monthly\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"Monthly scan count metric value\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC025",
+    "title": "Dashboard shows a recent QR codes section with at least the list container visible",
+    "description": "Verifies the recent QR codes section renders on the dashboard and is visible to the user.",
+    "category": "Dashboard Overview",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click on the \"Log in\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard\""
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Recent QR codes\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"Recent QR codes list\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC026",
+    "title": "Dashboard metric cards remain visible after a page refresh",
+    "description": "Verifies dashboard overview metrics remain visible after refreshing the page (session persists).",
+    "category": "Dashboard Overview",
+    "priority": "Low",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click on the \"Log in\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard\""
+      },
+      {
+        "type": "action",
+        "description": "Press \"Enter\" key to refresh the page"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Total QR codes\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Active QR codes\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC027",
+    "title": "QR list loads and pagination controls are visible",
+    "description": "Verifies an authenticated user can open the QR list and see list and pagination UI.",
+    "category": "QR Code List",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click on the \"Sign in\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard\""
+      },
+      {
+        "type": "action",
+        "description": "Click on \"QR Codes\" in the dashboard navigation"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard/qrs\""
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"pagination\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC028",
+    "title": "Create a basic URL QR code successfully",
+    "description": "Verifies a user can create a new URL QR code with required fields and is taken to the QR detail page.",
+    "category": "Create QR Code",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Log in\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard\""
+      },
+      {
+        "type": "action",
+        "description": "Click the \"QR Codes\" link in the dashboard navigation"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"New QR\" or \"Create\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard/qrs/new\""
+      }
+    ]
+  },
+  {
+    "id": "TC029",
+    "title": "Required-field validation prevents saving when fields are missing",
+    "description": "Verifies the form blocks creation and shows visible validation feedback when required fields are not provided.",
+    "category": "Create QR Code",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Log in\" button"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"QR Codes\" link in the dashboard navigation"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"New QR\" or \"Create\" button"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Save\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"required\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC030",
+    "title": "Live preview updates when changing type and content",
+    "description": "Verifies the QR preview changes in real time when the user selects a type and enters content.",
+    "category": "Create QR Code",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Log in\" button"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"QR Codes\" link in the dashboard navigation"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"New QR\" or \"Create\" button"
+      },
+      {
+        "type": "action",
+        "description": "Select QR type \"URL\""
+      },
+      {
+        "type": "action",
+        "description": "Fill \"My Preview Test\" into the QR name field"
+      },
+      {
+        "type": "action",
+        "description": "Fill \"https://example.com\" into the QR content/data field"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"QR preview\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC031",
+    "title": "Customize colors and styles and see preview reflect changes",
+    "description": "Verifies color and style customization controls can be used and the preview remains visible after changes.",
+    "category": "Create QR Code",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Log in\" button"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"QR Codes\" link in the dashboard navigation"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"New QR\" or \"Create\" button"
+      },
+      {
+        "type": "action",
+        "description": "Select QR type \"URL\""
+      },
+      {
+        "type": "action",
+        "description": "Fill \"Styled QR\" into the QR name field"
+      },
+      {
+        "type": "action",
+        "description": "Fill \"https://example.com/styled\" into the QR content/data field"
+      },
+      {
+        "type": "action",
+        "description": "Choose foreground color"
+      },
+      {
+        "type": "action",
+        "description": "Choose background color"
+      },
+      {
+        "type": "action",
+        "description": "Select dot style"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"QR preview\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC032",
+    "title": "Enable gradient and configure gradient colors",
+    "description": "Verifies the gradient toggle can be enabled and gradient configuration is shown/applied with the preview visible.",
+    "category": "Create QR Code",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Log in\" button"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"QR Codes\" link in the dashboard navigation"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"New QR\" or \"Create\" button"
+      },
+      {
+        "type": "action",
+        "description": "Select QR type \"URL\""
+      },
+      {
+        "type": "action",
+        "description": "Fill \"Gradient QR\" into the QR name field"
+      },
+      {
+        "type": "action",
+        "description": "Fill \"https://example.com/gradient\" into the QR content/data field"
+      },
+      {
+        "type": "action",
+        "description": "Toggle gradient on"
+      },
+      {
+        "type": "action",
+        "description": "Choose gradient color 1"
+      },
+      {
+        "type": "action",
+        "description": "Choose gradient color 2"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"QR preview\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC033",
+    "title": "Set password protection and verify the setting is accepted before save",
+    "description": "Verifies the password protection control can be enabled and a password can be entered without blocking the form.",
+    "category": "Create QR Code",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Log in\" button"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"QR Codes\" link in the dashboard navigation"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"New QR\" or \"Create\" button"
+      },
+      {
+        "type": "action",
+        "description": "Select QR type \"URL\""
+      },
+      {
+        "type": "action",
+        "description": "Fill \"Protected QR\" into the QR name field"
+      },
+      {
+        "type": "action",
+        "description": "Fill \"https://example.com/protected\" into the QR content/data field"
+      },
+      {
+        "type": "action",
+        "description": "Set password protection"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Password\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC034",
+    "title": "Set expiration date and max scan limit and save successfully",
+    "description": "Verifies optional expiration and scan limit fields can be set and the QR can still be created successfully.",
+    "category": "Create QR Code",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Log in\" button"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"QR Codes\" link in the dashboard navigation"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"New QR\" or \"Create\" button"
+      },
+      {
+        "type": "action",
+        "description": "Select QR type \"URL\""
+      },
+      {
+        "type": "action",
+        "description": "Fill \"Limited QR\" into the QR name field"
+      },
+      {
+        "type": "action",
+        "description": "Fill \"https://example.com/limited\" into the QR content/data field"
+      },
+      {
+        "type": "action",
+        "description": "Set expiration date"
+      },
+      {
+        "type": "action",
+        "description": "Set max scan limit"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Save\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard/qrs/\""
+      }
+    ]
+  },
+  {
+    "id": "TC035",
+    "title": "Plan limit enforcement shows error and routes user to billing",
+    "description": "Verifies that when creation exceeds plan limits, a visible error is shown and the user can proceed to billing.",
+    "category": "Create QR Code",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Log in\" button"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"QR Codes\" link in the dashboard navigation"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"New QR\" or \"Create\" button"
+      },
+      {
+        "type": "action",
+        "description": "Fill \"Over Limit QR\" into the QR name field"
+      },
+      {
+        "type": "action",
+        "description": "Fill \"https://example.com/over-limit\" into the QR content/data field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Save\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"limit\" is visible"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Billing\" button or link shown in the error message"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard/billing\""
+      }
+    ]
+  },
+  {
+    "id": "TC036",
+    "title": "Edit QR Code: Save valid edits and return to QR detail",
+    "description": "Verifies a user can edit an existing QR code and save successfully, seeing a success message and leaving the edit page.",
+    "category": "Edit QR Code",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Log in\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard\""
+      },
+      {
+        "type": "action",
+        "description": "Navigate to /dashboard/qrs/new"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Create\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"QR code form\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC037",
+    "title": "Edit QR Code: Cancel discards changes and leaves edit flow",
+    "description": "Verifies cancel action is available and discards edits by leaving the edit form without showing a success toast.",
+    "category": "Edit QR Code",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Log in\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard\""
+      },
+      {
+        "type": "action",
+        "description": "Click on \"QR Codes\" in the dashboard navigation"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard/qrs\""
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"QR codes list\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC038",
+    "title": "Edit QR Code: Validation errors shown for invalid inputs on save",
+    "description": "Verifies that attempting to save invalid edits shows field-level validation errors and the user remains in the edit context.",
+    "category": "Edit QR Code",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Log in\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard\""
+      },
+      {
+        "type": "action",
+        "description": "Click on \"QR Codes\" in the dashboard navigation"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard/qrs\""
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"QR codes list\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC039",
+    "title": "Per-QR analytics page shows core metrics and visualizations (non-Pro safe checks)",
+    "description": "Verifies that the per-QR analytics page renders key analytics sections including metrics, charts, and recent scans table.",
+    "category": "QR Code Analytics (Per-QR)",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Sign in\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard\""
+      },
+      {
+        "type": "action",
+        "description": "Click on \"QR Codes\" in the dashboard navigation"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard/qrs\""
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Analytics\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC040",
+    "title": "Per-QR analytics page displays Total Scans and Unique Visitors metrics",
+    "description": "Validates that key metric tiles (Total Scans and Unique Visitors) are visible on a per-QR analytics view.",
+    "category": "QR Code Analytics (Per-QR)",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Sign in\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard\""
+      },
+      {
+        "type": "action",
+        "description": "Click on \"QR Codes\" in the dashboard navigation"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Total scans\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Unique visitors\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC041",
+    "title": "Per-QR analytics page shows scan trend area chart section",
+    "description": "Ensures the scan trend (over time) visualization section is present and visible to the user.",
+    "category": "QR Code Analytics (Per-QR)",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Sign in\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard\""
+      },
+      {
+        "type": "action",
+        "description": "Click on \"QR Codes\" in the dashboard navigation"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Scan trend\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"area chart\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC042",
+    "title": "Per-QR analytics page shows device/browser/OS distribution donut charts",
+    "description": "Checks that distribution chart sections for device, browser, and OS are visible on the analytics page.",
+    "category": "QR Code Analytics (Per-QR)",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Sign in\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard\""
+      },
+      {
+        "type": "action",
+        "description": "Click on \"QR Codes\" in the dashboard navigation"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Devices\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Browsers\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC043",
+    "title": "Per-QR analytics page shows recent scans table with device and location columns",
+    "description": "Verifies the recent scans table renders and includes device and location information columns/labels.",
+    "category": "QR Code Analytics (Per-QR)",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Sign in\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard\""
+      },
+      {
+        "type": "action",
+        "description": "Click on \"QR Codes\" in the dashboard navigation"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Recent scans\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Location\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC044",
+    "title": "Free-plan user sees upgrade-required messaging when attempting world map analytics (if present)",
+    "description": "Confirms that attempting to access the world map visualization prompts an upgrade-required message and provides a path to billing.",
+    "category": "QR Code Analytics (Per-QR)",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Sign in\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard\""
+      },
+      {
+        "type": "action",
+        "description": "Click on \"Analytics\" in the dashboard navigation"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"World map\" visualization"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Upgrade required\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC045",
+    "title": "Upgrade flow from upgrade-required prompt navigates to Billing page",
+    "description": "Validates that the upgrade-required prompt provides navigation to the billing management page.",
+    "category": "QR Code Analytics (Per-QR)",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Sign in\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard\""
+      },
+      {
+        "type": "action",
+        "description": "Click on \"Analytics\" in the dashboard navigation"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Go to billing\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard/billing\""
+      }
+    ]
+  },
+  {
+    "id": "TC046",
+    "title": "Export controls are visible only when allowed (no download verification)",
+    "description": "Checks that export UI is either present (for eligible users) or absent/disabled (for non-eligible users) without attempting a file download.",
+    "category": "QR Code Analytics (Per-QR)",
+    "priority": "Low",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Sign in\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard\""
+      },
+      {
+        "type": "action",
+        "description": "Click on \"Analytics\" in the dashboard navigation"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Export CSV\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Pro\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC047",
+    "title": "Global Analytics renders key aggregate metrics and charts for an authenticated user",
+    "description": "Verifies that an authenticated user can open the Global Analytics Dashboard and see the main metric cards and charts.",
+    "category": "Global Analytics Dashboard",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Sign in\" button"
+      },
+      {
+        "type": "action",
+        "description": "Click on \"Analytics\" in the dashboard navigation"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard/analytics\""
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Total scans\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Unique visitors\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC048",
+    "title": "Global Analytics shows conversion rate radial gauge and scan trends time-series chart",
+    "description": "Verifies that the conversion rate gauge and time-series scan trends chart are visible on the analytics page.",
+    "category": "Global Analytics Dashboard",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Sign in\" button"
+      },
+      {
+        "type": "action",
+        "description": "Click on \"Analytics\" in the dashboard navigation"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Conversion rate\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"conversion rate radial gauge\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"scan trends time-series chart\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC049",
+    "title": "Global Analytics shows country list with scan counts",
+    "description": "Verifies that the country list section is visible and presents scan counts by country.",
+    "category": "Global Analytics Dashboard",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Sign in\" button"
+      },
+      {
+        "type": "action",
+        "description": "Click on \"Analytics\" in the dashboard navigation"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"country list with scan counts\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Country\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Scans\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC050",
+    "title": "World map is shown for Pro users (feature-gated content)",
+    "description": "Verifies that the world map chart section is available when the account has access to Pro analytics features.",
+    "category": "Global Analytics Dashboard",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Sign in\" button"
+      },
+      {
+        "type": "action",
+        "description": "Click on \"Analytics\" in the dashboard navigation"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"world map with scan density by country\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"World map\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"map legend or country density visualization\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC051",
+    "title": "World map is not available for Free users (Pro-only limitation respected)",
+    "description": "Verifies that Free plan users do not see the Pro-only world map chart on the Global Analytics Dashboard.",
+    "category": "Global Analytics Dashboard",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Sign in\" button"
+      },
+      {
+        "type": "action",
+        "description": "Click on \"Analytics\" in the dashboard navigation"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"World map\" is not visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"world map with scan density by country\" is not visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"country list with scan counts\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC052",
+    "title": "Analytics page remains usable when data takes time to load",
+    "description": "Verifies that the page shows a visible loading state and then displays metrics/charts once loaded.",
+    "category": "Global Analytics Dashboard",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Sign in\" button"
+      },
+      {
+        "type": "action",
+        "description": "Click on \"Analytics\" in the dashboard navigation"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"analytics loading indicator\" is visible"
+      },
+      {
+        "type": "action",
+        "description": "Wait for element \"Total scans metric card\" to appear"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Total scans\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC053",
+    "title": "Non-existent QR slug redirects to QR Not Found page",
+    "description": "Verifies that scanning an unknown QR slug results in a user-facing not-found destination.",
+    "category": "QR Tracking and Redirect",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /qr-not-found"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify page title contains \"Not Found\""
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"QR\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"not found\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC054",
+    "title": "Expired QR redirects to QR Expired page",
+    "description": "Verifies that scanning an expired QR code sends the user to the expired error page.",
+    "category": "QR Tracking and Redirect",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /qr-expired"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify page title contains \"Expired\""
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"expired\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"QR\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC055",
+    "title": "Inactive QR redirects to QR Inactive page",
+    "description": "Verifies that scanning an inactive QR code sends the user to the inactive error page.",
+    "category": "QR Tracking and Redirect",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /qr-inactive"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify page title contains \"Inactive\""
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"inactive\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"QR\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC056",
+    "title": "Scan-limit-reached QR redirects to QR Limit page",
+    "description": "Verifies that scanning a QR code that exceeded its scan limit sends the user to the limit error page.",
+    "category": "QR Tracking and Redirect",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /qr-limit"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify page title contains \"Limit\""
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"limit\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"QR\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC057",
+    "title": "Navigating to inactive/expired/limit error pages shows expected messaging (non-gate paths)",
+    "description": "Verifies the public error pages render correctly for protected content states outside the gate.",
+    "category": "Password-Protected QR Gate",
+    "priority": "Low",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /qr-expired"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"expired\" is visible"
+      },
+      {
+        "type": "action",
+        "description": "Navigate to /qr-inactive"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"inactive\" is visible"
+      },
+      {
+        "type": "action",
+        "description": "Navigate to /qr-limit"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"limit\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC058",
+    "title": "Create a new folder from QR list and see it in the folders sidebar",
+    "description": "Verifies a user can create a folder from the QR list page and the new folder appears in the folder list.",
+    "category": "Folder Management",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Log in\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard\""
+      },
+      {
+        "type": "action",
+        "description": "Click on \"QR Codes\" in the dashboard navigation"
+      },
+      {
+        "type": "action",
+        "description": "Click create folder button to open modal"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Create folder\" is visible"
+      },
+      {
+        "type": "action",
+        "description": "Fill \"Test Folder A\" into the folder name field in the modal"
+      },
+      {
+        "type": "action",
+        "description": "Submit modal to create folder"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Test Folder A\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC059",
+    "title": "Create folder then open it from sidebar (route transition occurs)",
+    "description": "Verifies a user can create a folder and then click it to navigate to that folder's QR list page.",
+    "category": "Folder Management",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Log in\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard\""
+      },
+      {
+        "type": "action",
+        "description": "Click on \"QR Codes\" in the dashboard navigation"
+      },
+      {
+        "type": "action",
+        "description": "Click create folder button to open modal"
+      },
+      {
+        "type": "action",
+        "description": "Fill \"Test Folder B\" into the folder name field in the modal"
+      },
+      {
+        "type": "action",
+        "description": "Submit modal to create folder"
+      },
+      {
+        "type": "action",
+        "description": "Click folder to view its QR codes"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard/qrs/folder/\""
+      }
+    ]
+  },
+  {
+    "id": "TC060",
+    "title": "Prevent creating a folder with a duplicate name",
+    "description": "Verifies duplicate folder names are blocked with a visible validation error and the modal stays open.",
+    "category": "Folder Management",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Log in\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard\""
+      },
+      {
+        "type": "action",
+        "description": "Click on \"QR Codes\" in the dashboard navigation"
+      },
+      {
+        "type": "action",
+        "description": "Click create folder button to open modal"
+      },
+      {
+        "type": "action",
+        "description": "Fill \"Duplicate Folder\" into the folder name field in the modal"
+      },
+      {
+        "type": "action",
+        "description": "Submit modal to create folder"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Duplicate Folder\" is visible"
+      },
+      {
+        "type": "action",
+        "description": "Click create folder button to open modal"
+      },
+      {
+        "type": "action",
+        "description": "Fill \"Duplicate Folder\" into the folder name field in the modal"
+      },
+      {
+        "type": "action",
+        "description": "Submit modal to create folder"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"already exists\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC061",
+    "title": "Rename an existing folder from the folders sidebar actions",
+    "description": "Verifies a user can rename a folder and the updated name is visible in the folders list.",
+    "category": "Folder Management",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Log in\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard\""
+      },
+      {
+        "type": "action",
+        "description": "Click on \"QR Codes\" in the dashboard navigation"
+      },
+      {
+        "type": "action",
+        "description": "Click create folder button to open modal"
+      },
+      {
+        "type": "action",
+        "description": "Fill \"Rename Me\" into the folder name field in the modal"
+      },
+      {
+        "type": "action",
+        "description": "Submit modal to create folder"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Rename Me\" is visible"
+      },
+      {
+        "type": "action",
+        "description": "Click folder rename/edit action"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Rename folder\" is visible"
+      },
+      {
+        "type": "action",
+        "description": "Fill \"Renamed Folder\" into the folder name field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Save\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Renamed Folder\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC062",
+    "title": "Delete an existing folder from the folders sidebar actions",
+    "description": "Verifies a user can delete a folder and it no longer appears in the folders list.",
+    "category": "Folder Management",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Log in\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard\""
+      },
+      {
+        "type": "action",
+        "description": "Click on \"QR Codes\" in the dashboard navigation"
+      },
+      {
+        "type": "action",
+        "description": "Click create folder button to open modal"
+      },
+      {
+        "type": "action",
+        "description": "Fill \"Delete Me\" into the folder name field in the modal"
+      },
+      {
+        "type": "action",
+        "description": "Submit modal to create folder"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Delete Me\" is visible"
+      },
+      {
+        "type": "action",
+        "description": "Click folder delete action"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Confirm\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Delete Me\" is not visible"
+      }
+    ]
+  },
+  {
+    "id": "TC063",
+    "title": "Validate folder name is required when creating a folder",
+    "description": "Verifies the create folder modal shows a required-field validation when submitting an empty folder name.",
+    "category": "Folder Management",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Log in\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard\""
+      },
+      {
+        "type": "action",
+        "description": "Click on \"QR Codes\" in the dashboard navigation"
+      },
+      {
+        "type": "action",
+        "description": "Click create folder button to open modal"
+      },
+      {
+        "type": "action",
+        "description": "Submit modal to create folder"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"required\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Create folder\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC064",
+    "title": "Move a QR code into a folder via the folder selector modal",
+    "description": "Verifies a user can assign an existing QR code to a folder using the move-to-folder selector flow.",
+    "category": "Folder Management",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Log in\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard\""
+      },
+      {
+        "type": "action",
+        "description": "Click on \"QR Codes\" in the dashboard navigation"
+      },
+      {
+        "type": "action",
+        "description": "Click create folder button to open modal"
+      },
+      {
+        "type": "action",
+        "description": "Fill \"Move Target\" into the folder name field in the modal"
+      },
+      {
+        "type": "action",
+        "description": "Submit modal to create folder"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Move Target\" is visible"
+      },
+      {
+        "type": "action",
+        "description": "Click on the first QR code in the list"
+      },
+      {
+        "type": "action",
+        "description": "Move QR code to a folder via selector modal"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Select folder\" is visible"
+      },
+      {
+        "type": "action",
+        "description": "Select \"Move Target\" from the folder dropdown"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Move\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Move successful\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC065",
+    "title": "Billing page shows current plan details for a logged-in user",
+    "description": "Verifies that the billing page loads after login and displays the user's current subscription plan details.",
+    "category": "Billing and Subscription",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Sign in\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard\""
+      },
+      {
+        "type": "action",
+        "description": "Click on \"Billing\" in the dashboard navigation"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard/billing\""
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Current plan\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC066",
+    "title": "Billing page shows available plans (Free, Pro, Business)",
+    "description": "Verifies that the billing page lists the available subscription plans for upgrade comparison.",
+    "category": "Billing and Subscription",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Sign in\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard\""
+      },
+      {
+        "type": "action",
+        "description": "Click on \"Billing\" in the dashboard navigation"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Free\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Pro\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Business\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC067",
+    "title": "Billing page loads and key actions are visible (Upgrade and Manage subscription)",
+    "description": "Verifies that the billing page presents the expected primary actions to the user.",
+    "category": "Billing and Subscription",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Sign in\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard\""
+      },
+      {
+        "type": "action",
+        "description": "Click on \"Billing\" in the dashboard navigation"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"Upgrade\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"Manage subscription\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC068",
+    "title": "View profile details on the Profile page",
+    "description": "Verifies that an authenticated user can open the Profile page and see their current name and email.",
+    "category": "User Profile",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Sign in\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard\""
+      },
+      {
+        "type": "action",
+        "description": "Click on \"Profile\" in the dashboard navigation"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Name\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Email\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC069",
+    "title": "Update profile name successfully and see confirmation toast",
+    "description": "Verifies that a user can change their profile name and receives a visible success toast after saving.",
+    "category": "User Profile",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Sign in\" button"
+      },
+      {
+        "type": "action",
+        "description": "Click on \"Profile\" in the dashboard navigation"
+      },
+      {
+        "type": "action",
+        "description": "Fill \"Test User Updated\" into the name field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Save\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Profile updated\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC070",
+    "title": "Invalid profile name shows error toast and user remains on Profile page",
+    "description": "Verifies that submitting an invalid name results in an error toast and no navigation away from the Profile page.",
+    "category": "User Profile",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Sign in\" button"
+      },
+      {
+        "type": "action",
+        "description": "Click on \"Profile\" in the dashboard navigation"
+      },
+      {
+        "type": "action",
+        "description": "Fill \"@@@###\" into the name field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Save\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Error\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC071",
+    "title": "Profile email is visible and not edited via the name update flow",
+    "description": "Verifies the email value is shown on the Profile page and stays visible after a name-only save attempt.",
+    "category": "User Profile",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Sign in\" button"
+      },
+      {
+        "type": "action",
+        "description": "Click on \"Profile\" in the dashboard navigation"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Email\" is visible"
+      },
+      {
+        "type": "action",
+        "description": "Fill \"Test User Name Only\" into the name field"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Email\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC072",
+    "title": "Submitting an empty name is rejected and shows an error toast",
+    "description": "Verifies that clearing the name field and attempting to save shows an error toast and keeps the user on the Profile page.",
+    "category": "User Profile",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Sign in\" button"
+      },
+      {
+        "type": "action",
+        "description": "Click on \"Profile\" in the dashboard navigation"
+      },
+      {
+        "type": "action",
+        "description": "Fill \"\" into the name field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Save\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard/profile"
+      }
+    ]
+  },
+  {
+    "id": "TC073",
+    "title": "Profile update feedback appears after clicking Save",
+    "description": "Verifies that clicking Save produces visible feedback (success or error toast) to the user.",
+    "category": "User Profile",
+    "priority": "Low",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Sign in\" button"
+      },
+      {
+        "type": "action",
+        "description": "Click on \"Profile\" in the dashboard navigation"
+      },
+      {
+        "type": "action",
+        "description": "Fill \"Test User Feedback\" into the name field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Save\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"updated\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC074",
+    "title": "Add a QR code to Favorites from the QR list and confirm it appears in Favorites",
+    "description": "Verifies a user can favorite a QR from the QR list and see it listed on the Favorites page.",
+    "category": "Favorites",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Log in\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard\""
+      },
+      {
+        "type": "action",
+        "description": "Click on \"QRs\" in the dashboard navigation"
+      },
+      {
+        "type": "action",
+        "description": "Click the favorite (heart/star) icon on the first QR code in the list"
+      },
+      {
+        "type": "action",
+        "description": "Click on \"Favorites\" in the dashboard navigation"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify at least one QR code item is visible in the favorites list"
+      }
+    ]
+  },
+  {
+    "id": "TC075",
+    "title": "Toggle from light mode to dark mode on Dashboard",
+    "description": "Verifies the theme toggle switches the UI to dark mode on the Dashboard.",
+    "category": "Theme Toggle",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /dashboard"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"theme toggle button\" is visible"
+      },
+      {
+        "type": "action",
+        "description": "Click theme toggle button in header/sidebar"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"dark mode\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC076",
+    "title": "Toggle from dark mode back to light mode on Dashboard",
+    "description": "Verifies the theme toggle switches the UI back to light mode after enabling dark mode.",
+    "category": "Theme Toggle",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /dashboard"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"theme toggle button\" is visible"
+      },
+      {
+        "type": "action",
+        "description": "Click theme toggle button in header/sidebar"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"dark mode\" is visible"
+      },
+      {
+        "type": "action",
+        "description": "Click theme toggle button in header/sidebar"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"light mode\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC077",
+    "title": "Theme toggle does not navigate away or change route",
+    "description": "Verifies clicking the theme toggle does not trigger a page navigation away from the Dashboard route.",
+    "category": "Theme Toggle",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /dashboard"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard\""
+      },
+      {
+        "type": "action",
+        "description": "Click theme toggle button in header/sidebar"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard\""
+      },
+      {
+        "type": "action",
+        "description": "Click theme toggle button in header/sidebar"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard\""
+      }
+    ]
+  },
+  {
+    "id": "TC078",
+    "title": "Theme toggle remains usable after multiple rapid toggles",
+    "description": "Verifies the toggle remains responsive and the UI reflects the final selected theme after repeated toggles.",
+    "category": "Theme Toggle",
+    "priority": "Low",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /dashboard"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"theme toggle button\" is visible"
+      },
+      {
+        "type": "action",
+        "description": "Click theme toggle button in header/sidebar"
+      },
+      {
+        "type": "action",
+        "description": "Click theme toggle button in header/sidebar"
+      },
+      {
+        "type": "action",
+        "description": "Click theme toggle button in header/sidebar"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"dark mode\" is visible"
+      }
+    ]
+  }
+]

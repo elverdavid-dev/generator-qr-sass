@@ -25,7 +25,8 @@ export const useLogin = () => {
 			}
 			toast.success('Inicio de sesión exitoso')
 			form.reset()
-			window.location.href = '/dashboard/qrs'
+			const next = new URLSearchParams(window.location.search).get('next')
+			window.location.href = next ?? '/dashboard/qrs'
 		})
 	}
 	return {

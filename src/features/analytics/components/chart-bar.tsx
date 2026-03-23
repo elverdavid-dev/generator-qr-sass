@@ -1,9 +1,9 @@
 'use client'
 
+import type { ApexOptions } from 'apexcharts'
 import dynamic from 'next/dynamic'
 import { useTheme } from 'next-themes'
 import type { FC } from 'react'
-import type { ApexOptions } from 'apexcharts'
 
 const ReactApexChart = dynamic(() => import('react-apexcharts'), { ssr: false })
 
@@ -55,10 +55,16 @@ const ChartBar: FC<Props> = ({
 			axisBorder: { show: false },
 			axisTicks: { show: false },
 		},
-		yaxis: { min: 0, labels: { style: { fontSize: '12px', colors: labelColor } } },
+		yaxis: {
+			min: 0,
+			labels: { style: { fontSize: '12px', colors: labelColor } },
+		},
 		dataLabels: { enabled: false },
 		colors: [color],
-		grid: { borderColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)', strokeDashArray: 4 },
+		grid: {
+			borderColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)',
+			strokeDashArray: 4,
+		},
 		tooltip: { theme: isDark ? 'dark' : 'light' },
 	}
 

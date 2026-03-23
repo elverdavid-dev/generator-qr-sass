@@ -15,7 +15,9 @@ export async function GET(request: Request) {
 
 	let query = supabase
 		.from('qr_scans')
-		.select('created_at, os, device_type, browser, country, region, city, is_unique_scan, qrs(name)')
+		.select(
+			'created_at, os, device_type, browser, country, region, city, is_unique_scan, qrs(name)',
+		)
 		.eq('user_id', session.user.id)
 		.order('created_at', { ascending: false })
 
@@ -29,9 +31,19 @@ export async function GET(request: Request) {
 		return NextResponse.json({ error: error.message }, { status: 500 })
 	}
 
-	const headers = ['Date', 'QR Name', 'Country', 'Region', 'City', 'OS', 'Browser', 'Device', 'Unique']
+	const headers = [
+		'Date',
+		'QR Name',
+		'Country',
+		'Region',
+		'City',
+		'OS',
+		'Browser',
+		'Device',
+		'Unique',
+	]
 	const rows = (scans ?? []).map((s) => {
-		const qrName = (s.qrs as { name: string } | null)?.name ?? ''
+		const qrName = (s.qrs as unknown as { name: string } | null)?.name ?? ''
 		return [
 			new Date(s.created_at).toISOString(),
 			`"${qrName.replace(/"/g, '""')}"`,

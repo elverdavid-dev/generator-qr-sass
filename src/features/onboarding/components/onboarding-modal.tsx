@@ -61,6 +61,7 @@ const STEPS = [
 export default function OnboardingModal({ translations: t }: Props) {
 	const [step, setStep] = useState(0)
 	const [done, setDone] = useState(false)
+	const [loading, setLoading] = useState(false)
 	const router = useRouter()
 
 	const steps = [
@@ -74,9 +75,10 @@ export default function OnboardingModal({ translations: t }: Props) {
 	const config = STEPS[step]
 	const isLast = step === steps.length - 1
 
-	const finish = (goToNew = false) => {
+	const finish = async (goToNew = false) => {
+		setLoading(true)
+		await completeOnboarding()
 		setDone(true)
-		completeOnboarding()
 		if (goToNew) {
 			router.push('/dashboard/qrs/new')
 		}
@@ -143,7 +145,7 @@ export default function OnboardingModal({ translations: t }: Props) {
 									variant="flat"
 									isIconOnly
 									onPress={() => setStep((s) => s - 1)}
-									isDisabled={done}
+									isDisabled={loading}
 								>
 									<HugeiconsIcon icon={ArrowLeft02Icon} size={18} />
 								</Button>
@@ -155,7 +157,7 @@ export default function OnboardingModal({ translations: t }: Props) {
 									size="sm"
 									className="text-default-400"
 									onPress={() => finish(false)}
-									isDisabled={done}
+									isDisabled={loading}
 								>
 									{t.skip}
 								</Button>
@@ -171,7 +173,7 @@ export default function OnboardingModal({ translations: t }: Props) {
 									endContent={
 										<HugeiconsIcon icon={ArrowRight02Icon} size={16} />
 									}
-									isLoading={done}
+									isLoading={loading}
 									onPress={() => finish(true)}
 								>
 									{t.getStarted}
@@ -185,7 +187,7 @@ export default function OnboardingModal({ translations: t }: Props) {
 										<HugeiconsIcon icon={ArrowRight02Icon} size={16} />
 									}
 									onPress={() => setStep((s) => s + 1)}
-									isDisabled={done}
+									isDisabled={loading}
 								>
 									{t.next}
 								</Button>

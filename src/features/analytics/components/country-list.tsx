@@ -1,5 +1,5 @@
-import type { FC } from 'react'
 import Image from 'next/image'
+import type { FC } from 'react'
 
 interface Props {
 	data: Record<string, number>
@@ -44,10 +44,16 @@ const CountryList: FC<Props> = ({ data, scansLabel }) => {
 						<div className="flex-1 min-w-0">
 							<div className="flex justify-between items-center mb-1.5">
 								<div>
-									<span className="text-sm font-semibold text-default-700">{name}</span>
-									<span className="ml-2 text-xs text-default-400">{count.toLocaleString()} {scansLabel}</span>
+									<span className="text-sm font-semibold text-default-700">
+										{name}
+									</span>
+									<span className="ml-2 text-xs text-default-400">
+										{count.toLocaleString()} {scansLabel}
+									</span>
 								</div>
-								<span className="text-sm font-bold text-default-600 ml-2">{pct}%</span>
+								<span className="text-sm font-bold text-default-600 ml-2">
+									{pct}%
+								</span>
 							</div>
 							<div className="h-1.5 bg-default-100 rounded-full overflow-hidden">
 								<div

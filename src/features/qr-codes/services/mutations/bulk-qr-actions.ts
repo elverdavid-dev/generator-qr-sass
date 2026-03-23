@@ -1,8 +1,8 @@
 'use server'
 
+import { revalidatePath } from 'next/cache'
 import { createAdminClient } from '@/shared/lib/supabase/admin'
 import { getSession } from '@/shared/lib/supabase/get-session'
-import { revalidatePath } from 'next/cache'
 
 const getAuthenticatedUserAndIds = async (ids: string[]) => {
 	const { data: session } = await getSession()
@@ -43,7 +43,10 @@ export const bulkToggleActive = async (ids: string[], isActive: boolean) => {
 	return { success: true }
 }
 
-export const bulkMoveToFolder = async (ids: string[], folderId: string | null) => {
+export const bulkMoveToFolder = async (
+	ids: string[],
+	folderId: string | null,
+) => {
 	const result = await getAuthenticatedUserAndIds(ids)
 	if ('error' in result) return { error: result.error }
 	const { userId, supabase } = result

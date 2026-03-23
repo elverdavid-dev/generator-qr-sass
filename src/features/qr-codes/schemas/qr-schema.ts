@@ -23,7 +23,8 @@ export const qrSchema = z.object({
 	password: z.string().optional().nullable(),
 	expires_at: z.string().optional().nullable(),
 	max_scans: z.preprocess(
-		(val) => (val === '' || val === null || val === undefined ? null : Number(val)),
+		(val) =>
+			val === '' || val === null || val === undefined ? null : Number(val),
 		z.number().int().positive().nullable().optional(),
 	),
 	// Device targeting
@@ -36,13 +37,16 @@ export const qrSchema = z.object({
 	utm_term: z.string().optional().nullable(),
 	utm_content: z.string().optional().nullable(),
 	// Custom slug (Pro+)
-	custom_slug: z
-		.string()
-		.regex(/^[a-z0-9-]+$/, 'Solo letras minúsculas, números y guiones')
-		.min(3, 'Mínimo 3 caracteres')
-		.max(50, 'Máximo 50 caracteres')
-		.optional()
-		.nullable(),
+	custom_slug: z.preprocess(
+		(val) => (val === '' || val === undefined ? null : val),
+		z
+			.string()
+			.regex(/^[a-z0-9-]+$/, 'Solo letras minúsculas, números y guiones')
+			.min(3, 'Mínimo 3 caracteres')
+			.max(50, 'Máximo 50 caracteres')
+			.nullable()
+			.optional(),
+	),
 })
 
 export type QrFormData = z.infer<typeof qrSchema>

@@ -1,6 +1,6 @@
 'use server'
-import { createClient } from '@/shared/lib/supabase/server'
 import { getSession } from '@/shared/lib/supabase/get-session'
+import { createClient } from '@/shared/lib/supabase/server'
 
 export const getDashboardStats = async () => {
 	const { data: session } = await getSession()
@@ -10,16 +10,45 @@ export const getDashboardStats = async () => {
 	const userId = session.user.id
 
 	const now = new Date()
-	const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate()).toISOString()
-	const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1).toISOString()
+	const startOfToday = new Date(
+		now.getFullYear(),
+		now.getMonth(),
+		now.getDate(),
+	).toISOString()
+	const startOfMonth = new Date(
+		now.getFullYear(),
+		now.getMonth(),
+		1,
+	).toISOString()
 
-	const [totalQrsRes, activeQrsRes, todayRes, monthRes, recentQrsRes] = await Promise.all([
-		supabase.from('qrs').select('id', { count: 'exact', head: true }).eq('user_id', userId),
-		supabase.from('qrs').select('id', { count: 'exact', head: true }).eq('user_id', userId).eq('is_active', true),
-		supabase.from('qr_scans').select('id', { count: 'exact', head: true }).eq('user_id', userId).gte('created_at', startOfToday),
-		supabase.from('qr_scans').select('id', { count: 'exact', head: true }).eq('user_id', userId).gte('created_at', startOfMonth),
-		supabase.from('qrs').select('*, folders(name)').eq('user_id', userId).order('created_at', { ascending: false }).limit(5),
-	])
+	const [totalQrsRes, activeQrsRes, todayRes, monthRes, recentQrsRes] =
+		await Promise.all([
+			supabase
+				.from('qrs')
+				.select('id', { count: 'exact', head: true })
+				.eq('user_id', userId),
+			supabase
+				.from('qrs')
+				.select('id', { count: 'exact', head: true })
+				.eq('user_id', userId)
+				.eq('is_active', true),
+			supabase
+				.from('qr_scans')
+				.select('id', { count: 'exact', head: true })
+				.eq('user_id', userId)
+				.gte('created_at', startOfToday),
+			supabase
+				.from('qr_scans')
+				.select('id', { count: 'exact', head: true })
+				.eq('user_id', userId)
+				.gte('created_at', startOfMonth),
+			supabase
+				.from('qrs')
+				.select('*, folders(name)')
+				.eq('user_id', userId)
+				.order('created_at', { ascending: false })
+				.limit(5),
+		])
 
 	return {
 		data: {

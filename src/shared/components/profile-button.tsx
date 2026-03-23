@@ -10,13 +10,13 @@ import {
 	User,
 } from '@heroui/react'
 import {
-	Logout02Icon,
-	UserCircleIcon,
 	Invoice03Icon,
+	Logout02Icon,
 	StarIcon,
+	UserCircleIcon,
 } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
-import { useTransition, type FC } from 'react'
+import { type FC, useTransition } from 'react'
 import { logoutService } from '@/features/auth/services/logout'
 
 interface Translations {
@@ -35,7 +35,12 @@ interface Props {
 	translations: Translations
 }
 
-const ProfileButton: FC<Props> = ({ avatar_url, full_name, email, translations }) => {
+const ProfileButton: FC<Props> = ({
+	avatar_url,
+	full_name,
+	email,
+	translations,
+}) => {
 	const [isPending, startTransition] = useTransition()
 
 	const handleLogout = () => {
@@ -45,10 +50,19 @@ const ProfileButton: FC<Props> = ({ avatar_url, full_name, email, translations }
 	return (
 		<Dropdown placement="bottom-end">
 			<DropdownTrigger>
-				<Avatar size="sm" as="button" src={avatar_url} className="cursor-pointer" />
+				<Avatar
+					size="sm"
+					as="button"
+					src={avatar_url}
+					className="cursor-pointer"
+				/>
 			</DropdownTrigger>
 			<DropdownMenu aria-label="Profile Actions" variant="flat">
-				<DropdownItem key="user-info" className="h-14 gap-2 cursor-default" isReadOnly>
+				<DropdownItem
+					key="user-info"
+					className="h-14 gap-2 cursor-default"
+					isReadOnly
+				>
 					<User
 						avatarProps={{ src: avatar_url, size: 'sm' }}
 						name={full_name}

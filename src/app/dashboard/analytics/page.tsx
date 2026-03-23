@@ -1,25 +1,28 @@
 import {
+	ChartColumnIcon,
+	Clock01Icon,
 	FingerPrintScanIcon,
 	QrCodeIcon,
-	Clock01Icon,
-	ChartColumnIcon,
 } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 import { redirect } from 'next/navigation'
 import { getLocale, getTranslations } from 'next-intl/server'
-import { getSession } from '@/shared/lib/supabase/get-session'
-import { getAnalytics } from '@/features/analytics/services/queries/get-analytics'
-import MetricCard from '@/features/analytics/components/metric-card'
-import RadialGauge from '@/features/analytics/components/radial-gauge'
-import ChartDonut from '@/features/analytics/components/chart-donut'
 import ChartArea from '@/features/analytics/components/chart-area'
 import ChartBar from '@/features/analytics/components/chart-bar'
+import ChartDonut from '@/features/analytics/components/chart-donut'
+import ExportCsvButton from '@/features/analytics/components/export-csv-button'
+import MetricCard from '@/features/analytics/components/metric-card'
+import RadialGauge from '@/features/analytics/components/radial-gauge'
 import RecentScansTable from '@/features/analytics/components/recent-scans-table'
 import WorldMap from '@/features/analytics/components/world-map'
-import ExportCsvButton from '@/features/analytics/components/export-csv-button'
+import { getAnalytics } from '@/features/analytics/services/queries/get-analytics'
+import { getSession } from '@/shared/lib/supabase/get-session'
 
 const page = async () => {
-	const [t, locale] = await Promise.all([getTranslations('analytics'), getLocale()])
+	const [t, locale] = await Promise.all([
+		getTranslations('analytics'),
+		getLocale(),
+	])
 	const { data: session } = await getSession()
 	if (!session?.user) redirect('/login')
 
@@ -158,7 +161,11 @@ const page = async () => {
 					value={uniqueRate}
 					stats={[
 						{ label: t('thisWeekLabel'), value: weekScans, change: weekChange },
-						{ label: t('thisMonthLabel'), value: monthScans, change: monthChange },
+						{
+							label: t('thisMonthLabel'),
+							value: monthScans,
+							change: monthChange,
+						},
 						{ label: t('uniqueLabel'), value: uniqueScans },
 					]}
 				/>
@@ -180,11 +187,17 @@ const page = async () => {
 					{Object.keys(byCountry).length > 0 ? (
 						<div className="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
 							<WorldMap data={byCountry} translations={worldMapTranslations} />
-							<RecentScansTable scans={recentScans} translations={recentScansTranslations} />
+							<RecentScansTable
+								scans={recentScans}
+								translations={recentScansTranslations}
+							/>
 						</div>
 					) : (
 						<div className="mt-6">
-							<RecentScansTable scans={recentScans} translations={recentScansTranslations} />
+							<RecentScansTable
+								scans={recentScans}
+								translations={recentScansTranslations}
+							/>
 						</div>
 					)}
 
@@ -230,7 +243,14 @@ const page = async () => {
 							<ChartDonut
 								title={t('qrTypes')}
 								{...toChart(byQrType)}
-								colors={['#3641f5', '#f59e0b', '#10b981', '#ef4444', '#8b5cf6', '#ec4899']}
+								colors={[
+									'#3641f5',
+									'#f59e0b',
+									'#10b981',
+									'#ef4444',
+									'#8b5cf6',
+									'#ec4899',
+								]}
 							/>
 						</div>
 					)}

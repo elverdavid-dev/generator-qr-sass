@@ -41,7 +41,8 @@ const QrGatePage = async ({ params }: Props) => {
 				<div className="text-center">
 					<h1 className="text-xl font-bold">QR protegido</h1>
 					<p className="text-default-500 text-sm mt-1">
-						<span className="font-medium text-default-700">{qr.name}</span> requiere una contraseña para acceder.
+						<span className="font-medium text-default-700">{qr.name}</span>{' '}
+						requiere una contraseña para acceder.
 					</p>
 				</div>
 				<PasswordGateForm slug={slug} />

@@ -73,9 +73,7 @@ const FolderSelectorModal = ({
 								<Button
 									key={folder.id}
 									variant="flat"
-									startContent={
-										<HugeiconsIcon icon={Folder01Icon} size={18} />
-									}
+									startContent={<HugeiconsIcon icon={Folder01Icon} size={18} />}
 									onPress={() => handleSelect(folder.id, folder.name)}
 									isLoading={loadingId === folder.id}
 									className="justify-start capitalize"

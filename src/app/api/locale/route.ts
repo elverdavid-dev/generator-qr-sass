@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
-import { locales } from '@/i18n/request'
 import type { Locale } from '@/i18n/request'
+import { locales } from '@/i18n/request'
 
 export async function POST(req: Request) {
 	const { locale } = await req.json()

@@ -1,13 +1,17 @@
 import { BreadcrumbItem, Breadcrumbs } from '@heroui/breadcrumbs'
-import { Home01Icon, WebhookIcon, Crown02Icon } from '@hugeicons/core-free-icons'
+import {
+	Crown02Icon,
+	Home01Icon,
+	WebhookIcon,
+} from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
-import { redirect } from 'next/navigation'
 import Link from 'next/link'
+import { redirect } from 'next/navigation'
 import { getTranslations } from 'next-intl/server'
-import { getSession } from '@/shared/lib/supabase/get-session'
 import { getProfile } from '@/features/auth/services/queries/get-profile'
-import { getWebhooks } from '@/features/webhooks/services/queries/get-webhooks'
 import WebhookList from '@/features/webhooks/components/webhook-list'
+import { getWebhooks } from '@/features/webhooks/services/queries/get-webhooks'
+import { getSession } from '@/shared/lib/supabase/get-session'
 
 const WebhooksPage = async () => {
 	const t = await getTranslations('webhooks')
@@ -55,7 +59,11 @@ const WebhooksPage = async () => {
 
 			<div className="py-6">
 				<div className="flex items-center gap-2 mb-1">
-					<HugeiconsIcon icon={WebhookIcon} size={22} className="text-primary" />
+					<HugeiconsIcon
+						icon={WebhookIcon}
+						size={22}
+						className="text-primary"
+					/>
 					<h1 className="text-3xl font-bold">{t('title')}</h1>
 				</div>
 				<p className="text-default-500">{t('subtitle')}</p>
@@ -64,11 +72,17 @@ const WebhooksPage = async () => {
 			{!isBusiness ? (
 				<div className="max-w-lg flex flex-col items-center text-center gap-5 py-16 mx-auto">
 					<div className="w-20 h-20 rounded-3xl bg-amber-500/10 flex items-center justify-center">
-						<HugeiconsIcon icon={Crown02Icon} size={32} className="text-amber-500" />
+						<HugeiconsIcon
+							icon={Crown02Icon}
+							size={32}
+							className="text-amber-500"
+						/>
 					</div>
 					<div>
 						<h2 className="text-xl font-bold mb-2">{t('upgradeTitle')}</h2>
-						<p className="text-default-500 leading-relaxed">{t('upgradeDesc')}</p>
+						<p className="text-default-500 leading-relaxed">
+							{t('upgradeDesc')}
+						</p>
 					</div>
 					<Link
 						href="/pricing"
@@ -81,11 +95,18 @@ const WebhooksPage = async () => {
 				<div className="max-w-2xl flex flex-col gap-6">
 					{/* Info card */}
 					<div className="rounded-2xl border border-divider bg-content1 p-5">
-						<h2 className="font-semibold text-sm mb-1">{t('howItWorksTitle')}</h2>
-						<p className="text-sm text-default-500 leading-relaxed">{t('howItWorksDesc')}</p>
+						<h2 className="font-semibold text-sm mb-1">
+							{t('howItWorksTitle')}
+						</h2>
+						<p className="text-sm text-default-500 leading-relaxed">
+							{t('howItWorksDesc')}
+						</p>
 					</div>
 
-					<WebhookList webhooks={webhooks ?? []} translations={listTranslations} />
+					<WebhookList
+						webhooks={webhooks ?? []}
+						translations={listTranslations}
+					/>
 				</div>
 			)}
 		</>

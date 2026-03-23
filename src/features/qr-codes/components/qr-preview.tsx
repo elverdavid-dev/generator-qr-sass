@@ -2,7 +2,13 @@
 
 import { useEffect, useRef } from 'react'
 
-type DotType = 'square' | 'dots' | 'rounded' | 'classy' | 'classy-rounded' | 'extra-rounded'
+type DotType =
+	| 'square'
+	| 'dots'
+	| 'rounded'
+	| 'classy'
+	| 'classy-rounded'
+	| 'extra-rounded'
 type CornerSquareType = 'square' | 'dot' | 'extra-rounded'
 type CornerDotType = 'square' | 'dot'
 
@@ -45,7 +51,11 @@ const QrPreview = ({
 
 	const hasFrame = frameStyle && frameStyle !== 'none'
 
-	const buildGradient = (color1: string, color2: string | null | undefined, type: string) => {
+	const buildGradient = (
+		color1: string,
+		color2: string | null | undefined,
+		type: string,
+	) => {
 		if (!color2) return undefined
 		return {
 			type: type as 'linear' | 'radial',
@@ -100,7 +110,18 @@ const QrPreview = ({
 		} else {
 			instanceRef.current.update(options)
 		}
-	}, [value, fgColor, bgColor, dotStyle, cornerSquareStyle, cornerDotStyle, dotColor2, dotGradientType, logoUrl, size])
+	}, [
+		value,
+		fgColor,
+		bgColor,
+		dotStyle,
+		cornerSquareStyle,
+		cornerDotStyle,
+		dotColor2,
+		dotGradientType,
+		logoUrl,
+		size,
+	])
 
 	if (hasFrame) {
 		const borderWidth = frameStyle === 'bold' ? 8 : 4
@@ -124,7 +145,13 @@ const QrPreview = ({
 			>
 				<div
 					ref={containerRef}
-					style={{ width: size, height: size, lineHeight: 0, fontSize: 0, flexShrink: 0 }}
+					style={{
+						width: size,
+						height: size,
+						lineHeight: 0,
+						fontSize: 0,
+						flexShrink: 0,
+					}}
 				/>
 				<span
 					style={{
@@ -146,7 +173,13 @@ const QrPreview = ({
 		<div
 			ref={containerRef}
 			className={className}
-			style={{ width: size, height: size, flexShrink: 0, lineHeight: 0, fontSize: 0 }}
+			style={{
+				width: size,
+				height: size,
+				flexShrink: 0,
+				lineHeight: 0,
+				fontSize: 0,
+			}}
 		/>
 	)
 }

@@ -1,12 +1,18 @@
 'use client'
 
-import { useState, useTransition } from 'react'
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter } from '@heroui/modal'
 import { Button } from '@heroui/button'
 import { Input } from '@heroui/input'
+import {
+	Modal,
+	ModalBody,
+	ModalContent,
+	ModalFooter,
+	ModalHeader,
+} from '@heroui/modal'
+import { useState, useTransition } from 'react'
 import { toast } from 'sonner'
-import { saveTemplate } from '@/features/qr-codes/services/mutations/template-actions'
 import type { TemplateData } from '@/features/qr-codes/services/mutations/template-actions'
+import { saveTemplate } from '@/features/qr-codes/services/mutations/template-actions'
 
 interface SaveTemplateModalTranslations {
 	title: string
@@ -40,7 +46,10 @@ export default function SaveTemplateModal({
 		if (!name.trim()) return
 		startTransition(async () => {
 			const res = await saveTemplate({ ...templateData, name: name.trim() })
-			if (res.error) { toast.error(res.error); return }
+			if (res.error) {
+				toast.error(res.error)
+				return
+			}
 			toast.success(translations.saved)
 			setName('')
 			onSaved()
@@ -62,8 +71,15 @@ export default function SaveTemplateModal({
 					/>
 				</ModalBody>
 				<ModalFooter>
-					<Button variant="flat" onPress={onClose}>{translations.cancel}</Button>
-					<Button color="primary" isLoading={isPending} onPress={handleSave} isDisabled={!name.trim()}>
+					<Button variant="flat" onPress={onClose}>
+						{translations.cancel}
+					</Button>
+					<Button
+						color="primary"
+						isLoading={isPending}
+						onPress={handleSave}
+						isDisabled={!name.trim()}
+					>
 						{translations.save}
 					</Button>
 				</ModalFooter>

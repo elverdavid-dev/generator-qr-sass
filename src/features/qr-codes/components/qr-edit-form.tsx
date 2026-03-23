@@ -1,35 +1,38 @@
 'use client'
 
-import { zodResolver } from '@hookform/resolvers/zod'
-import type { Resolver } from 'react-hook-form'
 import { Button } from '@heroui/button'
 import { Input } from '@heroui/input'
+import { cn } from '@heroui/theme'
+import { zodResolver } from '@hookform/resolvers/zod'
 import {
-	GlobeIcon,
-	Message01Icon,
-	Mail02Icon,
-	SmartPhone01Icon,
-	Wifi01Icon,
-	UserIcon,
-	Location01Icon,
+	ArrowLeft02Icon,
 	Calendar03Icon,
 	CreditCardIcon,
-	ArrowLeft02Icon,
+	GlobeIcon,
 	ImageUploadIcon,
-	SmartPhone02Icon,
-	LockPasswordIcon,
 	ListViewIcon,
+	Location01Icon,
+	LockPasswordIcon,
+	Mail02Icon,
+	Message01Icon,
+	SmartPhone01Icon,
+	SmartPhone02Icon,
+	UserIcon,
+	Wifi01Icon,
 } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useRef, useState } from 'react'
+import type { Resolver } from 'react-hook-form'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
-import { cn } from '@heroui/theme'
-import { qrSchema, type QrFormData } from '@/features/qr-codes/schemas/qr-schema'
-import { updateQr } from '@/features/qr-codes/services/mutations/update-qr'
 import QrPreview from '@/features/qr-codes/components/qr-preview'
+import {
+	type QrFormData,
+	qrSchema,
+} from '@/features/qr-codes/schemas/qr-schema'
+import { updateQr } from '@/features/qr-codes/services/mutations/update-qr'
 import type { Folder, QrCode } from '@/shared/types/database.types'
 
 export interface QrEditFormTranslations {
@@ -73,10 +76,27 @@ export interface QrEditFormTranslations {
 	preview: string
 	noName: string
 	updated: string
-	dot: { square: string; dots: string; rounded: string; classic: string; classicR: string; extraR: string }
+	dot: {
+		square: string
+		dots: string
+		rounded: string
+		classic: string
+		classicR: string
+		extraR: string
+	}
 	corner: { square: string; circle: string }
 	frameStyle: { none: string; simple: string; rounded: string; thick: string }
-	types: { url: string; text: string; email: string; phone: string; wifi: string; contact: string; location: string; event: string; payment: string }
+	types: {
+		url: string
+		text: string
+		email: string
+		phone: string
+		wifi: string
+		contact: string
+		location: string
+		event: string
+		payment: string
+	}
 }
 
 interface Props {
@@ -88,18 +108,74 @@ interface Props {
 const QrEditForm = ({ qr, folders, translations }: Props) => {
 	const router = useRouter()
 	const fileInputRef = useRef<HTMLInputElement>(null)
-	const [logoPreview, setLogoPreview] = useState<string | null>(qr.logo_url ?? null)
+	const [logoPreview, setLogoPreview] = useState<string | null>(
+		qr.logo_url ?? null,
+	)
 
 	const QR_TYPES = [
-		{ id: 'url', name: translations.types.url, icon: GlobeIcon, color: 'bg-blue-500', placeholder: 'https://example.com' },
-		{ id: 'text', name: translations.types.text, icon: Message01Icon, color: 'bg-green-500', placeholder: 'Write your message...' },
-		{ id: 'email', name: translations.types.email, icon: Mail02Icon, color: 'bg-purple-500', placeholder: 'email@example.com' },
-		{ id: 'phone', name: translations.types.phone, icon: SmartPhone01Icon, color: 'bg-orange-500', placeholder: '+1234567890' },
-		{ id: 'wifi', name: translations.types.wifi, icon: Wifi01Icon, color: 'bg-indigo-500', placeholder: 'WIFI:T:WPA;S:NetworkName;P:password;;' },
-		{ id: 'vcard', name: translations.types.contact, icon: UserIcon, color: 'bg-pink-500', placeholder: 'BEGIN:VCARD\nVERSION:3.0\nFN:Name\nEND:VCARD' },
-		{ id: 'location', name: translations.types.location, icon: Location01Icon, color: 'bg-red-500', placeholder: 'geo:40.7128,-74.0060' },
-		{ id: 'event', name: translations.types.event, icon: Calendar03Icon, color: 'bg-yellow-500', placeholder: 'BEGIN:VEVENT\nSUMMARY:My Event\nEND:VEVENT' },
-		{ id: 'payment', name: translations.types.payment, icon: CreditCardIcon, color: 'bg-gray-500', placeholder: 'https://payment.example.com' },
+		{
+			id: 'url',
+			name: translations.types.url,
+			icon: GlobeIcon,
+			color: 'bg-blue-500',
+			placeholder: 'https://example.com',
+		},
+		{
+			id: 'text',
+			name: translations.types.text,
+			icon: Message01Icon,
+			color: 'bg-green-500',
+			placeholder: 'Write your message...',
+		},
+		{
+			id: 'email',
+			name: translations.types.email,
+			icon: Mail02Icon,
+			color: 'bg-purple-500',
+			placeholder: 'email@example.com',
+		},
+		{
+			id: 'phone',
+			name: translations.types.phone,
+			icon: SmartPhone01Icon,
+			color: 'bg-orange-500',
+			placeholder: '+1234567890',
+		},
+		{
+			id: 'wifi',
+			name: translations.types.wifi,
+			icon: Wifi01Icon,
+			color: 'bg-indigo-500',
+			placeholder: 'WIFI:T:WPA;S:NetworkName;P:password;;',
+		},
+		{
+			id: 'vcard',
+			name: translations.types.contact,
+			icon: UserIcon,
+			color: 'bg-pink-500',
+			placeholder: 'BEGIN:VCARD\nVERSION:3.0\nFN:Name\nEND:VCARD',
+		},
+		{
+			id: 'location',
+			name: translations.types.location,
+			icon: Location01Icon,
+			color: 'bg-red-500',
+			placeholder: 'geo:40.7128,-74.0060',
+		},
+		{
+			id: 'event',
+			name: translations.types.event,
+			icon: Calendar03Icon,
+			color: 'bg-yellow-500',
+			placeholder: 'BEGIN:VEVENT\nSUMMARY:My Event\nEND:VEVENT',
+		},
+		{
+			id: 'payment',
+			name: translations.types.payment,
+			icon: CreditCardIcon,
+			color: 'bg-gray-500',
+			placeholder: 'https://payment.example.com',
+		},
 	]
 
 	const DOT_STYLES = [
@@ -147,8 +223,10 @@ const QrEditForm = ({ qr, folders, translations }: Props) => {
 			corner_square_style: qr.corner_square_style ?? 'square',
 			corner_dot_style: qr.corner_dot_style ?? 'square',
 			dot_color_2: qr.dot_color_2 ?? undefined,
-			dot_gradient_type: (qr.dot_gradient_type as 'linear' | 'radial') ?? 'linear',
-			frame_style: (qr.frame_style as 'none' | 'simple' | 'rounded' | 'bold') ?? 'none',
+			dot_gradient_type:
+				(qr.dot_gradient_type as 'linear' | 'radial') ?? 'linear',
+			frame_style:
+				(qr.frame_style as 'none' | 'simple' | 'rounded' | 'bold') ?? 'none',
 			frame_color: qr.frame_color ?? '#000000',
 			frame_text: qr.frame_text ?? translations.framePlaceholder,
 			folder_id: qr.folder_id ?? undefined,
@@ -213,7 +291,6 @@ const QrEditForm = ({ qr, folders, translations }: Props) => {
 		<form onSubmit={handleSubmit(onSubmit)} className="flex gap-8">
 			{/* Left: Config panel */}
 			<div className="flex-1 flex flex-col gap-6">
-
 				{/* QR Type */}
 				<div>
 					{sectionTitle(translations.qrType)}
@@ -230,7 +307,12 @@ const QrEditForm = ({ qr, folders, translations }: Props) => {
 										: 'border-divider bg-content1 text-default-600 hover:border-default-400',
 								)}
 							>
-								<span className={cn('p-1.5 rounded-lg text-white shrink-0', type.color)}>
+								<span
+									className={cn(
+										'p-1.5 rounded-lg text-white shrink-0',
+										type.color,
+									)}
+								>
 									<HugeiconsIcon icon={type.icon} size={14} />
 								</span>
 								{type.name}
@@ -319,25 +401,33 @@ const QrEditForm = ({ qr, folders, translations }: Props) => {
 					{sectionTitle(translations.colors)}
 					<div className="flex gap-4">
 						<div className="flex flex-col gap-1">
-							<label className="text-xs text-default-500">{translations.background}</label>
+							<label className="text-xs text-default-500">
+								{translations.background}
+							</label>
 							<div className="flex items-center gap-2 p-2 border border-divider rounded-xl bg-content1">
 								<input
 									type="color"
 									{...register('bg_color')}
 									className="w-8 h-8 rounded cursor-pointer border-0 bg-transparent"
 								/>
-								<span className="text-sm font-mono text-default-600">{watchedBg}</span>
+								<span className="text-sm font-mono text-default-600">
+									{watchedBg}
+								</span>
 							</div>
 						</div>
 						<div className="flex flex-col gap-1">
-							<label className="text-xs text-default-500">{translations.qrColor}</label>
+							<label className="text-xs text-default-500">
+								{translations.qrColor}
+							</label>
 							<div className="flex items-center gap-2 p-2 border border-divider rounded-xl bg-content1">
 								<input
 									type="color"
 									{...register('fg_color')}
 									className="w-8 h-8 rounded cursor-pointer border-0 bg-transparent"
 								/>
-								<span className="text-sm font-mono text-default-600">{watchedFg}</span>
+								<span className="text-sm font-mono text-default-600">
+									{watchedFg}
+								</span>
 							</div>
 						</div>
 					</div>
@@ -348,10 +438,14 @@ const QrEditForm = ({ qr, folders, translations }: Props) => {
 					{sectionTitle(translations.colorGradient)}
 					<div className="flex flex-col gap-3">
 						<div className="flex items-center justify-between p-3 bg-content1 border border-divider rounded-xl">
-							<span className="text-sm text-default-600">{translations.enableGradient}</span>
+							<span className="text-sm text-default-600">
+								{translations.enableGradient}
+							</span>
 							<button
 								type="button"
-								onClick={() => setValue('dot_color_2', hasGradient ? null : '#ff6600')}
+								onClick={() =>
+									setValue('dot_color_2', hasGradient ? null : '#ff6600')
+								}
 								className={cn(
 									'relative w-10 h-6 rounded-full transition-colors',
 									hasGradient ? 'bg-primary' : 'bg-default-200',
@@ -368,30 +462,40 @@ const QrEditForm = ({ qr, folders, translations }: Props) => {
 						{hasGradient && (
 							<div className="flex gap-3 items-end">
 								<div className="flex flex-col gap-1">
-									<label className="text-xs text-default-500">{translations.color2}</label>
+									<label className="text-xs text-default-500">
+										{translations.color2}
+									</label>
 									<div className="flex items-center gap-2 p-2 border border-divider rounded-xl bg-content1">
 										<input
 											type="color"
 											{...register('dot_color_2')}
 											className="w-8 h-8 rounded cursor-pointer border-0 bg-transparent"
 										/>
-										<span className="text-sm font-mono text-default-600">{watchedDotColor2}</span>
+										<span className="text-sm font-mono text-default-600">
+											{watchedDotColor2}
+										</span>
 									</div>
 								</div>
 								<div className="flex flex-col gap-1 flex-1">
-									<label className="text-xs text-default-500">{translations.gradientType}</label>
+									<label className="text-xs text-default-500">
+										{translations.gradientType}
+									</label>
 									<div className="grid grid-cols-2 gap-2">
 										<button
 											type="button"
 											onClick={() => setValue('dot_gradient_type', 'linear')}
-											className={styleButtonClass(watchedGradientType === 'linear')}
+											className={styleButtonClass(
+												watchedGradientType === 'linear',
+											)}
 										>
 											{translations.linear}
 										</button>
 										<button
 											type="button"
 											onClick={() => setValue('dot_gradient_type', 'radial')}
-											className={styleButtonClass(watchedGradientType === 'radial')}
+											className={styleButtonClass(
+												watchedGradientType === 'radial',
+											)}
 										>
 											{translations.radial}
 										</button>
@@ -411,7 +515,12 @@ const QrEditForm = ({ qr, folders, translations }: Props) => {
 								<button
 									key={style.id}
 									type="button"
-									onClick={() => setValue('frame_style', style.id as 'none' | 'simple' | 'rounded' | 'bold')}
+									onClick={() =>
+										setValue(
+											'frame_style',
+											style.id as 'none' | 'simple' | 'rounded' | 'bold',
+										)
+									}
 									className={styleButtonClass(watchedFrameStyle === style.id)}
 								>
 									{style.name}
@@ -421,7 +530,9 @@ const QrEditForm = ({ qr, folders, translations }: Props) => {
 						{hasFrame && (
 							<div className="flex gap-3">
 								<div className="flex flex-col gap-1">
-									<label className="text-xs text-default-500">{translations.frameColor}</label>
+									<label className="text-xs text-default-500">
+										{translations.frameColor}
+									</label>
 									<div className="flex items-center gap-2 p-2 border border-divider rounded-xl bg-content1">
 										<input
 											type="color"
@@ -431,7 +542,9 @@ const QrEditForm = ({ qr, folders, translations }: Props) => {
 									</div>
 								</div>
 								<div className="flex flex-col gap-1 flex-1">
-									<label className="text-xs text-default-500">{translations.frameText}</label>
+									<label className="text-xs text-default-500">
+										{translations.frameText}
+									</label>
 									<input
 										{...register('frame_text')}
 										placeholder={translations.framePlaceholder}
@@ -460,7 +573,11 @@ const QrEditForm = ({ qr, folders, translations }: Props) => {
 					>
 						{logoPreview ? (
 							<>
-								<img src={logoPreview} alt="Logo" className="w-8 h-8 object-contain rounded" />
+								<img
+									src={logoPreview}
+									alt="Logo"
+									className="w-8 h-8 object-contain rounded"
+								/>
 								<span className="text-sm">{translations.changeLogo}</span>
 							</>
 						) : (
@@ -494,12 +611,18 @@ const QrEditForm = ({ qr, folders, translations }: Props) => {
 				<div className="bg-content1 border border-divider rounded-2xl p-4 flex flex-col gap-4">
 					<div className="flex items-center gap-2 text-default-600">
 						<HugeiconsIcon icon={LockPasswordIcon} size={16} />
-						<span className="font-semibold text-sm">{translations.protection}</span>
+						<span className="font-semibold text-sm">
+							{translations.protection}
+						</span>
 					</div>
 					<div className="grid grid-cols-1 gap-3">
 						<div>
 							<label className="text-xs text-default-500 mb-1 block">
-								<HugeiconsIcon icon={LockPasswordIcon} size={12} className="inline mr-1" />
+								<HugeiconsIcon
+									icon={LockPasswordIcon}
+									size={12}
+									className="inline mr-1"
+								/>
 								{translations.password}
 							</label>
 							<input
@@ -512,7 +635,11 @@ const QrEditForm = ({ qr, folders, translations }: Props) => {
 						<div className="grid grid-cols-2 gap-3">
 							<div>
 								<label className="text-xs text-default-500 mb-1 block">
-									<HugeiconsIcon icon={Calendar03Icon} size={12} className="inline mr-1" />
+									<HugeiconsIcon
+										icon={Calendar03Icon}
+										size={12}
+										className="inline mr-1"
+									/>
 									{translations.expiry}
 								</label>
 								<input
@@ -523,7 +650,11 @@ const QrEditForm = ({ qr, folders, translations }: Props) => {
 							</div>
 							<div>
 								<label className="text-xs text-default-500 mb-1 block">
-									<HugeiconsIcon icon={ListViewIcon} size={12} className="inline mr-1" />
+									<HugeiconsIcon
+										icon={ListViewIcon}
+										size={12}
+										className="inline mr-1"
+									/>
 									{translations.maxScans}
 								</label>
 								<input
@@ -543,14 +674,18 @@ const QrEditForm = ({ qr, folders, translations }: Props) => {
 					<div className="bg-content1 border border-divider rounded-2xl p-4 flex flex-col gap-4">
 						<div className="flex items-center gap-2 text-default-600">
 							<HugeiconsIcon icon={SmartPhone02Icon} size={16} />
-							<span className="font-semibold text-sm">{translations.deviceRedirect}</span>
+							<span className="font-semibold text-sm">
+								{translations.deviceRedirect}
+							</span>
 						</div>
 						<p className="text-xs text-default-400 -mt-2">
 							{translations.deviceRedirectDesc}
 						</p>
 						<div className="grid grid-cols-1 gap-3">
 							<div>
-								<label className="text-xs text-default-500 mb-1 block">{translations.iosUrl}</label>
+								<label className="text-xs text-default-500 mb-1 block">
+									{translations.iosUrl}
+								</label>
 								<input
 									{...register('ios_url')}
 									type="url"
@@ -559,7 +694,9 @@ const QrEditForm = ({ qr, folders, translations }: Props) => {
 								/>
 							</div>
 							<div>
-								<label className="text-xs text-default-500 mb-1 block">{translations.androidUrl}</label>
+								<label className="text-xs text-default-500 mb-1 block">
+									{translations.androidUrl}
+								</label>
 								<input
 									{...register('android_url')}
 									type="url"
@@ -581,7 +718,12 @@ const QrEditForm = ({ qr, folders, translations }: Props) => {
 					>
 						{translations.cancel}
 					</Button>
-					<Button type="submit" color="primary" isLoading={isSubmitting} className="flex-1">
+					<Button
+						type="submit"
+						color="primary"
+						isLoading={isSubmitting}
+						className="flex-1"
+					>
 						{translations.submit}
 					</Button>
 				</div>
@@ -590,7 +732,9 @@ const QrEditForm = ({ qr, folders, translations }: Props) => {
 			{/* Right: Live preview */}
 			<div className="w-72 shrink-0">
 				<div className="sticky top-6">
-					<h2 className="font-semibold mb-3 text-default-700">{translations.preview}</h2>
+					<h2 className="font-semibold mb-3 text-default-700">
+						{translations.preview}
+					</h2>
 					<div className="bg-content1 border border-divider rounded-2xl p-6 flex flex-col items-center gap-4 shadow-sm">
 						<QrPreview
 							value={qrValue}

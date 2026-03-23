@@ -1,7 +1,7 @@
 'use client'
 
-import type { FC } from 'react'
 import { HugeiconsIcon } from '@hugeicons/react'
+import type { FC } from 'react'
 
 interface Props {
 	label: string
@@ -29,7 +29,9 @@ const MetricCard: FC<Props> = ({
 	return (
 		<div className="flex flex-col gap-3 bg-content1 border border-divider rounded-2xl p-5 w-full shadow-sm">
 			<div className="flex items-center justify-between">
-				<div className={`w-9 h-9 flex items-center justify-center ${iconBg} rounded-xl`}>
+				<div
+					className={`w-9 h-9 flex items-center justify-center ${iconBg} rounded-xl`}
+				>
 					<HugeiconsIcon icon={icon} size={18} className={iconColor} />
 				</div>
 				{change != null && (

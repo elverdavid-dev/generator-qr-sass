@@ -1,4 +1,4 @@
-import { createClient } from '@/shared/lib/supabase/server'
+import { createAdminClient } from '@/shared/lib/supabase/admin'
 
 export interface WebhookPayload {
 	event: 'qr.scanned'
@@ -29,12 +29,15 @@ async function signPayload(payload: string, secret: string): Promise<string> {
 	)
 	const sig = await crypto.subtle.sign('HMAC', key, enc.encode(payload))
 	return Array.from(new Uint8Array(sig))
-		.map(b => b.toString(16).padStart(2, '0'))
+		.map((b) => b.toString(16).padStart(2, '0'))
 		.join('')
 }
 
-export const deliverWebhooks = async (user_id: string, payload: WebhookPayload) => {
-	const supabase = await createClient()
+export const deliverWebhooks = async (
+	user_id: string,
+	payload: WebhookPayload,
+) => {
+	const supabase = createAdminClient()
 
 	const { data: webhooks } = await supabase
 		.from('webhooks')

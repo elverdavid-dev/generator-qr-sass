@@ -1,9 +1,9 @@
 'use server'
 
-import { createClient } from '@/shared/lib/supabase/server'
-import { getSession } from '@/shared/lib/supabase/get-session'
 import { revalidatePath } from 'next/cache'
 import { hasFeature } from '@/features/billing/config/plans'
+import { getSession } from '@/shared/lib/supabase/get-session'
+import { createClient } from '@/shared/lib/supabase/server'
 
 export interface TemplateData {
 	name: string

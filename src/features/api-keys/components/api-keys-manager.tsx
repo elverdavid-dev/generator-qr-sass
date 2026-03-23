@@ -83,7 +83,7 @@ export default function ApiKeysManager({ initialKeys, baseUrl, translations: t }
 		// Refrescar lista
 		const prefix = result.key?.slice(0, 12) ?? ''
 		setKeys(prev => [{
-			id: crypto.randomUUID(),
+			id: result.id ?? crypto.randomUUID(),
 			name: newKeyName.trim(),
 			key_prefix: prefix,
 			is_active: true,

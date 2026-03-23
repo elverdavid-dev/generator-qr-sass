@@ -1,7 +1,7 @@
 'use server'
+import type { QrFormData } from '@/features/qr-codes/schemas/qr-schema'
 import { createAdminClient } from '@/shared/lib/supabase/admin'
 import { uploadImage } from '@/shared/lib/supabase/upload-image'
-import type { QrFormData } from '@/features/qr-codes/schemas/qr-schema'
 
 export const updateQr = async (id: string, formData: Partial<QrFormData>) => {
 	const supabase = createAdminClient()

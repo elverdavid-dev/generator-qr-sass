@@ -13,9 +13,12 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { type FC, useTransition } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
+import {
+	type FolderFormData,
+	folderSchema,
+} from '@/features/folders/schemas/folder-schema'
 import { createFolder } from '@/features/folders/services/mutations/create-folder'
 import { updateFolder } from '@/features/folders/services/mutations/update-folder'
-import { folderSchema, type FolderFormData } from '@/features/folders/schemas/folder-schema'
 import type { Folder } from '@/shared/types/database.types'
 
 interface CreateFolderTranslations {
@@ -38,7 +41,13 @@ interface Props {
 	translations: CreateFolderTranslations
 }
 
-const CreateFolderModal: FC<Props> = ({ folder, isOpen, onOpenChange, onClose, translations }) => {
+const CreateFolderModal: FC<Props> = ({
+	folder,
+	isOpen,
+	onOpenChange,
+	onClose,
+	translations,
+}) => {
 	const [isPending, startTransition] = useTransition()
 	const {
 		register,

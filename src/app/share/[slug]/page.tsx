@@ -1,8 +1,8 @@
+import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { createClient } from '@/shared/lib/supabase/server'
 import { getTrackingUrl } from '@/shared/utils/get-tracking-url'
 import ShareQrClient from './share-qr-client'
-import type { Metadata } from 'next'
 
 interface Props {
 	params: Promise<{ slug: string }>
@@ -29,7 +29,9 @@ export default async function ShareQrPage({ params }: Props) {
 
 	const { data: qr } = await supabase
 		.from('qrs')
-		.select('id, name, slug, custom_slug, fg_color, bg_color, dot_style, is_active')
+		.select(
+			'id, name, slug, custom_slug, fg_color, bg_color, dot_style, is_active',
+		)
 		.or(`slug.eq.${slug},custom_slug.eq.${slug}`)
 		.single()
 

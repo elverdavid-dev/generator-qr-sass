@@ -3,7 +3,7 @@
 import { Avatar } from '@heroui/avatar'
 import { Button } from '@heroui/button'
 import { Input } from '@heroui/input'
-import { UserEdit01Icon, Camera01Icon } from '@hugeicons/core-free-icons'
+import { Camera01Icon, UserEdit01Icon } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 import { useRef, useState, useTransition } from 'react'
 import { toast } from 'sonner'
@@ -30,7 +30,9 @@ interface Props {
 
 export default function ProfileForm({ profile, translations }: Props) {
 	const [isPending, startTransition] = useTransition()
-	const [avatarPreview, setAvatarPreview] = useState<string>(profile.avatar_url ?? '')
+	const [avatarPreview, setAvatarPreview] = useState<string>(
+		profile.avatar_url ?? '',
+	)
 	const [avatarFile, setAvatarFile] = useState<File | null>(null)
 	const fileInputRef = useRef<HTMLInputElement>(null)
 
@@ -130,7 +132,9 @@ export default function ProfileForm({ profile, translations }: Props) {
 				type="submit"
 				color="primary"
 				isLoading={isPending}
-				startContent={!isPending && <HugeiconsIcon icon={UserEdit01Icon} size={16} />}
+				startContent={
+					!isPending && <HugeiconsIcon icon={UserEdit01Icon} size={16} />
+				}
 				className="self-end"
 			>
 				{translations.save}

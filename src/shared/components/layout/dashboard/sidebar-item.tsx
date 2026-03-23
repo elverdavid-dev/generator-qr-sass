@@ -3,10 +3,12 @@
 import { cn } from '@heroui/react'
 import {
 	Analytics02Icon,
+	ApiIcon,
 	Crown02Icon,
 	DashboardSquare02Icon,
 	QrCodeIcon,
 	StarIcon,
+	TeamviewerIcon,
 	UserAccountIcon,
 	WebhookIcon,
 } from '@hugeicons/core-free-icons'
@@ -36,9 +38,16 @@ const NAV_ICONS: Record<string, any> = {
 	'/dashboard/profile': UserAccountIcon,
 	'/dashboard/billing': Crown02Icon,
 	'/dashboard/webhooks': WebhookIcon,
+	'/dashboard/api': ApiIcon,
+	'/dashboard/team': TeamviewerIcon,
 }
 
-const SidebarItem = ({ navLabel, accountLabel, navItems, bottomItems }: Props) => {
+const SidebarItem = ({
+	navLabel,
+	accountLabel,
+	navItems,
+	bottomItems,
+}: Props) => {
 	const pathname = usePathname()
 
 	const isActive = (path: string) =>
@@ -55,7 +64,8 @@ const SidebarItem = ({ navLabel, accountLabel, navItems, bottomItems }: Props) =
 					href={path}
 					className={cn(
 						'flex items-center gap-x-2 border-l-2 border-transparent p-2 rounded-r-lg transition-colors text-default-600 hover:text-primary hover:border-primary hover:bg-primary/5',
-						isActive(path) && 'border-primary text-primary bg-primary/5 font-medium',
+						isActive(path) &&
+							'border-primary text-primary bg-primary/5 font-medium',
 					)}
 				>
 					<HugeiconsIcon icon={NAV_ICONS[path]} size={20} />
@@ -73,7 +83,8 @@ const SidebarItem = ({ navLabel, accountLabel, navItems, bottomItems }: Props) =
 						href={path}
 						className={cn(
 							'flex items-center gap-x-2 border-l-2 border-transparent p-2 rounded-r-lg transition-colors text-default-600 hover:text-primary hover:border-primary hover:bg-primary/5',
-							isActive(path) && 'border-primary text-primary bg-primary/5 font-medium',
+							isActive(path) &&
+								'border-primary text-primary bg-primary/5 font-medium',
 						)}
 					>
 						<HugeiconsIcon icon={NAV_ICONS[path]} size={20} />

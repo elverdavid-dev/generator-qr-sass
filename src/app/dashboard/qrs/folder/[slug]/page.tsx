@@ -46,7 +46,7 @@ const FolderViewPage = async ({ params, searchParams }: Props) => {
 
 	const qrs: QrCode[] =
 		qrsResult.status === 'fulfilled' && 'data' in qrsResult.value
-			? (qrsResult.value.data as QrCode[]) ?? []
+			? ((qrsResult.value.data as QrCode[]) ?? [])
 			: []
 
 	const total =
@@ -56,7 +56,7 @@ const FolderViewPage = async ({ params, searchParams }: Props) => {
 
 	const folders: Folder[] =
 		foldersResult.status === 'fulfilled' && 'data' in foldersResult.value
-			? (foldersResult.value.data as Folder[]) ?? []
+			? ((foldersResult.value.data as Folder[]) ?? [])
 			: []
 
 	const qrTableTranslations = {
@@ -85,6 +85,10 @@ const FolderViewPage = async ({ params, searchParams }: Props) => {
 			removeFavorite: t('actions.removeFavorite'),
 			favoriteAdded: t('actions.favoriteAdded'),
 			favoriteRemoved: t('actions.favoriteRemoved'),
+			share: t('actions.share'),
+			shareCopied: t('actions.shareCopied'),
+			saveFromQr: t('actions.saveFromQr'),
+			templateSaved: t('actions.templateSaved'),
 		},
 		folder: {
 			moveTitle: t('folder.moveTitle'),
@@ -116,7 +120,11 @@ const FolderViewPage = async ({ params, searchParams }: Props) => {
 				<div>
 					<div className="flex items-center gap-2">
 						<span className="bg-primary/10 p-2 rounded-xl">
-							<HugeiconsIcon icon={Folder01Icon} size={20} className="text-primary" />
+							<HugeiconsIcon
+								icon={Folder01Icon}
+								size={20}
+								className="text-primary"
+							/>
 						</span>
 						<h1 className="text-3xl font-bold capitalize">{folder.name}</h1>
 					</div>

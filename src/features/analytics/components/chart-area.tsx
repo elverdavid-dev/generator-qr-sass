@@ -1,9 +1,9 @@
 'use client'
 
+import type { ApexOptions } from 'apexcharts'
 import dynamic from 'next/dynamic'
 import { useTheme } from 'next-themes'
 import { useState } from 'react'
-import type { ApexOptions } from 'apexcharts'
 
 const ReactApexChart = dynamic(() => import('react-apexcharts'), { ssr: false })
 
@@ -34,7 +34,10 @@ interface Props {
 const formatLabel = (date: string, period: Period): string => {
 	if (period === 'month') {
 		const [year, month] = date.split('-')
-		return new Date(Number(year), Number(month) - 1).toLocaleString('es', { month: 'short', year: '2-digit' })
+		return new Date(Number(year), Number(month) - 1).toLocaleString('es', {
+			month: 'short',
+			year: '2-digit',
+		})
 	}
 	if (period === 'week') {
 		const d = new Date(date)
@@ -45,7 +48,12 @@ const formatLabel = (date: string, period: Period): string => {
 	return d.toLocaleString('es', { day: '2-digit', month: 'short' })
 }
 
-export default function ChartArea({ scansPerDay, scansPerWeek, scansPerMonth, translations }: Props) {
+export default function ChartArea({
+	scansPerDay,
+	scansPerWeek,
+	scansPerMonth,
+	translations,
+}: Props) {
 	const [period, setPeriod] = useState<Period>('day')
 	const { resolvedTheme } = useTheme()
 	const isDark = resolvedTheme === 'dark'
@@ -80,12 +88,20 @@ export default function ChartArea({ scansPerDay, scansPerWeek, scansPerMonth, tr
 			axisBorder: { show: false },
 			axisTicks: { show: false },
 		},
-		yaxis: { min: 0, labels: { style: { fontSize: '11px', colors: labelColor } } },
+		yaxis: {
+			min: 0,
+			labels: { style: { fontSize: '11px', colors: labelColor } },
+		},
 		dataLabels: { enabled: false },
 		stroke: { curve: 'smooth', width: 2.5 },
 		fill: {
 			type: 'gradient',
-			gradient: { shadeIntensity: 1, opacityFrom: 0.3, opacityTo: 0.02, stops: [0, 100] },
+			gradient: {
+				shadeIntensity: 1,
+				opacityFrom: 0.3,
+				opacityTo: 0.02,
+				stops: [0, 100],
+			},
 		},
 		colors: ['#3641f5'],
 		grid: {
@@ -107,7 +123,9 @@ export default function ChartArea({ scansPerDay, scansPerWeek, scansPerMonth, tr
 					<h3 className="font-semibold text-base">{translations.chartTitle}</h3>
 					<p className="text-xs text-default-400 mt-0.5">
 						{translations.chartTotal}:{' '}
-						<span className="font-semibold text-default-600">{total.toLocaleString()}</span>{' '}
+						<span className="font-semibold text-default-600">
+							{total.toLocaleString()}
+						</span>{' '}
 						{translations.chartScans}
 					</p>
 				</div>
@@ -134,7 +152,9 @@ export default function ChartArea({ scansPerDay, scansPerWeek, scansPerMonth, tr
 			<ReactApexChart
 				type="area"
 				options={options}
-				series={[{ name: translations.scansLabel, data: data.map((d) => d.count) }]}
+				series={[
+					{ name: translations.scansLabel, data: data.map((d) => d.count) },
+				]}
 				height={260}
 			/>
 		</div>

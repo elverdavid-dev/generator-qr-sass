@@ -1,0 +1,20 @@
+{
+  "status": "commited",
+  "type": "frontend",
+  "scope": "codebase",
+  "localEndpoint": "http://localhost:3000",
+  "loginUser": "\ttestfree_qrgenerator@mailinator.com",
+  "loginPassword": "Test1234!",
+  "executionArgs": {
+    "projectName": "generator-qr-sass",
+    "projectPath": "c:\\Users\\ElverDavidPeñate\\Documents\\workspace\\projects\\nextjs\\generator-qr-sass",
+    "testIds": [],
+    "additionalInstruction": "Focus on critical user flows: login with email/password, QR code creation, QR list management (toggle active/inactive, delete, favorite), pricing page annual/monthly toggle, plan limits enforcement (free plan 3 QR cap), dashboard navigation. These are the most important flows for production reliability.",
+    "serverMode": "development",
+    "envs": {
+      "API_KEY": "sk-user-OAnISLHoa8IuCGTTD-q_xR4QhQwEcHbvdJPI_FkiifWgJ2wel5lu0HuwdrOCgFVmqL6cv3ZE5oUeuwENSPwGNEYqrAs7PmjNVNYgKQlJWTJIB0fx65-Dwm7-RxiybD5XRq4"
+    }
+  },
+  "serverPort": 56505,
+  "proxy": "http://66987fa1-72e7-495d-a204-95bc5d6485c6:5mlODTVgDqYR9qSS8jDrDdp2MbsQwi9i@tun.testsprite.com:8080"
+}

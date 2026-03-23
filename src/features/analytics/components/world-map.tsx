@@ -29,8 +29,12 @@ const WorldMap: FC<Props> = ({ data, translations }) => {
 		<div className="bg-content1 border border-divider rounded-2xl p-5 shadow-sm h-full">
 			{/* Header */}
 			<div className="mb-3">
-				<h3 className="font-semibold text-base">{translations.scansDemography}</h3>
-				<p className="text-xs text-default-400 mt-0.5">{translations.countryDistribution}</p>
+				<h3 className="font-semibold text-base">
+					{translations.scansDemography}
+				</h3>
+				<p className="text-xs text-default-400 mt-0.5">
+					{translations.countryDistribution}
+				</p>
 			</div>
 
 			{/* Map */}

@@ -3,10 +3,10 @@ import { Home01Icon, QrCodeIcon } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 import { redirect } from 'next/navigation'
 import { getTranslations } from 'next-intl/server'
-import { getSession } from '@/shared/lib/supabase/get-session'
 import { getFolders } from '@/features/folders/services/queries/get-folders'
-import { getTemplates } from '@/features/qr-codes/services/queries/get-templates'
 import QrForm from '@/features/qr-codes/components/qr-form'
+import { getTemplates } from '@/features/qr-codes/services/queries/get-templates'
+import { getSession } from '@/shared/lib/supabase/get-session'
 import type { Folder, QrTemplate } from '@/shared/types/database.types'
 
 const NewQrPage = async () => {
@@ -126,22 +126,24 @@ const NewQrPage = async () => {
 			<div className="py-6">
 				<div className="flex items-center gap-3">
 					<div className="p-2 bg-primary/10 rounded-xl">
-						<HugeiconsIcon icon={QrCodeIcon} size={24} className="text-primary" />
+						<HugeiconsIcon
+							icon={QrCodeIcon}
+							size={24}
+							className="text-primary"
+						/>
 					</div>
 					<div>
 						<h1 className="text-3xl font-bold">{t('new.title')}</h1>
-						<p className="text-default-500 mt-1">
-							{t('new.subtitle')}
-						</p>
+						<p className="text-default-500 mt-1">{t('new.subtitle')}</p>
 					</div>
 				</div>
 			</div>
 
 			<QrForm
-					folders={(folders as Folder[]) ?? []}
-					templates={(templates as QrTemplate[]) ?? []}
-					translations={formTranslations}
-				/>
+				folders={(folders as Folder[]) ?? []}
+				templates={(templates as QrTemplate[]) ?? []}
+				translations={formTranslations}
+			/>
 		</>
 	)
 }

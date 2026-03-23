@@ -1,8 +1,11 @@
-import { createClient } from '@/shared/lib/supabase/server'
 import { getSession } from '@/shared/lib/supabase/get-session'
+import { createClient } from '@/shared/lib/supabase/server'
 import type { Webhook } from '@/shared/types/database.types'
 
-export const getWebhooks = async (): Promise<{ data: Webhook[] | null; error: string | null }> => {
+export const getWebhooks = async (): Promise<{
+	data: Webhook[] | null
+	error: string | null
+}> => {
 	const { data: session } = await getSession()
 	if (!session?.user) return { data: null, error: 'No autenticado' }
 

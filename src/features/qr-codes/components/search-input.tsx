@@ -33,7 +33,11 @@ const SearchInput = ({ placeholder }: Props) => {
 			isClearable
 			className="w-72"
 			startContent={
-				<HugeiconsIcon icon={Search01Icon} size={18} className="text-default-400" />
+				<HugeiconsIcon
+					icon={Search01Icon}
+					size={18}
+					className="text-default-400"
+				/>
 			}
 			onClear={() => router.replace('/dashboard/qrs')}
 			onChange={(e) => handleSearch(e.target.value)}

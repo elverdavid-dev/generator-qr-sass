@@ -1,11 +1,11 @@
 'use server'
+import type { PlanId } from '@/features/billing/config/plans'
+import { canCreateQr, hasFeature } from '@/features/billing/config/plans'
+import type { QrFormData } from '@/features/qr-codes/schemas/qr-schema'
 import { createAdminClient } from '@/shared/lib/supabase/admin'
 import { getSession } from '@/shared/lib/supabase/get-session'
 import { uploadImage } from '@/shared/lib/supabase/upload-image'
 import { generateSlug } from '@/shared/utils/generate-slug'
-import type { QrFormData } from '@/features/qr-codes/schemas/qr-schema'
-import { canCreateQr, hasFeature } from '@/features/billing/config/plans'
-import type { PlanId } from '@/features/billing/config/plans'
 
 export const createQr = async (formData: QrFormData) => {
 	const { data: session } = await getSession()
@@ -28,7 +28,8 @@ export const createQr = async (formData: QrFormData) => {
 
 	if (!canCreateQr(plan, count ?? 0)) {
 		return {
-			error: 'Has alcanzado el límite de QR codes de tu plan. Actualiza a Pro para crear ilimitados.',
+			error:
+				'Has alcanzado el límite de QR codes de tu plan. Actualiza a Pro para crear ilimitados.',
 		}
 	}
 
@@ -81,12 +82,24 @@ export const createQr = async (formData: QrFormData) => {
 			max_scans: formData.max_scans ?? null,
 			ios_url: formData.ios_url || null,
 			android_url: formData.android_url || null,
-			custom_slug: hasFeature(plan, 'customSlug') ? (formData.custom_slug || null) : null,
-			utm_source: hasFeature(plan, 'utmParams') ? (formData.utm_source || null) : null,
-			utm_medium: hasFeature(plan, 'utmParams') ? (formData.utm_medium || null) : null,
-			utm_campaign: hasFeature(plan, 'utmParams') ? (formData.utm_campaign || null) : null,
-			utm_term: hasFeature(plan, 'utmParams') ? (formData.utm_term || null) : null,
-			utm_content: hasFeature(plan, 'utmParams') ? (formData.utm_content || null) : null,
+			custom_slug: hasFeature(plan, 'customSlug')
+				? formData.custom_slug || null
+				: null,
+			utm_source: hasFeature(plan, 'utmParams')
+				? formData.utm_source || null
+				: null,
+			utm_medium: hasFeature(plan, 'utmParams')
+				? formData.utm_medium || null
+				: null,
+			utm_campaign: hasFeature(plan, 'utmParams')
+				? formData.utm_campaign || null
+				: null,
+			utm_term: hasFeature(plan, 'utmParams')
+				? formData.utm_term || null
+				: null,
+			utm_content: hasFeature(plan, 'utmParams')
+				? formData.utm_content || null
+				: null,
 			slug,
 			logo_url,
 			logo_path,

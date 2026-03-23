@@ -1,0 +1,243 @@
+version: "2"
+type: frontend
+tech_stack:
+  - language: TypeScript
+  - framework: Next.js 16 App Router
+  - ui_library: HeroUI v2, Tailwind CSS v4
+  - other: Supabase, next-intl, Lemon Squeezy, React Hook Form, Zod, Sonner
+
+routes:
+  - path: /
+    file: src/app/(pages)/home/page.tsx
+    auth_required: false
+    description: Landing page with hero, features and pricing section
+  - path: /pricing
+    file: src/app/(pages)/pricing/page.tsx
+    auth_required: false
+    description: Pricing page with monthly/annual billing toggle
+  - path: /login
+    file: src/app/(auth)/login/page.tsx
+    auth_required: false
+    description: Login with email/password or Google OAuth
+  - path: /register
+    file: src/app/(auth)/register/page.tsx
+    auth_required: false
+    description: Register with email/password or Google OAuth
+  - path: /dashboard
+    file: src/app/dashboard/page.tsx
+    auth_required: true
+    description: Dashboard overview with stats
+  - path: /dashboard/qrs
+    file: src/app/dashboard/qrs/page.tsx
+    auth_required: true
+    description: QR code list with CRUD and bulk actions
+  - path: /dashboard/qrs/new
+    file: src/app/dashboard/qrs/new/page.tsx
+    auth_required: true
+    description: Create new QR code with live preview
+  - path: /dashboard/analytics
+    file: src/app/dashboard/analytics/page.tsx
+    auth_required: true
+    description: Global analytics with charts and world map
+  - path: /dashboard/favorites
+    file: src/app/dashboard/favorites/page.tsx
+    auth_required: true
+    description: Favorited QR codes
+  - path: /dashboard/billing
+    file: src/app/dashboard/billing/page.tsx
+    auth_required: true
+    description: Current plan and upgrade options
+  - path: /dashboard/webhooks
+    file: src/app/dashboard/webhooks/page.tsx
+    auth_required: true
+    description: Webhook management (Business plan only)
+  - path: /dashboard/api
+    file: src/app/dashboard/api/page.tsx
+    auth_required: true
+    description: API key management (Business plan only)
+  - path: /dashboard/team
+    file: src/app/dashboard/team/page.tsx
+    auth_required: true
+    description: Team management (Business plan only)
+  - path: /dashboard/profile
+    file: src/app/dashboard/profile/page.tsx
+    auth_required: true
+    description: Edit user profile
+  - path: /invite/[token]
+    file: src/app/invite/[token]/page.tsx
+    auth_required: true
+    description: Accept team invitation
+  - path: /qr-gate/[slug]
+    file: src/app/(pages)/qr-gate/[slug]/page.tsx
+    auth_required: false
+    description: Password gate for protected QR codes
+  - path: /qr-view/[slug]
+    file: src/app/(pages)/qr-view/[slug]/page.tsx
+    auth_required: false
+    description: Public view for non-URL QR content
+  - path: /share/[slug]
+    file: src/app/(pages)/share/[slug]/page.tsx
+    auth_required: false
+    description: Public shareable QR preview page
+
+features:
+  - name: User Login
+    description: Login with email and password credentials
+    files:
+      - src/app/(auth)/login/page.tsx
+      - src/features/auth/hooks/use-login.tsx
+      - src/features/auth/services/login.ts
+    entry_route: /login
+    user_interactions:
+      - Fill email input field
+      - Fill password input field
+      - Click Iniciar sesion button
+      - See error toast on invalid credentials
+      - Redirect to /dashboard/qrs on success
+    api_calls:
+      - method: POST
+        endpoint: /api/auth/callback
+    auth_required: false
+
+  - name: User Registration
+    description: Register new account with email and password
+    files:
+      - src/app/(auth)/register/page.tsx
+      - src/features/auth/services/register.ts
+    entry_route: /register
+    user_interactions:
+      - Fill email input field
+      - Fill password input field
+      - Click Registrarse button
+      - See onboarding modal on first login
+    api_calls:
+      - method: POST
+        endpoint: /api/auth/callback
+    auth_required: false
+
+  - name: QR Code Creation
+    description: Create QR codes of various types with customization and live preview
+    files:
+      - src/app/dashboard/qrs/new/page.tsx
+      - src/features/qr-codes/components/qr-form.tsx
+    entry_route: /dashboard/qrs/new
+    user_interactions:
+      - Select QR type (URL, Texto, Email, Telefono, WiFi)
+      - Fill content field
+      - Customize dot style and colors
+      - See live QR preview
+      - Click Crear QR button
+    api_calls: []
+    auth_required: true
+
+  - name: QR Code List
+    description: View and manage all QR codes
+    files:
+      - src/app/dashboard/qrs/page.tsx
+      - src/features/qr-codes/components/qr-table.tsx
+    entry_route: /dashboard/qrs
+    user_interactions:
+      - View list of QR codes with scan counts
+      - Toggle QR active/inactive
+      - Delete QR with confirmation modal
+      - Add/remove favorites
+      - Navigate to edit page
+    api_calls: []
+    auth_required: true
+
+  - name: Pricing Page with Annual Toggle
+    description: View plans with monthly/annual billing toggle showing discounted prices
+    files:
+      - src/app/(pages)/pricing/page.tsx
+      - src/app/(pages)/pricing/pricing-cards.tsx
+      - src/app/(pages)/pricing/pricing-button.tsx
+    entry_route: /pricing
+    user_interactions:
+      - Toggle between Mensual and Anual billing
+      - See Pro price change from $12 to $8/mes
+      - See Business price change from $29 to $19/mes
+      - See Ahorra 33% badge
+      - Click Elegir Pro to start checkout
+    api_calls:
+      - method: POST
+        endpoint: /api/lemonsqueezy/checkout
+    auth_required: false
+
+  - name: Plan Limits and Feature Gating
+    description: Free plan capped at 3 QRs, Pro features locked with upgrade prompts
+    files:
+      - src/features/billing/config/plans.ts
+      - src/shared/components/plan-guard.tsx
+    entry_route: /dashboard/qrs/new
+    user_interactions:
+      - Attempt to create 4th QR on Free plan and see limit error
+      - See Pro badge on locked fields like custom slug and UTM
+      - Click locked feature and see upgrade modal
+    api_calls: []
+    auth_required: true
+
+  - name: Analytics Dashboard
+    description: View scan statistics with charts and geographic distribution
+    files:
+      - src/app/dashboard/analytics/page.tsx
+    entry_route: /dashboard/analytics
+    user_interactions:
+      - View total scans and unique scan rate
+      - Switch chart between daily/weekly/monthly
+      - View recent scans list with browser and OS info
+    api_calls: []
+    auth_required: true
+
+  - name: Team Management
+    description: Invite and manage team members (Business plan)
+    files:
+      - src/app/dashboard/team/page.tsx
+      - src/features/team/components/team-manager.tsx
+      - src/features/team/services/team-actions.ts
+    entry_route: /dashboard/team
+    user_interactions:
+      - Click Invitar miembro button
+      - Fill email and select role Admin or Miembro
+      - Submit and see invite link modal
+      - Remove member with trash icon
+    api_calls: []
+    auth_required: true
+
+  - name: API Key Management
+    description: Create and revoke REST API keys (Business plan)
+    files:
+      - src/app/dashboard/api/page.tsx
+      - src/features/api-keys/components/api-keys-manager.tsx
+    entry_route: /dashboard/api
+    user_interactions:
+      - Click Nueva API Key button
+      - Enter key name and click Generar
+      - Copy key from one-time display modal
+      - Revoke key with delete button
+    api_calls:
+      - method: GET
+        endpoint: /api/v1/qrs
+    auth_required: true
+
+  - name: Language and Theme Toggle
+    description: Switch UI language between ES and EN, toggle light/dark theme
+    files:
+      - src/app/providers.tsx
+    entry_route: /
+    user_interactions:
+      - Click language button in header
+      - See labels switch between Spanish and English
+      - Click sun/moon icon to toggle theme
+    api_calls: []
+    auth_required: false
+
+known_limitations:
+  - issue: Webhook list UI does not refresh after create without page reload
+    location: src/app/dashboard/webhooks/page.tsx
+    impact: User must reload to see new webhook in list
+  - issue: Billing checkout requires live Lemon Squeezy environment
+    location: src/app/api/lemonsqueezy/checkout/route.ts
+    impact: Checkout redirect cannot be fully tested without valid LS credentials
+  - issue: Team members cannot see owner QRs in dashboard
+    location: src/features/qr-codes/services/queries/get-qrs.ts
+    impact: Team member dashboard shows only their own QRs

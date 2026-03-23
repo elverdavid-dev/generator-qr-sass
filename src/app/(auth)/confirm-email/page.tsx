@@ -10,7 +10,10 @@ const ConfirmEmailPage = async () => {
 			<p className="text-gray-600 dark:text-gray-400 text-sm pb-8">
 				{t('message')}
 			</p>
-			<Link href="/login" className="underline text-primary text-sm font-medium">
+			<Link
+				href="/login"
+				className="underline text-primary text-sm font-medium"
+			>
 				{t('backToLogin')}
 			</Link>
 		</section>

@@ -12,10 +12,10 @@ import {
 	Delete02Icon,
 	Download04Icon,
 	Edit02Icon,
+	FloppyDiskIcon,
 	Folder01Icon,
 	MoreHorizontalIcon,
 	Share01Icon,
-	FloppyDiskIcon,
 	StarIcon,
 	ToggleOnIcon,
 	ViewIcon,
@@ -25,11 +25,11 @@ import dynamic from 'next/dynamic'
 import { useTransition } from 'react'
 import { toast } from 'sonner'
 import { deleteQr } from '@/features/qr-codes/services/mutations/delete-qr'
+import { saveTemplate } from '@/features/qr-codes/services/mutations/template-actions'
 import { toggleQrFavorite } from '@/features/qr-codes/services/mutations/toggle-qr-favorite'
 import { toggleQrStatus } from '@/features/qr-codes/services/mutations/toggle-qr-status'
-import type { Folder, QrCode } from '@/shared/types/database.types'
 import { usePlan } from '@/shared/context/plan-context'
-import { saveTemplate } from '@/features/qr-codes/services/mutations/template-actions'
+import type { Folder, QrCode } from '@/shared/types/database.types'
 
 const DownloadQrModal = dynamic(() => import('./download-qr-modal'))
 const ConfirmDeleteModal = dynamic(
@@ -103,7 +103,11 @@ const QrActions = ({ qr, folders, translations }: Props) => {
 			if (error) {
 				toast.error(error)
 			} else {
-				toast.success(qr.is_active ? translations.actions.deactivated : translations.actions.activated)
+				toast.success(
+					qr.is_active
+						? translations.actions.deactivated
+						: translations.actions.activated,
+				)
 			}
 		})
 	}
@@ -114,7 +118,11 @@ const QrActions = ({ qr, folders, translations }: Props) => {
 			if (error) {
 				toast.error(error)
 			} else {
-				toast.success(qr.is_favorite ? translations.actions.favoriteRemoved : translations.actions.favoriteAdded)
+				toast.success(
+					qr.is_favorite
+						? translations.actions.favoriteRemoved
+						: translations.actions.favoriteAdded,
+				)
 			}
 		})
 	}
@@ -162,7 +170,9 @@ const QrActions = ({ qr, folders, translations }: Props) => {
 						onPress={handleToggleStatus}
 						isDisabled={isPending}
 					>
-						{qr.is_active ? translations.actions.deactivate : translations.actions.activate}
+						{qr.is_active
+							? translations.actions.deactivate
+							: translations.actions.activate}
 					</DropdownItem>
 					<DropdownItem
 						key="favorite"
@@ -176,7 +186,9 @@ const QrActions = ({ qr, folders, translations }: Props) => {
 						onPress={handleToggleFavorite}
 						isDisabled={isPending}
 					>
-						{qr.is_favorite ? translations.actions.removeFavorite : translations.actions.addFavorite}
+						{qr.is_favorite
+							? translations.actions.removeFavorite
+							: translations.actions.addFavorite}
 					</DropdownItem>
 					<DropdownItem
 						key="share"
@@ -259,9 +271,9 @@ const QrActions = ({ qr, folders, translations }: Props) => {
 				onSaved={() => {}}
 				translations={{
 					title: translations.actions.saveFromQr,
-					namePlaceholder: "Ej. Mi marca",
-					cancel: "Cancelar",
-					save: "Guardar",
+					namePlaceholder: 'Ej. Mi marca',
+					cancel: 'Cancelar',
+					save: 'Guardar',
 					saved: translations.actions.templateSaved,
 				}}
 			/>

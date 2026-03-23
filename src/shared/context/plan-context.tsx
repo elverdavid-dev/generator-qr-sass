@@ -1,7 +1,12 @@
 'use client'
 
-import { createContext, useContext, type ReactNode } from 'react'
-import { type PlanId, type PlanFeatures, hasFeature, getPlan } from '@/features/billing/config/plans'
+import { createContext, type ReactNode, useContext } from 'react'
+import {
+	getPlan,
+	hasFeature,
+	type PlanFeatures,
+	type PlanId,
+} from '@/features/billing/config/plans'
 
 interface PlanContextValue {
 	plan: PlanId
@@ -13,7 +18,13 @@ interface PlanContextValue {
 
 const PlanContext = createContext<PlanContextValue | null>(null)
 
-export const PlanProvider = ({ plan, children }: { plan: PlanId; children: ReactNode }) => {
+export const PlanProvider = ({
+	plan,
+	children,
+}: {
+	plan: PlanId
+	children: ReactNode
+}) => {
 	const value: PlanContextValue = {
 		plan,
 		hasFeature: (feature) => hasFeature(plan, feature),

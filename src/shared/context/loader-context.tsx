@@ -1,7 +1,7 @@
 'use client'
 
-import { createContext, useCallback, useContext, useState } from 'react'
 import type { FC, ReactNode } from 'react'
+import { createContext, useCallback, useContext, useState } from 'react'
 import FullScreenLoader from '@/shared/components/full-screen-loader'
 
 interface LoaderContextValue {

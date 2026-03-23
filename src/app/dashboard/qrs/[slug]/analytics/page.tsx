@@ -1,33 +1,37 @@
+import { BreadcrumbItem, Breadcrumbs } from '@heroui/breadcrumbs'
 import {
-	FingerPrintScanIcon,
-	Clock01Icon,
-	Home01Icon,
 	Analytics02Icon,
+	Clock01Icon,
+	FingerPrintScanIcon,
+	Home01Icon,
 } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
-import { BreadcrumbItem, Breadcrumbs } from '@heroui/breadcrumbs'
-import { redirect, notFound } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 import { getLocale, getTranslations } from 'next-intl/server'
-import { BackToQrButton } from '../qr-nav-buttons'
-import { getSession } from '@/shared/lib/supabase/get-session'
-import { getQrBySlug } from '@/features/qr-codes/services/queries/get-qr-by-slug'
-import { getQrAnalytics } from '@/features/analytics/services/queries/get-qr-analytics'
-import MetricCard from '@/features/analytics/components/metric-card'
-import RadialGauge from '@/features/analytics/components/radial-gauge'
 import ChartArea from '@/features/analytics/components/chart-area'
 import ChartBar from '@/features/analytics/components/chart-bar'
 import ChartDonut from '@/features/analytics/components/chart-donut'
+import ExportCsvButton from '@/features/analytics/components/export-csv-button'
+import MetricCard from '@/features/analytics/components/metric-card'
+import RadialGauge from '@/features/analytics/components/radial-gauge'
 import RecentScansTable from '@/features/analytics/components/recent-scans-table'
 import WorldMap from '@/features/analytics/components/world-map'
-import ExportCsvButton from '@/features/analytics/components/export-csv-button'
+import { getQrAnalytics } from '@/features/analytics/services/queries/get-qr-analytics'
+import { getQrBySlug } from '@/features/qr-codes/services/queries/get-qr-by-slug'
+import { getSession } from '@/shared/lib/supabase/get-session'
 import type { QrCode } from '@/shared/types/database.types'
+import { BackToQrButton } from '../qr-nav-buttons'
 
 interface Props {
 	params: Promise<{ slug: string }>
 }
 
 const QrAnalyticsPage = async ({ params }: Props) => {
-	const [t, tQrs, locale] = await Promise.all([getTranslations('analytics'), getTranslations('qrs'), getLocale()])
+	const [t, tQrs, locale] = await Promise.all([
+		getTranslations('analytics'),
+		getTranslations('qrs'),
+		getLocale(),
+	])
 	const { slug } = await params
 	const { data: session } = await getSession()
 	if (!session?.user) redirect('/login')
@@ -124,15 +128,23 @@ const QrAnalyticsPage = async ({ params }: Props) => {
 			<div className="py-6 flex items-start justify-between gap-4">
 				<div>
 					<div className="flex items-center gap-2 mb-1">
-						<HugeiconsIcon icon={Analytics02Icon} size={22} className="text-primary" />
+						<HugeiconsIcon
+							icon={Analytics02Icon}
+							size={22}
+							className="text-primary"
+						/>
 						<h1 className="text-3xl font-bold capitalize">{typedQr.name}</h1>
 					</div>
 					<p className="text-default-500">{t('individualTitle')}</p>
 				</div>
-				<div classMName="flex items-center gap-2">
-				<ExportCsvButton label={t('exportCsv')} errorLabel={t('exportError')} qrId={qr.id} />
-				<BackToQrButton slug={slug} label={tQrs('nav.back')} />
-			</div>
+				<div className="flex items-center gap-2">
+					<ExportCsvButton
+						label={t('exportCsv')}
+						errorLabel={t('exportError')}
+						qrId={qr.id}
+					/>
+					<BackToQrButton slug={slug} label={tQrs('nav.back')} />
+				</div>
 			</div>
 
 			{/* ── Metric cards + radial gauge ── */}
@@ -180,7 +192,11 @@ const QrAnalyticsPage = async ({ params }: Props) => {
 					value={uniqueRate}
 					stats={[
 						{ label: t('thisWeekLabel'), value: weekScans, change: weekChange },
-						{ label: t('thisMonthLabel'), value: monthScans, change: monthChange },
+						{
+							label: t('thisMonthLabel'),
+							value: monthScans,
+							change: monthChange,
+						},
 						{ label: t('uniqueLabel'), value: uniqueScans },
 					]}
 				/>
@@ -202,11 +218,17 @@ const QrAnalyticsPage = async ({ params }: Props) => {
 					{Object.keys(byCountry).length > 0 ? (
 						<div className="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
 							<WorldMap data={byCountry} translations={worldMapTranslations} />
-							<RecentScansTable scans={recentScans} translations={recentScansTranslations} />
+							<RecentScansTable
+								scans={recentScans}
+								translations={recentScansTranslations}
+							/>
 						</div>
 					) : (
 						<div className="mt-6">
-							<RecentScansTable scans={recentScans} translations={recentScansTranslations} />
+							<RecentScansTable
+								scans={recentScans}
+								translations={recentScansTranslations}
+							/>
 						</div>
 					)}
 

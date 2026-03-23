@@ -122,6 +122,11 @@ export const acceptInvite = async (token: string) => {
 	if (fetchError || !invite) return { error: 'Invitación no válida o expirada' }
 	if (invite.status === 'active') return { error: 'Esta invitación ya fue aceptada' }
 
+	// Validate that the logged-in user's email matches the invite
+	if (session.user.email?.toLowerCase() !== invite.email.toLowerCase()) {
+		return { error: 'Esta invitación es para otro usuario' }
+	}
+
 	const { error } = await supabase
 		.from('team_members')
 		.update({

@@ -8,7 +8,10 @@
     "start": "next start",
     "lint": "biome lint --write src",
     "format": "biome format --write src",
-    "check": "biome check --write src"
+    "check": "biome check --write src",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
     "@bprogress/next": "^3.2.12",
@@ -43,12 +46,20 @@
   },
   "devDependencies": {
     "@biomejs/biome": "2.4.6",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
+    "@testing-library/user-event": "^14.6.1",
     "@types/node": "^25.5.0",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "@types/react-simple-maps": "^3.0.6",
+    "@vitejs/plugin-react": "^6.0.1",
+    "@vitest/coverage-v8": "^4.1.0",
+    "jsdom": "^29.0.0",
     "postcss": "^8.5.8",
     "tailwindcss": "^4.2.1",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "vite-tsconfig-paths": "^6.1.1",
+    "vitest": "^4.1.0"
   }
 }

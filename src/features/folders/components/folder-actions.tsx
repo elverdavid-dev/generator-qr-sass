@@ -8,7 +8,12 @@ import {
 	DropdownTrigger,
 	useDisclosure,
 } from '@heroui/react'
-import { Delete02Icon, Edit02Icon, MoreHorizontalIcon, ViewIcon } from '@hugeicons/core-free-icons'
+import {
+	Delete02Icon,
+	Edit02Icon,
+	MoreHorizontalIcon,
+	ViewIcon,
+} from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 import dynamic from 'next/dynamic'
 import type { FC } from 'react'

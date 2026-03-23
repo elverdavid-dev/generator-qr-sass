@@ -1,14 +1,23 @@
 'use client'
 
-import { Button } from '@heroui/react'
-import { Analytics02Icon, ArrowLeft01Icon, ArrowRight01Icon, Crown02Icon, DashboardSquare02Icon, QrCodeIcon, StarIcon, UserAccountIcon, WebhookIcon } from '@hugeicons/core-free-icons'
+import { Button, cn } from '@heroui/react'
+import {
+	Analytics02Icon,
+	ArrowLeft01Icon,
+	ArrowRight01Icon,
+	Crown02Icon,
+	DashboardSquare02Icon,
+	QrCodeIcon,
+	StarIcon,
+	UserAccountIcon,
+	WebhookIcon,
+} from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
-import { cn } from '@heroui/react'
 import Link from 'next/link'
-import Logo from '@/shared/components/logo'
-import SidebarItem from './sidebar-item'
-import { useSidebarStore } from '@/shared/lib/zustand/sidebar-store'
 import type { PlanId } from '@/features/billing/config/plans'
+import Logo from '@/shared/components/logo'
+import { useSidebarStore } from '@/shared/lib/zustand/sidebar-store'
+import SidebarItem from './sidebar-item'
 
 interface SidebarTranslations {
 	navLabel: string
@@ -72,8 +81,14 @@ const Sidebar = ({ plan = 'free', translations }: Props) => {
 				{plan === 'free' && isOpen && (
 					<div className="flex flex-col gap-y-2 bg-linear-to-br from-primary/10 to-secondary/10 border border-primary/20 p-4 rounded-xl mt-auto">
 						<div className="flex items-center gap-x-2 text-default-600">
-							<HugeiconsIcon icon={Crown02Icon} size={15} className="text-primary" />
-							<span className="text-xs font-semibold">{translations.freePlan}</span>
+							<HugeiconsIcon
+								icon={Crown02Icon}
+								size={15}
+								className="text-primary"
+							/>
+							<span className="text-xs font-semibold">
+								{translations.freePlan}
+							</span>
 						</div>
 						<p className="text-xs text-default-500 leading-snug">
 							{translations.freePlanDesc}
@@ -88,7 +103,11 @@ const Sidebar = ({ plan = 'free', translations }: Props) => {
 					<div className="flex flex-col gap-y-2 bg-linear-to-br from-amber-500/10 to-orange-500/10 border border-amber-500/20 p-4 rounded-xl mt-auto">
 						<div className="flex items-center justify-between">
 							<div className="flex items-center gap-x-2">
-								<HugeiconsIcon icon={Crown02Icon} size={15} className="text-amber-500" />
+								<HugeiconsIcon
+									icon={Crown02Icon}
+									size={15}
+									className="text-amber-500"
+								/>
 								<span className="text-xs font-bold text-amber-600 dark:text-amber-400 uppercase tracking-wide">
 									Plan {plan === 'pro' ? 'Pro' : 'Business'}
 								</span>

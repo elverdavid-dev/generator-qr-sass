@@ -12,7 +12,11 @@ interface Props {
 	loadingMessage?: string
 }
 
-export default function LanguageSwitcher({ currentLocale, selectLabel = 'Language', loadingMessage }: Props) {
+export default function LanguageSwitcher({
+	currentLocale,
+	selectLabel = 'Language',
+	loadingMessage,
+}: Props) {
 	const router = useRouter()
 	const { showLoader, hideLoader } = useLoader()
 

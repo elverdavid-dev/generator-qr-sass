@@ -1,7 +1,7 @@
 'use client'
 import { Button } from '@heroui/react'
 import { Home01Icon } from '@hugeicons/core-free-icons'
-import {HugeiconsIcon} from '@hugeicons/react'
+import { HugeiconsIcon } from '@hugeicons/react'
 import Link from 'next/link'
 
 export default function NotFound() {

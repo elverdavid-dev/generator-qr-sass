@@ -1,9 +1,9 @@
 'use client'
 
+import type { ApexOptions } from 'apexcharts'
 import dynamic from 'next/dynamic'
 import { useTheme } from 'next-themes'
 import type { FC } from 'react'
-import type { ApexOptions } from 'apexcharts'
 
 const ReactApexChart = dynamic(() => import('react-apexcharts'), { ssr: false })
 
@@ -54,7 +54,12 @@ const ChartDonut: FC<Props> = ({
 					size: '60%',
 					labels: {
 						show: true,
-						name: { show: true, fontSize: '16px', fontWeight: 600, color: titleColor },
+						name: {
+							show: true,
+							fontSize: '16px',
+							fontWeight: 600,
+							color: titleColor,
+						},
 						value: { color: titleColor },
 					},
 				},

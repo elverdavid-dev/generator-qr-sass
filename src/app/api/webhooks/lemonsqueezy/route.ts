@@ -1,13 +1,15 @@
+import crypto from 'node:crypto'
 import { headers } from 'next/headers'
 import { NextResponse } from 'next/server'
-import crypto from 'node:crypto'
-import { createClient } from '@/shared/lib/supabase/server'
 import type { PlanId } from '@/features/billing/config/plans'
+import { createAdminClient } from '@/shared/lib/supabase/admin'
 
-// Map Lemon Squeezy variant IDs to plan names
+// Map Lemon Squeezy variant IDs to plan names (monthly + annual)
 const VARIANT_TO_PLAN: Record<string, PlanId> = {
 	[process.env.LEMONSQUEEZY_PRO_VARIANT_ID ?? '']: 'pro',
 	[process.env.LEMONSQUEEZY_BUSINESS_VARIANT_ID ?? '']: 'business',
+	[process.env.LEMONSQUEEZY_PRO_ANNUAL_VARIANT_ID ?? '']: 'pro',
+	[process.env.LEMONSQUEEZY_BUSINESS_ANNUAL_VARIANT_ID ?? '']: 'business',
 }
 
 function verifySignature(payload: string, signature: string): boolean {
@@ -35,7 +37,7 @@ export async function POST(req: Request) {
 		return NextResponse.json({ received: true })
 	}
 
-	const supabase = await createClient()
+	const supabase = createAdminClient()
 
 	switch (eventName) {
 		case 'subscription_created':

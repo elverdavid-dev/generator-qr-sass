@@ -43,12 +43,12 @@ const QrsPage = async ({ searchParams }: Props) => {
 
 	const folders: Folder[] =
 		foldersResult.status === 'fulfilled'
-			? (foldersResult.value.data as Folder[]) ?? []
+			? ((foldersResult.value.data as Folder[]) ?? [])
 			: []
 
 	const qrs: QrCode[] =
 		qrsResult.status === 'fulfilled'
-			? (qrsResult.value.data as QrCode[]) ?? []
+			? ((qrsResult.value.data as QrCode[]) ?? [])
 			: []
 
 	const total =
@@ -125,9 +125,7 @@ const QrsPage = async ({ searchParams }: Props) => {
 			<div className="flex items-center justify-between py-6">
 				<div>
 					<h1 className="text-3xl font-bold">{t('title')}</h1>
-					<p className="text-default-500 mt-1">
-						{t('subtitle')}
-					</p>
+					<p className="text-default-500 mt-1">{t('subtitle')}</p>
 				</div>
 				<CreateQrButton label={t('createNew')} />
 			</div>
@@ -163,7 +161,13 @@ const QrsPage = async ({ searchParams }: Props) => {
 			</div>
 
 			<Suspense fallback={<QrSkeletons />} key={`${q ?? ''}-${currentPage}`}>
-				<QrTable qrs={qrs} folders={folders} total={total} page={currentPage} translations={qrTableTranslations} />
+				<QrTable
+					qrs={qrs}
+					folders={folders}
+					total={total}
+					page={currentPage}
+					translations={qrTableTranslations}
+				/>
 			</Suspense>
 		</>
 	)

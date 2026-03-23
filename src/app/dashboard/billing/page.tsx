@@ -1,12 +1,16 @@
 import { BreadcrumbItem, Breadcrumbs } from '@heroui/breadcrumbs'
-import { CheckmarkCircle02Icon, Crown02Icon, Home01Icon } from '@hugeicons/core-free-icons'
+import {
+	CheckmarkCircle02Icon,
+	Crown02Icon,
+	Home01Icon,
+} from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
-import { redirect } from 'next/navigation'
 import Link from 'next/link'
+import { redirect } from 'next/navigation'
 import { getTranslations } from 'next-intl/server'
-import { getSession } from '@/shared/lib/supabase/get-session'
 import { getProfile } from '@/features/auth/services/queries/get-profile'
 import { PLANS } from '@/features/billing/config/plans'
+import { getSession } from '@/shared/lib/supabase/get-session'
 import ManageSubscriptionButton from './manage-subscription-button'
 
 const BillingPage = async () => {
@@ -31,7 +35,11 @@ const BillingPage = async () => {
 
 			<div className="py-6">
 				<div className="flex items-center gap-2 mb-1">
-					<HugeiconsIcon icon={Crown02Icon} size={22} className="text-amber-500" />
+					<HugeiconsIcon
+						icon={Crown02Icon}
+						size={22}
+						className="text-amber-500"
+					/>
 					<h1 className="text-3xl font-bold">{t('title')}</h1>
 				</div>
 				<p className="text-default-500">{t('subtitle')}</p>
@@ -39,20 +47,35 @@ const BillingPage = async () => {
 
 			<div className="max-w-2xl flex flex-col gap-6">
 				{/* Current plan card */}
-				<div className={`rounded-2xl border p-6 ${isPaid ? 'border-amber-500/30 bg-amber-500/5' : 'border-divider bg-content1'}`}>
+				<div
+					className={`rounded-2xl border p-6 ${isPaid ? 'border-amber-500/30 bg-amber-500/5' : 'border-divider bg-content1'}`}
+				>
 					<div className="flex items-start justify-between gap-4">
 						<div>
 							<div className="flex items-center gap-2 mb-1">
-								<HugeiconsIcon icon={Crown02Icon} size={18} className={isPaid ? 'text-amber-500' : 'text-default-400'} />
-								<h2 className="text-lg font-bold">{t('currentPlan')} {currentPlan.name}</h2>
-								<span className={`text-xs px-2 py-0.5 rounded-full font-semibold ${isPaid ? 'bg-amber-500/20 text-amber-600 dark:text-amber-400' : 'bg-default-100 text-default-500'}`}>
+								<HugeiconsIcon
+									icon={Crown02Icon}
+									size={18}
+									className={isPaid ? 'text-amber-500' : 'text-default-400'}
+								/>
+								<h2 className="text-lg font-bold">
+									{t('currentPlan')} {currentPlan.name}
+								</h2>
+								<span
+									className={`text-xs px-2 py-0.5 rounded-full font-semibold ${isPaid ? 'bg-amber-500/20 text-amber-600 dark:text-amber-400' : 'bg-default-100 text-default-500'}`}
+								>
 									{isPaid ? t('active') : t('free')}
 								</span>
 							</div>
-							<p className="text-default-500 text-sm">{currentPlan.description}</p>
+							<p className="text-default-500 text-sm">
+								{currentPlan.description}
+							</p>
 							{isPaid && (
 								<p className="text-sm font-semibold mt-2">
-									${currentPlan.price} <span className="text-default-400 font-normal">{t('perMonth')}</span>
+									${currentPlan.price}{' '}
+									<span className="text-default-400 font-normal">
+										{t('perMonth')}
+									</span>
 								</p>
 							)}
 						</div>
@@ -61,8 +84,15 @@ const BillingPage = async () => {
 					{/* Features */}
 					<ul className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-2">
 						{currentPlan.features.map((feature) => (
-							<li key={feature} className="flex items-center gap-2 text-sm text-default-600">
-								<HugeiconsIcon icon={CheckmarkCircle02Icon} size={15} className="text-emerald-500 shrink-0" />
+							<li
+								key={feature}
+								className="flex items-center gap-2 text-sm text-default-600"
+							>
+								<HugeiconsIcon
+									icon={CheckmarkCircle02Icon}
+									size={15}
+									className="text-emerald-500 shrink-0"
+								/>
 								{feature}
 							</li>
 						))}
@@ -97,8 +127,15 @@ const BillingPage = async () => {
 						<h3 className="font-semibold mb-3">{t('whatsIncluded')}</h3>
 						<ul className="flex flex-col gap-2">
 							{PLANS.pro.features.map((feature) => (
-								<li key={feature} className="flex items-center gap-2 text-sm text-default-600">
-									<HugeiconsIcon icon={CheckmarkCircle02Icon} size={15} className="text-emerald-500 shrink-0" />
+								<li
+									key={feature}
+									className="flex items-center gap-2 text-sm text-default-600"
+								>
+									<HugeiconsIcon
+										icon={CheckmarkCircle02Icon}
+										size={15}
+										className="text-emerald-500 shrink-0"
+									/>
 									{feature}
 								</li>
 							))}

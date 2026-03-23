@@ -1,8 +1,11 @@
+import {
+	getSubscription,
+	listSubscriptions,
+} from '@lemonsqueezy/lemonsqueezy.js'
 import { NextResponse } from 'next/server'
-import { getSubscription, listSubscriptions } from '@lemonsqueezy/lemonsqueezy.js'
+import { getProfile } from '@/features/auth/services/queries/get-profile'
 import { setupLemonSqueezy } from '@/shared/lib/lemonsqueezy'
 import { getSession } from '@/shared/lib/supabase/get-session'
-import { getProfile } from '@/features/auth/services/queries/get-profile'
 import { createClient } from '@/shared/lib/supabase/server'
 
 export async function POST() {
@@ -32,7 +35,10 @@ export async function POST() {
 		)
 
 		if (!match) {
-			return NextResponse.json({ error: 'No active subscription' }, { status: 400 })
+			return NextResponse.json(
+				{ error: 'No active subscription' },
+				{ status: 400 },
+			)
 		}
 
 		subscriptionId = String(match.id)
@@ -58,7 +64,10 @@ export async function POST() {
 	const portalUrl = data?.data.attributes.urls?.customer_portal
 
 	if (!portalUrl) {
-		return NextResponse.json({ error: 'Portal URL not available' }, { status: 500 })
+		return NextResponse.json(
+			{ error: 'Portal URL not available' },
+			{ status: 500 },
+		)
 	}
 
 	return NextResponse.json({ url: portalUrl })

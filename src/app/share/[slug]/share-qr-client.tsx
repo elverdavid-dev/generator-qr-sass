@@ -1,15 +1,15 @@
 'use client'
 
-import { useState } from 'react'
 import { Button } from '@heroui/button'
 import { Tooltip } from '@heroui/tooltip'
 import {
-	Download04Icon,
-	Copy01Icon,
 	CheckmarkCircle02Icon,
+	Copy01Icon,
+	Download04Icon,
 	QrCodeIcon,
 } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
+import { useState } from 'react'
 import { toast } from 'sonner'
 import QrPreview from '@/features/qr-codes/components/qr-preview'
 import Logo from '@/shared/components/logo'
@@ -49,7 +49,13 @@ export default function ShareQrClient({ qr }: { qr: QrData }) {
 			{/* Header */}
 			<header className="border-b border-divider px-6 py-3 flex items-center justify-between">
 				<Logo />
-				<Button as="a" href="/register" size="sm" color="primary" variant="flat">
+				<Button
+					as="a"
+					href="/register"
+					size="sm"
+					color="primary"
+					variant="flat"
+				>
 					Crear mi QR gratis
 				</Button>
 			</header>
@@ -75,7 +81,9 @@ export default function ShareQrClient({ qr }: { qr: QrData }) {
 
 						<div className="text-center">
 							<h1 className="text-xl font-bold capitalize">{qr.name}</h1>
-							<p className="text-sm text-default-400 mt-0.5">Escanea para visitar el enlace</p>
+							<p className="text-sm text-default-400 mt-0.5">
+								Escanea para visitar el enlace
+							</p>
 						</div>
 
 						<div className="flex gap-2 w-full">
@@ -89,11 +97,7 @@ export default function ShareQrClient({ qr }: { qr: QrData }) {
 								Descargar PNG
 							</Button>
 							<Tooltip content={copied ? '¡Copiado!' : 'Copiar link'}>
-								<Button
-									isIconOnly
-									variant="flat"
-									onPress={handleCopyLink}
-								>
+								<Button isIconOnly variant="flat" onPress={handleCopyLink}>
 									<HugeiconsIcon
 										icon={copied ? CheckmarkCircle02Icon : Copy01Icon}
 										size={18}
@@ -109,8 +113,8 @@ export default function ShareQrClient({ qr }: { qr: QrData }) {
 						Creado con{' '}
 						<a href="/" className="text-primary hover:underline font-medium">
 							QR Generator
-						</a>
-						{' '}— Crea tus propios QR codes gratis
+						</a>{' '}
+						— Crea tus propios QR codes gratis
 					</p>
 				</div>
 			</main>

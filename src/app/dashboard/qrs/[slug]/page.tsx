@@ -1,21 +1,21 @@
 import { BreadcrumbItem, Breadcrumbs } from '@heroui/breadcrumbs'
 import {
 	Calendar03Icon,
-	CheckmarkCircle02Icon,
 	CancelCircleIcon,
+	CheckmarkCircle02Icon,
 	FingerPrintScanIcon,
 	Home01Icon,
 	Link01Icon,
 	QrCodeIcon,
 } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
-import { redirect, notFound } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 import { getTranslations } from 'next-intl/server'
-import { getSession } from '@/shared/lib/supabase/get-session'
 import QrPreview from '@/features/qr-codes/components/qr-preview'
 import { getQrBySlug } from '@/features/qr-codes/services/queries/get-qr-by-slug'
-import { formatDate } from '@/shared/utils/format-date'
+import { getSession } from '@/shared/lib/supabase/get-session'
 import type { QrCode } from '@/shared/types/database.types'
+import { formatDate } from '@/shared/utils/format-date'
 import { ViewAnalyticsButton } from './qr-nav-buttons'
 
 interface Props {
@@ -83,18 +83,30 @@ const QrDetailPage = async ({ params }: Props) => {
 								<HugeiconsIcon icon={FingerPrintScanIcon} size={16} />
 								<span className="text-sm">{t('detail.totalScans')}</span>
 							</div>
-							<p className="text-3xl font-bold text-primary">{typedQr.scan_count ?? 0}</p>
+							<p className="text-3xl font-bold text-primary">
+								{typedQr.scan_count ?? 0}
+							</p>
 						</div>
 						<div className="bg-content1 border border-divider rounded-2xl p-4 shadow-sm">
 							<div className="flex items-center gap-2 text-default-500 mb-1">
 								{typedQr.is_active ? (
-									<HugeiconsIcon icon={CheckmarkCircle02Icon} size={16} className="text-emerald-500" />
+									<HugeiconsIcon
+										icon={CheckmarkCircle02Icon}
+										size={16}
+										className="text-emerald-500"
+									/>
 								) : (
-									<HugeiconsIcon icon={CancelCircleIcon} size={16} className="text-danger" />
+									<HugeiconsIcon
+										icon={CancelCircleIcon}
+										size={16}
+										className="text-danger"
+									/>
 								)}
 								<span className="text-sm">{t('detail.status')}</span>
 							</div>
-							<p className={`text-lg font-semibold ${typedQr.is_active ? 'text-emerald-500' : 'text-danger'}`}>
+							<p
+								className={`text-lg font-semibold ${typedQr.is_active ? 'text-emerald-500' : 'text-danger'}`}
+							>
 								{typedQr.is_active ? t('active') : t('inactive')}
 							</p>
 						</div>
@@ -103,16 +115,30 @@ const QrDetailPage = async ({ params }: Props) => {
 					{/* Details */}
 					<div className="bg-content1 border border-divider rounded-2xl p-6 shadow-sm flex flex-col gap-4">
 						<div className="flex items-start gap-3">
-							<HugeiconsIcon icon={Link01Icon} size={16} className="text-default-400 mt-0.5 shrink-0" />
+							<HugeiconsIcon
+								icon={Link01Icon}
+								size={16}
+								className="text-default-400 mt-0.5 shrink-0"
+							/>
 							<div className="min-w-0">
-								<p className="text-xs text-default-400 mb-1">{t('detail.content')}</p>
-								<p className="text-sm text-default-700 break-all">{typedQr.data}</p>
+								<p className="text-xs text-default-400 mb-1">
+									{t('detail.content')}
+								</p>
+								<p className="text-sm text-default-700 break-all">
+									{typedQr.data}
+								</p>
 							</div>
 						</div>
 						<div className="flex items-start gap-3">
-							<HugeiconsIcon icon={QrCodeIcon} size={16} className="text-default-400 mt-0.5 shrink-0" />
+							<HugeiconsIcon
+								icon={QrCodeIcon}
+								size={16}
+								className="text-default-400 mt-0.5 shrink-0"
+							/>
 							<div>
-								<p className="text-xs text-default-400 mb-1">{t('detail.trackingUrl')}</p>
+								<p className="text-xs text-default-400 mb-1">
+									{t('detail.trackingUrl')}
+								</p>
 								<a
 									href={trackingUrl}
 									target="_blank"
@@ -124,10 +150,18 @@ const QrDetailPage = async ({ params }: Props) => {
 							</div>
 						</div>
 						<div className="flex items-center gap-3">
-							<HugeiconsIcon icon={Calendar03Icon} size={16} className="text-default-400 shrink-0" />
+							<HugeiconsIcon
+								icon={Calendar03Icon}
+								size={16}
+								className="text-default-400 shrink-0"
+							/>
 							<div>
-								<p className="text-xs text-default-400 mb-1">{t('detail.createdAt')}</p>
-								<p className="text-sm text-default-700">{formatDate(typedQr.created_at)}</p>
+								<p className="text-xs text-default-400 mb-1">
+									{t('detail.createdAt')}
+								</p>
+								<p className="text-sm text-default-700">
+									{formatDate(typedQr.created_at)}
+								</p>
 							</div>
 						</div>
 					</div>

@@ -56,14 +56,24 @@ function roundRect(
 	ctx.closePath()
 }
 
-const DownloadQrModal: FC<Props> = ({ isOpen, onOpenChange, onClose, qr, translations }) => {
+const DownloadQrModal: FC<Props> = ({
+	isOpen,
+	onOpenChange,
+	onClose,
+	qr,
+	translations,
+}) => {
 	const containerRef = useRef<HTMLDivElement>(null)
 	// biome-ignore lint/suspicious/noExplicitAny: qr-code-styling instance
 	const instanceRef = useRef<any>(null)
 
 	const hasFrame = qr.frame_style && qr.frame_style !== 'none'
 
-	const buildGradient = (color1: string, color2: string | null, type: string) => {
+	const buildGradient = (
+		color1: string,
+		color2: string | null,
+		type: string,
+	) => {
 		if (!color2) return undefined
 		return {
 			type: type as 'linear' | 'radial',
@@ -78,7 +88,11 @@ const DownloadQrModal: FC<Props> = ({ isOpen, onOpenChange, onClose, qr, transla
 	useEffect(() => {
 		if (!isOpen) return
 
-		const gradient = buildGradient(qr.fg_color, qr.dot_color_2, qr.dot_gradient_type ?? 'linear')
+		const gradient = buildGradient(
+			qr.fg_color,
+			qr.dot_color_2,
+			qr.dot_gradient_type ?? 'linear',
+		)
 
 		const options = {
 			width: 280,
@@ -96,7 +110,10 @@ const DownloadQrModal: FC<Props> = ({ isOpen, onOpenChange, onClose, qr, transla
 				gradient,
 			},
 			cornersSquareOptions: {
-				type: (qr.corner_square_style ?? 'square') as 'square' | 'dot' | 'extra-rounded',
+				type: (qr.corner_square_style ?? 'square') as
+					| 'square'
+					| 'dot'
+					| 'extra-rounded',
 				color: qr.fg_color,
 			},
 			cornersDotOptions: {
@@ -135,7 +152,9 @@ const DownloadQrModal: FC<Props> = ({ isOpen, onOpenChange, onClose, qr, transla
 		}
 
 		// Frame download — composite canvas
-		const qrCanvas = containerRef.current?.querySelector('canvas') as HTMLCanvasElement | null
+		const qrCanvas = containerRef.current?.querySelector(
+			'canvas',
+		) as HTMLCanvasElement | null
 		if (!qrCanvas) return
 
 		const qrSize = 280
@@ -163,19 +182,30 @@ const DownloadQrModal: FC<Props> = ({ isOpen, onOpenChange, onClose, qr, transla
 		ctx.fillRect(borderWidth + padding, borderWidth + padding, qrSize, qrSize)
 
 		// Draw QR
-		ctx.drawImage(qrCanvas, borderWidth + padding, borderWidth + padding, qrSize, qrSize)
+		ctx.drawImage(
+			qrCanvas,
+			borderWidth + padding,
+			borderWidth + padding,
+			qrSize,
+			qrSize,
+		)
 
 		// Frame text
 		ctx.fillStyle = '#ffffff'
 		ctx.font = `bold ${qr.frame_style === 'bold' ? 14 : 12}px sans-serif`
 		ctx.textAlign = 'center'
 		ctx.textBaseline = 'middle'
-		const textY = qrSize + (borderWidth + padding) * 2 + textAreaHeight / 2 - borderWidth / 2
+		const textY =
+			qrSize +
+			(borderWidth + padding) * 2 +
+			textAreaHeight / 2 -
+			borderWidth / 2
 		ctx.fillText(qr.frame_text ?? translations.scanMe, totalWidth / 2, textY)
 
 		// Download
 		const mimeType = ext === 'svg' ? 'image/png' : `image/${ext}`
-		const fileName = ext === 'svg' ? `${qr.slug}-frame.png` : `${qr.slug}-frame.${ext}`
+		const fileName =
+			ext === 'svg' ? `${qr.slug}-frame.png` : `${qr.slug}-frame.${ext}`
 		canvas.toBlob(
 			(blob) => {
 				if (!blob) return
@@ -196,7 +226,10 @@ const DownloadQrModal: FC<Props> = ({ isOpen, onOpenChange, onClose, qr, transla
 	return (
 		<Modal isOpen={isOpen} onOpenChange={onOpenChange}>
 			<ModalContent>
-				<ModalHeader>{translations.title}{qr.name}</ModalHeader>
+				<ModalHeader>
+					{translations.title}
+					{qr.name}
+				</ModalHeader>
 				<ModalBody className="flex items-center justify-center py-6">
 					{hasFrame ? (
 						<div

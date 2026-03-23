@@ -34,7 +34,10 @@ export default function PricingButton({
 	const [loading, setLoading] = useState(false)
 
 	const handleClick = async () => {
-		if (!isLoggedIn) { router.push('/register'); return }
+		if (!isLoggedIn) {
+			router.push('/register')
+			return
+		}
 		if (planId === 'free' || !lsVariantId) return
 		setLoading(true)
 		try {
@@ -50,18 +53,32 @@ export default function PricingButton({
 		}
 	}
 
-	if (isCurrent) return (
-		<Button variant="flat" color="default" isDisabled className="w-full">{labels.currentPlan}</Button>
-	)
+	if (isCurrent)
+		return (
+			<Button variant="flat" color="default" isDisabled className="w-full">
+				{labels.currentPlan}
+			</Button>
+		)
 
-	if (planId === 'free') return (
-		<Button variant="bordered" className="w-full" onPress={() => router.push(isLoggedIn ? '/dashboard' : '/register')}>
-			{isLoggedIn ? labels.goToDashboard : labels.startFree}
-		</Button>
-	)
+	if (planId === 'free')
+		return (
+			<Button
+				variant="bordered"
+				className="w-full"
+				onPress={() => router.push(isLoggedIn ? '/dashboard' : '/register')}
+			>
+				{isLoggedIn ? labels.goToDashboard : labels.startFree}
+			</Button>
+		)
 
 	return (
-		<Button color="primary" variant={isHighlighted ? 'solid' : 'flat'} className="w-full" isLoading={loading} onPress={handleClick}>
+		<Button
+			color="primary"
+			variant={isHighlighted ? 'solid' : 'flat'}
+			className="w-full"
+			isLoading={loading}
+			onPress={handleClick}
+		>
 			{planId === 'pro' ? labels.choosePro : labels.chooseBusiness}
 		</Button>
 	)

@@ -1,32 +1,36 @@
 'use client'
 
+import { Button } from '@heroui/button'
+import { Checkbox } from '@heroui/checkbox'
+import { Pagination } from '@heroui/pagination'
+import { Select, SelectItem } from '@heroui/select'
 import {
 	Calendar03Icon,
+	Cancel01Icon,
 	CancelCircleIcon,
 	CheckmarkCircle02Icon,
+	Crown02Icon,
+	Delete02Icon,
 	Edit02Icon,
 	FingerPrintScanIcon,
 	Folder01Icon,
 	Link01Icon,
-	Delete02Icon,
 	Tick02Icon,
-	Cancel01Icon,
-	Crown02Icon,
 } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
-import { Pagination } from '@heroui/pagination'
-import { Button } from '@heroui/button'
-import { Checkbox } from '@heroui/checkbox'
-import { Select, SelectItem } from '@heroui/select'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useState, useTransition } from 'react'
 import { toast } from 'sonner'
+import { QRS_PAGE_SIZE } from '@/features/qr-codes/constants'
+import {
+	bulkDeleteQrs,
+	bulkMoveToFolder,
+	bulkToggleActive,
+} from '@/features/qr-codes/services/mutations/bulk-qr-actions'
+import { usePlan } from '@/shared/context/plan-context'
 import type { Folder, QrCode } from '@/shared/types/database.types'
 import { formatDate } from '@/shared/utils/format-date'
 import { getTrackingUrl } from '@/shared/utils/get-tracking-url'
-import { QRS_PAGE_SIZE } from '@/features/qr-codes/constants'
-import { usePlan } from '@/shared/context/plan-context'
-import { bulkDeleteQrs, bulkMoveToFolder, bulkToggleActive } from '@/features/qr-codes/services/mutations/bulk-qr-actions'
 import QrActions from './qr-actions'
 import QrPreview from './qr-preview'
 
@@ -136,7 +140,10 @@ const QrTable = ({ qrs, folders, total, page, translations }: Props) => {
 		if (!window.confirm(bulk.confirmDelete)) return
 		startTransition(async () => {
 			const res = await bulkDeleteQrs(Array.from(selected))
-			if (res.error) { toast.error(res.error); return }
+			if (res.error) {
+				toast.error(res.error)
+				return
+			}
 			toast.success(bulk.deleted)
 			clearSelection()
 		})
@@ -146,7 +153,10 @@ const QrTable = ({ qrs, folders, total, page, translations }: Props) => {
 		if (!bulk) return
 		startTransition(async () => {
 			const res = await bulkToggleActive(Array.from(selected), active)
-			if (res.error) { toast.error(res.error); return }
+			if (res.error) {
+				toast.error(res.error)
+				return
+			}
 			toast.success(active ? bulk.activated : bulk.deactivated)
 			clearSelection()
 		})
@@ -156,7 +166,10 @@ const QrTable = ({ qrs, folders, total, page, translations }: Props) => {
 		if (!bulk) return
 		startTransition(async () => {
 			const res = await bulkMoveToFolder(Array.from(selected), folderId)
-			if (res.error) { toast.error(res.error); return }
+			if (res.error) {
+				toast.error(res.error)
+				return
+			}
 			toast.success(bulk.moved)
 			clearSelection()
 		})
@@ -170,7 +183,11 @@ const QrTable = ({ qrs, folders, total, page, translations }: Props) => {
 	}
 
 	if (qrs.length === 0) {
-		return <div className="text-center text-default-400 py-16">{translations.noResults}</div>
+		return (
+			<div className="text-center text-default-400 py-16">
+				{translations.noResults}
+			</div>
+		)
 	}
 
 	return (
@@ -181,19 +198,33 @@ const QrTable = ({ qrs, folders, total, page, translations }: Props) => {
 					<span className="text-sm font-semibold text-primary mr-2">
 						{selected.size} {bulk.selected}
 					</span>
-					<Button size="sm" variant="flat" color="danger" isDisabled={isPending}
+					<Button
+						size="sm"
+						variant="flat"
+						color="danger"
+						isDisabled={isPending}
 						startContent={<HugeiconsIcon icon={Delete02Icon} size={14} />}
-						onPress={handleBulkDelete}>
+						onPress={handleBulkDelete}
+					>
 						{bulk.deleteSelected}
 					</Button>
-					<Button size="sm" variant="flat" color="success" isDisabled={isPending}
+					<Button
+						size="sm"
+						variant="flat"
+						color="success"
+						isDisabled={isPending}
 						startContent={<HugeiconsIcon icon={Tick02Icon} size={14} />}
-						onPress={() => handleBulkToggle(true)}>
+						onPress={() => handleBulkToggle(true)}
+					>
 						{bulk.activateSelected}
 					</Button>
-					<Button size="sm" variant="flat" isDisabled={isPending}
+					<Button
+						size="sm"
+						variant="flat"
+						isDisabled={isPending}
 						startContent={<HugeiconsIcon icon={Cancel01Icon} size={14} />}
-						onPress={() => handleBulkToggle(false)}>
+						onPress={() => handleBulkToggle(false)}
+					>
 						{bulk.deactivateSelected}
 					</Button>
 					{folders.length > 0 && (
@@ -205,21 +236,36 @@ const QrTable = ({ qrs, folders, total, page, translations }: Props) => {
 							variant="flat"
 							items={[{ id: 'none', name: translations.noFolder }, ...folders]}
 							onChange={(e) => {
-								if (e.target.value !== '') handleBulkMove(e.target.value === 'none' ? null : e.target.value)
+								if (e.target.value !== '')
+									handleBulkMove(
+										e.target.value === 'none' ? null : e.target.value,
+									)
 							}}
 						>
 							{(item) => <SelectItem key={item.id}>{item.name}</SelectItem>}
 						</Select>
 					)}
-					<button type="button" onClick={clearSelection} className="ml-auto text-xs text-default-400 hover:text-default-600">✕</button>
+					<button
+						type="button"
+						onClick={clearSelection}
+						className="ml-auto text-xs text-default-400 hover:text-default-600"
+					>
+						✕
+					</button>
 				</div>
 			)}
 
 			{/* Upgrade hint for free users */}
 			{!canBulk && bulk && (
 				<div className="mb-3 flex items-center gap-2 bg-primary/5 border border-primary/20 rounded-xl px-4 py-2">
-					<HugeiconsIcon icon={Crown02Icon} size={14} className="text-primary" />
-					<span className="text-xs text-default-500">{bulk.upgradeRequired}</span>
+					<HugeiconsIcon
+						icon={Crown02Icon}
+						size={14}
+						className="text-primary"
+					/>
+					<span className="text-xs text-default-500">
+						{bulk.upgradeRequired}
+					</span>
 				</div>
 			)}
 
@@ -243,7 +289,9 @@ const QrTable = ({ qrs, folders, total, page, translations }: Props) => {
 					<div
 						key={qr.id}
 						className={`flex items-center justify-between gap-6 p-5 bg-content1 rounded-2xl border shadow-sm transition-colors ${
-							selected.has(qr.id) ? 'border-primary/40 bg-primary/5' : 'border-divider'
+							selected.has(qr.id)
+								? 'border-primary/40 bg-primary/5'
+								: 'border-divider'
 						}`}
 					>
 						{/* Checkbox */}
@@ -271,7 +319,9 @@ const QrTable = ({ qrs, folders, total, page, translations }: Props) => {
 								<span className="text-xs text-primary font-medium">
 									{qr.qr_type === 'url' ? translations.website : qr.qr_type}
 								</span>
-								<h3 className="font-semibold capitalize truncate max-w-48">{qr.name}</h3>
+								<h3 className="font-semibold capitalize truncate max-w-48">
+									{qr.name}
+								</h3>
 								<span className="text-xs text-default-400 flex items-center gap-1">
 									<HugeiconsIcon icon={Calendar03Icon} size={12} />
 									{formatDate(qr.created_at)}
@@ -319,7 +369,9 @@ const QrTable = ({ qrs, folders, total, page, translations }: Props) => {
 						<div className="text-sm text-default-500 flex items-center gap-1 shrink-0">
 							<HugeiconsIcon icon={FingerPrintScanIcon} size={16} />
 							<span>
-								<strong className="text-lg text-primary">{qr.scan_count ?? 0}</strong>{' '}
+								<strong className="text-lg text-primary">
+									{qr.scan_count ?? 0}
+								</strong>{' '}
 								{translations.scans}
 							</span>
 						</div>

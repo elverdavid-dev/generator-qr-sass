@@ -1,9 +1,15 @@
 'use client'
 
-import { useState, useTransition } from 'react'
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter } from '@heroui/modal'
 import { Button } from '@heroui/button'
 import { Input } from '@heroui/input'
+import {
+	Modal,
+	ModalBody,
+	ModalContent,
+	ModalFooter,
+	ModalHeader,
+} from '@heroui/modal'
+import { useState, useTransition } from 'react'
 import { toast } from 'sonner'
 import { createWebhook } from '@/features/webhooks/services/mutations/webhook-actions'
 
@@ -28,7 +34,11 @@ interface Props {
 	translations: Translations
 }
 
-export default function AddWebhookModal({ isOpen, onClose, translations: t }: Props) {
+export default function AddWebhookModal({
+	isOpen,
+	onClose,
+	translations: t,
+}: Props) {
 	const [name, setName] = useState('')
 	const [url, setUrl] = useState('')
 	const [secret, setSecret] = useState('')
@@ -37,7 +47,11 @@ export default function AddWebhookModal({ isOpen, onClose, translations: t }: Pr
 	const handleSave = () => {
 		if (!name.trim() || !url.trim()) return
 		startTransition(async () => {
-			const result = await createWebhook({ name: name.trim(), url: url.trim(), secret: secret.trim() || undefined })
+			const result = await createWebhook({
+				name: name.trim(),
+				url: url.trim(),
+				secret: secret.trim() || undefined,
+			})
 			if (result.error) {
 				toast.error(result.error)
 			} else {
@@ -51,7 +65,11 @@ export default function AddWebhookModal({ isOpen, onClose, translations: t }: Pr
 	}
 
 	return (
-		<Modal isOpen={isOpen} onOpenChange={(open) => !open && onClose()} size="md">
+		<Modal
+			isOpen={isOpen}
+			onOpenChange={(open) => !open && onClose()}
+			size="md"
+		>
 			<ModalContent>
 				<ModalHeader className="text-lg font-bold">{t.addTitle}</ModalHeader>
 				<ModalBody className="gap-4">
@@ -80,7 +98,9 @@ export default function AddWebhookModal({ isOpen, onClose, translations: t }: Pr
 					/>
 				</ModalBody>
 				<ModalFooter>
-					<Button variant="flat" onPress={onClose} isDisabled={isPending}>{t.cancel}</Button>
+					<Button variant="flat" onPress={onClose} isDisabled={isPending}>
+						{t.cancel}
+					</Button>
 					<Button
 						color="primary"
 						onPress={handleSave}

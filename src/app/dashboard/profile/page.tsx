@@ -3,8 +3,8 @@ import { Home01Icon, UserAccountIcon } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 import { redirect } from 'next/navigation'
 import { getTranslations } from 'next-intl/server'
-import { getSession } from '@/shared/lib/supabase/get-session'
 import { getProfile } from '@/features/auth/services/queries/get-profile'
+import { getSession } from '@/shared/lib/supabase/get-session'
 import ProfileForm from './profile-form'
 
 const ProfilePage = async () => {
@@ -12,7 +12,9 @@ const ProfilePage = async () => {
 	const { data: session } = await getSession()
 	if (!session?.user) redirect('/login')
 
-	const { data: profile, error } = await getProfile({ user_id: session.user.id })
+	const { data: profile, error } = await getProfile({
+		user_id: session.user.id,
+	})
 	if (error || !profile) redirect('/dashboard')
 
 	return (
@@ -26,7 +28,11 @@ const ProfilePage = async () => {
 
 			<div className="py-6">
 				<div className="flex items-center gap-2 mb-1">
-					<HugeiconsIcon icon={UserAccountIcon} size={22} className="text-primary" />
+					<HugeiconsIcon
+						icon={UserAccountIcon}
+						size={22}
+						className="text-primary"
+					/>
 					<h1 className="text-3xl font-bold">{t('title')}</h1>
 				</div>
 				<p className="text-default-500">{t('subtitle')}</p>

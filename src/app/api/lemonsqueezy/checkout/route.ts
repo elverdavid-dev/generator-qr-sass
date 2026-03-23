@@ -1,8 +1,8 @@
-import { NextResponse } from 'next/server'
 import { createCheckout } from '@lemonsqueezy/lemonsqueezy.js'
+import { NextResponse } from 'next/server'
+import { getProfile } from '@/features/auth/services/queries/get-profile'
 import { setupLemonSqueezy } from '@/shared/lib/lemonsqueezy'
 import { getSession } from '@/shared/lib/supabase/get-session'
-import { getProfile } from '@/features/auth/services/queries/get-profile'
 
 export async function POST(req: Request) {
 	const { data: session } = await getSession()

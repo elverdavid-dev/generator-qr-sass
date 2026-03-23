@@ -1,10 +1,16 @@
 'use client'
 import { Button } from '@heroui/button'
 import { Link } from '@heroui/link'
-import { HugeiconsIcon } from '@hugeicons/react'
 import { Analytics02Icon, ArrowLeft02Icon } from '@hugeicons/core-free-icons'
+import { HugeiconsIcon } from '@hugeicons/react'
 
-export function ViewAnalyticsButton({ slug, label }: { slug: string; label: string }) {
+export function ViewAnalyticsButton({
+	slug,
+	label,
+}: {
+	slug: string
+	label: string
+}) {
 	return (
 		<Button
 			as={Link}
@@ -19,7 +25,13 @@ export function ViewAnalyticsButton({ slug, label }: { slug: string; label: stri
 	)
 }
 
-export function BackToQrButton({ slug, label }: { slug: string; label: string }) {
+export function BackToQrButton({
+	slug,
+	label,
+}: {
+	slug: string
+	label: string
+}) {
 	return (
 		<Button
 			as={Link}

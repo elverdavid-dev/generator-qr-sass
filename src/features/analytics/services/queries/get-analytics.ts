@@ -1,6 +1,6 @@
 'use server'
-import { createClient } from '@/shared/lib/supabase/server'
 import { getSession } from '@/shared/lib/supabase/get-session'
+import { createClient } from '@/shared/lib/supabase/server'
 
 export const getAnalytics = async () => {
 	const { data: session } = await getSession()
@@ -12,7 +12,9 @@ export const getAnalytics = async () => {
 	const [scansResult, qrsResult] = await Promise.all([
 		supabase
 			.from('qr_scans')
-			.select('qr_id, os, device_type, browser, country, is_unique_scan, created_at')
+			.select(
+				'qr_id, os, device_type, browser, country, is_unique_scan, created_at',
+			)
 			.eq('user_id', userId)
 			.order('created_at', { ascending: false }),
 		supabase
@@ -28,7 +30,11 @@ export const getAnalytics = async () => {
 	const qrs = qrsResult.data
 
 	const now = new Date()
-	const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+	const startOfToday = new Date(
+		now.getFullYear(),
+		now.getMonth(),
+		now.getDate(),
+	)
 	const startOfWeek = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000)
 	const startOfMonth = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000)
 	const startOfPrevWeek = new Date(now.getTime() - 14 * 24 * 60 * 60 * 1000)
@@ -41,13 +47,21 @@ export const getAnalytics = async () => {
 	const activeQrs = qrs.filter((q) => q.is_active).length
 	const inactiveQrs = totalQrs - activeQrs
 	const totalScansAllTime = qrs.reduce((sum, q) => sum + (q.scan_count ?? 0), 0)
-	const avgScansPerQr = totalQrs > 0 ? Math.round(totalScansAllTime / totalQrs) : 0
-	const uniqueRate = totalScansAllTime > 0 ? Math.round((uniqueScans / totalScans) * 100) : 0
+	const avgScansPerQr =
+		totalQrs > 0 ? Math.round(totalScansAllTime / totalQrs) : 0
+	const uniqueRate =
+		totalScansAllTime > 0 ? Math.round((uniqueScans / totalScans) * 100) : 0
 
 	// Time-based counts
-	const todayScans = scans.filter((s) => new Date(s.created_at) >= startOfToday).length
-	const weekScans = scans.filter((s) => new Date(s.created_at) >= startOfWeek).length
-	const monthScans = scans.filter((s) => new Date(s.created_at) >= startOfMonth).length
+	const todayScans = scans.filter(
+		(s) => new Date(s.created_at) >= startOfToday,
+	).length
+	const weekScans = scans.filter(
+		(s) => new Date(s.created_at) >= startOfWeek,
+	).length
+	const monthScans = scans.filter(
+		(s) => new Date(s.created_at) >= startOfMonth,
+	).length
 
 	// Period comparisons (for % change badges)
 	const prevWeekScans = scans.filter((s) => {
@@ -60,9 +74,13 @@ export const getAnalytics = async () => {
 	}).length
 
 	const weekChange =
-		prevWeekScans > 0 ? Math.round(((weekScans - prevWeekScans) / prevWeekScans) * 100) : null
+		prevWeekScans > 0
+			? Math.round(((weekScans - prevWeekScans) / prevWeekScans) * 100)
+			: null
 	const monthChange =
-		prevMonthScans > 0 ? Math.round(((monthScans - prevMonthScans) / prevMonthScans) * 100) : null
+		prevMonthScans > 0
+			? Math.round(((monthScans - prevMonthScans) / prevMonthScans) * 100)
+			: null
 
 	// Scans per day (last 30 days)
 	const scansPerDayMap: Record<string, number> = {}
@@ -75,7 +93,10 @@ export const getAnalytics = async () => {
 		const key = scan.created_at.slice(0, 10)
 		if (key in scansPerDayMap) scansPerDayMap[key]++
 	}
-	const scansPerDay = Object.entries(scansPerDayMap).map(([date, count]) => ({ date, count }))
+	const scansPerDay = Object.entries(scansPerDayMap).map(([date, count]) => ({
+		date,
+		count,
+	}))
 
 	// Scans per week (last 12 weeks)
 	const scansPerWeekMap: Record<string, number> = {}
@@ -91,7 +112,10 @@ export const getAnalytics = async () => {
 		const key = d.toISOString().slice(0, 10)
 		if (key in scansPerWeekMap) scansPerWeekMap[key]++
 	}
-	const scansPerWeek = Object.entries(scansPerWeekMap).map(([date, count]) => ({ date, count }))
+	const scansPerWeek = Object.entries(scansPerWeekMap).map(([date, count]) => ({
+		date,
+		count,
+	}))
 
 	// Scans per month (last 12 months)
 	const scansPerMonthMap: Record<string, number> = {}
@@ -104,7 +128,9 @@ export const getAnalytics = async () => {
 		const key = scan.created_at.slice(0, 7)
 		if (key in scansPerMonthMap) scansPerMonthMap[key]++
 	}
-	const scansPerMonth = Object.entries(scansPerMonthMap).map(([date, count]) => ({ date, count }))
+	const scansPerMonth = Object.entries(scansPerMonthMap).map(
+		([date, count]) => ({ date, count }),
+	)
 
 	// Scans by hour (0–23)
 	const byHour = Array<number>(24).fill(0)
