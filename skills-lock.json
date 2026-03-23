@@ -6,6 +6,16 @@
       "sourceType": "github",
       "computedHash": "d823593e24d7493ab740db8f082cbe3b148ed29af9e804d11f5302ad79e4b96d"
     },
+    "heroui-migration": {
+      "source": "heroui-inc/heroui",
+      "sourceType": "github",
+      "computedHash": "419b6add50c2288795681599b3d1c5a14738eac1384ff13a227c8203d712b2b8"
+    },
+    "heroui-react": {
+      "source": "heroui-inc/heroui",
+      "sourceType": "github",
+      "computedHash": "c97b8fa8d462ed523efcd1d29041c6dd883a2ffe88643a8ba73e826044b7b77e"
+    },
     "next-best-practices": {
       "source": "vercel-labs/next-skills",
       "sourceType": "github",
