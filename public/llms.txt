@@ -1,0 +1,78 @@
+# QR Generator
+
+> QR Generator is a SaaS platform that lets individuals, professionals, and teams create, customize, and track dynamic QR codes. It offers deep analytics, conditional redirects, team collaboration, a REST API, and a bilingual (Spanish/English) interface.
+
+## Plans & Pricing
+
+- **Free** — $0/month: 3 QR codes, 100 scans/month, basic analytics, PNG download
+- **Pro** — $12/month or $96/year (~$8/mo, save 33%): Unlimited QR codes and scans, advanced analytics with world map, SVG export, conditional redirects (iOS/Android), UTM parameters, custom slugs, bulk actions, QR templates, no watermark, CSV export, share pages
+- **Business** — $29/month or $232/year (~$19.33/mo, save 33%): Everything in Pro, plus webhooks, REST API with API keys, team management (up to 10 members), custom domain, priority support
+
+## Key Features
+
+- **QR code types**: URL, text, email, phone, WiFi, vCard (contact), location, event, payment
+- **Customization**: dot styles (square, dots, rounded, classic), gradient colors, corner square/dot styles, frame styles (none, simple, rounded, bold), logo upload
+- **Protection**: password gate, expiration date, per-QR scan limit, active/inactive toggle
+- **Conditional redirects** (Pro+): different destination for iOS vs Android devices
+- **UTM parameters** (Pro+): automatically appended to destination URL
+- **Analytics**: scans by device type, OS, browser, country, region, city, hour of day; unique vs repeat scan detection; world map visualization (Pro+)
+- **Folders**: organize QR codes in named folders
+- **Templates** (Pro+): save and reuse QR styles
+- **Bulk actions** (Pro+): delete, activate/deactivate, move to folder
+- **Webhooks** (Business): HMAC-signed HTTP callbacks on QR scan events
+- **REST API** (Business): programmatic access with Bearer token authentication
+- **Team management** (Business): invite up to 10 members with admin or member roles
+
+## Supported Content Types for QR Codes
+
+| Type     | Content                                      |
+|----------|----------------------------------------------|
+| url      | Destination URL (supports HTTP/HTTPS)        |
+| text     | Plain text displayed on scan                 |
+| email    | Pre-filled email compose with subject/body   |
+| phone    | Telephone number                             |
+| wifi     | WiFi network SSID, password, encryption type |
+| contact  | vCard with name, phone, email, address       |
+| location | Latitude/longitude coordinates               |
+| event    | iCal event with title, date, location        |
+| payment  | Payment URL (e.g., PayPal, Stripe link)      |
+
+## Technology Stack
+
+- **Framework**: Next.js App Router (React Server Components)
+- **Database & Auth**: Supabase (PostgreSQL + Row Level Security)
+- **Storage**: Supabase Storage (QR logos, avatars)
+- **Payments**: Lemon Squeezy (monthly + annual subscriptions)
+- **Styling**: Tailwind CSS v4 + Hero UI v2
+- **i18n**: next-intl (Spanish default, English available)
+- **Analytics**: IP geolocation via ipinfo.io, UA parsing via ua-parser-js
+
+## Pages
+
+- [Landing page](/) — product overview, features, pricing teaser, and CTA
+- [Pricing](/pricing) — full plan comparison with monthly/yearly billing toggle
+- [Login](/login) — email/password and Google OAuth
+- [Register](/register) — account creation
+- [Dashboard](/dashboard) — authenticated area (requires login)
+- [Terms of Service](/terms) — usage terms and conditions
+- [Privacy Policy](/privacy) — data collection and usage policy
+
+## REST API (Business Plan)
+
+All endpoints require `Authorization: Bearer <api-key>` header.
+
+- `GET /api/v1/qrs?page=1` — list QR codes (paginated, 20/page)
+- `POST /api/v1/qrs` — create a QR code
+- `GET /api/v1/qrs/{id}` — get a single QR code by UUID
+- `PATCH /api/v1/qrs/{id}` — update a QR code
+- `DELETE /api/v1/qrs/{id}` — delete a QR code
+
+## Scan Tracking Endpoint
+
+`GET /api/t/{slug}` — public endpoint embedded in every QR code URL. Validates QR status (active, not expired, not over scan limit), records analytics, then redirects to the destination.
+
+## Contact
+
+- Support: support@qrgenerator.app
+- Terms: /terms
+- Privacy: /privacy

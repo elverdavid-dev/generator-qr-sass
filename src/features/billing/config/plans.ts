@@ -21,7 +21,9 @@ export interface PlanConfig {
 	name: string
 	description: string
 	price: number // USD/month
+	yearlyPrice: number // USD/year (0 = not available)
 	lsVariantId: string | null
+	lsYearlyVariantId: string | null
 	maxQrs: number // -1 = unlimited
 	maxScansPerMonth: number // -1 = unlimited
 	features: string[]
@@ -35,12 +37,14 @@ export const PLANS: Record<PlanId, PlanConfig> = {
 		name: 'Free',
 		description: 'Para empezar a explorar',
 		price: 0,
+		yearlyPrice: 0,
 		lsVariantId: null,
+		lsYearlyVariantId: null,
 		maxQrs: 3,
-		maxScansPerMonth: 500,
+		maxScansPerMonth: 100,
 		features: [
 			'3 QR codes',
-			'500 escaneos / mes',
+			'100 escaneos / mes',
 			'Analytics básico',
 			'Personalización de colores',
 			'Descarga PNG',
@@ -66,7 +70,9 @@ export const PLANS: Record<PlanId, PlanConfig> = {
 		name: 'Pro',
 		description: 'Para creadores y profesionales',
 		price: 12,
+		yearlyPrice: 96, // $8/mes × 12 — ahorra 33%
 		lsVariantId: process.env.NEXT_PUBLIC_LS_PRO_VARIANT_ID ?? null,
+		lsYearlyVariantId: process.env.NEXT_PUBLIC_LS_PRO_ANNUAL_VARIANT_ID ?? null,
 		maxQrs: -1,
 		maxScansPerMonth: -1,
 		highlighted: true,
@@ -100,7 +106,9 @@ export const PLANS: Record<PlanId, PlanConfig> = {
 		name: 'Business',
 		description: 'Para equipos y empresas',
 		price: 29,
+		yearlyPrice: 232, // ~$19.33/mes × 12 — ahorra 33%
 		lsVariantId: process.env.NEXT_PUBLIC_LS_BUSINESS_VARIANT_ID ?? null,
+		lsYearlyVariantId: process.env.NEXT_PUBLIC_LS_BUSINESS_ANNUAL_VARIANT_ID ?? null,
 		maxQrs: -1,
 		maxScansPerMonth: -1,
 		features: [
@@ -132,17 +140,25 @@ export const PLANS: Record<PlanId, PlanConfig> = {
 
 export const getPlan = (planId: PlanId): PlanConfig => PLANS[planId]
 
-export const canCreateQr = (planId: PlanId, currentQrCount: number): boolean => {
+export const canCreateQr = (
+	planId: PlanId,
+	currentQrCount: number,
+): boolean => {
 	const plan = getPlan(planId)
 	if (plan.maxQrs === -1) return true
 	return currentQrCount < plan.maxQrs
 }
 
-export const hasFeature = (planId: PlanId, feature: keyof PlanFeatures): boolean => {
+export const hasFeature = (
+	planId: PlanId,
+	feature: keyof PlanFeatures,
+): boolean => {
 	return PLANS[planId].planFeatures[feature]
 }
 
-export const getRequiredPlanForFeature = (feature: keyof PlanFeatures): PlanId => {
+export const getRequiredPlanForFeature = (
+	feature: keyof PlanFeatures,
+): PlanId => {
 	if (PLANS.pro.planFeatures[feature]) return 'pro'
 	return 'business'
 }

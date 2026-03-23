@@ -14,20 +14,28 @@ const OnboardingModal = dynamic(
 )
 
 const DashboardLayout = async ({ children }: PropsWithChildren) => {
-	const { data: session } = await getSession()
-	const profile = session?.user
-		? (await getProfile({ user_id: session.user.id })).data
-		: null
-	const plan: PlanId = profile?.plan ?? 'free'
-
+	// Wrap in try/catch so a Supabase error never crashes the entire layout
+	let plan: PlanId = 'free'
 	let needsOnboarding = false
-	if (profile?.onboarding_completed === false) {
-		const supabase = await createClient()
-		const { count } = await supabase
-			.from('qrs')
-			.select('id', { count: 'exact', head: true })
-			.eq('user_id', profile.id)
-		needsOnboarding = (count ?? 0) === 0
+
+	try {
+		const { data: session } = await getSession()
+		const profile = session?.user
+			? (await getProfile({ user_id: session.user.id })).data
+			: null
+		plan = (profile?.plan ?? 'free') as PlanId
+
+		if (profile?.onboarding_completed === false) {
+			const supabase = await createClient()
+			const { count } = await supabase
+				.from('qrs')
+				.select('id', { count: 'exact', head: true })
+				.eq('user_id', profile.id)
+			needsOnboarding = (count ?? 0) === 0
+		}
+	} catch {
+		// If Supabase is unreachable or slow, render the layout with safe defaults
+		// rather than crashing the entire dashboard with "Something went wrong!"
 	}
 	const [t, tOnboarding] = await Promise.all([
 		getTranslations('sidebar'),

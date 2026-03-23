@@ -5,55 +5,44 @@ interface Props {
 	description?: string
 	canonicalUrl?: string
 	ogImg?: string
-	category?: string
+	noIndex?: boolean
 }
 
-const siteUrl = process.env.NEXT_PUBLIC_BASE_URL as string
 const siteName = 'QR Generator'
-const descriptionDefault = 'Genera y personaliza QR codes con trazabilidad'
+const descriptionDefault =
+	'Genera, personaliza y rastrea códigos QR dinámicos en segundos. Analytics en tiempo real, redirecciones condicionales y diseños impresionantes.'
 
 export const generateMetadata = ({
 	title,
 	description,
 	ogImg,
 	canonicalUrl,
+	noIndex = false,
 }: Props): Metadata => {
+	const desc = description ?? descriptionDefault
+	const image = ogImg ?? '/og-image.png'
+
 	return {
-		title: `${title} | ${siteName}`,
-		description: description ?? descriptionDefault,
-		alternates: {
-			canonical: `${siteUrl}${canonicalUrl ?? ''}`,
-		},
-		robots: {
-			index: true,
-			follow: true,
-			googleBot: {
-				index: true,
-				follow: true,
-			},
-		},
+		title,
+		description: desc,
+		...(canonicalUrl && { alternates: { canonical: canonicalUrl } }),
+		robots: noIndex
+			? { index: false, follow: false }
+			: { index: true, follow: true, googleBot: { index: true, follow: true, 'max-image-preview': 'large' } },
 		openGraph: {
-			title: {
-				template: `%s | ${siteName}`,
-				default: siteName,
-			},
-			description: description ?? descriptionDefault,
-			url: `${siteUrl}/${canonicalUrl}`,
+			title: `${title} | ${siteName}`,
+			description: desc,
 			siteName,
-			images: [
-				{
-					url: ogImg ?? '/og-image.png',
-				},
-			],
-			locale: 'es',
+			images: [{ url: image, width: 1200, height: 630, alt: title }],
+			locale: 'es_ES',
 			type: 'website',
+			...(canonicalUrl && { url: canonicalUrl }),
 		},
 		twitter: {
-			card: 'summary',
+			card: 'summary_large_image',
 			title: `${title} | ${siteName}`,
-			description: description ?? descriptionDefault,
-			images: [ogImg ?? '/og-image.png'],
+			description: desc,
+			images: [image],
 		},
-		keywords: [],
 	}
 }

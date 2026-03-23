@@ -1,0 +1,24 @@
+User-agent: *
+Allow: /
+Disallow: /dashboard/
+Disallow: /api/
+Disallow: /qr-gate/
+Disallow: /invite/
+
+# AI crawlers — allowed on public pages
+User-agent: GPTBot
+Allow: /
+Disallow: /dashboard/
+Disallow: /api/
+
+User-agent: ClaudeBot
+Allow: /
+Disallow: /dashboard/
+Disallow: /api/
+
+User-agent: PerplexityBot
+Allow: /
+Disallow: /dashboard/
+Disallow: /api/
+
+Sitemap: /sitemap.xml
