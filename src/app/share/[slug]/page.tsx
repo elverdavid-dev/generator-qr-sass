@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
+import { getTranslations } from 'next-intl/server'
 import { createClient } from '@/shared/lib/supabase/server'
 import { getTrackingUrl } from '@/shared/utils/get-tracking-url'
 import ShareQrClient from './share-qr-client'
@@ -25,6 +26,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ShareQrPage({ params }: Props) {
 	const { slug } = await params
+	const t = await getTranslations('share')
 	const supabase = await createClient()
 
 	const { data: qr } = await supabase
@@ -48,6 +50,17 @@ export default async function ShareQrPage({ params }: Props) {
 				bg_color: qr.bg_color,
 				dot_style: qr.dot_style,
 				trackingUrl,
+			}}
+			translations={{
+				createFree: t('createFree'),
+				title: t('title'),
+				scanToVisit: t('scanToVisit'),
+				downloadPng: t('downloadPng'),
+				copied: t('copied'),
+				copyLink: t('copyLink'),
+				createdWith: t('createdWith'),
+				createYours: t('createYours'),
+				linkCopied: t('linkCopied'),
 			}}
 		/>
 	)

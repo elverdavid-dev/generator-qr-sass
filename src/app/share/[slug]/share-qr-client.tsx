@@ -23,14 +23,26 @@ interface QrData {
 	trackingUrl: string
 }
 
-export default function ShareQrClient({ qr }: { qr: QrData }) {
+interface ShareTranslations {
+	createFree: string
+	title: string
+	scanToVisit: string
+	downloadPng: string
+	copied: string
+	copyLink: string
+	createdWith: string
+	createYours: string
+	linkCopied: string
+}
+
+export default function ShareQrClient({ qr, translations: t }: { qr: QrData; translations: ShareTranslations }) {
 	const [copied, setCopied] = useState(false)
 	const shareUrl = typeof window !== 'undefined' ? window.location.href : ''
 
 	const handleCopyLink = async () => {
 		await navigator.clipboard.writeText(shareUrl)
 		setCopied(true)
-		toast.success('Link copiado al portapapeles')
+		toast.success(t.linkCopied)
 		setTimeout(() => setCopied(false), 2000)
 	}
 
@@ -56,7 +68,7 @@ export default function ShareQrClient({ qr }: { qr: QrData }) {
 					color="primary"
 					variant="flat"
 				>
-					Crear mi QR gratis
+					{t.createFree}
 				</Button>
 			</header>
 
@@ -67,7 +79,7 @@ export default function ShareQrClient({ qr }: { qr: QrData }) {
 					<div className="w-full bg-content1 border border-divider rounded-3xl p-8 flex flex-col items-center gap-5 shadow-lg">
 						<div className="flex items-center gap-2 text-default-500">
 							<HugeiconsIcon icon={QrCodeIcon} size={16} />
-							<span className="text-sm font-medium">Código QR</span>
+							<span className="text-sm font-medium">{t.title}</span>
 						</div>
 
 						<QrPreview
@@ -82,7 +94,7 @@ export default function ShareQrClient({ qr }: { qr: QrData }) {
 						<div className="text-center">
 							<h1 className="text-xl font-bold capitalize">{qr.name}</h1>
 							<p className="text-sm text-default-400 mt-0.5">
-								Escanea para visitar el enlace
+								{t.scanToVisit}
 							</p>
 						</div>
 
@@ -94,9 +106,9 @@ export default function ShareQrClient({ qr }: { qr: QrData }) {
 								startContent={<HugeiconsIcon icon={Download04Icon} size={16} />}
 								onPress={handleDownload}
 							>
-								Descargar PNG
+								{t.downloadPng}
 							</Button>
-							<Tooltip content={copied ? '¡Copiado!' : 'Copiar link'}>
+							<Tooltip content={copied ? t.copied : t.copyLink}>
 								<Button isIconOnly variant="flat" onPress={handleCopyLink}>
 									<HugeiconsIcon
 										icon={copied ? CheckmarkCircle02Icon : Copy01Icon}
@@ -110,11 +122,11 @@ export default function ShareQrClient({ qr }: { qr: QrData }) {
 
 					{/* CTA */}
 					<p className="text-xs text-default-400 text-center">
-						Creado con{' '}
+						{t.createdWith}{' '}
 						<a href="/" className="text-primary hover:underline font-medium">
 							QR Generator
 						</a>{' '}
-						— Crea tus propios QR codes gratis
+						— {t.createYours}
 					</p>
 				</div>
 			</main>

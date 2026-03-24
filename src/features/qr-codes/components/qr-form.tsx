@@ -36,7 +36,7 @@ import { toast } from 'sonner'
 import QrPreview from '@/features/qr-codes/components/qr-preview'
 import {
 	type QrFormData,
-	qrSchema,
+	createQrSchema,
 } from '@/features/qr-codes/schemas/qr-schema'
 import { createQr } from '@/features/qr-codes/services/mutations/create-qr'
 import { usePlan } from '@/shared/context/plan-context'
@@ -128,6 +128,14 @@ export interface QrFormTranslations {
 		namePlaceholder: string
 		save: string
 		saved: string
+	}
+	validation: {
+		nameRequired: string
+		contentRequired: string
+		slugPattern: string
+		slugMin: string
+		slugMax: string
+		frameScanMe: string
 	}
 }
 
@@ -246,7 +254,7 @@ const QrForm = ({ folders, translations, templates = [] }: Props) => {
 		setValue,
 		formState: { errors, isSubmitting },
 	} = useForm<QrFormData>({
-		resolver: zodResolver(qrSchema) as Resolver<QrFormData>,
+		resolver: zodResolver(createQrSchema(translations.validation)) as Resolver<QrFormData>,
 		defaultValues: {
 			qr_type: 'url',
 			bg_color: '#ffffff',

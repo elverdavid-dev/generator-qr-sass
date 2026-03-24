@@ -60,6 +60,9 @@ interface ActionsTranslations {
 	shareCopied: string
 	saveFromQr: string
 	templateSaved: string
+	templateNamePlaceholder: string
+	templateCancel: string
+	templateSave: string
 }
 
 interface FolderTranslations {
@@ -145,6 +148,7 @@ const QrActions = ({ qr, folders, translations }: Props) => {
 				<DropdownMenu aria-label={translations.actions.title}>
 					<DropdownItem
 						key="download"
+						textValue={translations.actions.download}
 						startContent={<HugeiconsIcon icon={Download04Icon} size={16} />}
 						onPress={downloadDisc.onOpen}
 					>
@@ -152,6 +156,7 @@ const QrActions = ({ qr, folders, translations }: Props) => {
 					</DropdownItem>
 					<DropdownItem
 						key="view"
+						textValue={translations.actions.viewDetails}
 						href={`/dashboard/qrs/${qr.slug}`}
 						startContent={<HugeiconsIcon icon={ViewIcon} size={16} />}
 					>
@@ -159,6 +164,7 @@ const QrActions = ({ qr, folders, translations }: Props) => {
 					</DropdownItem>
 					<DropdownItem
 						key="folder"
+						textValue={translations.actions.moveToFolder}
 						startContent={<HugeiconsIcon icon={Folder01Icon} size={16} />}
 						onPress={folderDisc.onOpen}
 					>
@@ -166,6 +172,7 @@ const QrActions = ({ qr, folders, translations }: Props) => {
 					</DropdownItem>
 					<DropdownItem
 						key="toggle"
+						textValue={qr.is_active ? translations.actions.deactivate : translations.actions.activate}
 						startContent={<HugeiconsIcon icon={ToggleOnIcon} size={16} />}
 						onPress={handleToggleStatus}
 						isDisabled={isPending}
@@ -176,6 +183,7 @@ const QrActions = ({ qr, folders, translations }: Props) => {
 					</DropdownItem>
 					<DropdownItem
 						key="favorite"
+						textValue={qr.is_favorite ? translations.actions.removeFavorite : translations.actions.addFavorite}
 						startContent={
 							<HugeiconsIcon
 								icon={StarIcon}
@@ -192,6 +200,7 @@ const QrActions = ({ qr, folders, translations }: Props) => {
 					</DropdownItem>
 					<DropdownItem
 						key="share"
+						textValue={translations.actions.share}
 						startContent={<HugeiconsIcon icon={Share01Icon} size={16} />}
 						onPress={canShare ? handleShare : undefined}
 						isDisabled={!canShare}
@@ -201,6 +210,7 @@ const QrActions = ({ qr, folders, translations }: Props) => {
 					</DropdownItem>
 					<DropdownItem
 						key="save-template"
+						textValue={translations.actions.saveFromQr}
 						startContent={<HugeiconsIcon icon={FloppyDiskIcon} size={16} />}
 						onPress={canTemplates ? saveTemplateDisc.onOpen : undefined}
 						isDisabled={!canTemplates}
@@ -210,6 +220,7 @@ const QrActions = ({ qr, folders, translations }: Props) => {
 					</DropdownItem>
 					<DropdownItem
 						key="edit"
+						textValue={translations.actions.edit}
 						href={`/dashboard/qrs/${qr.slug}/edit`}
 						startContent={<HugeiconsIcon icon={Edit02Icon} size={16} />}
 					>
@@ -217,6 +228,7 @@ const QrActions = ({ qr, folders, translations }: Props) => {
 					</DropdownItem>
 					<DropdownItem
 						key="delete"
+						textValue={translations.actions.delete}
 						className="text-danger"
 						color="danger"
 						startContent={<HugeiconsIcon icon={Delete02Icon} size={16} />}
@@ -271,9 +283,9 @@ const QrActions = ({ qr, folders, translations }: Props) => {
 				onSaved={() => {}}
 				translations={{
 					title: translations.actions.saveFromQr,
-					namePlaceholder: 'Ej. Mi marca',
-					cancel: 'Cancelar',
-					save: 'Guardar',
+					namePlaceholder: translations.actions.templateNamePlaceholder,
+					cancel: translations.actions.templateCancel,
+					save: translations.actions.templateSave,
 					saved: translations.actions.templateSaved,
 				}}
 			/>

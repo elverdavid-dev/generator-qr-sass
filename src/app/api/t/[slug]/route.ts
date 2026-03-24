@@ -6,6 +6,10 @@ import { resolveRedirectUrl } from '@/features/tracking/utils/resolve-redirect-u
 import { deliverWebhooks } from '@/features/webhooks/services/deliver-webhooks'
 import { saveScan } from '@/features/tracking/services/save-scan'
 import { createAdminClient } from '@/shared/lib/supabase/admin'
+import { createRateLimiter } from '@/shared/lib/rate-limit'
+
+/** 120 tracking requests per minute per IP. */
+const rateLimiter = createRateLimiter({ limit: 120, windowMs: 60_000 })
 
 export async function GET(
 	request: NextRequest,
@@ -16,6 +20,12 @@ export async function GET(
 
 	const forwardedFor = request.headers.get('x-forwarded-for')
 	const ip = forwardedFor ? forwardedFor.split(',')[0].trim() : '127.0.0.1'
+
+	// Rate limit: 120 requests/min per IP
+	const { success: allowed } = rateLimiter.check(ip)
+	if (!allowed) {
+		return new NextResponse('Too Many Requests', { status: 429 })
+	}
 
 	const userAgent = request.headers.get('user-agent') ?? ''
 	const parser = new UAParser(userAgent)

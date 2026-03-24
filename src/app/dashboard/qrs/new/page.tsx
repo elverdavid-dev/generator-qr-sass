@@ -111,6 +111,14 @@ const NewQrPage = async () => {
 			save: t('templates.save'),
 			saved: t('templates.saved'),
 		},
+		validation: {
+			nameRequired: t('validation.nameRequired'),
+			contentRequired: t('validation.contentRequired'),
+			slugPattern: t('validation.slugPattern'),
+			slugMin: t('validation.slugMin'),
+			slugMax: t('validation.slugMax'),
+			frameScanMe: t('validation.frameScanMe'),
+		},
 	}
 
 	return (

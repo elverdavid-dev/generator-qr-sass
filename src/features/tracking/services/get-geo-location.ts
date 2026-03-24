@@ -1,3 +1,11 @@
+/**
+ * Resolves geographic information (country, region, city) from an IP address
+ * using the ipinfo.io API.
+ *
+ * - Results are cached by Next.js for 24 hours (`next: { revalidate: 86400 }`).
+ * - Returns `null` values for all fields on local IPs or when `IPINFO_TOKEN` is missing.
+ * - Set `IPINFO_TOKEN` in env vars to enable geolocation in production.
+ */
 interface GeoLocation {
 	country: string | null
 	region: string | null

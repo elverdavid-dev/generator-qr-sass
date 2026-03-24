@@ -5,15 +5,32 @@ import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import {
 	type AuthFormData,
-	authFormDataSchema,
+	createAuthSchema,
 } from '@/features/auth/schema/auth-form-data'
 import { registerService } from '@/features/auth/services/register'
 
-export const useRegister = () => {
+interface RegisterMessages {
+	emailInvalid: string
+	passwordMin: string
+	registerSuccess: string
+}
+
+/**
+ * Handles registration form state, validation and submission.
+ * Pass translated messages from the parent server component.
+ */
+export const useRegister = (messages?: RegisterMessages) => {
 	const [isLoading, startTransition] = useTransition()
 
+	const schema = messages
+		? createAuthSchema(messages)
+		: createAuthSchema({
+				emailInvalid: 'Please enter a valid email address',
+				passwordMin: 'Password must be at least 6 characters',
+			})
+
 	const form = useForm<AuthFormData>({
-		resolver: zodResolver(authFormDataSchema),
+		resolver: zodResolver(schema),
 	})
 
 	const onSubmit = (formData: AuthFormData) => {
@@ -23,7 +40,10 @@ export const useRegister = () => {
 				toast.error(error)
 				return
 			}
-			toast.success('Cuenta creada. Revisa tu correo para confirmarla.')
+			toast.success(
+				messages?.registerSuccess ??
+					'Account created. Check your email to confirm it.',
+			)
 			form.reset()
 			window.location.href = '/confirm-email'
 		})

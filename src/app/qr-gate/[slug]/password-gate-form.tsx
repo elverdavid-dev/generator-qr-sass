@@ -2,11 +2,20 @@
 
 import { useState } from 'react'
 
-interface Props {
-	slug: string
+interface Translations {
+	placeholder: string
+	submit: string
+	error: string
+	verifyError: string
+	verifying: string
 }
 
-const PasswordGateForm = ({ slug }: Props) => {
+interface Props {
+	slug: string
+	translations: Translations
+}
+
+const PasswordGateForm = ({ slug, translations: t }: Props) => {
 	const [password, setPassword] = useState('')
 	const [error, setError] = useState<string | null>(null)
 	const [loading, setLoading] = useState(false)
@@ -26,14 +35,14 @@ const PasswordGateForm = ({ slug }: Props) => {
 			const json = await res.json()
 
 			if (!res.ok) {
-				setError(json.error ?? 'Contraseña incorrecta')
+				setError(json.error ?? t.error)
 				setLoading(false)
 				return
 			}
 
 			window.location.href = json.redirectUrl
 		} catch {
-			setError('Error al verificar la contraseña')
+			setError(t.verifyError)
 			setLoading(false)
 		}
 	}
@@ -44,7 +53,7 @@ const PasswordGateForm = ({ slug }: Props) => {
 				type="password"
 				value={password}
 				onChange={(e) => setPassword(e.target.value)}
-				placeholder="Ingresa la contraseña"
+				placeholder={t.placeholder}
 				className="w-full p-3 border border-divider rounded-xl bg-content2 text-sm focus:outline-none focus:border-primary"
 				autoFocus
 			/>
@@ -54,7 +63,7 @@ const PasswordGateForm = ({ slug }: Props) => {
 				disabled={loading || !password}
 				className="w-full p-3 rounded-xl bg-primary text-white text-sm font-semibold disabled:opacity-50 transition-opacity"
 			>
-				{loading ? 'Verificando...' : 'Acceder'}
+				{loading ? t.verifying : t.submit}
 			</button>
 		</form>
 	)

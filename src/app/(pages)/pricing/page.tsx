@@ -25,13 +25,30 @@ export const metadata: Metadata = {
 
 const PricingPage = async () => {
 	const t = await getTranslations('pricing')
+	const tp = await getTranslations('pricing.plans')
 	const { data: session } = await getSession()
 	const profile = session?.user
 		? (await getProfile({ user_id: session.user.id })).data
 		: null
 	const currentPlan: PlanId = profile?.plan ?? 'free'
 
-	const plans = [PLANS.free, PLANS.pro, PLANS.business].map((plan) => ({
+	const plans = [
+		{
+			...PLANS.free,
+			description: tp('freeDesc'),
+			features: [tp('freeFeature1'), tp('freeFeature2'), tp('freeFeature3'), tp('freeFeature4'), tp('freeFeature5')],
+		},
+		{
+			...PLANS.pro,
+			description: tp('proDesc'),
+			features: [tp('proFeature1'), tp('proFeature2'), tp('proFeature3'), tp('proFeature4'), tp('proFeature5'), tp('proFeature6'), tp('proFeature7')],
+		},
+		{
+			...PLANS.business,
+			description: tp('businessDesc'),
+			features: [tp('businessFeature1'), tp('businessFeature2'), tp('businessFeature3'), tp('businessFeature4'), tp('businessFeature5'), tp('businessFeature6'), tp('businessFeature7')],
+		},
+	].map((plan) => ({
 		id: plan.id,
 		name: plan.name,
 		description: plan.description,

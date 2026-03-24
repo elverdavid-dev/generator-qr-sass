@@ -55,12 +55,31 @@
 			"submit": "Enviar enlace",
 			"loading": "Enviando...",
 			"backToLogin": "Volver al inicio de sesión",
-			"successMessage": "Revisa tu correo electrónico"
+			"successMessage": "Revisa tu correo",
+			"successDesc": "Te enviamos un enlace para restablecer tu contraseña. Revisa tu bandeja de entrada y la carpeta de spam."
 		},
 		"confirmEmail": {
 			"title": "Confirma tu correo",
 			"message": "Te hemos enviado un enlace de confirmación. Revisa tu bandeja de entrada.",
 			"backToLogin": "Volver al inicio de sesión"
+		},
+		"validation": {
+			"emailInvalid": "El correo debe ser válido",
+			"passwordMin": "La contraseña debe tener al menos 6 caracteres",
+			"loginSuccess": "Inicio de sesión exitoso",
+			"registerSuccess": "Cuenta creada. Revisa tu correo para confirmarla."
+		},
+		"brandPanel": {
+			"headline1": "Genera, personaliza,",
+			"headline2": "Rastrea tus QRs.",
+			"subtitle": "La plataforma profesional para crear códigos QR dinámicos con analíticas en tiempo real.",
+			"feature1": "QRs ilimitados con personalización total",
+			"feature2": "Analíticas por país, dispositivo y ciudad",
+			"feature3": "Exporta en PNG y SVG con tu logo",
+			"feature4": "Redirección dinámica — cambia el destino sin reimprimir",
+			"stat1Label": "QRs creados",
+			"stat2Label": "Países",
+			"stat3Label": "Uptime"
 		}
 	},
 	"sidebar": {
@@ -106,6 +125,14 @@
 		"inactive": "Inactivo"
 	},
 	"qrs": {
+		"validation": {
+			"nameRequired": "El nombre es requerido",
+			"contentRequired": "El contenido es requerido",
+			"slugPattern": "Solo letras minúsculas, números y guiones",
+			"slugMin": "Mínimo 3 caracteres",
+			"slugMax": "Máximo 50 caracteres",
+			"frameScanMe": "ESCANÉAME"
+		},
 		"title": "Mis QR Codes",
 		"subtitle": "Gestiona todos tus códigos QR desde un solo lugar",
 		"createNew": "Crear QR",
@@ -315,7 +342,8 @@
 			"activated": "QRs activados",
 			"deactivated": "QRs desactivados",
 			"moved": "QRs movidos",
-			"upgradeRequired": "Actualiza a Pro para usar acciones en masa"
+			"upgradeRequired": "Actualiza a Pro para usar acciones en masa",
+			"selectAll": "Seleccionar todo"
 		}
 	},
 	"analytics": {
@@ -429,6 +457,30 @@
 	"pricing": {
 		"title": "Precios simples y transparentes",
 		"subtitle": "Empieza gratis. Escala cuando lo necesites. Sin sorpresas.",
+		"plans": {
+			"freeDesc": "Para empezar a explorar",
+			"proDesc": "Para creadores y profesionales",
+			"businessDesc": "Para equipos y empresas",
+			"freeFeature1": "3 QR codes",
+			"freeFeature2": "100 escaneos / mes",
+			"freeFeature3": "Analytics básico",
+			"freeFeature4": "Personalización de colores",
+			"freeFeature5": "Descarga PNG",
+			"proFeature1": "QR codes ilimitados",
+			"proFeature2": "Escaneos ilimitados",
+			"proFeature3": "Analytics avanzado + mapa mundial",
+			"proFeature4": "Todas las personalizaciones",
+			"proFeature5": "Descarga PNG / SVG",
+			"proFeature6": "Redirecciones condicionales",
+			"proFeature7": "Sin marca de agua",
+			"businessFeature1": "Todo lo de Pro",
+			"businessFeature2": "Dominio personalizado",
+			"businessFeature3": "Hasta 10 usuarios",
+			"businessFeature4": "Acceso a API REST",
+			"businessFeature5": "Generación masiva (CSV)",
+			"businessFeature6": "Soporte prioritario",
+			"businessFeature7": "Reportes por email"
+		},
 		"mostPopular": "Más popular",
 		"forever": "para siempre",
 		"perMonth": "/mes",
@@ -469,7 +521,10 @@
 			"description": "Este QR requiere contraseña para acceder.",
 			"placeholder": "Ingresa la contraseña",
 			"submit": "Acceder",
-			"error": "Contraseña incorrecta"
+			"error": "Contraseña incorrecta",
+			"verifyError": "Error al verificar la contraseña",
+			"verifying": "Verificando...",
+			"requiresPassword": "requiere contraseña para acceder."
 		}
 	},
 	"onboarding": {
@@ -489,94 +544,137 @@
 	},
 	"landing": {
 		"hero": {
-			"badge": "Genera QRs en segundos",
-			"headline1": "Crea códigos QR",
-			"headline2": "profesionales",
-			"headline3": "sin esfuerzo",
-			"subtitle": "Genera, personaliza y rastrea tus códigos QR en un solo lugar. Analytics en tiempo real, redirecciones dinámicas y diseños impresionantes.",
-			"ctaPrimary": "Crear QR gratis",
+			"badge": "Generador de QR Profesional",
+			"headline1": "Crea, personaliza,",
+			"headline2": "Rastrea tus QRs.",
+			"headline3": "Sin límites.",
+			"subtitle": "Convierte cualquier enlace o contenido en un código QR dinámico con analíticas en tiempo real, diseño personalizado y herramientas de equipo.",
+			"ctaPrimary": "Crear cuenta gratis",
 			"ctaSecondary": "Ver precios",
-			"noCreditCard": "Sin tarjeta de crédito · Cancela cuando quieras",
-			"mockupDynamic": "QR dinámico · Activo",
-			"mockupScans": "Escaneos",
-			"mockupCountries": "Países",
-			"mockupUptime": "Uptime",
-			"badge150": "150+ Países",
-			"badge150Sub": "alcance global",
-			"badge10k": "10k+ QRs",
-			"badge10kSub": "ya creados"
+			"trust1": "Sin tarjeta de crédito",
+			"trust2": "Cancela cuando quieras",
+			"trust3": "Plan gratis para siempre"
 		},
 		"stats": {
 			"qrs": "QRs creados",
-			"scans": "Escaneos totales",
-			"uptime": "Uptime garantizado",
+			"scans": "Escaneos registrados",
+			"uptime": "Disponibilidad",
 			"countries": "Países alcanzados"
 		},
-		"howItWorks": {
-			"label": "Proceso",
-			"title": "Tan simple como 1, 2, 3",
-			"subtitle": "En menos de un minuto tienes tu código QR listo para usar.",
-			"step1Title": "Elige el tipo",
-			"step1Desc": "URL, WiFi, contacto vCard, redes sociales, menú de restaurante y más. Tenemos el tipo que necesitas.",
-			"step2Title": "Personaliza el diseño",
-			"step2Desc": "Selecciona colores, formas de módulo, añade tu logo y crea un QR que represente tu marca.",
-			"step3Title": "Descarga y comparte",
-			"step3Desc": "Exporta en PNG, SVG o PDF de alta resolución. O comparte directamente con un enlace corto."
+		"mockup": {
+			"analyticsLabel": "Escaneos — últimos 7 días",
+			"scans": "Escaneos",
+			"today": "Hoy",
+			"countries": "Países",
+			"qrStyle": "Estilo del QR",
+			"square": "Cuadrado",
+			"round": "Redondo",
+			"dots": "Puntos",
+			"exportAs": "Exportar como",
+			"deviceBreakdown": "Desglose por dispositivo"
 		},
 		"features": {
 			"label": "Características",
-			"title": "Todo lo que necesitas",
-			"subtitle": "Herramientas profesionales pensadas para escalar con tu negocio.",
-			"analyticsTitle": "Analytics en tiempo real",
-			"analyticsDesc": "Visualiza escaneos por país, dispositivo y hora. Toma decisiones basadas en datos reales.",
-			"customTitle": "QR personalizables",
-			"customDesc": "Adapta colores, formas y añade tu logo. Cada QR puede reflejar la identidad de tu marca.",
-			"dynamicTitle": "Redirecciones dinámicas",
-			"dynamicDesc": "Cambia la URL destino sin reimprimir el QR. Ideal para campañas y materiales físicos.",
-			"passwordTitle": "Protección con contraseña",
-			"passwordDesc": "Restringe el acceso a tu contenido con una contraseña. Control total sobre quién escanea.",
-			"formatsTitle": "Múltiples formatos",
-			"formatsDesc": "Descarga en PNG, SVG o PDF en alta resolución. Listo para impresión y uso digital.",
-			"foldersTitle": "Gestión de carpetas",
-			"foldersDesc": "Organiza tus QRs en carpetas y encuentra lo que necesitas al instante, sin desorden."
+			"title": "Todo lo que necesitas para gestionar tus QRs.",
+			"analyticsOverline": "Analíticas",
+			"analyticsTitle": "Datos reales, decisiones inteligentes.",
+			"analyticsDesc": "Monitorea escaneos por dispositivo, sistema operativo, navegador, país, ciudad y hora del día. Identifica tendencias y optimiza tus campañas con datos precisos.",
+			"analyticsBullet1": "Mapa mundial de escaneos",
+			"analyticsBullet2": "Exportación a CSV",
+			"analyticsBullet3": "Historial detallado de cada escaneo",
+			"designOverline": "Diseño",
+			"designTitle": "QRs que reflejan tu marca.",
+			"designDesc": "Elige colores, estilos de puntos, esquinas, gradientes y añade tu logo. Genera códigos que se integran perfectamente con tu identidad visual.",
+			"designBullet1": "Colores personalizados y gradientes",
+			"designBullet2": "Estilos de puntos y esquinas",
+			"designBullet3": "Logo en el centro del QR",
+			"dynamicOverline": "Inteligencia",
+			"dynamicTitle": "Un QR, múltiples destinos.",
+			"dynamicDesc": "Los QR dinámicos te permiten cambiar el destino sin imprimir de nuevo. Además, redirige a distintas URLs según el dispositivo del usuario.",
+			"dynamicBullet1": "Redirección condicional iOS/Android",
+			"dynamicBullet2": "Parámetros UTM automáticos",
+			"dynamicBullet3": "Actualiza el destino en cualquier momento",
+			"mini1Title": "Protección avanzada",
+			"mini1Desc": "Contraseña, fecha de expiración y límite de escaneos por QR.",
+			"mini2Title": "Carpetas y organización",
+			"mini2Desc": "Organiza todos tus QRs en carpetas con acciones en masa.",
+			"mini3Title": "API REST + Webhooks",
+			"mini3Desc": "Integra QR Generator en tus apps con autenticación Bearer.",
+			"mini4Title": "Gestión de equipo",
+			"mini4Desc": "Invita hasta 10 miembros con roles de admin o colaborador."
+		},
+		"howItWorks": {
+			"label": "Cómo funciona",
+			"title": "En tres pasos.",
+			"step1Title": "Crea tu QR",
+			"step1Desc": "Elige el tipo de contenido: URL, texto, contacto, WiFi, evento o pago.",
+			"step2Title": "Personaliza el diseño",
+			"step2Desc": "Ajusta colores, estilos, añade tu logo y elige el formato de exportación.",
+			"step3Title": "Comparte y rastrea",
+			"step3Desc": "Descarga, comparte y monitorea cada escaneo en tiempo real desde el dashboard."
 		},
 		"pricing": {
 			"label": "Precios",
-			"title": "Planes para todos",
-			"subtitle": "Comienza gratis y escala cuando lo necesites. Sin sorpresas.",
+			"title": "Simple. Transparente.",
+			"subtitle": "Comienza gratis, escala cuando lo necesites. Sin sorpresas.",
 			"mostPopular": "Más popular",
 			"forever": "para siempre",
-			"perMonth": "por mes",
-			"viewAll": "Ver todos los detalles",
+			"perMonth": "/mes",
+			"viewAll": "Ver comparativa completa de planes",
 			"freeName": "Free",
-			"freeDesc": "Ideal para empezar y explorar.",
-			"freeBullet1": "Hasta 3 QRs activos",
-			"freeBullet2": "Formatos PNG y SVG",
-			"freeBullet3": "Analytics básico",
-			"freeCta": "Comenzar gratis",
+			"freeDesc": "Para comenzar sin riesgo.",
+			"freeBullet1": "3 QR codes",
+			"freeBullet2": "100 escaneos/mes",
+			"freeBullet3": "Descargas en PNG",
+			"freeCta": "Crear cuenta gratis",
 			"proName": "Pro",
-			"proDesc": "Para creadores y freelancers.",
+			"proDesc": "Para profesionales y creadores.",
 			"proBullet1": "QRs ilimitados",
-			"proBullet2": "Redirecciones dinámicas",
-			"proBullet3": "Analytics completo",
-			"proCta": "Elegir Pro",
+			"proBullet2": "Escaneos ilimitados",
+			"proBullet3": "Analytics avanzado + mapa",
+			"proBullet4": "Exportación SVG",
+			"proBullet5": "Redirección condicional iOS/Android",
+			"proBullet6": "Templates y acciones en masa",
+			"proCta": "Empezar con Pro",
 			"businessName": "Business",
-			"businessDesc": "Equipos y marcas en crecimiento.",
-			"businessBullet1": "Todo de Pro incluido",
-			"businessBullet2": "Múltiples usuarios",
-			"businessBullet3": "Soporte prioritario",
-			"businessCta": "Elegir Business"
+			"businessDesc": "Para equipos y empresas.",
+			"businessBullet1": "Todo lo de Pro",
+			"businessBullet2": "Webhooks",
+			"businessBullet3": "API REST",
+			"businessBullet4": "Equipo hasta 10",
+			"businessCta": "Contactar ventas"
 		},
 		"cta": {
-			"title": "¿Listo para empezar?",
-			"subtitle": "Únete a miles de equipos que ya confían en QR Generator para sus campañas, negocios y proyectos personales.",
+			"label": "Comienza hoy",
+			"title": "Tu primer QR, en menos de un minuto.",
+			"subtitle": "Sin tarjeta de crédito. Sin instalaciones. Crea, personaliza y comparte tu primer código QR gratis ahora mismo.",
 			"button": "Crear cuenta gratis",
-			"noCreditCard": "Sin tarjeta de crédito · Cancela cuando quieras"
+			"footnote": "Plan gratis para siempre · Sin tarjeta"
 		},
 		"meta": {
 			"title": "QR Generator — Crea códigos QR profesionales",
 			"description": "Genera, personaliza y rastrea tus códigos QR en segundos. Analytics en tiempo real, redirecciones dinámicas y diseños impresionantes."
 		}
+	},
+	"error": {
+		"title": "¡Algo salió mal!",
+		"goBack": "Volver",
+		"tryAgain": "Intentar de nuevo"
+	},
+	"notFound": {
+		"title": "¡Página no encontrada!",
+		"home": "Volver al inicio"
+	},
+	"share": {
+		"createFree": "Crear mi QR gratis",
+		"title": "Código QR",
+		"scanToVisit": "Escanea para visitar el enlace",
+		"downloadPng": "Descargar PNG",
+		"copied": "¡Copiado!",
+		"copyLink": "Copiar link",
+		"createdWith": "Creado con",
+		"createYours": "Crea tus propios QR codes gratis",
+		"linkCopied": "Link copiado al portapapeles"
 	},
 	"language": {
 		"es": "Español",
@@ -585,6 +683,9 @@
 		"loading": "Cambiando idioma..."
 	},
 	"folders": {
+		"validation": {
+			"nameRequired": "El nombre es requerido"
+		},
 		"title": "Carpetas",
 		"newFolder": "Nueva carpeta",
 		"editFolder": "Editar carpeta",

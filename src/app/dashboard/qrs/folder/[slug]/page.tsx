@@ -89,6 +89,9 @@ const FolderViewPage = async ({ params, searchParams }: Props) => {
 			shareCopied: t('actions.shareCopied'),
 			saveFromQr: t('actions.saveFromQr'),
 			templateSaved: t('actions.templateSaved'),
+			templateNamePlaceholder: t('templates.namePlaceholder'),
+			templateCancel: t('download.cancel'),
+			templateSave: t('templates.save'),
 		},
 		folder: {
 			moveTitle: t('folder.moveTitle'),

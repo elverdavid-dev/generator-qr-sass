@@ -56,6 +56,9 @@ interface ActionsTranslations {
 	shareCopied: string
 	saveFromQr: string
 	templateSaved: string
+	templateNamePlaceholder: string
+	templateCancel: string
+	templateSave: string
 }
 
 interface FolderTranslations {
@@ -83,6 +86,7 @@ interface BulkTranslations {
 	deactivated: string
 	moved: string
 	upgradeRequired: string
+	selectAll: string
 }
 
 interface QrTableTranslations {
@@ -242,7 +246,7 @@ const QrTable = ({ qrs, folders, total, page, translations }: Props) => {
 									)
 							}}
 						>
-							{(item) => <SelectItem key={item.id}>{item.name}</SelectItem>}
+							{(item) => <SelectItem key={item.id} textValue={item.name}>{item.name}</SelectItem>}
 						</Select>
 					)}
 					<button
@@ -257,7 +261,7 @@ const QrTable = ({ qrs, folders, total, page, translations }: Props) => {
 
 			{/* Upgrade hint for free users */}
 			{!canBulk && bulk && (
-				<div className="mb-3 flex items-center gap-2 bg-primary/5 border border-primary/20 rounded-xl px-4 py-2">
+				<div className="mb-3 flex items-center gap-2 bg-primary/5 border border-primary/20 rounded-xl px-4 py-2 mt-3">
 					<HugeiconsIcon
 						icon={Crown02Icon}
 						size={14}
@@ -280,7 +284,7 @@ const QrTable = ({ qrs, folders, total, page, translations }: Props) => {
 							size="sm"
 							color="primary"
 						>
-							<span className="text-xs text-default-400">Seleccionar todo</span>
+							<span className="text-xs text-default-400">{bulk?.selectAll}</span>
 						</Checkbox>
 					</div>
 				)}

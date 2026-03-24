@@ -63,6 +63,7 @@ const FolderActions: FC<Props> = ({ folder, translations }) => {
 				<DropdownMenu aria-label={translations.actions}>
 					<DropdownItem
 						key="view"
+						textValue={translations.viewContents}
 						href={`/dashboard/qrs/folder/${folder.slug}`}
 						startContent={<HugeiconsIcon icon={ViewIcon} size={16} />}
 					>
@@ -70,6 +71,7 @@ const FolderActions: FC<Props> = ({ folder, translations }) => {
 					</DropdownItem>
 					<DropdownItem
 						key="edit"
+						textValue={translations.editName}
 						startContent={<HugeiconsIcon icon={Edit02Icon} size={16} />}
 						onPress={editDisc.onOpen}
 					>
@@ -77,6 +79,7 @@ const FolderActions: FC<Props> = ({ folder, translations }) => {
 					</DropdownItem>
 					<DropdownItem
 						key="delete"
+						textValue={translations.delete}
 						className="text-danger"
 						color="danger"
 						startContent={<HugeiconsIcon icon={Delete02Icon} size={16} />}

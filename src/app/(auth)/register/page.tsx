@@ -3,6 +3,7 @@ import RegisterForm from '@/features/auth/components/register-form'
 
 const RegisterPage = async () => {
 	const t = await getTranslations('auth.register')
+	const tv = await getTranslations('auth.validation')
 
 	return (
 		<RegisterForm
@@ -15,6 +16,9 @@ const RegisterPage = async () => {
 				hasAccount: t('hasAccount'),
 				signIn: t('signIn'),
 				orRegisterWith: t('orRegisterWith'),
+				emailInvalid: tv('emailInvalid'),
+				passwordMin: tv('passwordMin'),
+				registerSuccess: tv('registerSuccess'),
 			}}
 		/>
 	)

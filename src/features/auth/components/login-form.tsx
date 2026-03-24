@@ -18,6 +18,10 @@ interface LoginTranslations {
 	noAccount: string
 	signUp: string
 	orLoginWith: string
+	// Validation & toast messages
+	emailInvalid: string
+	passwordMin: string
+	loginSuccess: string
 }
 
 interface Props {
@@ -25,27 +29,34 @@ interface Props {
 }
 
 const LoginForm = ({ translations: t }: Props) => {
-	const { form, onSubmit, isLoading } = useLogin()
+	const { form, onSubmit, isLoading } = useLogin({
+		emailInvalid: t.emailInvalid,
+		passwordMin: t.passwordMin,
+		loginSuccess: t.loginSuccess,
+	})
 
 	return (
-		<section className="md:w-[460px] mx-auto mt-5 p-10">
-			<h1 className="font-bold text-2xl">{t.title}</h1>
-			<h2 className="text-gray-600 dark:text-gray-400 text-sm pb-10">
-				{t.subtitle}
-			</h2>
+		<div className="w-full max-w-105 bg-content1 border border-divider rounded-2xl p-8 shadow-sm">
+			<div className="mb-6">
+				<h1 className="text-2xl font-bold text-foreground tracking-tight">
+					{t.title}
+				</h1>
+				<p className="text-sm text-default-500 mt-1">{t.subtitle}</p>
+			</div>
+
 			<Suspense fallback={<GooglePlaceholderButton />}>
 				<GoogleLoginButton />
 			</Suspense>
 
-			<div className="flex items-center gap-4 text-gray-500 dark:text-gray-400 py-3">
-				<div className="h-[1px] flex-1 bg-gray-300 dark:bg-gray-700" />
+			<div className="flex items-center gap-3 text-xs text-default-400 py-4">
+				<div className="h-px flex-1 bg-divider" />
 				<span>{t.orLoginWith}</span>
-				<div className="h-[1px] flex-1 bg-gray-300 dark:bg-gray-700" />
+				<div className="h-px flex-1 bg-divider" />
 			</div>
 
 			<form
 				onSubmit={form.handleSubmit(onSubmit)}
-				className="flex flex-col gap-y-5"
+				className="flex flex-col gap-4"
 			>
 				<InputEmail
 					{...form.register('email')}
@@ -53,34 +64,40 @@ const LoginForm = ({ translations: t }: Props) => {
 					isInvalid={!!form.formState.errors.email}
 					errorMessage={form.formState.errors.email?.message}
 				/>
-				<InputPassword
-					{...form.register('password')}
-					isInvalid={!!form.formState.errors.password}
-					errorMessage={form.formState.errors.password?.message}
-				/>
-				<Link
-					href="/reset-password"
-					className="w-full text-end underline text-sm"
-				>
-					{t.forgotPassword}
-				</Link>
+				<div className="flex flex-col gap-1">
+					<InputPassword
+						{...form.register('password')}
+						isInvalid={!!form.formState.errors.password}
+						errorMessage={form.formState.errors.password?.message}
+					/>
+					<div className="flex justify-end">
+						<Link
+							href="/reset-password"
+							className="text-xs text-default-400 hover:text-primary transition-colors"
+						>
+							{t.forgotPassword}
+						</Link>
+					</div>
+				</div>
 				<Button
 					size="lg"
 					fullWidth
 					type="submit"
 					color="primary"
 					isLoading={isLoading}
+					className="mt-1 rounded-xl font-semibold"
 				>
 					{isLoading ? t.loading : t.submit}
 				</Button>
 			</form>
-			<div className="py-5">
-				<span>{t.noAccount} </span>
-				<Link href="/register" className="underline text-primary font-medium">
+
+			<p className="text-sm text-default-500 text-center mt-6">
+				{t.noAccount}{' '}
+				<Link href="/register" className="text-primary font-semibold hover:underline">
 					{t.signUp}
 				</Link>
-			</div>
-		</section>
+			</p>
+		</div>
 	)
 }
 

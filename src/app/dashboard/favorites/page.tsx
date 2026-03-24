@@ -63,6 +63,9 @@ const FavoritesPage = async () => {
 			shareCopied: tQrs('actions.shareCopied'),
 			saveFromQr: tQrs('actions.saveFromQr'),
 			templateSaved: tQrs('actions.templateSaved'),
+			templateNamePlaceholder: tQrs('templates.namePlaceholder'),
+			templateCancel: tQrs('download.cancel'),
+			templateSave: tQrs('templates.save'),
 		},
 		folder: {
 			moveTitle: tQrs('folder.moveTitle'),

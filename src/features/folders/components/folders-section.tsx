@@ -22,6 +22,7 @@ interface FoldersSectionTranslations {
 	noFolders: string
 	name: string
 	namePlaceholder: string
+	nameRequired: string
 	cancel: string
 	save: string
 	create: string
@@ -49,6 +50,7 @@ const FoldersSection: FC<Props> = ({ folders, translations }) => {
 		newFolder: translations.newFolder,
 		name: translations.name,
 		namePlaceholder: translations.namePlaceholder,
+		nameRequired: translations.nameRequired,
 		cancel: translations.cancel,
 		save: translations.save,
 		create: translations.create,
@@ -82,7 +84,7 @@ const FoldersSection: FC<Props> = ({ folders, translations }) => {
 					{translations.noFolders}
 				</p>
 			) : (
-				<div className="flex items-start gap-3 overflow-x-auto pb-2">
+				<div className="flex items-start gap-3 overflow-x-auto pb-2 scrollbar-hide">
 					{folders.map((folder) => (
 						<div
 							key={folder.id}

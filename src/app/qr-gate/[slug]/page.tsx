@@ -1,4 +1,5 @@
 import { notFound } from 'next/navigation'
+import { getTranslations } from 'next-intl/server'
 import { createClient } from '@/shared/lib/supabase/server'
 import PasswordGateForm from './password-gate-form'
 
@@ -8,6 +9,7 @@ interface Props {
 
 const QrGatePage = async ({ params }: Props) => {
 	const { slug } = await params
+	const t = await getTranslations('qrGate.password')
 	const supabase = await createClient()
 
 	const { data: qr } = await supabase
@@ -39,13 +41,22 @@ const QrGatePage = async ({ params }: Props) => {
 					</svg>
 				</div>
 				<div className="text-center">
-					<h1 className="text-xl font-bold">QR protegido</h1>
+					<h1 className="text-xl font-bold">{t('title')}</h1>
 					<p className="text-default-500 text-sm mt-1">
 						<span className="font-medium text-default-700">{qr.name}</span>{' '}
-						requiere una contraseña para acceder.
+						{t('requiresPassword')}
 					</p>
 				</div>
-				<PasswordGateForm slug={slug} />
+				<PasswordGateForm
+					slug={slug}
+					translations={{
+						placeholder: t('placeholder'),
+						submit: t('submit'),
+						error: t('error'),
+						verifyError: t('verifyError'),
+						verifying: t('verifying'),
+					}}
+				/>
 			</div>
 		</div>
 	)

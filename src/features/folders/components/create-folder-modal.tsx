@@ -15,7 +15,7 @@ import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import {
 	type FolderFormData,
-	folderSchema,
+	createFolderSchema,
 } from '@/features/folders/schemas/folder-schema'
 import { createFolder } from '@/features/folders/services/mutations/create-folder'
 import { updateFolder } from '@/features/folders/services/mutations/update-folder'
@@ -31,6 +31,7 @@ interface CreateFolderTranslations {
 	create: string
 	created: string
 	updated: string
+	nameRequired: string
 }
 
 interface Props {
@@ -55,7 +56,7 @@ const CreateFolderModal: FC<Props> = ({
 		reset,
 		formState: { errors },
 	} = useForm<FolderFormData>({
-		resolver: zodResolver(folderSchema),
+		resolver: zodResolver(createFolderSchema({ nameRequired: translations.nameRequired })),
 		defaultValues: { name: folder?.name ?? '' },
 	})
 

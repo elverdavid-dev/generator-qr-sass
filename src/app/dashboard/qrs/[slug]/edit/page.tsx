@@ -115,6 +115,14 @@ const EditQrPage = async ({ params }: Props) => {
 			event: t('types.event'),
 			payment: t('types.payment'),
 		},
+		validation: {
+			nameRequired: t('validation.nameRequired'),
+			contentRequired: t('validation.contentRequired'),
+			slugPattern: t('validation.slugPattern'),
+			slugMin: t('validation.slugMin'),
+			slugMax: t('validation.slugMax'),
+			frameScanMe: t('validation.frameScanMe'),
+		},
 	}
 
 	return (

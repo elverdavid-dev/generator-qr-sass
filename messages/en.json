@@ -55,12 +55,31 @@
 			"submit": "Send reset link",
 			"loading": "Sending...",
 			"backToLogin": "Back to sign in",
-			"successMessage": "Check your email inbox"
+			"successMessage": "Check your email",
+			"successDesc": "We sent you a link to reset your password. Check your inbox and spam folder."
 		},
 		"confirmEmail": {
 			"title": "Confirm your email",
 			"message": "We've sent you a confirmation link. Check your inbox.",
 			"backToLogin": "Back to sign in"
+		},
+		"validation": {
+			"emailInvalid": "Please enter a valid email address",
+			"passwordMin": "Password must be at least 6 characters",
+			"loginSuccess": "Signed in successfully",
+			"registerSuccess": "Account created. Check your email to confirm it."
+		},
+		"brandPanel": {
+			"headline1": "Generate, customize,",
+			"headline2": "Track your QRs.",
+			"subtitle": "The professional platform to create dynamic QR codes with real-time analytics.",
+			"feature1": "Unlimited QRs with full customization",
+			"feature2": "Analytics by country, device and city",
+			"feature3": "Export in PNG and SVG with your logo",
+			"feature4": "Dynamic redirect — change destination without reprinting",
+			"stat1Label": "QRs created",
+			"stat2Label": "Countries",
+			"stat3Label": "Uptime"
 		}
 	},
 	"sidebar": {
@@ -106,6 +125,14 @@
 		"inactive": "Inactive"
 	},
 	"qrs": {
+		"validation": {
+			"nameRequired": "Name is required",
+			"contentRequired": "Content is required",
+			"slugPattern": "Lowercase letters, numbers and hyphens only",
+			"slugMin": "Minimum 3 characters",
+			"slugMax": "Maximum 50 characters",
+			"frameScanMe": "SCAN ME"
+		},
 		"title": "My QR Codes",
 		"subtitle": "Manage all your QR codes in one place",
 		"createNew": "Create QR",
@@ -315,7 +342,8 @@
 			"activated": "QRs activated",
 			"deactivated": "QRs deactivated",
 			"moved": "QRs moved",
-			"upgradeRequired": "Upgrade to Pro to use bulk actions"
+			"upgradeRequired": "Upgrade to Pro to use bulk actions",
+			"selectAll": "Select all"
 		}
 	},
 	"analytics": {
@@ -429,6 +457,30 @@
 	"pricing": {
 		"title": "Simple, transparent pricing",
 		"subtitle": "Start free. Scale when you need it. No surprises.",
+		"plans": {
+			"freeDesc": "Start exploring for free",
+			"proDesc": "For creators and professionals",
+			"businessDesc": "For teams and businesses",
+			"freeFeature1": "3 QR codes",
+			"freeFeature2": "100 scans / month",
+			"freeFeature3": "Basic analytics",
+			"freeFeature4": "Color customization",
+			"freeFeature5": "PNG download",
+			"proFeature1": "Unlimited QR codes",
+			"proFeature2": "Unlimited scans",
+			"proFeature3": "Advanced analytics + world map",
+			"proFeature4": "All customizations",
+			"proFeature5": "PNG / SVG download",
+			"proFeature6": "Conditional redirects",
+			"proFeature7": "No watermark",
+			"businessFeature1": "Everything in Pro",
+			"businessFeature2": "Custom domain",
+			"businessFeature3": "Up to 10 users",
+			"businessFeature4": "REST API access",
+			"businessFeature5": "Bulk generation (CSV)",
+			"businessFeature6": "Priority support",
+			"businessFeature7": "Email reports"
+		},
 		"mostPopular": "Most popular",
 		"forever": "forever",
 		"perMonth": "/month",
@@ -469,7 +521,10 @@
 			"description": "This QR requires a password to access.",
 			"placeholder": "Enter the password",
 			"submit": "Access",
-			"error": "Incorrect password"
+			"error": "Incorrect password",
+			"verifyError": "Error verifying the password",
+			"verifying": "Verifying...",
+			"requiresPassword": "requires a password to access."
 		}
 	},
 	"onboarding": {
@@ -489,94 +544,137 @@
 	},
 	"landing": {
 		"hero": {
-			"badge": "Generate QRs in seconds",
-			"headline1": "Create QR codes",
-			"headline2": "professional",
-			"headline3": "effortlessly",
-			"subtitle": "Generate, customize and track your QR codes in one place. Real-time analytics, dynamic redirects and stunning designs.",
-			"ctaPrimary": "Create QR for free",
+			"badge": "Professional QR Generator",
+			"headline1": "Create, customize,",
+			"headline2": "Track your QRs.",
+			"headline3": "No limits.",
+			"subtitle": "Turn any link or content into a dynamic QR code with real-time analytics, custom design, and team tools.",
+			"ctaPrimary": "Create free account",
 			"ctaSecondary": "View pricing",
-			"noCreditCard": "No credit card required · Cancel anytime",
-			"mockupDynamic": "Dynamic QR · Active",
-			"mockupScans": "Scans",
-			"mockupCountries": "Countries",
-			"mockupUptime": "Uptime",
-			"badge150": "150+ Countries",
-			"badge150Sub": "global reach",
-			"badge10k": "10k+ QRs",
-			"badge10kSub": "already created"
+			"trust1": "No credit card required",
+			"trust2": "Cancel anytime",
+			"trust3": "Free plan forever"
 		},
 		"stats": {
 			"qrs": "QRs created",
-			"scans": "Total scans",
-			"uptime": "Guaranteed uptime",
+			"scans": "Registered scans",
+			"uptime": "Availability",
 			"countries": "Countries reached"
 		},
-		"howItWorks": {
-			"label": "Process",
-			"title": "As simple as 1, 2, 3",
-			"subtitle": "In less than a minute your QR code is ready to use.",
-			"step1Title": "Choose the type",
-			"step1Desc": "URL, WiFi, vCard contact, social media, restaurant menu and more. We have the type you need.",
-			"step2Title": "Customize the design",
-			"step2Desc": "Choose colors, module shapes, add your logo and create a QR that represents your brand.",
-			"step3Title": "Download and share",
-			"step3Desc": "Export in high-resolution PNG, SVG or PDF. Or share directly with a short link."
+		"mockup": {
+			"analyticsLabel": "Scans — last 7 days",
+			"scans": "Scans",
+			"today": "Today",
+			"countries": "Countries",
+			"qrStyle": "QR Style",
+			"square": "Square",
+			"round": "Round",
+			"dots": "Dots",
+			"exportAs": "Export as",
+			"deviceBreakdown": "Breakdown by device"
 		},
 		"features": {
 			"label": "Features",
-			"title": "Everything you need",
-			"subtitle": "Professional tools designed to scale with your business.",
-			"analyticsTitle": "Real-time analytics",
-			"analyticsDesc": "Visualize scans by country, device and time. Make decisions based on real data.",
-			"customTitle": "Customizable QRs",
-			"customDesc": "Adapt colors, shapes and add your logo. Each QR can reflect your brand identity.",
-			"dynamicTitle": "Dynamic redirects",
-			"dynamicDesc": "Change the destination URL without reprinting the QR. Perfect for campaigns and print materials.",
-			"passwordTitle": "Password protection",
-			"passwordDesc": "Restrict access to your content with a password. Full control over who scans.",
-			"formatsTitle": "Multiple formats",
-			"formatsDesc": "Download in high-resolution PNG, SVG or PDF. Ready for print and digital use.",
-			"foldersTitle": "Folder management",
-			"foldersDesc": "Organize your QRs in folders and find what you need instantly, without clutter."
+			"title": "Everything you need to manage your QRs.",
+			"analyticsOverline": "Analytics",
+			"analyticsTitle": "Real data, smart decisions.",
+			"analyticsDesc": "Monitor scans by device, OS, browser, country, city and time of day. Identify trends and optimize your campaigns with precise data.",
+			"analyticsBullet1": "World scan map",
+			"analyticsBullet2": "CSV export",
+			"analyticsBullet3": "Detailed scan history",
+			"designOverline": "Design",
+			"designTitle": "QRs that reflect your brand.",
+			"designDesc": "Choose colors, dot styles, corners, gradients and add your logo. Generate codes that perfectly integrate with your visual identity.",
+			"designBullet1": "Custom colors and gradients",
+			"designBullet2": "Dot and corner styles",
+			"designBullet3": "Logo in the center of the QR",
+			"dynamicOverline": "Intelligence",
+			"dynamicTitle": "One QR, multiple destinations.",
+			"dynamicDesc": "Dynamic QRs let you change the destination without reprinting. Plus, redirect to different URLs based on the user's device.",
+			"dynamicBullet1": "Conditional iOS/Android redirect",
+			"dynamicBullet2": "Automatic UTM parameters",
+			"dynamicBullet3": "Update destination at any time",
+			"mini1Title": "Advanced protection",
+			"mini1Desc": "Password, expiration date and scan limit per QR.",
+			"mini2Title": "Folders & organization",
+			"mini2Desc": "Organize all your QRs in folders with bulk actions.",
+			"mini3Title": "REST API + Webhooks",
+			"mini3Desc": "Integrate QR Generator into your apps with Bearer authentication.",
+			"mini4Title": "Team management",
+			"mini4Desc": "Invite up to 10 members with admin or collaborator roles."
+		},
+		"howItWorks": {
+			"label": "How it works",
+			"title": "Three steps.",
+			"step1Title": "Create your QR",
+			"step1Desc": "Choose the content type: URL, text, contact, WiFi, event or payment.",
+			"step2Title": "Customize the design",
+			"step2Desc": "Adjust colors, styles, add your logo and choose the export format.",
+			"step3Title": "Share and track",
+			"step3Desc": "Download, share and monitor every scan in real time from the dashboard."
 		},
 		"pricing": {
 			"label": "Pricing",
-			"title": "Plans for everyone",
-			"subtitle": "Start free and scale when you need it. No surprises.",
+			"title": "Simple. Transparent.",
+			"subtitle": "Start free, scale when you need it. No surprises.",
 			"mostPopular": "Most popular",
 			"forever": "forever",
-			"perMonth": "per month",
-			"viewAll": "View all details",
+			"perMonth": "/month",
+			"viewAll": "See full plan comparison",
 			"freeName": "Free",
-			"freeDesc": "Perfect to get started and explore.",
-			"freeBullet1": "Up to 3 active QRs",
-			"freeBullet2": "PNG and SVG formats",
-			"freeBullet3": "Basic analytics",
-			"freeCta": "Start for free",
+			"freeDesc": "To get started without risk.",
+			"freeBullet1": "3 QR codes",
+			"freeBullet2": "100 scans/month",
+			"freeBullet3": "PNG downloads",
+			"freeCta": "Create free account",
 			"proName": "Pro",
-			"proDesc": "For creators and freelancers.",
+			"proDesc": "For professionals and creators.",
 			"proBullet1": "Unlimited QRs",
-			"proBullet2": "Dynamic redirects",
-			"proBullet3": "Full analytics",
-			"proCta": "Choose Pro",
+			"proBullet2": "Unlimited scans",
+			"proBullet3": "Advanced analytics + map",
+			"proBullet4": "SVG export",
+			"proBullet5": "Conditional iOS/Android redirect",
+			"proBullet6": "Templates and bulk actions",
+			"proCta": "Start with Pro",
 			"businessName": "Business",
-			"businessDesc": "Teams and growing brands.",
+			"businessDesc": "For teams and companies.",
 			"businessBullet1": "Everything in Pro",
-			"businessBullet2": "Multiple users",
-			"businessBullet3": "Priority support",
-			"businessCta": "Choose Business"
+			"businessBullet2": "Webhooks",
+			"businessBullet3": "REST API",
+			"businessBullet4": "Team up to 10",
+			"businessCta": "Contact sales"
 		},
 		"cta": {
-			"title": "Ready to get started?",
-			"subtitle": "Join thousands of teams that already trust QR Generator for their campaigns, businesses and personal projects.",
+			"label": "Start today",
+			"title": "Your first QR, in less than a minute.",
+			"subtitle": "No credit card. No installations. Create, customize and share your first QR code for free right now.",
 			"button": "Create free account",
-			"noCreditCard": "No credit card required · Cancel anytime"
+			"footnote": "Free plan forever · No credit card"
 		},
 		"meta": {
 			"title": "QR Generator — Create professional QR codes",
 			"description": "Generate, customize and track your QR codes in seconds. Real-time analytics, dynamic redirects and stunning designs."
 		}
+	},
+	"error": {
+		"title": "Something went wrong!",
+		"goBack": "Go back",
+		"tryAgain": "Try again"
+	},
+	"notFound": {
+		"title": "Page not found!",
+		"home": "Return Home"
+	},
+	"share": {
+		"createFree": "Create my QR for free",
+		"title": "QR Code",
+		"scanToVisit": "Scan to visit the link",
+		"downloadPng": "Download PNG",
+		"copied": "Copied!",
+		"copyLink": "Copy link",
+		"createdWith": "Created with",
+		"createYours": "Create your own QR codes for free",
+		"linkCopied": "Link copied to clipboard"
 	},
 	"language": {
 		"es": "Español",
@@ -585,6 +683,9 @@
 		"loading": "Changing language..."
 	},
 	"folders": {
+		"validation": {
+			"nameRequired": "Name is required"
+		},
 		"title": "Folders",
 		"newFolder": "New folder",
 		"editFolder": "Edit folder",

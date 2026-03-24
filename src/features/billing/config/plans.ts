@@ -1,3 +1,16 @@
+/**
+ * Plan configuration for the QR Generator SaaS.
+ *
+ * Three tiers: Free → Pro → Business.
+ * Prices are in USD. `maxQrs` and `maxScansPerMonth` of -1 mean unlimited.
+ *
+ * Display strings (description, features[]) are intentionally kept here as
+ * English fallbacks. In the UI, override them with translated strings from
+ * `pricing.plans.*` i18n keys before passing to components.
+ *
+ * LemonSqueezy variant IDs are read from env vars at runtime so they can
+ * differ between staging and production without a code change.
+ */
 export type PlanId = 'free' | 'pro' | 'business'
 
 export interface PlanFeatures {

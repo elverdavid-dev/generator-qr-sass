@@ -3,6 +3,7 @@ import LoginForm from '@/features/auth/components/login-form'
 
 const LoginPage = async () => {
 	const t = await getTranslations('auth.login')
+	const tv = await getTranslations('auth.validation')
 
 	return (
 		<LoginForm
@@ -16,6 +17,9 @@ const LoginPage = async () => {
 				noAccount: t('noAccount'),
 				signUp: t('signUp'),
 				orLoginWith: t('orLoginWith'),
+				emailInvalid: tv('emailInvalid'),
+				passwordMin: tv('passwordMin'),
+				loginSuccess: tv('loginSuccess'),
 			}}
 		/>
 	)

@@ -86,6 +86,9 @@ const QrsPage = async ({ searchParams }: Props) => {
 			shareCopied: t('actions.shareCopied'),
 			saveFromQr: t('actions.saveFromQr'),
 			templateSaved: t('actions.templateSaved'),
+			templateNamePlaceholder: t('templates.namePlaceholder'),
+			templateCancel: t('download.cancel'),
+			templateSave: t('templates.save'),
 		},
 		folder: {
 			moveTitle: t('folder.moveTitle'),
@@ -110,6 +113,7 @@ const QrsPage = async ({ searchParams }: Props) => {
 			deactivated: t('bulk.deactivated'),
 			moved: t('bulk.moved'),
 			upgradeRequired: t('bulk.upgradeRequired'),
+			selectAll: t('bulk.selectAll'),
 		},
 	}
 
@@ -139,6 +143,7 @@ const QrsPage = async ({ searchParams }: Props) => {
 					noFolders: tFolders('noFolders'),
 					name: tFolders('name'),
 					namePlaceholder: tFolders('namePlaceholder'),
+					nameRequired: tFolders('validation.nameRequired'),
 					cancel: tFolders('cancel'),
 					save: tFolders('save'),
 					create: tFolders('create'),
