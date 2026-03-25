@@ -58,6 +58,18 @@
 			"successMessage": "Revisa tu correo",
 			"successDesc": "Te enviamos un enlace para restablecer tu contraseña. Revisa tu bandeja de entrada y la carpeta de spam."
 		},
+		"updatePassword": {
+			"title": "Nueva contraseña",
+			"subtitle": "Ingresa tu nueva contraseña a continuación",
+			"password": "Nueva contraseña",
+			"confirm": "Confirmar contraseña",
+			"submit": "Actualizar contraseña",
+			"loading": "Actualizando...",
+			"success": "Contraseña actualizada correctamente",
+			"mismatch": "Las contraseñas no coinciden",
+			"passwordMin": "La contraseña debe tener al menos 6 caracteres",
+			"backToLogin": "Volver al inicio de sesión"
+		},
 		"confirmEmail": {
 			"title": "Confirma tu correo",
 			"message": "Te hemos enviado un enlace de confirmación. Revisa tu bandeja de entrada.",
@@ -125,6 +137,16 @@
 		"inactive": "Inactivo"
 	},
 	"qrs": {
+		"hints": {
+			"gradient": "Aplica un efecto de degradado de dos colores a los puntos del QR",
+			"logo": "Imagen que se muestra en el centro del QR. Recomendado: PNG 200×200px con fondo transparente",
+			"frame": "Borde decorativo alrededor del QR con texto opcional como 'ESCANÉAME'",
+			"customSlug": "Reemplaza el código aleatorio de la URL del QR con una palabra personalizada, ej. /qr/mi-promo",
+			"utm": "Parámetros de seguimiento que se añaden a la URL para herramientas de analítica como Google Analytics",
+			"password": "Los usuarios deberán ingresar esta contraseña antes de acceder al contenido del QR",
+			"expiry": "El QR deja de funcionar automáticamente después de esta fecha y hora",
+			"maxScans": "El QR se desactiva automáticamente al alcanzar este número de escaneos"
+		},
 		"validation": {
 			"nameRequired": "El nombre es requerido",
 			"contentRequired": "El contenido es requerido",
@@ -132,6 +154,36 @@
 			"slugMin": "Mínimo 3 caracteres",
 			"slugMax": "Máximo 50 caracteres",
 			"frameScanMe": "ESCANÉAME"
+		},
+		"fields": {
+			"wifi": {
+				"ssid": "Nombre de la red",
+				"password": "Contraseña",
+				"security": "Seguridad",
+				"securityWpa": "WPA/WPA2",
+				"securityWep": "WEP",
+				"securityNone": "Abierta (sin contraseña)"
+			},
+			"vcard": {
+				"firstName": "Nombre",
+				"lastName": "Apellido",
+				"phone": "Teléfono",
+				"email": "Correo",
+				"company": "Empresa",
+				"website": "Sitio web"
+			},
+			"location": {
+				"latitude": "Latitud",
+				"longitude": "Longitud",
+				"hint": "Ej. Bogotá: 4.7110, -74.0721"
+			},
+			"event": {
+				"title": "Título del evento",
+				"start": "Inicio",
+				"end": "Fin",
+				"location": "Lugar",
+				"description": "Descripción"
+			}
 		},
 		"title": "Mis QR Codes",
 		"subtitle": "Gestiona todos tus códigos QR desde un solo lugar",

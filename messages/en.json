@@ -58,6 +58,18 @@
 			"successMessage": "Check your email",
 			"successDesc": "We sent you a link to reset your password. Check your inbox and spam folder."
 		},
+		"updatePassword": {
+			"title": "Set new password",
+			"subtitle": "Enter your new password below",
+			"password": "New password",
+			"confirm": "Confirm password",
+			"submit": "Update password",
+			"loading": "Updating...",
+			"success": "Password updated successfully",
+			"mismatch": "Passwords do not match",
+			"passwordMin": "Password must be at least 6 characters",
+			"backToLogin": "Back to sign in"
+		},
 		"confirmEmail": {
 			"title": "Confirm your email",
 			"message": "We've sent you a confirmation link. Check your inbox.",
@@ -125,6 +137,16 @@
 		"inactive": "Inactive"
 	},
 	"qrs": {
+		"hints": {
+			"gradient": "Applies a two-color gradient effect to the QR code dots",
+			"logo": "Image shown in the center of the QR. Recommended: 200×200px PNG with transparent background",
+			"frame": "Decorative border around the QR code with optional text like 'SCAN ME'",
+			"customSlug": "Replaces the random code in your QR URL with a custom word, e.g. /qr/my-promo",
+			"utm": "Tracking parameters added to the URL for analytics tools like Google Analytics",
+			"password": "Users will be prompted to enter this password before accessing your QR content",
+			"expiry": "The QR code stops working automatically after this date and time",
+			"maxScans": "The QR code deactivates automatically after reaching this number of scans"
+		},
 		"validation": {
 			"nameRequired": "Name is required",
 			"contentRequired": "Content is required",
@@ -132,6 +154,36 @@
 			"slugMin": "Minimum 3 characters",
 			"slugMax": "Maximum 50 characters",
 			"frameScanMe": "SCAN ME"
+		},
+		"fields": {
+			"wifi": {
+				"ssid": "Network name",
+				"password": "Password",
+				"security": "Security",
+				"securityWpa": "WPA/WPA2",
+				"securityWep": "WEP",
+				"securityNone": "Open (no password)"
+			},
+			"vcard": {
+				"firstName": "First name",
+				"lastName": "Last name",
+				"phone": "Phone",
+				"email": "Email",
+				"company": "Company",
+				"website": "Website"
+			},
+			"location": {
+				"latitude": "Latitude",
+				"longitude": "Longitude",
+				"hint": "e.g. Bogotá: 4.7110, -74.0721"
+			},
+			"event": {
+				"title": "Event title",
+				"start": "Start",
+				"end": "End",
+				"location": "Venue",
+				"description": "Description"
+			}
 		},
 		"title": "My QR Codes",
 		"subtitle": "Manage all your QR codes in one place",

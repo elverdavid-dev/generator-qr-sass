@@ -2,6 +2,7 @@
 
 import { Button } from '@heroui/button'
 import { Input } from '@heroui/input'
+import { Tooltip } from '@heroui/react'
 import { cn } from '@heroui/theme'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
@@ -10,6 +11,7 @@ import {
 	CreditCardIcon,
 	GlobeIcon,
 	ImageUploadIcon,
+	InformationCircleIcon,
 	ListViewIcon,
 	Location01Icon,
 	LockPasswordIcon,
@@ -28,6 +30,7 @@ import type { Resolver } from 'react-hook-form'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import QrPreview from '@/features/qr-codes/components/qr-preview'
+import { WifiFields, VCardFields, LocationFields, EventFields } from './qr-type-fields'
 import {
 	type QrFormData,
 	createQrSchema,
@@ -96,6 +99,46 @@ export interface QrEditFormTranslations {
 		location: string
 		event: string
 		payment: string
+	}
+	hints: {
+		gradient: string
+		logo: string
+		frame: string
+		customSlug: string
+		utm: string
+		password: string
+		expiry: string
+		maxScans: string
+	}
+	fields: {
+		wifi: {
+			ssid: string
+			password: string
+			security: string
+			securityWpa: string
+			securityWep: string
+			securityNone: string
+		}
+		vcard: {
+			firstName: string
+			lastName: string
+			phone: string
+			email: string
+			company: string
+			website: string
+		}
+		location: {
+			latitude: string
+			longitude: string
+			hint: string
+		}
+		event: {
+			title: string
+			start: string
+			end: string
+			location: string
+			description: string
+		}
 	}
 	validation: {
 		nameRequired: string
@@ -291,8 +334,19 @@ const QrEditForm = ({ qr, folders, translations }: Props) => {
 				: 'border-divider bg-content1 text-default-600 hover:border-default-400',
 		)
 
-	const sectionTitle = (text: string) => (
-		<h2 className="font-semibold mb-3 text-default-700">{text}</h2>
+	const InfoTooltip = ({ content }: { content: string }) => (
+		<Tooltip content={content} placement="right" classNames={{ content: 'max-w-56 text-xs' }}>
+			<span className="cursor-help inline-flex text-default-400 hover:text-default-600 transition-colors">
+				<HugeiconsIcon icon={InformationCircleIcon} size={14} />
+			</span>
+		</Tooltip>
+	)
+
+	const sectionTitle = (text: string, hint?: string) => (
+		<div className="flex items-center gap-1.5 mb-3">
+			<h2 className="font-semibold text-default-700">{text}</h2>
+			{hint && <InfoTooltip content={hint} />}
+		</div>
 	)
 
 	return (
@@ -344,13 +398,39 @@ const QrEditForm = ({ qr, folders, translations }: Props) => {
 				{/* Content */}
 				<div>
 					{sectionTitle(translations.content)}
-					<Input
-						{...register('data')}
-						placeholder={selectedType.placeholder}
-						isInvalid={!!errors.data}
-						errorMessage={errors.data?.message}
-						variant="bordered"
-					/>
+					{watchedType === 'wifi' ? (
+						<WifiFields
+							onDataChange={(v) => setValue('data', v)}
+							initialValue={qr.data}
+							translations={translations.fields.wifi}
+						/>
+					) : watchedType === 'vcard' ? (
+						<VCardFields
+							onDataChange={(v) => setValue('data', v)}
+							initialValue={qr.data}
+							translations={translations.fields.vcard}
+						/>
+					) : watchedType === 'location' ? (
+						<LocationFields
+							onDataChange={(v) => setValue('data', v)}
+							initialValue={qr.data}
+							translations={translations.fields.location}
+						/>
+					) : watchedType === 'event' ? (
+						<EventFields
+							onDataChange={(v) => setValue('data', v)}
+							initialValue={qr.data}
+							translations={translations.fields.event}
+						/>
+					) : (
+						<Input
+							{...register('data')}
+							placeholder={selectedType.placeholder}
+							isInvalid={!!errors.data}
+							errorMessage={errors.data?.message}
+							variant="bordered"
+						/>
+					)}
 				</div>
 
 				{/* Dot style */}
@@ -443,20 +523,23 @@ const QrEditForm = ({ qr, folders, translations }: Props) => {
 
 				{/* Gradient */}
 				<div>
-					{sectionTitle(translations.colorGradient)}
+					{sectionTitle(translations.colorGradient, translations.hints.gradient)}
 					<div className="flex flex-col gap-3">
 						<div className="flex items-center justify-between p-3 bg-content1 border border-divider rounded-xl">
 							<span className="text-sm text-default-600">
 								{translations.enableGradient}
 							</span>
-							<button
-								type="button"
-								onClick={() =>
-									setValue('dot_color_2', hasGradient ? null : '#ff6600')
-								}
+							<div
+								role="switch"
+								aria-checked={hasGradient}
+								tabIndex={0}
+								onClick={() => setValue('dot_color_2', hasGradient ? null : '#ff6600')}
+								onKeyDown={(e) => {
+									if (e.key === 'Enter' || e.key === ' ') setValue('dot_color_2', hasGradient ? null : '#ff6600')
+								}}
 								className={cn(
-									'relative w-10 h-6 rounded-full transition-colors',
-									hasGradient ? 'bg-primary' : 'bg-default-200',
+									'relative w-10 h-6 rounded-full transition-colors cursor-pointer select-none',
+									hasGradient ? 'bg-primary' : 'bg-default-300',
 								)}
 							>
 								<span
@@ -465,7 +548,7 @@ const QrEditForm = ({ qr, folders, translations }: Props) => {
 										hasGradient ? 'translate-x-5' : 'translate-x-1',
 									)}
 								/>
-							</button>
+							</div>
 						</div>
 						{hasGradient && (
 							<div className="flex gap-3 items-end">
@@ -516,7 +599,7 @@ const QrEditForm = ({ qr, folders, translations }: Props) => {
 
 				{/* Frame */}
 				<div>
-					{sectionTitle(translations.frame)}
+					{sectionTitle(translations.frame, translations.hints.frame)}
 					<div className="flex flex-col gap-3">
 						<div className="grid grid-cols-4 gap-2">
 							{FRAME_STYLES.map((style) => (
@@ -566,7 +649,7 @@ const QrEditForm = ({ qr, folders, translations }: Props) => {
 
 				{/* Logo */}
 				<div>
-					{sectionTitle(translations.logo)}
+					{sectionTitle(translations.logo, translations.hints.logo)}
 					<input
 						ref={fileInputRef}
 						type="file"
@@ -642,13 +725,10 @@ const QrEditForm = ({ qr, folders, translations }: Props) => {
 						</div>
 						<div className="grid grid-cols-2 gap-3">
 							<div>
-								<label className="text-xs text-default-500 mb-1 block">
-									<HugeiconsIcon
-										icon={Calendar03Icon}
-										size={12}
-										className="inline mr-1"
-									/>
+								<label className="flex items-center gap-1 text-xs text-default-500 mb-1">
+									<HugeiconsIcon icon={Calendar03Icon} size={12} />
 									{translations.expiry}
+									<InfoTooltip content={translations.hints.expiry} />
 								</label>
 								<input
 									{...register('expires_at')}
@@ -657,13 +737,10 @@ const QrEditForm = ({ qr, folders, translations }: Props) => {
 								/>
 							</div>
 							<div>
-								<label className="text-xs text-default-500 mb-1 block">
-									<HugeiconsIcon
-										icon={ListViewIcon}
-										size={12}
-										className="inline mr-1"
-									/>
+								<label className="flex items-center gap-1 text-xs text-default-500 mb-1">
+									<HugeiconsIcon icon={ListViewIcon} size={12} />
 									{translations.maxScans}
+									<InfoTooltip content={translations.hints.maxScans} />
 								</label>
 								<input
 									{...register('max_scans')}
