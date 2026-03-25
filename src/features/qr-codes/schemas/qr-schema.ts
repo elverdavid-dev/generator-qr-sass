@@ -27,7 +27,7 @@ export const createQrSchema = (m: QrValidationMessages) =>
 		dot_color_2: z.string().optional().nullable(),
 		dot_gradient_type: z.enum(['linear', 'radial']).default('linear'),
 		// Frame
-		frame_style: z.enum(['none', 'simple', 'rounded', 'bold']).default('none'),
+		frame_style: z.enum(['none', 'simple', 'rounded', 'bold', 'corners']).default('none'),
 		frame_color: z.string().default('#000000'),
 		frame_text: z.string().default(m.frameScanMe),
 		// Logo & folder

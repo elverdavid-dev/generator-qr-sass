@@ -316,7 +316,8 @@
 				"none": "Ninguno",
 				"simple": "Simple",
 				"rounded": "Redondeado",
-				"thick": "Grueso"
+				"thick": "Grueso",
+				"corners": "Esquinas"
 			},
 			"utm": "Parámetros UTM",
 			"utmSource": "UTM Source",

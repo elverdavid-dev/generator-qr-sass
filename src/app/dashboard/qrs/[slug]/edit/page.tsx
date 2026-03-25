@@ -103,6 +103,7 @@ const EditQrPage = async ({ params }: Props) => {
 			simple: t('form.frameStyle.simple'),
 			rounded: t('form.frameStyle.rounded'),
 			thick: t('form.frameStyle.thick'),
+			corners: t('form.frameStyle.corners'),
 		},
 		types: {
 			url: t('types.url'),

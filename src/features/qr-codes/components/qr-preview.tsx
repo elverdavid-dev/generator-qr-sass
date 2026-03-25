@@ -29,6 +29,22 @@ interface Props {
 	className?: string
 }
 
+const buildGradient = (
+	color1: string,
+	color2: string | null | undefined,
+	type: string,
+) => {
+	if (!color2) return undefined
+	return {
+		type: type as 'linear' | 'radial',
+		rotation: 0,
+		colorStops: [
+			{ offset: 0, color: color1 },
+			{ offset: 1, color: color2 },
+		],
+	}
+}
+
 const QrPreview = ({
 	value,
 	size = 200,
@@ -41,7 +57,7 @@ const QrPreview = ({
 	dotGradientType = 'linear',
 	frameStyle = 'none',
 	frameColor = '#000000',
-	frameText = 'ESCANÉAME',
+	frameText = 'SCAN ME',
 	logoUrl,
 	className,
 }: Props) => {
@@ -50,22 +66,6 @@ const QrPreview = ({
 	const instanceRef = useRef<any>(null)
 
 	const hasFrame = frameStyle && frameStyle !== 'none'
-
-	const buildGradient = (
-		color1: string,
-		color2: string | null | undefined,
-		type: string,
-	) => {
-		if (!color2) return undefined
-		return {
-			type: type as 'linear' | 'radial',
-			rotation: 0,
-			colorStops: [
-				{ offset: 0, color: color1 },
-				{ offset: 1, color: color2 },
-			],
-		}
-	}
 
 	useEffect(() => {
 		const gradient = buildGradient(fgColor, dotColor2, dotGradientType)
@@ -123,10 +123,110 @@ const QrPreview = ({
 		size,
 	])
 
+	// Canvas wrapper — constrains the qr-code-styling canvas to exactly size×size
+	const canvasWrapper = (
+		<div
+			style={{
+				width: size,
+				height: size,
+				overflow: 'hidden',
+				flexShrink: 0,
+				display: 'block',
+				lineHeight: 0,
+				fontSize: 0,
+			}}
+		>
+			<div ref={containerRef} style={{ lineHeight: 0, fontSize: 0 }} />
+		</div>
+	)
+
 	if (hasFrame) {
-		const borderWidth = frameStyle === 'bold' ? 8 : 4
-		const borderRadius =
-			frameStyle === 'rounded' ? '16px' : frameStyle === 'bold' ? '10px' : '4px'
+		const label = frameText || 'SCAN ME'
+
+		// ── Corner brackets ────────────────────────────────────────────────
+		if (frameStyle === 'corners') {
+			const pad = 10
+			const bLen = 18
+			const bW = 3
+			const total = size + pad * 2
+
+			return (
+				<div
+					className={className}
+					style={{
+						display: 'inline-flex',
+						flexDirection: 'column',
+						alignItems: 'center',
+						gap: 8,
+					}}
+				>
+					<div style={{ position: 'relative', padding: pad, display: 'inline-block' }}>
+						{canvasWrapper}
+						<svg
+							aria-hidden="true"
+						style={{
+								position: 'absolute',
+								inset: 0,
+								width: total,
+								height: total,
+								pointerEvents: 'none',
+							}}
+							fill="none"
+						>
+							{/* Top-left */}
+							<path
+								d={`M ${pad} ${pad + bLen} L ${pad} ${pad} L ${pad + bLen} ${pad}`}
+								stroke={frameColor}
+								strokeWidth={bW}
+								strokeLinecap="round"
+							/>
+							{/* Top-right */}
+							<path
+								d={`M ${total - pad - bLen} ${pad} L ${total - pad} ${pad} L ${total - pad} ${pad + bLen}`}
+								stroke={frameColor}
+								strokeWidth={bW}
+								strokeLinecap="round"
+							/>
+							{/* Bottom-left */}
+							<path
+								d={`M ${pad} ${total - pad - bLen} L ${pad} ${total - pad} L ${pad + bLen} ${total - pad}`}
+								stroke={frameColor}
+								strokeWidth={bW}
+								strokeLinecap="round"
+							/>
+							{/* Bottom-right */}
+							<path
+								d={`M ${total - pad - bLen} ${total - pad} L ${total - pad} ${total - pad} L ${total - pad} ${total - pad - bLen}`}
+								stroke={frameColor}
+								strokeWidth={bW}
+								strokeLinecap="round"
+							/>
+						</svg>
+					</div>
+					<div
+						style={{
+							backgroundColor: frameColor,
+							color: '#ffffff',
+							fontSize: 10,
+							fontWeight: 700,
+							letterSpacing: '2px',
+							textTransform: 'uppercase',
+							padding: '4px 14px',
+							borderRadius: 6,
+						}}
+					>
+						{label}
+					</div>
+				</div>
+			)
+		}
+
+		// ── Box frames (simple / rounded / bold) ──────────────────────────
+		const isBold = frameStyle === 'bold'
+		const isRounded = frameStyle === 'rounded'
+		const borderW = isBold ? 6 : 3
+		const outerRadius = isRounded ? 20 : isBold ? 12 : 6
+		const innerRadius = isRounded ? 14 : isBold ? 8 : 2
 
 		return (
 			<div
@@ -136,42 +236,44 @@ const QrPreview = ({
 					flexDirection: 'column',
 					alignItems: 'center',
 					backgroundColor: frameColor,
-					border: `${borderWidth}px solid ${frameColor}`,
-					borderRadius,
-					padding: '10px 10px 6px',
-					gap: '6px',
-					flexShrink: 0,
+					borderRadius: outerRadius,
+					padding: borderW,
+					gap: 0,
 				}}
 			>
+				{/* QR area — white background, rounded inner */}
 				<div
-					ref={containerRef}
 					style={{
-						width: size,
-						height: size,
+						borderRadius: innerRadius,
+						overflow: 'hidden',
+						backgroundColor: bgColor,
 						lineHeight: 0,
 						fontSize: 0,
-						flexShrink: 0,
-					}}
-				/>
-				<span
-					style={{
-						color: '#ffffff',
-						fontSize: '11px',
-						fontWeight: 700,
-						letterSpacing: '1.5px',
-						textTransform: 'uppercase',
-						whiteSpace: 'nowrap',
 					}}
 				>
-					{frameText || 'ESCANÉAME'}
-				</span>
+					{canvasWrapper}
+				</div>
+				{/* Label strip */}
+				<div
+					style={{
+						width: '100%',
+						textAlign: 'center',
+						color: '#ffffff',
+						fontSize: 11,
+						fontWeight: 700,
+						letterSpacing: '2px',
+						textTransform: 'uppercase',
+						padding: isBold ? '8px 0 6px' : '6px 0 4px',
+					}}
+				>
+					{label}
+				</div>
 			</div>
 		)
 	}
 
 	return (
 		<div
-			ref={containerRef}
 			className={className}
 			style={{
 				width: size,
@@ -179,8 +281,11 @@ const QrPreview = ({
 				flexShrink: 0,
 				lineHeight: 0,
 				fontSize: 0,
+				overflow: 'hidden',
 			}}
-		/>
+		>
+			<div ref={containerRef} style={{ lineHeight: 0, fontSize: 0 }} />
+		</div>
 	)
 }
 

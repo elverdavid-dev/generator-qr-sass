@@ -88,7 +88,7 @@ export interface QrEditFormTranslations {
 		extraR: string
 	}
 	corner: { square: string; circle: string }
-	frameStyle: { none: string; simple: string; rounded: string; thick: string }
+	frameStyle: { none: string; simple: string; rounded: string; thick: string; corners: string }
 	types: {
 		url: string
 		text: string
@@ -249,11 +249,79 @@ const QrEditForm = ({ qr, folders, translations }: Props) => {
 		{ id: 'dot', name: translations.corner.circle },
 	]
 
-	const FRAME_STYLES = [
-		{ id: 'none', name: translations.frameStyle.none },
-		{ id: 'simple', name: translations.frameStyle.simple },
-		{ id: 'rounded', name: translations.frameStyle.rounded },
-		{ id: 'bold', name: translations.frameStyle.thick },
+	const FRAME_STYLES: { id: string; name: string; preview: React.ReactNode }[] = [
+		{
+			id: 'none',
+			name: translations.frameStyle.none,
+			preview: (
+				<svg aria-hidden="true" viewBox="0 0 48 40" className="w-10 h-8">
+					<rect x="8" y="4" width="32" height="32" rx="2" fill="none" stroke="currentColor" strokeWidth="1.5" strokeDasharray="3 2" opacity="0.4" />
+					<rect x="14" y="10" width="8" height="8" rx="1" fill="currentColor" opacity="0.5" />
+					<rect x="26" y="10" width="8" height="8" rx="1" fill="currentColor" opacity="0.5" />
+					<rect x="14" y="22" width="8" height="8" rx="1" fill="currentColor" opacity="0.5" />
+					<rect x="26" y="22" width="8" height="8" rx="1" fill="currentColor" opacity="0.5" />
+				</svg>
+			),
+		},
+		{
+			id: 'simple',
+			name: translations.frameStyle.simple,
+			preview: (
+				<svg aria-hidden="true" viewBox="0 0 48 44" className="w-10 h-9">
+					<rect x="4" y="4" width="40" height="30" rx="2" fill="currentColor" opacity="0.15" stroke="currentColor" strokeWidth="2" />
+					<rect x="10" y="9" width="8" height="8" rx="1" fill="currentColor" opacity="0.6" />
+					<rect x="22" y="9" width="8" height="8" rx="1" fill="currentColor" opacity="0.6" />
+					<rect x="10" y="21" width="8" height="8" rx="1" fill="currentColor" opacity="0.6" />
+					<rect x="22" y="21" width="8" height="8" rx="1" fill="currentColor" opacity="0.6" />
+					<rect x="4" y="34" width="40" height="7" rx="2" fill="currentColor" opacity="0.8" />
+				</svg>
+			),
+		},
+		{
+			id: 'rounded',
+			name: translations.frameStyle.rounded,
+			preview: (
+				<svg aria-hidden="true" viewBox="0 0 48 44" className="w-10 h-9">
+					<rect x="4" y="4" width="40" height="30" rx="10" fill="currentColor" opacity="0.15" stroke="currentColor" strokeWidth="2" />
+					<rect x="10" y="9" width="8" height="8" rx="2" fill="currentColor" opacity="0.6" />
+					<rect x="22" y="9" width="8" height="8" rx="2" fill="currentColor" opacity="0.6" />
+					<rect x="10" y="21" width="8" height="8" rx="2" fill="currentColor" opacity="0.6" />
+					<rect x="22" y="21" width="8" height="8" rx="2" fill="currentColor" opacity="0.6" />
+					<rect x="4" y="34" width="40" height="7" rx="6" fill="currentColor" opacity="0.8" />
+				</svg>
+			),
+		},
+		{
+			id: 'bold',
+			name: translations.frameStyle.thick,
+			preview: (
+				<svg aria-hidden="true" viewBox="0 0 48 44" className="w-10 h-9">
+					<rect x="3" y="3" width="42" height="31" rx="3" fill="currentColor" opacity="0.15" stroke="currentColor" strokeWidth="4" />
+					<rect x="10" y="9" width="8" height="8" rx="1" fill="currentColor" opacity="0.6" />
+					<rect x="22" y="9" width="8" height="8" rx="1" fill="currentColor" opacity="0.6" />
+					<rect x="10" y="21" width="8" height="8" rx="1" fill="currentColor" opacity="0.6" />
+					<rect x="22" y="21" width="8" height="8" rx="1" fill="currentColor" opacity="0.6" />
+					<rect x="3" y="34" width="42" height="8" rx="3" fill="currentColor" opacity="0.8" />
+				</svg>
+			),
+		},
+		{
+			id: 'corners',
+			name: translations.frameStyle.corners,
+			preview: (
+				<svg aria-hidden="true" viewBox="0 0 48 44" className="w-10 h-9">
+					<path d="M8 20 L8 8 L20 8" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" fill="none" />
+					<path d="M28 8 L40 8 L40 20" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" fill="none" />
+					<path d="M8 24 L8 36 L20 36" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" fill="none" />
+					<path d="M28 36 L40 36 L40 24" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" fill="none" />
+					<rect x="13" y="13" width="8" height="8" rx="1" fill="currentColor" opacity="0.5" />
+					<rect x="27" y="13" width="8" height="8" rx="1" fill="currentColor" opacity="0.5" />
+					<rect x="13" y="23" width="8" height="8" rx="1" fill="currentColor" opacity="0.5" />
+					<rect x="27" y="23" width="8" height="8" rx="1" fill="currentColor" opacity="0.5" />
+					<rect x="13" y="38" width="22" height="5" rx="2" fill="currentColor" opacity="0.7" />
+				</svg>
+			),
+		},
 	]
 
 	const {
@@ -601,7 +669,7 @@ const QrEditForm = ({ qr, folders, translations }: Props) => {
 				<div>
 					{sectionTitle(translations.frame, translations.hints.frame)}
 					<div className="flex flex-col gap-3">
-						<div className="grid grid-cols-4 gap-2">
+						<div className="grid grid-cols-5 gap-2">
 							{FRAME_STYLES.map((style) => (
 								<button
 									key={style.id}
@@ -609,12 +677,18 @@ const QrEditForm = ({ qr, folders, translations }: Props) => {
 									onClick={() =>
 										setValue(
 											'frame_style',
-											style.id as 'none' | 'simple' | 'rounded' | 'bold',
+											style.id as 'none' | 'simple' | 'rounded' | 'bold' | 'corners',
 										)
 									}
-									className={styleButtonClass(watchedFrameStyle === style.id)}
+									className={cn(
+										'flex flex-col items-center gap-1.5 p-2 rounded-xl border text-xs transition-all',
+										watchedFrameStyle === style.id
+											? 'border-primary bg-primary/5 text-primary'
+											: 'border-divider bg-content1 text-default-500 hover:border-default-400',
+									)}
 								>
-									{style.name}
+									{style.preview}
+									<span>{style.name}</span>
 								</button>
 							))}
 						</div>
