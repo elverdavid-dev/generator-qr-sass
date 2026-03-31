@@ -7,8 +7,27 @@ export async function GET(request: Request) {
 	try {
 		const { searchParams, origin } = new URL(request.url)
 		const code = searchParams.get('code')
+		const tokenHash = searchParams.get('token_hash')
+		const type = searchParams.get('type')
 		// si next esta en los params, usarlo como la url de redireccionamiento
 		const next = searchParams.get('next') ?? '/'
+
+		// password reset / email verification via token_hash
+		if (tokenHash && type) {
+			const supabase = await createClient()
+			const { error } = await supabase.auth.verifyOtp({
+				token_hash: tokenHash,
+				type: type as 'recovery' | 'email' | 'signup' | 'invite' | 'magiclink' | 'email_change',
+			})
+			if (error) {
+				return NextResponse.redirect(`${origin}/error`)
+			}
+			const forwardedHost = request.headers.get('x-forwarded-host')
+			if (forwardedHost && process.env.NODE_ENV !== 'development') {
+				return NextResponse.redirect(`https://${forwardedHost}${next}`)
+			}
+			return NextResponse.redirect(`${origin}${next}`)
+		}
 
 		// si el codigo existe significa que el usuario se ha autenticado correctamente
 		if (code) {

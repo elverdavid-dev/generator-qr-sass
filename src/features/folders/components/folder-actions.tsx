@@ -41,6 +41,7 @@ interface FolderActionsTranslations {
 	create: string
 	created: string
 	updated: string
+	nameRequired: string
 }
 
 interface Props {
@@ -98,6 +99,7 @@ const FolderActions: FC<Props> = ({ folder, translations }) => {
 				title={translations.deleteTitle}
 				description={translations.deleteMessage}
 				notification_message={translations.deleted}
+				refreshOnSuccess
 			/>
 			<CreateFolderModal
 				isOpen={editDisc.isOpen}
@@ -114,6 +116,7 @@ const FolderActions: FC<Props> = ({ folder, translations }) => {
 					create: translations.create,
 					created: translations.created,
 					updated: translations.updated,
+					nameRequired: translations.nameRequired,
 				}}
 			/>
 		</>

@@ -244,11 +244,14 @@ const QrPreview = ({
 				{/* QR area — white background, rounded inner */}
 				<div
 					style={{
+						width: size,
+						height: size,
 						borderRadius: innerRadius,
 						overflow: 'hidden',
 						backgroundColor: bgColor,
 						lineHeight: 0,
 						fontSize: 0,
+						flexShrink: 0,
 					}}
 				>
 					{canvasWrapper}

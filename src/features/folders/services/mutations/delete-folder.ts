@@ -1,4 +1,5 @@
 'use server'
+import { revalidatePath } from 'next/cache'
 import { createAdminClient } from '@/shared/lib/supabase/admin'
 
 export const deleteFolder = async (id: string) => {
@@ -8,5 +9,6 @@ export const deleteFolder = async (id: string) => {
 	const { error } = await supabase.from('folders').delete().eq('id', id)
 
 	if (error) return { error: error.message }
+	revalidatePath('/dashboard/qrs')
 	return { success: true }
 }

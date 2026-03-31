@@ -1,4 +1,5 @@
 'use server'
+import { revalidatePath } from 'next/cache'
 import { createAdminClient } from '@/shared/lib/supabase/admin'
 import { getSession } from '@/shared/lib/supabase/get-session'
 import { generateSlug } from '@/shared/utils/generate-slug'
@@ -17,5 +18,6 @@ export const createFolder = async (name: string) => {
 		.single()
 
 	if (error) return { error: error.message }
+	revalidatePath('/dashboard/qrs')
 	return { data }
 }

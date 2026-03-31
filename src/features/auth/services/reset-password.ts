@@ -6,7 +6,7 @@ export const resetPasswordService = async (email: string) => {
 	const supabase = await createClient()
 	const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? 'http://localhost:3000'
 	const { error } = await supabase.auth.resetPasswordForEmail(email, {
-		redirectTo: `${baseUrl}/api/auth/confirm?next=/dashboard/profile`,
+		redirectTo: `${baseUrl}/api/auth/callback?next=/reset-password/update`,
 	})
 	if (error) {
 		return { error: error.message }

@@ -10,6 +10,7 @@ import {
 	ModalHeader,
 } from '@heroui/react'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useRouter } from 'next/navigation'
 import { type FC, useTransition } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
@@ -49,6 +50,7 @@ const CreateFolderModal: FC<Props> = ({
 	onClose,
 	translations,
 }) => {
+	const router = useRouter()
 	const [isPending, startTransition] = useTransition()
 	const {
 		register,
@@ -73,6 +75,7 @@ const CreateFolderModal: FC<Props> = ({
 			toast.success(folder ? translations.updated : translations.created)
 			reset()
 			onClose()
+			router.refresh()
 		})
 	}
 

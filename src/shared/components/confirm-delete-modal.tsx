@@ -8,6 +8,7 @@ import {
 	ModalFooter,
 	ModalHeader,
 } from '@heroui/react'
+import { useRouter } from 'next/navigation'
 import type { FC } from 'react'
 import { useTransition } from 'react'
 import { toast } from 'sonner'
@@ -20,6 +21,7 @@ interface Props {
 	title: string
 	description: string
 	notification_message: string
+	refreshOnSuccess?: boolean
 }
 
 const ConfirmDeleteModal: FC<Props> = ({
@@ -30,7 +32,9 @@ const ConfirmDeleteModal: FC<Props> = ({
 	title,
 	description,
 	notification_message,
+	refreshOnSuccess = false,
 }) => {
+	const router = useRouter()
 	const [isLoading, startTransition] = useTransition()
 
 	const handleDelete = () => {
@@ -42,6 +46,7 @@ const ConfirmDeleteModal: FC<Props> = ({
 			}
 			toast.success(notification_message)
 			onClose()
+			if (refreshOnSuccess) router.refresh()
 		})
 	}
 
