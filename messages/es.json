@@ -134,7 +134,19 @@
 		"createFirst": "Crear tu primer QR",
 		"scans": "escaneos",
 		"active": "Activo",
-		"inactive": "Inactivo"
+		"inactive": "Inactivo",
+		"usage": {
+			"title": "Uso del plan",
+			"plan": "Plan gratuito",
+			"qrs": "Códigos QR",
+			"scans": "Escaneos del mes",
+			"of": "de",
+			"upgrade": "Mejorar a Pro",
+			"limitReached": "Has alcanzado el límite de tu plan",
+			"limitWarning": "Estás cerca del límite de tu plan",
+			"limitDesc": "Mejora a Pro para obtener QRs y escaneos ilimitados.",
+			"dismiss": "Descartar"
+		}
 	},
 	"qrs": {
 		"hints": {

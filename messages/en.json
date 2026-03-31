@@ -134,7 +134,19 @@
 		"createFirst": "Create your first QR",
 		"scans": "scans",
 		"active": "Active",
-		"inactive": "Inactive"
+		"inactive": "Inactive",
+		"usage": {
+			"title": "Plan usage",
+			"plan": "Free plan",
+			"qrs": "QR codes",
+			"scans": "Monthly scans",
+			"of": "of",
+			"upgrade": "Upgrade to Pro",
+			"limitReached": "You have reached your plan limit",
+			"limitWarning": "You are close to reaching your plan limit",
+			"limitDesc": "Upgrade to Pro to get unlimited QR codes and scans.",
+			"dismiss": "Dismiss"
+		}
 	},
 	"qrs": {
 		"hints": {

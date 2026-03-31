@@ -12,6 +12,8 @@ import { redirect } from 'next/navigation'
 import { getLocale, getTranslations } from 'next-intl/server'
 import { getDashboardStats } from '@/features/analytics/services/queries/get-dashboard-stats'
 import { getProfile } from '@/features/auth/services/queries/get-profile'
+import PlanUsageBanner from '@/features/billing/components/plan-usage-banner'
+import { PLANS } from '@/features/billing/config/plans'
 import QrPreview from '@/features/qr-codes/components/qr-preview'
 import { getSession } from '@/shared/lib/supabase/get-session'
 import type { QrCode } from '@/shared/types/database.types'
@@ -78,6 +80,22 @@ const DashboardPage = async () => {
 				? t('greeting.afternoon')
 				: t('greeting.evening')
 
+	const planId = (profile?.plan ?? 'free') as 'free' | 'pro' | 'business'
+	const plan = PLANS[planId]
+	const isFreePlan = planId === 'free'
+	const usageTranslations = {
+		title: t('usage.title'),
+		plan: t('usage.plan'),
+		qrs: t('usage.qrs'),
+		scans: t('usage.scans'),
+		of: t('usage.of'),
+		upgrade: t('usage.upgrade'),
+		limitReached: t('usage.limitReached'),
+		limitWarning: t('usage.limitWarning'),
+		limitDesc: t('usage.limitDesc'),
+		dismiss: t('usage.dismiss'),
+	}
+
 	return (
 		<div className="pb-12">
 			<div className="py-6 flex items-center justify-between gap-4">
@@ -137,6 +155,18 @@ const DashboardPage = async () => {
 					locale={locale}
 				/>
 			</div>
+
+			{isFreePlan && (
+				<div className="mt-6">
+					<PlanUsageBanner
+						totalQrs={stats?.totalQrs ?? 0}
+						monthScans={stats?.monthScans ?? 0}
+						maxQrs={plan.maxQrs}
+						maxScans={plan.maxScansPerMonth}
+						translations={usageTranslations}
+					/>
+				</div>
+			)}
 
 			<div className="mt-8">
 				<div className="flex items-center justify-between mb-4">
