@@ -8,6 +8,7 @@ import { uploadImage } from '@/shared/lib/supabase/upload-image'
 import { generateSlug } from '@/shared/utils/generate-slug'
 
 export const createQr = async (formData: QrFormData) => {
+	try {
 	const { data: session } = await getSession()
 	if (!session?.user) return { error: 'No autenticado' }
 
@@ -109,4 +110,8 @@ export const createQr = async (formData: QrFormData) => {
 
 	if (error) return { error: error.message }
 	return { data }
+	} catch (err) {
+		console.error('[createQr]', err)
+		return { error: err instanceof Error ? err.message : 'Error inesperado al crear el QR' }
+	}
 }
