@@ -3,6 +3,7 @@ import '@/app/globals.css'
 import { getLocale } from 'next-intl/server'
 import Providers from '@/app/providers'
 import '@fontsource-variable/manrope'
+import { Analytics } from '@vercel/analytics/next'
 
 const siteUrl = process.env.NEXT_PUBLIC_BASE_URL ?? 'http://localhost:3000'
 
@@ -84,6 +85,7 @@ export default async function RootLayout({
 		<html lang={locale} suppressHydrationWarning>
 			<body>
 				<Providers>{children}</Providers>
+				<Analytics />
 			</body>
 		</html>
 	)
