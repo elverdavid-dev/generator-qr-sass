@@ -32,7 +32,7 @@ const QrDetailPage = async ({ params }: Props) => {
 	if (error || !qr) notFound()
 
 	const typedQr = qr as QrCode
-	const trackingUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/api/t/${typedQr.slug}`
+	const trackingUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/t/${typedQr.slug}`
 
 	return (
 		<>
