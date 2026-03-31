@@ -7,7 +7,7 @@ import { getSession } from '@/shared/lib/supabase/get-session'
 import { uploadImage } from '@/shared/lib/supabase/upload-image'
 import { generateSlug } from '@/shared/utils/generate-slug'
 
-export const createQr = async (formData: QrFormData) => {
+export const createQr = async (formData: Omit<QrFormData, 'logo'>, logo?: File) => {
 	try {
 	const { data: session } = await getSession()
 	if (!session?.user) return { error: 'No autenticado' }
@@ -37,8 +37,8 @@ export const createQr = async (formData: QrFormData) => {
 	let logo_url: string | null = null
 	let logo_path: string | null = null
 
-	if (formData.logo && formData.logo.size > 0) {
-		const upload = await uploadImage(formData.logo, 'images', 'logos')
+	if (logo && logo.size > 0) {
+		const upload = await uploadImage(logo, 'images', 'logos')
 		if ('error' in upload) return { error: upload.error }
 		logo_url = upload.url_image
 		logo_path = upload.image_path

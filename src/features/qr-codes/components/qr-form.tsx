@@ -399,7 +399,8 @@ const QrForm = ({ folders, translations, templates = [] }: Props) => {
 	const hasFrame = watchedFrameStyle !== 'none'
 
 	const onSubmit = async (data: QrFormData) => {
-		const result = await createQr(data)
+		const { logo, ...restData } = data
+		const result = await createQr(restData, logo)
 		if (result.error) {
 			toast.error(result.error)
 			return
@@ -427,6 +428,11 @@ const QrForm = ({ folders, translations, templates = [] }: Props) => {
 	const handleLogoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const file = e.target.files?.[0]
 		if (!file) return
+		if (file.size > 2 * 1024 * 1024) {
+			toast.error('La imagen no puede superar los 2MB')
+			e.target.value = ''
+			return
+		}
 		setValue('logo', file)
 		const url = URL.createObjectURL(file)
 		setLogoPreview(url)

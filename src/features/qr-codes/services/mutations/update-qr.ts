@@ -3,14 +3,14 @@ import type { QrFormData } from '@/features/qr-codes/schemas/qr-schema'
 import { createAdminClient } from '@/shared/lib/supabase/admin'
 import { uploadImage } from '@/shared/lib/supabase/upload-image'
 
-export const updateQr = async (id: string, formData: Partial<QrFormData>) => {
+export const updateQr = async (id: string, formData: Omit<Partial<QrFormData>, 'logo'>, logo?: File) => {
 	const supabase = createAdminClient()
 
 	let logo_url: string | undefined
 	let logo_path: string | undefined
 
-	if (formData.logo && formData.logo.size > 0) {
-		const upload = await uploadImage(formData.logo, 'images', 'logos')
+	if (logo && logo.size > 0) {
+		const upload = await uploadImage(logo, 'images', 'logos')
 		if ('error' in upload) return { error: upload.error }
 		logo_url = upload.url_image
 		logo_path = upload.image_path
