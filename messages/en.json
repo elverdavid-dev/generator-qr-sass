@@ -300,6 +300,19 @@
 			"deviceRedirectDesc": "Redirect to different URLs based on the user's device. If left empty, uses the main content.",
 			"iosUrl": "URL for iOS (App Store)",
 			"androidUrl": "URL for Android (Play Store)",
+			"smartRedirect": "Smart redirect",
+			"smartRedirectDesc": "Redirect to different URLs based on time, day, or the user's country (Pro+).",
+			"smartScheduleTitle": "Schedule rules",
+			"smartScheduleDesc": "Set a destination URL for a range of days and hours.",
+			"smartCountryTitle": "Country rules",
+			"smartCountryDesc": "Redirect based on the user's scan origin country.",
+			"smartAddRule": "Add rule",
+			"smartUrl": "Destination URL",
+			"smartDays": "Days",
+			"smartFrom": "From",
+			"smartTo": "To",
+			"smartCountries": "Countries",
+			"smartNoRules": "No rules yet. Click \"Add rule\" to get started.",
 			"cancel": "Cancel",
 			"create": "Create QR",
 			"save": "Save changes",
@@ -506,6 +519,13 @@
 		"billingMonthly": "Monthly billing",
 		"billingAnnual": "Annual billing",
 		"upgradeProPrice": "Upgrade to Pro — $12/mo"
+	},
+	"notifications": {
+		"title": "Notifications",
+		"markAllRead": "Mark all",
+		"empty": "No notifications yet",
+		"justNow": "Just now",
+		"viewQr": "View QR"
 	},
 	"profile": {
 		"title": "My profile",

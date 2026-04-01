@@ -55,8 +55,14 @@ interface WifiFieldsProps {
 	translations: WifiFieldTranslations
 }
 
-export const WifiFields = ({ onDataChange, initialValue, translations: t }: WifiFieldsProps) => {
-	const parsed = initialValue?.startsWith('WIFI:') ? parseWifi(initialValue) : null
+export const WifiFields = ({
+	onDataChange,
+	initialValue,
+	translations: t,
+}: WifiFieldsProps) => {
+	const parsed = initialValue?.startsWith('WIFI:')
+		? parseWifi(initialValue)
+		: null
 	const [ssid, setSsid] = useState(parsed?.ssid ?? '')
 	const [password, setPassword] = useState(parsed?.password ?? '')
 	const [security, setSecurity] = useState(parsed?.security ?? 'WPA')
@@ -70,15 +76,30 @@ export const WifiFields = ({ onDataChange, initialValue, translations: t }: Wifi
 		<div className="flex flex-col gap-3">
 			<div>
 				<label className={labelClass}>{t.ssid}</label>
-				<input className={inputClass} value={ssid} onChange={(e) => setSsid(e.target.value)} placeholder="MyNetwork" />
+				<input
+					className={inputClass}
+					value={ssid}
+					onChange={(e) => setSsid(e.target.value)}
+					placeholder="MyNetwork"
+				/>
 			</div>
 			<div>
 				<label className={labelClass}>{t.password}</label>
-				<input className={inputClass} type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="••••••••" />
+				<input
+					className={inputClass}
+					type="password"
+					value={password}
+					onChange={(e) => setPassword(e.target.value)}
+					placeholder="••••••••"
+				/>
 			</div>
 			<div>
 				<label className={labelClass}>{t.security}</label>
-				<select className={selectClass} value={security} onChange={(e) => setSecurity(e.target.value)}>
+				<select
+					className={selectClass}
+					value={security}
+					onChange={(e) => setSecurity(e.target.value)}
+				>
 					<option value="WPA">{t.securityWpa}</option>
 					<option value="WEP">{t.securityWep}</option>
 					<option value="nopass">{t.securityNone}</option>
@@ -89,7 +110,8 @@ export const WifiFields = ({ onDataChange, initialValue, translations: t }: Wifi
 }
 
 function parseVCard(raw: string) {
-	const get = (key: string) => raw.match(new RegExp(`${key}:([^\r\n]*)`))?.[1]?.trim() ?? ''
+	const get = (key: string) =>
+		raw.match(new RegExp(`${key}:([^\r\n]*)`))?.[1]?.trim() ?? ''
 	const fn = get('FN')
 	const parts = fn.split(' ')
 	return {
@@ -108,8 +130,14 @@ interface VCardFieldsProps {
 	translations: VCardFieldTranslations
 }
 
-export const VCardFields = ({ onDataChange, initialValue, translations: t }: VCardFieldsProps) => {
-	const parsed = initialValue?.includes('BEGIN:VCARD') ? parseVCard(initialValue) : null
+export const VCardFields = ({
+	onDataChange,
+	initialValue,
+	translations: t,
+}: VCardFieldsProps) => {
+	const parsed = initialValue?.includes('BEGIN:VCARD')
+		? parseVCard(initialValue)
+		: null
 	const [firstName, setFirstName] = useState(parsed?.firstName ?? '')
 	const [lastName, setLastName] = useState(parsed?.lastName ?? '')
 	const [phone, setPhone] = useState(parsed?.phone ?? '')
@@ -136,28 +164,58 @@ export const VCardFields = ({ onDataChange, initialValue, translations: t }: VCa
 			<div className="grid grid-cols-2 gap-3">
 				<div>
 					<label className={labelClass}>{t.firstName}</label>
-					<input className={inputClass} value={firstName} onChange={(e) => setFirstName(e.target.value)} placeholder="Juan" />
+					<input
+						className={inputClass}
+						value={firstName}
+						onChange={(e) => setFirstName(e.target.value)}
+						placeholder="Juan"
+					/>
 				</div>
 				<div>
 					<label className={labelClass}>{t.lastName}</label>
-					<input className={inputClass} value={lastName} onChange={(e) => setLastName(e.target.value)} placeholder="Pérez" />
+					<input
+						className={inputClass}
+						value={lastName}
+						onChange={(e) => setLastName(e.target.value)}
+						placeholder="Pérez"
+					/>
 				</div>
 			</div>
 			<div>
 				<label className={labelClass}>{t.phone}</label>
-				<input className={inputClass} value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="+57 300 000 0000" />
+				<input
+					className={inputClass}
+					value={phone}
+					onChange={(e) => setPhone(e.target.value)}
+					placeholder="+57 300 000 0000"
+				/>
 			</div>
 			<div>
 				<label className={labelClass}>{t.email}</label>
-				<input className={inputClass} value={email} onChange={(e) => setEmail(e.target.value)} placeholder="juan@empresa.com" />
+				<input
+					className={inputClass}
+					value={email}
+					onChange={(e) => setEmail(e.target.value)}
+					placeholder="juan@empresa.com"
+				/>
 			</div>
 			<div>
 				<label className={labelClass}>{t.company}</label>
-				<input className={inputClass} value={company} onChange={(e) => setCompany(e.target.value)} placeholder="Empresa S.A." />
+				<input
+					className={inputClass}
+					value={company}
+					onChange={(e) => setCompany(e.target.value)}
+					placeholder="Empresa S.A."
+				/>
 			</div>
 			<div>
 				<label className={labelClass}>{t.website}</label>
-				<input className={inputClass} value={website} onChange={(e) => setWebsite(e.target.value)} placeholder="https://empresa.com" />
+				<input
+					className={inputClass}
+					value={website}
+					onChange={(e) => setWebsite(e.target.value)}
+					placeholder="https://empresa.com"
+				/>
 			</div>
 		</div>
 	)
@@ -174,8 +232,14 @@ interface LocationFieldsProps {
 	translations: LocationFieldTranslations
 }
 
-export const LocationFields = ({ onDataChange, initialValue, translations: t }: LocationFieldsProps) => {
-	const parsed = initialValue?.startsWith('geo:') ? parseLocation(initialValue) : null
+export const LocationFields = ({
+	onDataChange,
+	initialValue,
+	translations: t,
+}: LocationFieldsProps) => {
+	const parsed = initialValue?.startsWith('geo:')
+		? parseLocation(initialValue)
+		: null
 	const [lat, setLat] = useState(parsed?.lat ?? '')
 	const [lng, setLng] = useState(parsed?.lng ?? '')
 
@@ -188,11 +252,21 @@ export const LocationFields = ({ onDataChange, initialValue, translations: t }: 
 			<div className="grid grid-cols-2 gap-3">
 				<div>
 					<label className={labelClass}>{t.latitude}</label>
-					<input className={inputClass} value={lat} onChange={(e) => setLat(e.target.value)} placeholder="4.7110" />
+					<input
+						className={inputClass}
+						value={lat}
+						onChange={(e) => setLat(e.target.value)}
+						placeholder="4.7110"
+					/>
 				</div>
 				<div>
 					<label className={labelClass}>{t.longitude}</label>
-					<input className={inputClass} value={lng} onChange={(e) => setLng(e.target.value)} placeholder="-74.0721" />
+					<input
+						className={inputClass}
+						value={lng}
+						onChange={(e) => setLng(e.target.value)}
+						placeholder="-74.0721"
+					/>
 				</div>
 			</div>
 			<p className="text-xs text-default-400">{t.hint}</p>
@@ -208,12 +282,14 @@ function fromICalDate(dt: string) {
 	if (!dt || dt.length < 8) return ''
 	const d = dt.replace('Z', '')
 	const date = `${d.slice(0, 4)}-${d.slice(4, 6)}-${d.slice(6, 8)}`
-	const time = d.length >= 13 ? `T${d.slice(9, 11)}:${d.slice(11, 13)}` : 'T00:00'
+	const time =
+		d.length >= 13 ? `T${d.slice(9, 11)}:${d.slice(11, 13)}` : 'T00:00'
 	return `${date}${time}`
 }
 
 function parseEvent(raw: string) {
-	const get = (key: string) => raw.match(new RegExp(`${key}:([^\r\n]*)`))?.[1]?.trim() ?? ''
+	const get = (key: string) =>
+		raw.match(new RegExp(`${key}:([^\r\n]*)`))?.[1]?.trim() ?? ''
 	return {
 		title: get('SUMMARY'),
 		start: fromICalDate(get('DTSTART')),
@@ -229,8 +305,14 @@ interface EventFieldsProps {
 	translations: EventFieldTranslations
 }
 
-export const EventFields = ({ onDataChange, initialValue, translations: t }: EventFieldsProps) => {
-	const parsed = initialValue?.includes('BEGIN:VEVENT') ? parseEvent(initialValue) : null
+export const EventFields = ({
+	onDataChange,
+	initialValue,
+	translations: t,
+}: EventFieldsProps) => {
+	const parsed = initialValue?.includes('BEGIN:VEVENT')
+		? parseEvent(initialValue)
+		: null
 	const [title, setTitle] = useState(parsed?.title ?? '')
 	const [start, setStart] = useState(parsed?.start ?? '')
 	const [end, setEnd] = useState(parsed?.end ?? '')
@@ -254,25 +336,50 @@ export const EventFields = ({ onDataChange, initialValue, translations: t }: Eve
 		<div className="flex flex-col gap-3">
 			<div>
 				<label className={labelClass}>{t.title}</label>
-				<input className={inputClass} value={title} onChange={(e) => setTitle(e.target.value)} placeholder="My Event" />
+				<input
+					className={inputClass}
+					value={title}
+					onChange={(e) => setTitle(e.target.value)}
+					placeholder="My Event"
+				/>
 			</div>
 			<div className="grid grid-cols-2 gap-3">
 				<div>
 					<label className={labelClass}>{t.start}</label>
-					<input className={inputClass} type="datetime-local" value={start} onChange={(e) => setStart(e.target.value)} />
+					<input
+						className={inputClass}
+						type="datetime-local"
+						value={start}
+						onChange={(e) => setStart(e.target.value)}
+					/>
 				</div>
 				<div>
 					<label className={labelClass}>{t.end}</label>
-					<input className={inputClass} type="datetime-local" value={end} onChange={(e) => setEnd(e.target.value)} />
+					<input
+						className={inputClass}
+						type="datetime-local"
+						value={end}
+						onChange={(e) => setEnd(e.target.value)}
+					/>
 				</div>
 			</div>
 			<div>
 				<label className={labelClass}>{t.location}</label>
-				<input className={inputClass} value={location} onChange={(e) => setLocation(e.target.value)} placeholder="Bogotá, Colombia" />
+				<input
+					className={inputClass}
+					value={location}
+					onChange={(e) => setLocation(e.target.value)}
+					placeholder="Bogotá, Colombia"
+				/>
 			</div>
 			<div>
 				<label className={labelClass}>{t.description}</label>
-				<input className={inputClass} value={description} onChange={(e) => setDescription(e.target.value)} placeholder="..." />
+				<input
+					className={inputClass}
+					value={description}
+					onChange={(e) => setDescription(e.target.value)}
+					placeholder="..."
+				/>
 			</div>
 		</div>
 	)

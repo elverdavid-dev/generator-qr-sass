@@ -44,6 +44,8 @@ export interface QrCode {
 	ios_url: string | null
 	android_url: string | null
 	custom_slug: string | null
+	schedule_rules: Array<{ days: number[]; from: string; to: string; url: string }> | null
+	country_rules: Array<{ countries: string[]; url: string }> | null
 	utm_source: string | null
 	utm_medium: string | null
 	utm_campaign: string | null
@@ -90,6 +92,17 @@ export interface Webhook {
 	url: string
 	secret: string | null
 	is_active: boolean
+	created_at: string
+}
+
+export interface Notification {
+	id: string
+	user_id: string
+	qr_id: string | null
+	type: 'scan_milestone' | 'scan_spike' | 'qr_inactive' | 'qr_limit_reached'
+	title: string
+	body: string
+	is_read: boolean
 	created_at: string
 }
 

@@ -72,7 +72,11 @@ export function HeroCard() {
 				{/* Card header */}
 				<div className="flex items-center gap-3 mb-4">
 					<div className="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
-						<HugeiconsIcon icon={QrCodeIcon} size={17} className="text-primary" />
+						<HugeiconsIcon
+							icon={QrCodeIcon}
+							size={17}
+							className="text-primary"
+						/>
 					</div>
 					<div className="min-w-0">
 						<p className="text-sm font-semibold text-foreground truncate">

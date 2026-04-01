@@ -1,13 +1,13 @@
 'use client'
 
 import { Button } from '@heroui/react'
+import { zodResolver } from '@hookform/resolvers/zod'
 import {
 	ArrowLeft01Icon,
 	Mail01Icon,
 	MailSend01Icon,
 } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
-import { zodResolver } from '@hookform/resolvers/zod'
 import Link from 'next/link'
 import { useState, useTransition } from 'react'
 import { useForm } from 'react-hook-form'
@@ -55,7 +55,11 @@ const ResetPasswordForm = ({ translations: t }: Props) => {
 		return (
 			<div className="w-full max-w-105 bg-content1 border border-divider rounded-2xl p-8 shadow-sm text-center flex flex-col items-center gap-5">
 				<div className="w-14 h-14 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center">
-					<HugeiconsIcon icon={MailSend01Icon} size={26} className="text-primary" />
+					<HugeiconsIcon
+						icon={MailSend01Icon}
+						size={26}
+						className="text-primary"
+					/>
 				</div>
 				<div>
 					<h1 className="text-xl font-bold text-foreground tracking-tight">
@@ -86,9 +90,7 @@ const ResetPasswordForm = ({ translations: t }: Props) => {
 					<h1 className="text-xl font-bold text-foreground tracking-tight">
 						{t.title}
 					</h1>
-					<p className="text-xs text-default-500 mt-0.5">
-						{t.subtitle}
-					</p>
+					<p className="text-xs text-default-500 mt-0.5">{t.subtitle}</p>
 				</div>
 			</div>
 

@@ -1,16 +1,16 @@
-import { vi, describe, it, expect, beforeEach } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { createChain, createSupabaseMock } from '../__mocks__/supabase'
 
 vi.mock('@/shared/lib/supabase/admin', () => ({ createAdminClient: vi.fn() }))
 vi.mock('@/shared/lib/supabase/server', () => ({ createClient: vi.fn() }))
 vi.mock('@/shared/lib/supabase/get-session', () => ({ getSession: vi.fn() }))
 
-import { createAdminClient } from '@/shared/lib/supabase/admin'
-import { createClient } from '@/shared/lib/supabase/server'
-import { getSession } from '@/shared/lib/supabase/get-session'
 import { createFolder } from '@/features/folders/services/mutations/create-folder'
 import { deleteFolder } from '@/features/folders/services/mutations/delete-folder'
 import { getFolders } from '@/features/folders/services/queries/get-folders'
+import { createAdminClient } from '@/shared/lib/supabase/admin'
+import { getSession } from '@/shared/lib/supabase/get-session'
+import { createClient } from '@/shared/lib/supabase/server'
 
 const SESSION_DATA = { user: { id: 'user-123', email: 'test@example.com' } }
 
@@ -33,7 +33,11 @@ describe('createFolder', () => {
 
 	it('creates folder and returns data', async () => {
 		vi.mocked(getSession).mockResolvedValue({ data: SESSION_DATA } as never)
-		const newFolder = { id: 'folder-1', name: 'My Folder', slug: 'abc123-my-folder' }
+		const newFolder = {
+			id: 'folder-1',
+			name: 'My Folder',
+			slug: 'abc123-my-folder',
+		}
 		mock.fromMock.mockReturnValueOnce(createChain(newFolder))
 
 		const result = await createFolder('My Folder')
@@ -42,7 +46,9 @@ describe('createFolder', () => {
 
 	it('returns error on DB failure', async () => {
 		vi.mocked(getSession).mockResolvedValue({ data: SESSION_DATA } as never)
-		mock.fromMock.mockReturnValueOnce(createChain(null, { message: 'Duplicate folder' }))
+		mock.fromMock.mockReturnValueOnce(
+			createChain(null, { message: 'Duplicate folder' }),
+		)
 
 		const result = await createFolder('Existing')
 		expect(result).toEqual({ error: 'Duplicate folder' })
@@ -78,7 +84,9 @@ describe('deleteFolder', () => {
 	})
 
 	it('returns error on DB failure', async () => {
-		mock.fromMock.mockReturnValueOnce(createChain(null, { message: 'Delete failed' }))
+		mock.fromMock.mockReturnValueOnce(
+			createChain(null, { message: 'Delete failed' }),
+		)
 		const result = await deleteFolder('folder-1')
 		expect(result).toEqual({ error: 'Delete failed' })
 	})
@@ -132,7 +140,9 @@ describe('getFolders', () => {
 
 	it('returns error on DB failure', async () => {
 		vi.mocked(getSession).mockResolvedValue({ data: SESSION_DATA } as never)
-		mock.fromMock.mockReturnValueOnce(createChain(null, { message: 'Fetch failed' }))
+		mock.fromMock.mockReturnValueOnce(
+			createChain(null, { message: 'Fetch failed' }),
+		)
 
 		const result = await getFolders()
 		expect(result).toEqual({ error: 'Fetch failed' })

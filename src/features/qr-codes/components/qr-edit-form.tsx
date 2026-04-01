@@ -19,6 +19,7 @@ import {
 	Message01Icon,
 	SmartPhone01Icon,
 	SmartPhone02Icon,
+	Timer02Icon,
 	UserIcon,
 	Wifi01Icon,
 } from '@hugeicons/core-free-icons'
@@ -30,13 +31,20 @@ import type { Resolver } from 'react-hook-form'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import QrPreview from '@/features/qr-codes/components/qr-preview'
-import { WifiFields, VCardFields, LocationFields, EventFields } from './qr-type-fields'
+import { SmartRedirectBuilder } from '@/features/qr-codes/components/smart-redirect-builder'
 import {
-	type QrFormData,
 	createQrSchema,
+	type QrFormData,
 } from '@/features/qr-codes/schemas/qr-schema'
 import { updateQr } from '@/features/qr-codes/services/mutations/update-qr'
+import { usePlan } from '@/shared/context/plan-context'
 import type { Folder, QrCode } from '@/shared/types/database.types'
+import {
+	EventFields,
+	LocationFields,
+	VCardFields,
+	WifiFields,
+} from './qr-type-fields'
 
 export interface QrEditFormTranslations {
 	qrType: string
@@ -74,6 +82,21 @@ export interface QrEditFormTranslations {
 	deviceRedirectDesc: string
 	iosUrl: string
 	androidUrl: string
+	smartRedirect: string
+	smartRedirectDesc: string
+	smartRedirectTranslations: {
+		scheduleTitle: string
+		scheduleDesc: string
+		countryTitle: string
+		countryDesc: string
+		addRule: string
+		url: string
+		days: string
+		from: string
+		to: string
+		countries: string
+		noRules: string
+	}
 	cancel: string
 	submit: string
 	preview: string
@@ -88,7 +111,13 @@ export interface QrEditFormTranslations {
 		extraR: string
 	}
 	corner: { square: string; circle: string }
-	frameStyle: { none: string; simple: string; rounded: string; thick: string; corners: string }
+	frameStyle: {
+		none: string
+		simple: string
+		rounded: string
+		thick: string
+		corners: string
+	}
 	types: {
 		url: string
 		text: string
@@ -249,89 +278,352 @@ const QrEditForm = ({ qr, folders, translations }: Props) => {
 		{ id: 'dot', name: translations.corner.circle },
 	]
 
-	const FRAME_STYLES: { id: string; name: string; preview: React.ReactNode }[] = [
-		{
-			id: 'none',
-			name: translations.frameStyle.none,
-			preview: (
-				<svg aria-hidden="true" viewBox="0 0 48 40" className="w-10 h-8">
-					<rect x="8" y="4" width="32" height="32" rx="2" fill="none" stroke="currentColor" strokeWidth="1.5" strokeDasharray="3 2" opacity="0.4" />
-					<rect x="14" y="10" width="8" height="8" rx="1" fill="currentColor" opacity="0.5" />
-					<rect x="26" y="10" width="8" height="8" rx="1" fill="currentColor" opacity="0.5" />
-					<rect x="14" y="22" width="8" height="8" rx="1" fill="currentColor" opacity="0.5" />
-					<rect x="26" y="22" width="8" height="8" rx="1" fill="currentColor" opacity="0.5" />
-				</svg>
-			),
-		},
-		{
-			id: 'simple',
-			name: translations.frameStyle.simple,
-			preview: (
-				<svg aria-hidden="true" viewBox="0 0 48 44" className="w-10 h-9">
-					<rect x="4" y="4" width="40" height="30" rx="2" fill="currentColor" opacity="0.15" stroke="currentColor" strokeWidth="2" />
-					<rect x="10" y="9" width="8" height="8" rx="1" fill="currentColor" opacity="0.6" />
-					<rect x="22" y="9" width="8" height="8" rx="1" fill="currentColor" opacity="0.6" />
-					<rect x="10" y="21" width="8" height="8" rx="1" fill="currentColor" opacity="0.6" />
-					<rect x="22" y="21" width="8" height="8" rx="1" fill="currentColor" opacity="0.6" />
-					<rect x="4" y="34" width="40" height="7" rx="2" fill="currentColor" opacity="0.8" />
-				</svg>
-			),
-		},
-		{
-			id: 'rounded',
-			name: translations.frameStyle.rounded,
-			preview: (
-				<svg aria-hidden="true" viewBox="0 0 48 44" className="w-10 h-9">
-					<rect x="4" y="4" width="40" height="30" rx="10" fill="currentColor" opacity="0.15" stroke="currentColor" strokeWidth="2" />
-					<rect x="10" y="9" width="8" height="8" rx="2" fill="currentColor" opacity="0.6" />
-					<rect x="22" y="9" width="8" height="8" rx="2" fill="currentColor" opacity="0.6" />
-					<rect x="10" y="21" width="8" height="8" rx="2" fill="currentColor" opacity="0.6" />
-					<rect x="22" y="21" width="8" height="8" rx="2" fill="currentColor" opacity="0.6" />
-					<rect x="4" y="34" width="40" height="7" rx="6" fill="currentColor" opacity="0.8" />
-				</svg>
-			),
-		},
-		{
-			id: 'bold',
-			name: translations.frameStyle.thick,
-			preview: (
-				<svg aria-hidden="true" viewBox="0 0 48 44" className="w-10 h-9">
-					<rect x="3" y="3" width="42" height="31" rx="3" fill="currentColor" opacity="0.15" stroke="currentColor" strokeWidth="4" />
-					<rect x="10" y="9" width="8" height="8" rx="1" fill="currentColor" opacity="0.6" />
-					<rect x="22" y="9" width="8" height="8" rx="1" fill="currentColor" opacity="0.6" />
-					<rect x="10" y="21" width="8" height="8" rx="1" fill="currentColor" opacity="0.6" />
-					<rect x="22" y="21" width="8" height="8" rx="1" fill="currentColor" opacity="0.6" />
-					<rect x="3" y="34" width="42" height="8" rx="3" fill="currentColor" opacity="0.8" />
-				</svg>
-			),
-		},
-		{
-			id: 'corners',
-			name: translations.frameStyle.corners,
-			preview: (
-				<svg aria-hidden="true" viewBox="0 0 48 44" className="w-10 h-9">
-					<path d="M8 20 L8 8 L20 8" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" fill="none" />
-					<path d="M28 8 L40 8 L40 20" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" fill="none" />
-					<path d="M8 24 L8 36 L20 36" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" fill="none" />
-					<path d="M28 36 L40 36 L40 24" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" fill="none" />
-					<rect x="13" y="13" width="8" height="8" rx="1" fill="currentColor" opacity="0.5" />
-					<rect x="27" y="13" width="8" height="8" rx="1" fill="currentColor" opacity="0.5" />
-					<rect x="13" y="23" width="8" height="8" rx="1" fill="currentColor" opacity="0.5" />
-					<rect x="27" y="23" width="8" height="8" rx="1" fill="currentColor" opacity="0.5" />
-					<rect x="13" y="38" width="22" height="5" rx="2" fill="currentColor" opacity="0.7" />
-				</svg>
-			),
-		},
-	]
+	const FRAME_STYLES: { id: string; name: string; preview: React.ReactNode }[] =
+		[
+			{
+				id: 'none',
+				name: translations.frameStyle.none,
+				preview: (
+					<svg aria-hidden="true" viewBox="0 0 48 40" className="w-10 h-8">
+						<rect
+							x="8"
+							y="4"
+							width="32"
+							height="32"
+							rx="2"
+							fill="none"
+							stroke="currentColor"
+							strokeWidth="1.5"
+							strokeDasharray="3 2"
+							opacity="0.4"
+						/>
+						<rect
+							x="14"
+							y="10"
+							width="8"
+							height="8"
+							rx="1"
+							fill="currentColor"
+							opacity="0.5"
+						/>
+						<rect
+							x="26"
+							y="10"
+							width="8"
+							height="8"
+							rx="1"
+							fill="currentColor"
+							opacity="0.5"
+						/>
+						<rect
+							x="14"
+							y="22"
+							width="8"
+							height="8"
+							rx="1"
+							fill="currentColor"
+							opacity="0.5"
+						/>
+						<rect
+							x="26"
+							y="22"
+							width="8"
+							height="8"
+							rx="1"
+							fill="currentColor"
+							opacity="0.5"
+						/>
+					</svg>
+				),
+			},
+			{
+				id: 'simple',
+				name: translations.frameStyle.simple,
+				preview: (
+					<svg aria-hidden="true" viewBox="0 0 48 44" className="w-10 h-9">
+						<rect
+							x="4"
+							y="4"
+							width="40"
+							height="30"
+							rx="2"
+							fill="currentColor"
+							opacity="0.15"
+							stroke="currentColor"
+							strokeWidth="2"
+						/>
+						<rect
+							x="10"
+							y="9"
+							width="8"
+							height="8"
+							rx="1"
+							fill="currentColor"
+							opacity="0.6"
+						/>
+						<rect
+							x="22"
+							y="9"
+							width="8"
+							height="8"
+							rx="1"
+							fill="currentColor"
+							opacity="0.6"
+						/>
+						<rect
+							x="10"
+							y="21"
+							width="8"
+							height="8"
+							rx="1"
+							fill="currentColor"
+							opacity="0.6"
+						/>
+						<rect
+							x="22"
+							y="21"
+							width="8"
+							height="8"
+							rx="1"
+							fill="currentColor"
+							opacity="0.6"
+						/>
+						<rect
+							x="4"
+							y="34"
+							width="40"
+							height="7"
+							rx="2"
+							fill="currentColor"
+							opacity="0.8"
+						/>
+					</svg>
+				),
+			},
+			{
+				id: 'rounded',
+				name: translations.frameStyle.rounded,
+				preview: (
+					<svg aria-hidden="true" viewBox="0 0 48 44" className="w-10 h-9">
+						<rect
+							x="4"
+							y="4"
+							width="40"
+							height="30"
+							rx="10"
+							fill="currentColor"
+							opacity="0.15"
+							stroke="currentColor"
+							strokeWidth="2"
+						/>
+						<rect
+							x="10"
+							y="9"
+							width="8"
+							height="8"
+							rx="2"
+							fill="currentColor"
+							opacity="0.6"
+						/>
+						<rect
+							x="22"
+							y="9"
+							width="8"
+							height="8"
+							rx="2"
+							fill="currentColor"
+							opacity="0.6"
+						/>
+						<rect
+							x="10"
+							y="21"
+							width="8"
+							height="8"
+							rx="2"
+							fill="currentColor"
+							opacity="0.6"
+						/>
+						<rect
+							x="22"
+							y="21"
+							width="8"
+							height="8"
+							rx="2"
+							fill="currentColor"
+							opacity="0.6"
+						/>
+						<rect
+							x="4"
+							y="34"
+							width="40"
+							height="7"
+							rx="6"
+							fill="currentColor"
+							opacity="0.8"
+						/>
+					</svg>
+				),
+			},
+			{
+				id: 'bold',
+				name: translations.frameStyle.thick,
+				preview: (
+					<svg aria-hidden="true" viewBox="0 0 48 44" className="w-10 h-9">
+						<rect
+							x="3"
+							y="3"
+							width="42"
+							height="31"
+							rx="3"
+							fill="currentColor"
+							opacity="0.15"
+							stroke="currentColor"
+							strokeWidth="4"
+						/>
+						<rect
+							x="10"
+							y="9"
+							width="8"
+							height="8"
+							rx="1"
+							fill="currentColor"
+							opacity="0.6"
+						/>
+						<rect
+							x="22"
+							y="9"
+							width="8"
+							height="8"
+							rx="1"
+							fill="currentColor"
+							opacity="0.6"
+						/>
+						<rect
+							x="10"
+							y="21"
+							width="8"
+							height="8"
+							rx="1"
+							fill="currentColor"
+							opacity="0.6"
+						/>
+						<rect
+							x="22"
+							y="21"
+							width="8"
+							height="8"
+							rx="1"
+							fill="currentColor"
+							opacity="0.6"
+						/>
+						<rect
+							x="3"
+							y="34"
+							width="42"
+							height="8"
+							rx="3"
+							fill="currentColor"
+							opacity="0.8"
+						/>
+					</svg>
+				),
+			},
+			{
+				id: 'corners',
+				name: translations.frameStyle.corners,
+				preview: (
+					<svg aria-hidden="true" viewBox="0 0 48 44" className="w-10 h-9">
+						<path
+							d="M8 20 L8 8 L20 8"
+							stroke="currentColor"
+							strokeWidth="2.5"
+							strokeLinecap="round"
+							fill="none"
+						/>
+						<path
+							d="M28 8 L40 8 L40 20"
+							stroke="currentColor"
+							strokeWidth="2.5"
+							strokeLinecap="round"
+							fill="none"
+						/>
+						<path
+							d="M8 24 L8 36 L20 36"
+							stroke="currentColor"
+							strokeWidth="2.5"
+							strokeLinecap="round"
+							fill="none"
+						/>
+						<path
+							d="M28 36 L40 36 L40 24"
+							stroke="currentColor"
+							strokeWidth="2.5"
+							strokeLinecap="round"
+							fill="none"
+						/>
+						<rect
+							x="13"
+							y="13"
+							width="8"
+							height="8"
+							rx="1"
+							fill="currentColor"
+							opacity="0.5"
+						/>
+						<rect
+							x="27"
+							y="13"
+							width="8"
+							height="8"
+							rx="1"
+							fill="currentColor"
+							opacity="0.5"
+						/>
+						<rect
+							x="13"
+							y="23"
+							width="8"
+							height="8"
+							rx="1"
+							fill="currentColor"
+							opacity="0.5"
+						/>
+						<rect
+							x="27"
+							y="23"
+							width="8"
+							height="8"
+							rx="1"
+							fill="currentColor"
+							opacity="0.5"
+						/>
+						<rect
+							x="13"
+							y="38"
+							width="22"
+							height="5"
+							rx="2"
+							fill="currentColor"
+							opacity="0.7"
+						/>
+					</svg>
+				),
+			},
+		]
+
+	const { hasFeature } = usePlan()
 
 	const {
 		register,
 		handleSubmit,
 		watch,
 		setValue,
+		control,
 		formState: { errors, isSubmitting },
 	} = useForm<QrFormData>({
-		resolver: zodResolver(createQrSchema(translations.validation)) as Resolver<QrFormData>,
+		resolver: zodResolver(
+			createQrSchema(translations.validation),
+		) as Resolver<QrFormData>,
 		defaultValues: {
 			name: qr.name,
 			qr_type: qr.qr_type,
@@ -354,6 +646,8 @@ const QrEditForm = ({ qr, folders, translations }: Props) => {
 			max_scans: qr.max_scans ?? undefined,
 			ios_url: qr.ios_url ?? undefined,
 			android_url: qr.android_url ?? undefined,
+			schedule_rules: qr.schedule_rules ?? undefined,
+			country_rules: qr.country_rules ?? undefined,
 		},
 	})
 
@@ -409,7 +703,11 @@ const QrEditForm = ({ qr, folders, translations }: Props) => {
 		)
 
 	const InfoTooltip = ({ content }: { content: string }) => (
-		<Tooltip content={content} placement="right" classNames={{ content: 'max-w-56 text-xs' }}>
+		<Tooltip
+			content={content}
+			placement="right"
+			classNames={{ content: 'max-w-56 text-xs' }}
+		>
 			<span className="cursor-help inline-flex text-default-400 hover:text-default-600 transition-colors">
 				<HugeiconsIcon icon={InformationCircleIcon} size={14} />
 			</span>
@@ -597,7 +895,10 @@ const QrEditForm = ({ qr, folders, translations }: Props) => {
 
 				{/* Gradient */}
 				<div>
-					{sectionTitle(translations.colorGradient, translations.hints.gradient)}
+					{sectionTitle(
+						translations.colorGradient,
+						translations.hints.gradient,
+					)}
 					<div className="flex flex-col gap-3">
 						<div className="flex items-center justify-between p-3 bg-content1 border border-divider rounded-xl">
 							<span className="text-sm text-default-600">
@@ -607,9 +908,12 @@ const QrEditForm = ({ qr, folders, translations }: Props) => {
 								role="switch"
 								aria-checked={hasGradient}
 								tabIndex={0}
-								onClick={() => setValue('dot_color_2', hasGradient ? null : '#ff6600')}
+								onClick={() =>
+									setValue('dot_color_2', hasGradient ? null : '#ff6600')
+								}
 								onKeyDown={(e) => {
-									if (e.key === 'Enter' || e.key === ' ') setValue('dot_color_2', hasGradient ? null : '#ff6600')
+									if (e.key === 'Enter' || e.key === ' ')
+										setValue('dot_color_2', hasGradient ? null : '#ff6600')
 								}}
 								className={cn(
 									'relative w-10 h-6 rounded-full transition-colors cursor-pointer select-none',
@@ -683,7 +987,12 @@ const QrEditForm = ({ qr, folders, translations }: Props) => {
 									onClick={() =>
 										setValue(
 											'frame_style',
-											style.id as 'none' | 'simple' | 'rounded' | 'bold' | 'corners',
+											style.id as
+												| 'none'
+												| 'simple'
+												| 'rounded'
+												| 'bold'
+												| 'corners',
 										)
 									}
 									className={cn(
@@ -870,6 +1179,32 @@ const QrEditForm = ({ qr, folders, translations }: Props) => {
 								/>
 							</div>
 						</div>
+					</div>
+				)}
+
+				{/* Smart redirect — only for URL-based types, Pro+ */}
+				{(watchedType === 'url' || watchedType === 'payment') && (
+					<div className="bg-content1 border border-divider rounded-2xl p-4 flex flex-col gap-4">
+						<div className="flex items-center gap-2 text-default-600">
+							<HugeiconsIcon icon={Timer02Icon} size={16} />
+							<span className="font-semibold text-sm">
+								{translations.smartRedirect}
+							</span>
+						</div>
+						<p className="text-xs text-default-400 -mt-2">
+							{translations.smartRedirectDesc}
+						</p>
+						{hasFeature('conditionalRedirect') ? (
+							<SmartRedirectBuilder
+								// biome-ignore lint/suspicious/noExplicitAny: react-hook-form generic
+								control={control as any}
+								translations={translations.smartRedirectTranslations}
+							/>
+						) : (
+							<p className="text-xs text-default-300 italic">
+								{translations.smartRedirectDesc}
+							</p>
+						)}
 					</div>
 				)}
 

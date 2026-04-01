@@ -1,11 +1,11 @@
 'use server'
 
 import { revalidatePath } from 'next/cache'
+import type { PlanId } from '@/features/billing/config/plans'
+import { hasFeature } from '@/features/billing/config/plans'
 import { generateApiKey, hashApiKey } from '@/shared/lib/api-key-auth'
 import { createAdminClient } from '@/shared/lib/supabase/admin'
 import { getSession } from '@/shared/lib/supabase/get-session'
-import { hasFeature } from '@/features/billing/config/plans'
-import type { PlanId } from '@/features/billing/config/plans'
 
 export const createApiKey = async (name: string) => {
 	const { data: session } = await getSession()
@@ -38,7 +38,8 @@ export const createApiKey = async (name: string) => {
 		.select('id')
 		.single()
 
-	if (error || !inserted) return { error: error?.message ?? 'Error al crear la clave' }
+	if (error || !inserted)
+		return { error: error?.message ?? 'Error al crear la clave' }
 
 	revalidatePath('/dashboard/api')
 	// Devolvemos la key en texto plano UNA SOLA VEZ

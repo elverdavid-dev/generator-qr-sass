@@ -133,9 +133,13 @@ const QrAnalyticsPage = async ({ params }: Props) => {
 							size={20}
 							className="text-primary shrink-0"
 						/>
-						<h1 className="text-xl md:text-3xl font-bold capitalize leading-tight">{typedQr.name}</h1>
+						<h1 className="text-xl md:text-3xl font-bold capitalize leading-tight">
+							{typedQr.name}
+						</h1>
 					</div>
-					<p className="text-default-500 text-sm md:text-base">{t('individualTitle')}</p>
+					<p className="text-default-500 text-sm md:text-base">
+						{t('individualTitle')}
+					</p>
 				</div>
 				<div className="flex items-center gap-2 shrink-0">
 					<ExportCsvButton
@@ -251,7 +255,9 @@ const QrAnalyticsPage = async ({ params }: Props) => {
 					<div className="mt-6">
 						<ChartBar
 							title={t('scansByHourDay')}
-							labels={Array.from({ length: 24 }, (_, i) => i % 2 === 0 ? `${i}h` : '')}
+							labels={Array.from({ length: 24 }, (_, i) =>
+								i % 2 === 0 ? `${i}h` : '',
+							)}
 							series={byHour}
 							color="#6366f1"
 							height={300}

@@ -1,14 +1,18 @@
-import { vi, describe, it, expect, beforeEach } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { createChain, createSupabaseMock } from '../__mocks__/supabase'
 
 vi.mock('@/shared/lib/supabase/admin', () => ({ createAdminClient: vi.fn() }))
 vi.mock('@/shared/lib/supabase/get-session', () => ({ getSession: vi.fn() }))
 vi.mock('next/cache', () => ({ revalidatePath: vi.fn() }))
 
+import { revalidatePath } from 'next/cache'
+import {
+	createApiKey,
+	getApiKeys,
+	revokeApiKey,
+} from '@/features/api-keys/services/api-key-actions'
 import { createAdminClient } from '@/shared/lib/supabase/admin'
 import { getSession } from '@/shared/lib/supabase/get-session'
-import { revalidatePath } from 'next/cache'
-import { createApiKey, revokeApiKey, getApiKeys } from '@/features/api-keys/services/api-key-actions'
 
 const SESSION_DATA = { user: { id: 'user-123', email: 'test@example.com' } }
 
@@ -93,7 +97,9 @@ describe('revokeApiKey', () => {
 
 	it('returns error on DB failure', async () => {
 		vi.mocked(getSession).mockResolvedValue({ data: SESSION_DATA } as never)
-		mock.fromMock.mockReturnValueOnce(createChain(null, { message: 'Delete failed' }))
+		mock.fromMock.mockReturnValueOnce(
+			createChain(null, { message: 'Delete failed' }),
+		)
 		const result = await revokeApiKey('key-1')
 		expect(result).toEqual({ error: 'Delete failed' })
 	})
@@ -129,7 +135,9 @@ describe('getApiKeys', () => {
 
 	it('returns error on DB failure', async () => {
 		vi.mocked(getSession).mockResolvedValue({ data: SESSION_DATA } as never)
-		mock.fromMock.mockReturnValueOnce(createChain(null, { message: 'Fetch failed' }))
+		mock.fromMock.mockReturnValueOnce(
+			createChain(null, { message: 'Fetch failed' }),
+		)
 		const result = await getApiKeys()
 		expect(result).toEqual({ error: 'Fetch failed' })
 	})

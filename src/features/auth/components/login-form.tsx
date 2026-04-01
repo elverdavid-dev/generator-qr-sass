@@ -93,7 +93,10 @@ const LoginForm = ({ translations: t }: Props) => {
 
 			<p className="text-sm text-default-500 text-center mt-6">
 				{t.noAccount}{' '}
-				<Link href="/register" className="text-primary font-semibold hover:underline">
+				<Link
+					href="/register"
+					className="text-primary font-semibold hover:underline"
+				>
 					{t.signUp}
 				</Link>
 			</p>

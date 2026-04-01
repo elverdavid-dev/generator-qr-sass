@@ -28,7 +28,15 @@ export const generateMetadata = ({
 		...(canonicalUrl && { alternates: { canonical: canonicalUrl } }),
 		robots: noIndex
 			? { index: false, follow: false }
-			: { index: true, follow: true, googleBot: { index: true, follow: true, 'max-image-preview': 'large' } },
+			: {
+					index: true,
+					follow: true,
+					googleBot: {
+						index: true,
+						follow: true,
+						'max-image-preview': 'large',
+					},
+				},
 		openGraph: {
 			title: `${title} | ${siteName}`,
 			description: desc,

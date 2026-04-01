@@ -1,12 +1,9 @@
-import {
-	CheckmarkCircle02Icon,
-	QrCodeIcon,
-} from '@hugeicons/core-free-icons'
+import { CheckmarkCircle02Icon, QrCodeIcon } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 import Image from 'next/image'
 import Link from 'next/link'
-import type { PropsWithChildren } from 'react'
 import { getTranslations } from 'next-intl/server'
+import type { PropsWithChildren } from 'react'
 import ThemeToggle from '@/shared/components/theme/theme-toggle'
 
 interface BrandPanelProps {
@@ -17,7 +14,13 @@ interface BrandPanelProps {
 	stats: { value: string; label: string }[]
 }
 
-const BrandPanel = ({ headline1, headline2, subtitle, features, stats }: BrandPanelProps) => (
+const BrandPanel = ({
+	headline1,
+	headline2,
+	subtitle,
+	features,
+	stats,
+}: BrandPanelProps) => (
 	<aside className="hidden lg:flex flex-col justify-between bg-zinc-950 px-12 py-10 relative overflow-hidden">
 		{/* Background glows */}
 		<div className="absolute inset-0 pointer-events-none" aria-hidden="true">
@@ -60,7 +63,10 @@ const BrandPanel = ({ headline1, headline2, subtitle, features, stats }: BrandPa
 
 			<ul className="flex flex-col gap-3.5">
 				{features.map((text) => (
-					<li key={text} className="flex items-center gap-3 text-sm text-zinc-300">
+					<li
+						key={text}
+						className="flex items-center gap-3 text-sm text-zinc-300"
+					>
 						<div className="w-5 h-5 rounded-full bg-emerald-500/15 flex items-center justify-center shrink-0">
 							<HugeiconsIcon
 								icon={CheckmarkCircle02Icon}
@@ -89,12 +95,7 @@ const BrandPanel = ({ headline1, headline2, subtitle, features, stats }: BrandPa
 const Layout = async ({ children }: PropsWithChildren) => {
 	const t = await getTranslations('auth.brandPanel')
 
-	const features = [
-		t('feature1'),
-		t('feature2'),
-		t('feature3'),
-		t('feature4'),
-	]
+	const features = [t('feature1'), t('feature2'), t('feature3'), t('feature4')]
 
 	const stats = [
 		{ value: '10K+', label: t('stat1Label') },

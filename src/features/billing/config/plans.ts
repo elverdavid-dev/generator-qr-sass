@@ -121,7 +121,8 @@ export const PLANS: Record<PlanId, PlanConfig> = {
 		price: 29,
 		yearlyPrice: 232, // ~$19.33/mes × 12 — ahorra 33%
 		lsVariantId: process.env.NEXT_PUBLIC_LS_BUSINESS_VARIANT_ID ?? null,
-		lsYearlyVariantId: process.env.NEXT_PUBLIC_LS_BUSINESS_ANNUAL_VARIANT_ID ?? null,
+		lsYearlyVariantId:
+			process.env.NEXT_PUBLIC_LS_BUSINESS_ANNUAL_VARIANT_ID ?? null,
 		maxQrs: -1,
 		maxScansPerMonth: -1,
 		features: [

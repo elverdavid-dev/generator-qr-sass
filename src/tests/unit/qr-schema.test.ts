@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import { qrSchema } from '@/features/qr-codes/schemas/qr-schema'
 
 const BASE_VALID = {
@@ -61,7 +61,12 @@ describe('qrSchema — default values', () => {
 })
 
 describe('qrSchema — frame_style enum', () => {
-	it.each(['none', 'simple', 'rounded', 'bold'])('accepts frame_style "%s"', (style) => {
+	it.each([
+		'none',
+		'simple',
+		'rounded',
+		'bold',
+	])('accepts frame_style "%s"', (style) => {
 		const result = qrSchema.safeParse({ ...BASE_VALID, frame_style: style })
 		expect(result.success).toBe(true)
 	})
@@ -74,7 +79,10 @@ describe('qrSchema — frame_style enum', () => {
 
 describe('qrSchema — custom_slug validation', () => {
 	it('accepts valid custom_slug', () => {
-		const result = qrSchema.safeParse({ ...BASE_VALID, custom_slug: 'my-slug-123' })
+		const result = qrSchema.safeParse({
+			...BASE_VALID,
+			custom_slug: 'my-slug-123',
+		})
 		expect(result.success).toBe(true)
 	})
 
@@ -102,7 +110,10 @@ describe('qrSchema — custom_slug validation', () => {
 	})
 
 	it('rejects slug with special characters', () => {
-		const result = qrSchema.safeParse({ ...BASE_VALID, custom_slug: 'my@slug!' })
+		const result = qrSchema.safeParse({
+			...BASE_VALID,
+			custom_slug: 'my@slug!',
+		})
 		expect(result.success).toBe(false)
 	})
 
@@ -155,7 +166,10 @@ describe('qrSchema — optional fields', () => {
 	})
 
 	it('accepts expires_at field', () => {
-		const result = qrSchema.safeParse({ ...BASE_VALID, expires_at: '2025-12-31' })
+		const result = qrSchema.safeParse({
+			...BASE_VALID,
+			expires_at: '2025-12-31',
+		})
 		expect(result.success).toBe(true)
 	})
 

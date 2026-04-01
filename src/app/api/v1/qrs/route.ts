@@ -1,10 +1,10 @@
-import { NextResponse } from 'next/server'
+import { nanoid } from 'nanoid'
 import type { NextRequest } from 'next/server'
+import { NextResponse } from 'next/server'
+import type { PlanId } from '@/features/billing/config/plans'
+import { canCreateQr, hasFeature } from '@/features/billing/config/plans'
 import { authenticateApiKey } from '@/shared/lib/api-key-auth'
 import { createAdminClient } from '@/shared/lib/supabase/admin'
-import { canCreateQr, hasFeature } from '@/features/billing/config/plans'
-import type { PlanId } from '@/features/billing/config/plans'
-import { nanoid } from 'nanoid'
 
 const PAGE_SIZE = 20
 
@@ -23,7 +23,10 @@ export async function GET(request: NextRequest) {
 	const supabase = createAdminClient()
 	const { data, error, count } = await supabase
 		.from('qrs')
-		.select('id, name, slug, custom_slug, qr_type, data, is_active, scan_count, created_at, updated_at', { count: 'exact' })
+		.select(
+			'id, name, slug, custom_slug, qr_type, data, is_active, scan_count, created_at, updated_at',
+			{ count: 'exact' },
+		)
 		.eq('user_id', auth.userId)
 		.order('created_at', { ascending: false })
 		.range(from, to)
@@ -57,7 +60,12 @@ export async function POST(request: NextRequest) {
 		return NextResponse.json({ error: 'Invalid JSON body' }, { status: 400 })
 	}
 
-	const { name, qr_type, data: qrData, custom_slug } = body as {
+	const {
+		name,
+		qr_type,
+		data: qrData,
+		custom_slug,
+	} = body as {
 		name?: string
 		qr_type?: string
 		data?: string
@@ -88,7 +96,10 @@ export async function POST(request: NextRequest) {
 		.eq('user_id', auth.userId)
 
 	if (!canCreateQr(plan, count ?? 0)) {
-		return NextResponse.json({ error: 'QR limit reached for your plan' }, { status: 403 })
+		return NextResponse.json(
+			{ error: 'QR limit reached for your plan' },
+			{ status: 403 },
+		)
 	}
 
 	// Slug
@@ -100,7 +111,10 @@ export async function POST(request: NextRequest) {
 			.eq('custom_slug', custom_slug)
 
 		if ((slugCount ?? 0) > 0) {
-			return NextResponse.json({ error: 'custom_slug already in use' }, { status: 409 })
+			return NextResponse.json(
+				{ error: 'custom_slug already in use' },
+				{ status: 409 },
+			)
 		}
 		slug = custom_slug as string
 	}
@@ -113,7 +127,9 @@ export async function POST(request: NextRequest) {
 			qr_type: qr_type as string,
 			data: qrData as string,
 			slug,
-			custom_slug: hasFeature(plan, 'customSlug') ? (custom_slug ?? null) : null,
+			custom_slug: hasFeature(plan, 'customSlug')
+				? (custom_slug ?? null)
+				: null,
 			bg_color: '#FFFFFF',
 			fg_color: '#000000',
 			dot_style: 'square',
@@ -124,7 +140,9 @@ export async function POST(request: NextRequest) {
 			frame_color: '#000000',
 			frame_text: 'SCAN ME',
 		})
-		.select('id, name, slug, custom_slug, qr_type, data, is_active, scan_count, created_at')
+		.select(
+			'id, name, slug, custom_slug, qr_type, data, is_active, scan_count, created_at',
+		)
 		.single()
 
 	if (error) {

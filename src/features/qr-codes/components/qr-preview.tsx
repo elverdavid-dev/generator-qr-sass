@@ -160,11 +160,17 @@ const QrPreview = ({
 						gap: 8,
 					}}
 				>
-					<div style={{ position: 'relative', padding: pad, display: 'inline-block' }}>
+					<div
+						style={{
+							position: 'relative',
+							padding: pad,
+							display: 'inline-block',
+						}}
+					>
 						{canvasWrapper}
 						<svg
 							aria-hidden="true"
-						style={{
+							style={{
 								position: 'absolute',
 								inset: 0,
 								width: total,

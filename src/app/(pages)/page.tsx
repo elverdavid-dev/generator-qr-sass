@@ -301,23 +301,21 @@ const CustomMockup = ({ t }: { t: MockupT }) => (
 			)}
 		</div>
 		<div className="grid grid-cols-3 gap-3">
-			{[
-				{ label: t.square },
-				{ label: t.round },
-				{ label: t.dots },
-			].map((style) => (
-				<div
-					key={style.label}
-					className="aspect-square border border-divider rounded-xl flex flex-col items-center justify-center gap-2 hover:border-primary/40 transition-colors"
-				>
-					<HugeiconsIcon
-						icon={QrCodeIcon}
-						size={20}
-						className="text-primary"
-					/>
-					<span className="text-[10px] text-default-400">{style.label}</span>
-				</div>
-			))}
+			{[{ label: t.square }, { label: t.round }, { label: t.dots }].map(
+				(style) => (
+					<div
+						key={style.label}
+						className="aspect-square border border-divider rounded-xl flex flex-col items-center justify-center gap-2 hover:border-primary/40 transition-colors"
+					>
+						<HugeiconsIcon
+							icon={QrCodeIcon}
+							size={20}
+							className="text-primary"
+						/>
+						<span className="text-[10px] text-default-400">{style.label}</span>
+					</div>
+				),
+			)}
 		</div>
 		<div className="flex items-center gap-3 bg-default-100 rounded-xl px-4 py-3">
 			<HugeiconsIcon icon={Download04Icon} size={15} className="text-primary" />
@@ -340,7 +338,9 @@ const TrackingMockup = ({ t }: { t: MockupT }) => (
 			{ label: 'Desktop', pct: 5, color: 'bg-amber-400' },
 		].map((d) => (
 			<div key={d.label} className="flex items-center gap-3">
-				<span className="text-sm text-default-500 w-16 shrink-0">{d.label}</span>
+				<span className="text-sm text-default-500 w-16 shrink-0">
+					{d.label}
+				</span>
 				<div className="flex-1 bg-default-100 rounded-full h-2">
 					<div
 						className={`${d.color} h-2 rounded-full`}
@@ -428,11 +428,18 @@ const FeaturesSection = ({ t, mt }: { t: FeaturesT; mt: MockupT }) => {
 							key={feat.title}
 							className={`grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center ${feat.reverse ? 'lg:[&>*:first-child]:order-2' : ''}`}
 						>
-							<ScrollReveal direction={feat.reverse ? 'right' : 'left'} delay={0.1}>
+							<ScrollReveal
+								direction={feat.reverse ? 'right' : 'left'}
+								delay={0.1}
+							>
 								<div className="flex flex-col gap-5">
 									<div className="flex items-center gap-2">
 										<div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
-											<HugeiconsIcon icon={feat.icon} size={16} className="text-primary" />
+											<HugeiconsIcon
+												icon={feat.icon}
+												size={16}
+												className="text-primary"
+											/>
 										</div>
 										<span className="text-xs font-semibold text-primary uppercase tracking-widest">
 											{feat.overline}
@@ -441,7 +448,9 @@ const FeaturesSection = ({ t, mt }: { t: FeaturesT; mt: MockupT }) => {
 									<h3 className="text-3xl font-bold text-foreground leading-tight tracking-tight">
 										{feat.title}
 									</h3>
-									<p className="text-default-500 leading-relaxed">{feat.description}</p>
+									<p className="text-default-500 leading-relaxed">
+										{feat.description}
+									</p>
 									<ul className="flex flex-col gap-2.5">
 										{feat.bullets.map((b) => (
 											<li key={b} className="flex items-center gap-2.5 text-sm">
@@ -457,7 +466,10 @@ const FeaturesSection = ({ t, mt }: { t: FeaturesT; mt: MockupT }) => {
 								</div>
 							</ScrollReveal>
 
-							<ScrollReveal direction={feat.reverse ? 'left' : 'right'} delay={0.2}>
+							<ScrollReveal
+								direction={feat.reverse ? 'left' : 'right'}
+								delay={0.2}
+							>
 								{feat.mockup}
 							</ScrollReveal>
 						</div>
@@ -469,11 +481,19 @@ const FeaturesSection = ({ t, mt }: { t: FeaturesT; mt: MockupT }) => {
 						<ScrollReveal key={f.title} delay={0.05}>
 							<div className="flex gap-4 items-start p-5 rounded-xl border border-divider hover:border-primary/30 transition-colors">
 								<div className="w-9 h-9 rounded-lg bg-primary/8 flex items-center justify-center shrink-0 mt-0.5">
-									<HugeiconsIcon icon={f.icon} size={16} className="text-primary" />
+									<HugeiconsIcon
+										icon={f.icon}
+										size={16}
+										className="text-primary"
+									/>
 								</div>
 								<div>
-									<p className="font-semibold text-foreground text-sm mb-1">{f.title}</p>
-									<p className="text-xs text-default-500 leading-relaxed">{f.desc}</p>
+									<p className="font-semibold text-foreground text-sm mb-1">
+										{f.title}
+									</p>
+									<p className="text-xs text-default-500 leading-relaxed">
+										{f.desc}
+									</p>
 								</div>
 							</div>
 						</ScrollReveal>
@@ -523,15 +543,23 @@ const HowItWorksSection = ({ t }: { t: HowItWorksT }) => {
 							<div className="flex flex-col gap-5">
 								<div className="relative self-start">
 									<div className="w-[72px] h-[72px] rounded-2xl bg-background border border-divider flex items-center justify-center shadow-sm">
-										<HugeiconsIcon icon={step.icon} size={28} className="text-primary" />
+										<HugeiconsIcon
+											icon={step.icon}
+											size={28}
+											className="text-primary"
+										/>
 									</div>
 									<span className="absolute -top-2.5 -right-2.5 w-6 h-6 rounded-full bg-primary text-white text-[10px] font-bold flex items-center justify-center shadow-md">
 										{step.n}
 									</span>
 								</div>
 								<div>
-									<h3 className="text-lg font-bold text-foreground mb-1.5">{step.title}</h3>
-									<p className="text-sm text-default-500 leading-relaxed">{step.desc}</p>
+									<h3 className="text-lg font-bold text-foreground mb-1.5">
+										{step.title}
+									</h3>
+									<p className="text-sm text-default-500 leading-relaxed">
+										{step.desc}
+									</p>
 								</div>
 							</div>
 						</ScrollReveal>
@@ -565,7 +593,14 @@ const PricingTeaserSection = ({ t }: { t: PricingT }) => {
 			period: t.perMonth,
 			description: t.proDesc,
 			highlighted: true,
-			bullets: [t.proBullet1, t.proBullet2, t.proBullet3, t.proBullet4, t.proBullet5, t.proBullet6],
+			bullets: [
+				t.proBullet1,
+				t.proBullet2,
+				t.proBullet3,
+				t.proBullet4,
+				t.proBullet5,
+				t.proBullet6,
+			],
 			cta: t.proCta,
 			href: '/register',
 		},
@@ -576,7 +611,12 @@ const PricingTeaserSection = ({ t }: { t: PricingT }) => {
 			period: t.perMonth,
 			description: t.businessDesc,
 			highlighted: false,
-			bullets: [t.businessBullet1, t.businessBullet2, t.businessBullet3, t.businessBullet4],
+			bullets: [
+				t.businessBullet1,
+				t.businessBullet2,
+				t.businessBullet3,
+				t.businessBullet4,
+			],
 			cta: t.businessCta,
 			href: '/register',
 		},
@@ -616,15 +656,23 @@ const PricingTeaserSection = ({ t }: { t: PricingT }) => {
 								)}
 
 								<div className="mb-5">
-									<h3 className={`font-bold mb-0.5 ${plan.highlighted ? 'text-xl' : 'text-lg'} text-foreground`}>
+									<h3
+										className={`font-bold mb-0.5 ${plan.highlighted ? 'text-xl' : 'text-lg'} text-foreground`}
+									>
 										{plan.name}
 									</h3>
-									<p className="text-xs text-default-400 mb-4">{plan.description}</p>
+									<p className="text-xs text-default-400 mb-4">
+										{plan.description}
+									</p>
 									<div className="flex items-end gap-1">
-										<span className={`font-extrabold text-foreground ${plan.highlighted ? 'text-5xl' : 'text-4xl'}`}>
+										<span
+											className={`font-extrabold text-foreground ${plan.highlighted ? 'text-5xl' : 'text-4xl'}`}
+										>
 											{plan.price}
 										</span>
-										<span className="text-default-400 text-sm mb-1.5">{plan.period}</span>
+										<span className="text-default-400 text-sm mb-1.5">
+											{plan.period}
+										</span>
 									</div>
 								</div>
 

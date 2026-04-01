@@ -250,7 +250,10 @@ const QrTable = ({ qrs, folders, total, page, translations }: Props) => {
 								isDisabled={isPending}
 								className="w-40"
 								variant="flat"
-								items={[{ id: 'none', name: translations.noFolder }, ...folders]}
+								items={[
+									{ id: 'none', name: translations.noFolder },
+									...folders,
+								]}
 								onChange={(e) => {
 									if (e.target.value !== '')
 										handleBulkMove(
@@ -258,7 +261,11 @@ const QrTable = ({ qrs, folders, total, page, translations }: Props) => {
 										)
 								}}
 							>
-								{(item) => <SelectItem key={item.id} textValue={item.name}>{item.name}</SelectItem>}
+								{(item) => (
+									<SelectItem key={item.id} textValue={item.name}>
+										{item.name}
+									</SelectItem>
+								)}
 							</Select>
 						)}
 					</div>
@@ -290,7 +297,9 @@ const QrTable = ({ qrs, folders, total, page, translations }: Props) => {
 							size="sm"
 							color="primary"
 						>
-							<span className="text-xs text-default-400">{bulk?.selectAll}</span>
+							<span className="text-xs text-default-400">
+								{bulk?.selectAll}
+							</span>
 						</Checkbox>
 					</div>
 				)}
@@ -351,8 +360,8 @@ const QrTable = ({ qrs, folders, total, page, translations }: Props) => {
 								)}
 								<span className="text-xs text-default-500 flex items-center gap-1">
 									<HugeiconsIcon icon={FingerPrintScanIcon} size={13} />
-									<strong className="text-primary">{qr.scan_count ?? 0}</strong>
-									{' '}{translations.scans}
+									<strong className="text-primary">{qr.scan_count ?? 0}</strong>{' '}
+									{translations.scans}
 								</span>
 							</div>
 						</div>
@@ -397,7 +406,9 @@ const QrTable = ({ qrs, folders, total, page, translations }: Props) => {
 						<div className="hidden md:flex text-sm text-default-500 items-center gap-1 shrink-0">
 							<HugeiconsIcon icon={FingerPrintScanIcon} size={16} />
 							<span>
-								<strong className="text-lg text-primary">{qr.scan_count ?? 0}</strong>{' '}
+								<strong className="text-lg text-primary">
+									{qr.scan_count ?? 0}
+								</strong>{' '}
 								{translations.scans}
 							</span>
 						</div>

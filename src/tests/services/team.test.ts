@@ -1,18 +1,18 @@
-import { vi, describe, it, expect, beforeEach } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { createChain, createSupabaseMock } from '../__mocks__/supabase'
 
 vi.mock('@/shared/lib/supabase/admin', () => ({ createAdminClient: vi.fn() }))
 vi.mock('@/shared/lib/supabase/get-session', () => ({ getSession: vi.fn() }))
 vi.mock('next/cache', () => ({ revalidatePath: vi.fn() }))
 
-import { createAdminClient } from '@/shared/lib/supabase/admin'
-import { getSession } from '@/shared/lib/supabase/get-session'
 import { revalidatePath } from 'next/cache'
 import {
+	acceptInvite,
 	inviteMember,
 	removeMember,
-	acceptInvite,
 } from '@/features/team/services/team-actions'
+import { createAdminClient } from '@/shared/lib/supabase/admin'
+import { getSession } from '@/shared/lib/supabase/get-session'
 
 const SESSION_DATA = { user: { id: 'owner-123', email: 'owner@example.com' } }
 
@@ -45,7 +45,11 @@ describe('inviteMember', () => {
 	it('returns error when inviting yourself', async () => {
 		vi.mocked(getSession).mockResolvedValue({ data: SESSION_DATA } as never)
 		mock.fromMock.mockReturnValueOnce(
-			createChain({ plan: 'business', name: 'Owner', email: 'owner@example.com' }),
+			createChain({
+				plan: 'business',
+				name: 'Owner',
+				email: 'owner@example.com',
+			}),
 		)
 		const result = await inviteMember('owner@example.com')
 		expect(result?.error).toContain('ti mismo')
@@ -55,7 +59,11 @@ describe('inviteMember', () => {
 		vi.mocked(getSession).mockResolvedValue({ data: SESSION_DATA } as never)
 		mock.fromMock
 			.mockReturnValueOnce(
-				createChain({ plan: 'business', name: 'Owner', email: 'owner@example.com' }),
+				createChain({
+					plan: 'business',
+					name: 'Owner',
+					email: 'owner@example.com',
+				}),
 			)
 			.mockReturnValueOnce(createChain(null, null, 10)) // 10 active members (limit)
 		const result = await inviteMember('new@example.com')
@@ -66,7 +74,11 @@ describe('inviteMember', () => {
 		vi.mocked(getSession).mockResolvedValue({ data: SESSION_DATA } as never)
 		mock.fromMock
 			.mockReturnValueOnce(
-				createChain({ plan: 'business', name: 'Owner', email: 'owner@example.com' }),
+				createChain({
+					plan: 'business',
+					name: 'Owner',
+					email: 'owner@example.com',
+				}),
 			)
 			.mockReturnValueOnce(createChain(null, null, 2)) // count < 10
 			.mockReturnValueOnce(createChain({ id: 'existing', status: 'pending' })) // already invited
@@ -78,7 +90,11 @@ describe('inviteMember', () => {
 		vi.mocked(getSession).mockResolvedValue({ data: SESSION_DATA } as never)
 		mock.fromMock
 			.mockReturnValueOnce(
-				createChain({ plan: 'business', name: 'Owner', email: 'owner@example.com' }),
+				createChain({
+					plan: 'business',
+					name: 'Owner',
+					email: 'owner@example.com',
+				}),
 			)
 			.mockReturnValueOnce(createChain(null, null, 1))
 			.mockReturnValueOnce(createChain({ id: 'existing', status: 'active' }))
@@ -90,7 +106,11 @@ describe('inviteMember', () => {
 		vi.mocked(getSession).mockResolvedValue({ data: SESSION_DATA } as never)
 		mock.fromMock
 			.mockReturnValueOnce(
-				createChain({ plan: 'business', name: 'Owner', email: 'owner@example.com' }),
+				createChain({
+					plan: 'business',
+					name: 'Owner',
+					email: 'owner@example.com',
+				}),
 			)
 			.mockReturnValueOnce(createChain(null, null, 0)) // count
 			.mockReturnValueOnce(createChain(null, { code: 'PGRST116' })) // not existing (404-like)
@@ -131,7 +151,9 @@ describe('removeMember', () => {
 
 	it('returns error on DB failure', async () => {
 		vi.mocked(getSession).mockResolvedValue({ data: SESSION_DATA } as never)
-		mock.fromMock.mockReturnValueOnce(createChain(null, { message: 'Delete failed' }))
+		mock.fromMock.mockReturnValueOnce(
+			createChain(null, { message: 'Delete failed' }),
+		)
 		const result = await removeMember('member-1')
 		expect(result).toEqual({ error: 'Delete failed' })
 	})

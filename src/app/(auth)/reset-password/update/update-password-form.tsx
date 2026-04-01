@@ -1,9 +1,9 @@
 'use client'
 
 import { Button } from '@heroui/react'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { ArrowLeft01Icon, LockPasswordIcon } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
-import { zodResolver } from '@hookform/resolvers/zod'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useTransition } from 'react'

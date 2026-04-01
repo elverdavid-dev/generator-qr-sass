@@ -1,7 +1,7 @@
 import { redirect } from 'next/navigation'
-import { getSession } from '@/shared/lib/supabase/get-session'
 import { acceptInvite } from '@/features/team/services/team-actions'
 import { createAdminClient } from '@/shared/lib/supabase/admin'
+import { getSession } from '@/shared/lib/supabase/get-session'
 import AcceptInviteClient from './accept-invite-client'
 
 interface Props {
@@ -39,7 +39,8 @@ export default async function InvitePage({ params }: Props) {
 
 	const rawProfile = invite.profiles as unknown
 	const ownerProfile = Array.isArray(rawProfile)
-		? (rawProfile[0] as { name: string | null; email: string } | undefined) ?? null
+		? ((rawProfile[0] as { name: string | null; email: string } | undefined) ??
+			null)
 		: (rawProfile as { name: string | null; email: string } | null)
 
 	return (
