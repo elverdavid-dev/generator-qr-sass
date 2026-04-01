@@ -3,7 +3,11 @@ import type { QrFormData } from '@/features/qr-codes/schemas/qr-schema'
 import { createAdminClient } from '@/shared/lib/supabase/admin'
 import { uploadImage } from '@/shared/lib/supabase/upload-image'
 
-export const updateQr = async (id: string, formData: Omit<Partial<QrFormData>, 'logo'>, logo?: File) => {
+export const updateQr = async (
+	id: string,
+	formData: Omit<Partial<QrFormData>, 'logo'>,
+	logo?: File,
+) => {
 	const supabase = createAdminClient()
 
 	let logo_url: string | undefined
@@ -38,6 +42,8 @@ export const updateQr = async (id: string, formData: Omit<Partial<QrFormData>, '
 			max_scans: formData.max_scans ?? null,
 			ios_url: formData.ios_url || null,
 			android_url: formData.android_url || null,
+			schedule_rules: formData.schedule_rules ?? null,
+			country_rules: formData.country_rules ?? null,
 			updated_at: new Date().toISOString(),
 			...(logo_url && { logo_url, logo_path }),
 		})

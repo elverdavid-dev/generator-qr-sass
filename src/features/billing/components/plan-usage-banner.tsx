@@ -40,18 +40,19 @@ const UsageBar = ({
 }) => {
 	const pct = Math.min((used / max) * 100, 100)
 	const color =
-		pct >= 90
-			? 'bg-danger'
-			: pct >= 70
-				? 'bg-warning'
-				: 'bg-primary'
+		pct >= 90 ? 'bg-danger' : pct >= 70 ? 'bg-warning' : 'bg-primary'
 
 	return (
 		<div className="flex flex-col gap-1.5">
 			<div className="flex items-center justify-between text-sm">
 				<span className="text-default-600 font-medium">{label}</span>
-				<span className={`font-semibold tabular-nums ${pct >= 90 ? 'text-danger' : pct >= 70 ? 'text-warning' : 'text-default-700'}`}>
-					{used} <span className="text-default-400 font-normal">{of} {max}</span>
+				<span
+					className={`font-semibold tabular-nums ${pct >= 90 ? 'text-danger' : pct >= 70 ? 'text-warning' : 'text-default-700'}`}
+				>
+					{used}{' '}
+					<span className="text-default-400 font-normal">
+						{of} {max}
+					</span>
 				</span>
 			</div>
 			<div className="h-2 bg-default-100 rounded-full overflow-hidden">
@@ -95,7 +96,9 @@ const PlanUsageBanner = ({
 						className={`shrink-0 mt-0.5 ${isAtLimit ? 'text-danger' : 'text-warning'}`}
 					/>
 					<div className="flex-1 min-w-0">
-						<p className={`font-semibold ${isAtLimit ? 'text-danger' : 'text-warning-700 dark:text-warning-400'}`}>
+						<p
+							className={`font-semibold ${isAtLimit ? 'text-danger' : 'text-warning-700 dark:text-warning-400'}`}
+						>
 							{isAtLimit ? t.limitReached : t.limitWarning}
 						</p>
 						<p className="text-default-500 mt-0.5">{t.limitDesc}</p>
@@ -142,7 +145,12 @@ const PlanUsageBanner = ({
 				</div>
 				<div className="flex flex-col gap-4">
 					<UsageBar label={t.qrs} used={totalQrs} max={maxQrs} of={t.of} />
-					<UsageBar label={t.scans} used={monthScans} max={maxScans} of={t.of} />
+					<UsageBar
+						label={t.scans}
+						used={monthScans}
+						max={maxScans}
+						of={t.of}
+					/>
 				</div>
 			</div>
 		</div>

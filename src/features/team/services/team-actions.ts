@@ -1,14 +1,17 @@
 'use server'
 
 import { revalidatePath } from 'next/cache'
+import type { PlanId } from '@/features/billing/config/plans'
+import { hasFeature } from '@/features/billing/config/plans'
 import { createAdminClient } from '@/shared/lib/supabase/admin'
 import { getSession } from '@/shared/lib/supabase/get-session'
-import { hasFeature } from '@/features/billing/config/plans'
-import type { PlanId } from '@/features/billing/config/plans'
 
 const MAX_TEAM_MEMBERS = 10
 
-export const inviteMember = async (email: string, role: 'admin' | 'member' = 'member') => {
+export const inviteMember = async (
+	email: string,
+	role: 'admin' | 'member' = 'member',
+) => {
 	const { data: session } = await getSession()
 	if (!session?.user) return { error: 'No autenticado' }
 
@@ -48,7 +51,12 @@ export const inviteMember = async (email: string, role: 'admin' | 'member' = 'me
 		.single()
 
 	if (existing) {
-		return { error: existing.status === 'active' ? 'Ya es miembro del equipo' : 'Ya tiene una invitación pendiente' }
+		return {
+			error:
+				existing.status === 'active'
+					? 'Ya es miembro del equipo'
+					: 'Ya tiene una invitación pendiente',
+		}
 	}
 
 	// Buscar si el usuario ya existe en la plataforma
@@ -120,7 +128,8 @@ export const acceptInvite = async (token: string) => {
 		.single()
 
 	if (fetchError || !invite) return { error: 'Invitación no válida o expirada' }
-	if (invite.status === 'active') return { error: 'Esta invitación ya fue aceptada' }
+	if (invite.status === 'active')
+		return { error: 'Esta invitación ya fue aceptada' }
 
 	// Validate that the logged-in user's email matches the invite
 	if (session.user.email?.toLowerCase() !== invite.email.toLowerCase()) {
@@ -150,7 +159,9 @@ export const getTeamMembers = async () => {
 
 	const { data, error } = await supabase
 		.from('team_members')
-		.select('id, email, role, status, invited_at, joined_at, profiles!member_id(name, avatar_url)')
+		.select(
+			'id, email, role, status, invited_at, joined_at, profiles!member_id(name, avatar_url)',
+		)
 		.eq('owner_id', session.user.id)
 		.order('invited_at', { ascending: false })
 

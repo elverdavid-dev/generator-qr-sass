@@ -172,7 +172,11 @@ const QrActions = ({ qr, folders, translations }: Props) => {
 					</DropdownItem>
 					<DropdownItem
 						key="toggle"
-						textValue={qr.is_active ? translations.actions.deactivate : translations.actions.activate}
+						textValue={
+							qr.is_active
+								? translations.actions.deactivate
+								: translations.actions.activate
+						}
 						startContent={<HugeiconsIcon icon={ToggleOnIcon} size={16} />}
 						onPress={handleToggleStatus}
 						isDisabled={isPending}
@@ -183,7 +187,11 @@ const QrActions = ({ qr, folders, translations }: Props) => {
 					</DropdownItem>
 					<DropdownItem
 						key="favorite"
-						textValue={qr.is_favorite ? translations.actions.removeFavorite : translations.actions.addFavorite}
+						textValue={
+							qr.is_favorite
+								? translations.actions.removeFavorite
+								: translations.actions.addFavorite
+						}
 						startContent={
 							<HugeiconsIcon
 								icon={StarIcon}

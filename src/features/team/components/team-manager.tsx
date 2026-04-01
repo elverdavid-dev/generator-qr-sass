@@ -1,23 +1,32 @@
 'use client'
 
-import { useState } from 'react'
-import { Button } from '@heroui/button'
-import { Input } from '@heroui/input'
-import { Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from '@heroui/modal'
-import { Chip } from '@heroui/chip'
 import { Avatar } from '@heroui/avatar'
-import { useDisclosure } from '@heroui/use-disclosure'
+import { Button } from '@heroui/button'
+import { Chip } from '@heroui/chip'
+import { Input } from '@heroui/input'
+import {
+	Modal,
+	ModalBody,
+	ModalContent,
+	ModalFooter,
+	ModalHeader,
+} from '@heroui/modal'
 import { Select, SelectItem } from '@heroui/select'
+import { useDisclosure } from '@heroui/use-disclosure'
 import {
 	Add01Icon,
-	Delete02Icon,
-	UserGroupIcon,
-	Mail01Icon,
 	Copy01Icon,
+	Delete02Icon,
+	Mail01Icon,
+	UserGroupIcon,
 } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
+import { useState } from 'react'
 import { toast } from 'sonner'
-import { inviteMember, removeMember } from '@/features/team/services/team-actions'
+import {
+	inviteMember,
+	removeMember,
+} from '@/features/team/services/team-actions'
 
 interface TeamMember {
 	id: string
@@ -63,7 +72,11 @@ interface Props {
 	}
 }
 
-export default function TeamManager({ initialMembers, maxMembers, translations: t }: Props) {
+export default function TeamManager({
+	initialMembers,
+	maxMembers,
+	translations: t,
+}: Props) {
 	const [members, setMembers] = useState<TeamMember[]>(initialMembers)
 	const [email, setEmail] = useState('')
 	const [role, setRole] = useState<'member' | 'admin'>('member')
@@ -76,7 +89,7 @@ export default function TeamManager({ initialMembers, maxMembers, translations: 
 	const removeDisc = useDisclosure()
 	const linkDisc = useDisclosure()
 
-	const activeCount = members.filter(m => m.status === 'active').length
+	const activeCount = members.filter((m) => m.status === 'active').length
 
 	const handleInvite = async () => {
 		if (!email.trim()) return
@@ -90,15 +103,18 @@ export default function TeamManager({ initialMembers, maxMembers, translations: 
 		}
 
 		toast.success(t.inviteSent)
-		setMembers(prev => [{
-			id: crypto.randomUUID(),
-			email: email.trim(),
-			role,
-			status: 'pending',
-			invited_at: new Date().toISOString(),
-			joined_at: null,
-			profiles: null,
-		}, ...prev])
+		setMembers((prev) => [
+			{
+				id: crypto.randomUUID(),
+				email: email.trim(),
+				role,
+				status: 'pending',
+				invited_at: new Date().toISOString(),
+				joined_at: null,
+				profiles: null,
+			},
+			...prev,
+		])
 
 		if (result.inviteUrl) {
 			setInviteLink(result.inviteUrl)
@@ -121,7 +137,7 @@ export default function TeamManager({ initialMembers, maxMembers, translations: 
 			return
 		}
 
-		setMembers(prev => prev.filter(m => m.id !== removeId))
+		setMembers((prev) => prev.filter((m) => m.id !== removeId))
 		removeDisc.onClose()
 		toast.success(t.remove)
 	}
@@ -134,7 +150,9 @@ export default function TeamManager({ initialMembers, maxMembers, translations: 
 
 	const formatDate = (date: string | null) => {
 		if (!date) return t.never
-		return new Intl.DateTimeFormat('es', { dateStyle: 'medium' }).format(new Date(date))
+		return new Intl.DateTimeFormat('es', { dateStyle: 'medium' }).format(
+			new Date(date),
+		)
 	}
 
 	return (
@@ -164,14 +182,18 @@ export default function TeamManager({ initialMembers, maxMembers, translations: 
 			{members.length === 0 ? (
 				<div className="flex flex-col items-center justify-center py-16 gap-3 border border-dashed border-divider rounded-xl">
 					<div className="w-14 h-14 bg-default-100 rounded-2xl flex items-center justify-center">
-						<HugeiconsIcon icon={UserGroupIcon} size={26} className="text-default-400" />
+						<HugeiconsIcon
+							icon={UserGroupIcon}
+							size={26}
+							className="text-default-400"
+						/>
 					</div>
 					<p className="font-semibold text-default-600">{t.noMembers}</p>
 					<p className="text-sm text-default-400">{t.noMembersDesc}</p>
 				</div>
 			) : (
 				<div className="flex flex-col gap-2">
-					{members.map(m => (
+					{members.map((m) => (
 						<div
 							key={m.id}
 							className="flex items-center gap-4 p-4 border border-divider rounded-xl bg-content1"
@@ -239,14 +261,18 @@ export default function TeamManager({ initialMembers, maxMembers, translations: 
 						<Select
 							label={t.roleLabel}
 							selectedKeys={[role]}
-							onSelectionChange={keys => setRole(Array.from(keys)[0] as 'member' | 'admin')}
+							onSelectionChange={(keys) =>
+								setRole(Array.from(keys)[0] as 'member' | 'admin')
+							}
 						>
 							<SelectItem key="member">{t.roleMember}</SelectItem>
 							<SelectItem key="admin">{t.roleAdmin}</SelectItem>
 						</Select>
 					</ModalBody>
 					<ModalFooter>
-						<Button variant="flat" onPress={inviteDisc.onClose}>{t.cancel}</Button>
+						<Button variant="flat" onPress={inviteDisc.onClose}>
+							{t.cancel}
+						</Button>
 						<Button
 							color="primary"
 							isLoading={isSending}
@@ -266,14 +292,18 @@ export default function TeamManager({ initialMembers, maxMembers, translations: 
 					<ModalBody className="flex flex-col gap-3">
 						<p className="text-sm text-default-500">{t.inviteSent}</p>
 						<div className="flex items-center gap-2 bg-content2 rounded-xl px-3 py-2">
-							<code className="flex-1 text-xs font-mono break-all text-foreground">{inviteLink}</code>
+							<code className="flex-1 text-xs font-mono break-all text-foreground">
+								{inviteLink}
+							</code>
 							<Button isIconOnly size="sm" variant="flat" onPress={copyLink}>
 								<HugeiconsIcon icon={Copy01Icon} size={14} />
 							</Button>
 						</div>
 					</ModalBody>
 					<ModalFooter>
-						<Button color="primary" fullWidth onPress={linkDisc.onClose}>{t.cancel}</Button>
+						<Button color="primary" fullWidth onPress={linkDisc.onClose}>
+							{t.cancel}
+						</Button>
 					</ModalFooter>
 				</ModalContent>
 			</Modal>
@@ -286,8 +316,14 @@ export default function TeamManager({ initialMembers, maxMembers, translations: 
 						<p className="text-sm text-default-500">{t.removeDesc}</p>
 					</ModalBody>
 					<ModalFooter>
-						<Button variant="flat" onPress={removeDisc.onClose}>{t.cancel}</Button>
-						<Button color="danger" isLoading={isRemoving} onPress={handleRemove}>
+						<Button variant="flat" onPress={removeDisc.onClose}>
+							{t.cancel}
+						</Button>
+						<Button
+							color="danger"
+							isLoading={isRemoving}
+							onPress={handleRemove}
+						>
 							{t.remove}
 						</Button>
 					</ModalFooter>

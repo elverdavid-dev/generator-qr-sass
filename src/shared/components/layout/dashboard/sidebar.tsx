@@ -36,15 +36,27 @@ interface Props {
 	translations: SidebarTranslations
 }
 
-const PlanCTA = ({ plan, translations }: { plan: PlanId; translations: SidebarTranslations }) => {
+const PlanCTA = ({
+	plan,
+	translations,
+}: {
+	plan: PlanId
+	translations: SidebarTranslations
+}) => {
 	if (plan === 'free') {
 		return (
 			<div className="flex flex-col gap-y-2 bg-linear-to-br from-primary/10 to-secondary/10 border border-primary/20 p-4 rounded-xl mt-auto">
 				<div className="flex items-center gap-x-2 text-default-600">
-					<HugeiconsIcon icon={Crown02Icon} size={15} className="text-primary" />
+					<HugeiconsIcon
+						icon={Crown02Icon}
+						size={15}
+						className="text-primary"
+					/>
 					<span className="text-xs font-semibold">{translations.freePlan}</span>
 				</div>
-				<p className="text-xs text-default-500 leading-snug">{translations.freePlanDesc}</p>
+				<p className="text-xs text-default-500 leading-snug">
+					{translations.freePlanDesc}
+				</p>
 				<Button color="primary" size="sm" as={Link} href="/pricing">
 					{translations.upgradeToPro}
 				</Button>
@@ -56,7 +68,11 @@ const PlanCTA = ({ plan, translations }: { plan: PlanId; translations: SidebarTr
 		<div className="flex flex-col gap-y-2 bg-linear-to-br from-amber-500/10 to-orange-500/10 border border-amber-500/20 p-4 rounded-xl mt-auto">
 			<div className="flex items-center justify-between">
 				<div className="flex items-center gap-x-2">
-					<HugeiconsIcon icon={Crown02Icon} size={15} className="text-amber-500" />
+					<HugeiconsIcon
+						icon={Crown02Icon}
+						size={15}
+						className="text-amber-500"
+					/>
 					<span className="text-xs font-bold text-amber-600 dark:text-amber-400 uppercase tracking-wide">
 						Plan {plan === 'pro' ? 'Pro' : 'Business'}
 					</span>
@@ -65,7 +81,10 @@ const PlanCTA = ({ plan, translations }: { plan: PlanId; translations: SidebarTr
 					{translations.planActive}
 				</span>
 			</div>
-			<Link href="/dashboard/billing" className="text-xs text-default-500 hover:text-primary transition-colors">
+			<Link
+				href="/dashboard/billing"
+				className="text-xs text-default-500 hover:text-primary transition-colors"
+			>
 				{translations.manageSub}
 			</Link>
 		</div>
@@ -96,7 +115,10 @@ const Sidebar = ({ plan = 'free', translations }: Props) => {
 							onPress={toggleSidebar}
 							className="ml-auto"
 						>
-							<HugeiconsIcon icon={isOpen ? ArrowLeft01Icon : ArrowRight01Icon} size={18} />
+							<HugeiconsIcon
+								icon={isOpen ? ArrowLeft01Icon : ArrowRight01Icon}
+								size={18}
+							/>
 						</Button>
 					</div>
 
@@ -120,7 +142,9 @@ const Sidebar = ({ plan = 'free', translations }: Props) => {
 						<div className="mt-auto pb-2 flex justify-center">
 							<Link
 								href={plan === 'free' ? '/pricing' : '/dashboard/billing'}
-								title={plan === 'free' ? translations.upgradeToPro : `Plan ${plan}`}
+								title={
+									plan === 'free' ? translations.upgradeToPro : `Plan ${plan}`
+								}
 								className={cn(
 									'flex items-center justify-center p-2 rounded-lg transition-colors',
 									plan === 'free'

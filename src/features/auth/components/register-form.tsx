@@ -82,7 +82,10 @@ const RegisterForm = ({ translations: t }: Props) => {
 
 			<p className="text-sm text-default-500 text-center mt-6">
 				{t.hasAccount}{' '}
-				<Link href="/login" className="text-primary font-semibold hover:underline">
+				<Link
+					href="/login"
+					className="text-primary font-semibold hover:underline"
+				>
 					{t.signIn}
 				</Link>
 			</p>

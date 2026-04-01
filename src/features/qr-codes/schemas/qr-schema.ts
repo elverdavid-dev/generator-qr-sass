@@ -27,7 +27,9 @@ export const createQrSchema = (m: QrValidationMessages) =>
 		dot_color_2: z.string().optional().nullable(),
 		dot_gradient_type: z.enum(['linear', 'radial']).default('linear'),
 		// Frame
-		frame_style: z.enum(['none', 'simple', 'rounded', 'bold', 'corners']).default('none'),
+		frame_style: z
+			.enum(['none', 'simple', 'rounded', 'bold', 'corners'])
+			.default('none'),
 		frame_color: z.string().default('#000000'),
 		frame_text: z.string().default(m.frameScanMe),
 		// Logo & folder
@@ -50,6 +52,27 @@ export const createQrSchema = (m: QrValidationMessages) =>
 		utm_campaign: z.string().optional().nullable(),
 		utm_term: z.string().optional().nullable(),
 		utm_content: z.string().optional().nullable(),
+		// Smart redirect rules (Pro+)
+		schedule_rules: z
+			.array(
+				z.object({
+					days: z.array(z.number().int().min(0).max(6)),
+					from: z.string().regex(/^\d{2}:\d{2}$/),
+					to: z.string().regex(/^\d{2}:\d{2}$/),
+					url: z.string().url(),
+				}),
+			)
+			.nullable()
+			.optional(),
+		country_rules: z
+			.array(
+				z.object({
+					countries: z.array(z.string().length(2)),
+					url: z.string().url(),
+				}),
+			)
+			.nullable()
+			.optional(),
 		// Custom slug (Pro+)
 		custom_slug: z.preprocess(
 			(val) => (val === '' || val === undefined ? null : val),

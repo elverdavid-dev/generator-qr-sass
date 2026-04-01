@@ -41,7 +41,7 @@ export async function GET(
 	const { data: qr, error } = await supabase
 		.from('qrs')
 		.select(
-			'id, user_id, name, data, qr_type, is_active, scan_count, expires_at, max_scans, password, ios_url, android_url, utm_source, utm_medium, utm_campaign, utm_term, utm_content',
+			'id, user_id, name, data, qr_type, is_active, scan_count, expires_at, max_scans, password, ios_url, android_url, utm_source, utm_medium, utm_campaign, utm_term, utm_content, schedule_rules, country_rules',
 		)
 		.or(`slug.eq.${slug},custom_slug.eq.${slug}`)
 		.single()
@@ -173,6 +173,9 @@ export async function GET(
 			utm_term: qr.utm_term,
 			utm_content: qr.utm_content,
 		},
+		qr.schedule_rules,
+		qr.country_rules,
+		geo.country,
 	)
 	return NextResponse.redirect(redirectUrl)
 }
