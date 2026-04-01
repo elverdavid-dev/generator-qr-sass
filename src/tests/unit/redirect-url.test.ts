@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import { resolveRedirectUrl } from '@/features/tracking/utils/resolve-redirect-url'
 
 // Use URLs with explicit paths to avoid `new URL()` trailing-slash normalization
@@ -8,7 +8,12 @@ const ANDROID_URL = 'https://play.google.com/store/apps/myapp'
 
 describe('resolveRedirectUrl — platform routing', () => {
 	it('returns default URL for unknown OS', () => {
-		const result = resolveRedirectUrl(DEFAULT_URL, IOS_URL, ANDROID_URL, 'Windows')
+		const result = resolveRedirectUrl(
+			DEFAULT_URL,
+			IOS_URL,
+			ANDROID_URL,
+			'Windows',
+		)
 		expect(result).toBe(DEFAULT_URL)
 	})
 
@@ -18,17 +23,32 @@ describe('resolveRedirectUrl — platform routing', () => {
 	})
 
 	it('returns iOS URL for iPhone OS string', () => {
-		const result = resolveRedirectUrl(DEFAULT_URL, IOS_URL, ANDROID_URL, 'iPhone OS')
+		const result = resolveRedirectUrl(
+			DEFAULT_URL,
+			IOS_URL,
+			ANDROID_URL,
+			'iPhone OS',
+		)
 		expect(result).toBe(IOS_URL)
 	})
 
 	it('returns iOS URL for iPad OS string', () => {
-		const result = resolveRedirectUrl(DEFAULT_URL, IOS_URL, ANDROID_URL, 'iPadOS')
+		const result = resolveRedirectUrl(
+			DEFAULT_URL,
+			IOS_URL,
+			ANDROID_URL,
+			'iPadOS',
+		)
 		expect(result).toBe(IOS_URL)
 	})
 
 	it('returns Android URL for Android OS', () => {
-		const result = resolveRedirectUrl(DEFAULT_URL, IOS_URL, ANDROID_URL, 'Android')
+		const result = resolveRedirectUrl(
+			DEFAULT_URL,
+			IOS_URL,
+			ANDROID_URL,
+			'Android',
+		)
 		expect(result).toBe(ANDROID_URL)
 	})
 

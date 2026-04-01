@@ -1,13 +1,13 @@
-import { vi, describe, it, expect, beforeEach } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { createChain, createSupabaseMock } from '../__mocks__/supabase'
 
 vi.mock('@/shared/lib/supabase/server', () => ({ createClient: vi.fn() }))
 vi.mock('@/shared/lib/supabase/get-session', () => ({ getSession: vi.fn() }))
 
-import { createClient } from '@/shared/lib/supabase/server'
-import { getSession } from '@/shared/lib/supabase/get-session'
-import { getQrs } from '@/features/qr-codes/services/queries/get-qrs'
 import { getQrById } from '@/features/qr-codes/services/queries/get-qr-by-id'
+import { getQrs } from '@/features/qr-codes/services/queries/get-qrs'
+import { getSession } from '@/shared/lib/supabase/get-session'
+import { createClient } from '@/shared/lib/supabase/server'
 
 const SESSION_DATA = { user: { id: 'user-123', email: 'test@example.com' } }
 
@@ -42,7 +42,9 @@ describe('getQrs', () => {
 
 	it('returns error on DB failure', async () => {
 		vi.mocked(getSession).mockResolvedValue({ data: SESSION_DATA } as never)
-		mock.fromMock.mockReturnValueOnce(createChain(null, { message: 'DB error' }))
+		mock.fromMock.mockReturnValueOnce(
+			createChain(null, { message: 'DB error' }),
+		)
 
 		const result = await getQrs()
 		expect(result).toEqual({ error: 'DB error' })
@@ -86,7 +88,9 @@ describe('getQrById', () => {
 	})
 
 	it('returns error when QR not found', async () => {
-		mock.fromMock.mockReturnValueOnce(createChain(null, { message: 'Row not found' }))
+		mock.fromMock.mockReturnValueOnce(
+			createChain(null, { message: 'Row not found' }),
+		)
 
 		const result = await getQrById('nonexistent-id')
 		expect(result).toEqual({ error: 'Row not found' })

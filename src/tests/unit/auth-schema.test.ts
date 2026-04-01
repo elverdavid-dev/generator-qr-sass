@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import { authFormDataSchema } from '@/features/auth/schema/auth-form-data'
 
 describe('authFormDataSchema', () => {

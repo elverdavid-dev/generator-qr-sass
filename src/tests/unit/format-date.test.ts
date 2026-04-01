@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import { formatDate } from '@/shared/utils/format-date'
 
 describe('formatDate', () => {

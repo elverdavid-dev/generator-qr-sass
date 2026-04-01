@@ -1,15 +1,15 @@
-import { vi, describe, it, expect, beforeEach } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { createSupabaseMock } from '../__mocks__/supabase'
 
 // --- Module mocks (hoisted before imports) ---
 vi.mock('@/shared/lib/supabase/server', () => ({ createClient: vi.fn() }))
 vi.mock('next/navigation', () => ({ redirect: vi.fn() }))
 
-import { createClient } from '@/shared/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import { loginService } from '@/features/auth/services/login'
-import { registerService } from '@/features/auth/services/register'
 import { logoutService } from '@/features/auth/services/logout'
+import { registerService } from '@/features/auth/services/register'
+import { createClient } from '@/shared/lib/supabase/server'
 
 // ─── Helpers ────────────────────────────────────────────────────────────────
 
@@ -32,7 +32,10 @@ describe('loginService', () => {
 			error: null,
 		})
 
-		const result = await loginService({ email: 'test@example.com', password: 'pass123' })
+		const result = await loginService({
+			email: 'test@example.com',
+			password: 'pass123',
+		})
 		expect(result).toEqual({ data: { user: fakeUser, session: {} } })
 	})
 
@@ -43,13 +46,19 @@ describe('loginService', () => {
 			error: { message: 'Invalid login credentials' },
 		})
 
-		const result = await loginService({ email: 'bad@example.com', password: 'wrong' })
+		const result = await loginService({
+			email: 'bad@example.com',
+			password: 'wrong',
+		})
 		expect(result).toEqual({ error: 'Invalid login credentials' })
 	})
 
 	it('calls signInWithPassword with correct credentials', async () => {
 		const { authMock } = setupClientMock()
-		authMock.signInWithPassword.mockResolvedValue({ data: { user: {} }, error: null })
+		authMock.signInWithPassword.mockResolvedValue({
+			data: { user: {} },
+			error: null,
+		})
 
 		await loginService({ email: 'user@test.com', password: 'mypassword' })
 		expect(authMock.signInWithPassword).toHaveBeenCalledWith({
@@ -71,7 +80,10 @@ describe('registerService', () => {
 			error: null,
 		})
 
-		const result = await registerService({ email: 'new@example.com', password: 'secret123' })
+		const result = await registerService({
+			email: 'new@example.com',
+			password: 'secret123',
+		})
 		expect(result).toEqual({ data: { user: { id: 'new-user' } } })
 	})
 
@@ -82,7 +94,10 @@ describe('registerService', () => {
 			error: { message: 'User already registered' },
 		})
 
-		const result = await registerService({ email: 'existing@example.com', password: 'pass' })
+		const result = await registerService({
+			email: 'existing@example.com',
+			password: 'pass',
+		})
 		expect(result).toEqual({ error: 'User already registered' })
 	})
 

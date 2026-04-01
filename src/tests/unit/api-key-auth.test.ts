@@ -1,5 +1,5 @@
-import { describe, it, expect, vi } from 'vitest'
-import { hashApiKey, generateApiKey } from '@/shared/lib/api-key-auth'
+import { describe, expect, it, vi } from 'vitest'
+import { generateApiKey, hashApiKey } from '@/shared/lib/api-key-auth'
 
 // authenticateApiKey uses createAdminClient — mock it to avoid env var requirement
 vi.mock('@/shared/lib/supabase/admin', () => ({

@@ -32,8 +32,10 @@ export function createChain(
 		limit: vi.fn().mockReturnThis(),
 		head: vi.fn().mockReturnThis(),
 		// Resolves the final awaited value (used for count queries)
-		then: (resolve: (v: unknown) => unknown, reject?: (e: unknown) => unknown) =>
-			Promise.resolve(resolved).then(resolve, reject),
+		then: (
+			resolve: (v: unknown) => unknown,
+			reject?: (e: unknown) => unknown,
+		) => Promise.resolve(resolved).then(resolve, reject),
 		// Terminal methods
 		single: vi.fn().mockResolvedValue({ data, error }),
 		maybeSingle: vi.fn().mockResolvedValue({ data, error }),
@@ -85,7 +87,9 @@ export function createSupabaseMock(): SupabaseMock {
 
 	const storageBucket = {
 		remove: vi.fn().mockResolvedValue({ data: null, error: null }),
-		upload: vi.fn().mockResolvedValue({ data: { path: 'logos/test.png' }, error: null }),
+		upload: vi
+			.fn()
+			.mockResolvedValue({ data: { path: 'logos/test.png' }, error: null }),
 		getPublicUrl: vi.fn().mockReturnValue({
 			data: { publicUrl: 'https://example.com/test.png' },
 		}),

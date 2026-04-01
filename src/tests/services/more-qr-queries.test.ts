@@ -1,4 +1,4 @@
-import { vi, describe, it, expect, beforeEach } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { createChain, createSupabaseMock } from '../__mocks__/supabase'
 
 vi.mock('@/shared/lib/supabase/server', () => ({ createClient: vi.fn() }))
@@ -6,18 +6,18 @@ vi.mock('@/shared/lib/supabase/get-session', () => ({ getSession: vi.fn() }))
 vi.mock('@/shared/lib/supabase/admin', () => ({ createAdminClient: vi.fn() }))
 vi.mock('next/cache', () => ({ revalidatePath: vi.fn() }))
 
-import { createClient } from '@/shared/lib/supabase/server'
+import { getDashboardStats } from '@/features/analytics/services/queries/get-dashboard-stats'
+import { completeOnboarding } from '@/features/onboarding/actions/complete-onboarding'
+import { updateQr } from '@/features/qr-codes/services/mutations/update-qr'
+import { getFavoriteQrs } from '@/features/qr-codes/services/queries/get-favorite-qrs'
+import { getQrBySlug } from '@/features/qr-codes/services/queries/get-qr-by-slug'
+import { getQrsByFolder } from '@/features/qr-codes/services/queries/get-qrs-by-folder'
+import { getTemplates } from '@/features/qr-codes/services/queries/get-templates'
+import { searchQrs } from '@/features/qr-codes/services/queries/search-qrs'
+import { saveScan } from '@/features/tracking/services/save-scan'
 import { createAdminClient } from '@/shared/lib/supabase/admin'
 import { getSession } from '@/shared/lib/supabase/get-session'
-import { searchQrs } from '@/features/qr-codes/services/queries/search-qrs'
-import { getTemplates } from '@/features/qr-codes/services/queries/get-templates'
-import { getQrBySlug } from '@/features/qr-codes/services/queries/get-qr-by-slug'
-import { getFavoriteQrs } from '@/features/qr-codes/services/queries/get-favorite-qrs'
-import { getQrsByFolder } from '@/features/qr-codes/services/queries/get-qrs-by-folder'
-import { getDashboardStats } from '@/features/analytics/services/queries/get-dashboard-stats'
-import { saveScan } from '@/features/tracking/services/save-scan'
-import { updateQr } from '@/features/qr-codes/services/mutations/update-qr'
-import { completeOnboarding } from '@/features/onboarding/actions/complete-onboarding'
+import { createClient } from '@/shared/lib/supabase/server'
 
 const SESSION_DATA = { user: { id: 'user-123', email: 'test@example.com' } }
 
@@ -49,7 +49,9 @@ describe('searchQrs', () => {
 
 	it('returns error on DB failure', async () => {
 		vi.mocked(getSession).mockResolvedValue({ data: SESSION_DATA } as never)
-		mock.fromMock.mockReturnValueOnce(createChain(null, { message: 'Search error' }))
+		mock.fromMock.mockReturnValueOnce(
+			createChain(null, { message: 'Search error' }),
+		)
 
 		const result = await searchQrs('test')
 		expect(result).toEqual({ error: 'Search error' })
@@ -100,7 +102,9 @@ describe('getTemplates', () => {
 
 	it('returns error message on DB failure', async () => {
 		vi.mocked(getSession).mockResolvedValue({ data: SESSION_DATA } as never)
-		mock.fromMock.mockReturnValueOnce(createChain(null, { message: 'DB error' }))
+		mock.fromMock.mockReturnValueOnce(
+			createChain(null, { message: 'DB error' }),
+		)
 
 		const result = await getTemplates()
 		expect(result.error).toBe('DB error')
@@ -127,7 +131,9 @@ describe('getQrBySlug', () => {
 	})
 
 	it('returns error when slug not found', async () => {
-		mock.fromMock.mockReturnValueOnce(createChain(null, { message: 'Not found' }))
+		mock.fromMock.mockReturnValueOnce(
+			createChain(null, { message: 'Not found' }),
+		)
 
 		const result = await getQrBySlug('nonexistent')
 		expect(result).toEqual({ error: 'Not found' })
@@ -162,7 +168,9 @@ describe('getFavoriteQrs', () => {
 
 	it('returns error on DB failure', async () => {
 		vi.mocked(getSession).mockResolvedValue({ data: SESSION_DATA } as never)
-		mock.fromMock.mockReturnValueOnce(createChain(null, { message: 'DB error' }))
+		mock.fromMock.mockReturnValueOnce(
+			createChain(null, { message: 'DB error' }),
+		)
 
 		const result = await getFavoriteQrs()
 		expect(result).toEqual({ error: 'DB error' })
@@ -197,7 +205,9 @@ describe('getQrsByFolder', () => {
 
 	it('returns error on DB failure', async () => {
 		vi.mocked(getSession).mockResolvedValue({ data: SESSION_DATA } as never)
-		mock.fromMock.mockReturnValueOnce(createChain(null, { message: 'DB error' }))
+		mock.fromMock.mockReturnValueOnce(
+			createChain(null, { message: 'DB error' }),
+		)
 
 		const result = await getQrsByFolder('folder-1')
 		expect(result).toEqual({ error: 'DB error' })
@@ -227,8 +237,8 @@ describe('getDashboardStats', () => {
 		// 5 concurrent queries: totalQrs, activeQrs, todayScans, monthScans, recentQrs
 		mock.fromMock
 			.mockReturnValueOnce(createChain(null, null, 10)) // totalQrs
-			.mockReturnValueOnce(createChain(null, null, 8))  // activeQrs
-			.mockReturnValueOnce(createChain(null, null, 3))  // todayScans
+			.mockReturnValueOnce(createChain(null, null, 8)) // activeQrs
+			.mockReturnValueOnce(createChain(null, null, 3)) // todayScans
 			.mockReturnValueOnce(createChain(null, null, 25)) // monthScans
 			.mockReturnValueOnce(createChain([{ id: 'qr-1' }])) // recentQrs
 
@@ -252,7 +262,7 @@ describe('getDashboardStats', () => {
 			.mockReturnValueOnce(createChain(null, null, null)) // activeQrs
 			.mockReturnValueOnce(createChain(null, null, null)) // todayScans
 			.mockReturnValueOnce(createChain(null, null, null)) // monthScans
-			.mockReturnValueOnce(createChain(null))              // recentQrs
+			.mockReturnValueOnce(createChain(null)) // recentQrs
 
 		const result = await getDashboardStats()
 		expect(result).toEqual({
@@ -300,10 +310,15 @@ describe('saveScan', () => {
 
 	it('logs error on DB failure without throwing', async () => {
 		const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
-		mock.fromMock.mockReturnValueOnce(createChain(null, { message: 'Insert failed' }))
+		mock.fromMock.mockReturnValueOnce(
+			createChain(null, { message: 'Insert failed' }),
+		)
 
 		await saveScan({ qr_id: 'qr-1', user_id: 'user-1' } as never)
-		expect(consoleSpy).toHaveBeenCalledWith('Error saving scan:', 'Insert failed')
+		expect(consoleSpy).toHaveBeenCalledWith(
+			'Error saving scan:',
+			'Insert failed',
+		)
 		consoleSpy.mockRestore()
 	})
 })
@@ -328,7 +343,9 @@ describe('updateQr', () => {
 	})
 
 	it('returns error on DB failure', async () => {
-		mock.fromMock.mockReturnValueOnce(createChain(null, { message: 'Update failed' }))
+		mock.fromMock.mockReturnValueOnce(
+			createChain(null, { message: 'Update failed' }),
+		)
 
 		const result = await updateQr('qr-1', { name: 'Test' } as never)
 		expect(result).toEqual({ error: 'Update failed' })
@@ -362,7 +379,9 @@ describe('completeOnboarding', () => {
 
 	it('returns error on DB failure', async () => {
 		vi.mocked(getSession).mockResolvedValue({ data: SESSION_DATA } as never)
-		mock.fromMock.mockReturnValueOnce(createChain(null, { message: 'Update failed' }))
+		mock.fromMock.mockReturnValueOnce(
+			createChain(null, { message: 'Update failed' }),
+		)
 
 		const result = await completeOnboarding()
 		expect(result).toEqual({ error: 'Update failed' })

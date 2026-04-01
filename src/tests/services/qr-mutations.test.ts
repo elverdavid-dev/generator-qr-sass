@@ -1,4 +1,4 @@
-import { vi, describe, it, expect, beforeEach } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { createChain, createSupabaseMock } from '../__mocks__/supabase'
 
 vi.mock('@/shared/lib/supabase/admin', () => ({ createAdminClient: vi.fn() }))
@@ -7,15 +7,15 @@ vi.mock('@/shared/lib/supabase/get-session', () => ({ getSession: vi.fn() }))
 vi.mock('@/shared/lib/supabase/upload-image', () => ({ uploadImage: vi.fn() }))
 vi.mock('next/cache', () => ({ revalidatePath: vi.fn() }))
 
-import { createAdminClient } from '@/shared/lib/supabase/admin'
-import { createClient } from '@/shared/lib/supabase/server'
-import { getSession } from '@/shared/lib/supabase/get-session'
-import { uploadImage } from '@/shared/lib/supabase/upload-image'
 import { revalidatePath } from 'next/cache'
 import { createQr } from '@/features/qr-codes/services/mutations/create-qr'
 import { deleteQr } from '@/features/qr-codes/services/mutations/delete-qr'
-import { toggleQrStatus } from '@/features/qr-codes/services/mutations/toggle-qr-status'
 import { toggleQrFavorite } from '@/features/qr-codes/services/mutations/toggle-qr-favorite'
+import { toggleQrStatus } from '@/features/qr-codes/services/mutations/toggle-qr-status'
+import { createAdminClient } from '@/shared/lib/supabase/admin'
+import { getSession } from '@/shared/lib/supabase/get-session'
+import { createClient } from '@/shared/lib/supabase/server'
+import { uploadImage } from '@/shared/lib/supabase/upload-image'
 
 const SESSION_DATA = { user: { id: 'user-123', email: 'test@example.com' } }
 
@@ -177,7 +177,9 @@ describe('toggleQrStatus', () => {
 	})
 
 	it('returns error on failure', async () => {
-		mock.fromMock.mockReturnValueOnce(createChain(null, { message: 'Update failed' }))
+		mock.fromMock.mockReturnValueOnce(
+			createChain(null, { message: 'Update failed' }),
+		)
 		const result = await toggleQrStatus('qr-1', true)
 		expect(result).toEqual({ error: 'Update failed' })
 	})
@@ -218,7 +220,9 @@ describe('toggleQrFavorite', () => {
 
 	it('returns error on DB failure', async () => {
 		vi.mocked(getSession).mockResolvedValue({ data: SESSION_DATA } as never)
-		mock.fromMock.mockReturnValueOnce(createChain(null, { message: 'Update error' }))
+		mock.fromMock.mockReturnValueOnce(
+			createChain(null, { message: 'Update error' }),
+		)
 		const result = await toggleQrFavorite('qr-1', true)
 		expect(result).toEqual({ error: 'Update error' })
 	})
