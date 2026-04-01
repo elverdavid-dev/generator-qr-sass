@@ -507,6 +507,13 @@
 		"billingAnnual": "Annual billing",
 		"upgradeProPrice": "Upgrade to Pro — $12/mo"
 	},
+	"notifications": {
+		"title": "Notifications",
+		"markAllRead": "Mark all",
+		"empty": "No notifications yet",
+		"justNow": "Just now",
+		"viewQr": "View QR"
+	},
 	"profile": {
 		"title": "My profile",
 		"subtitle": "Manage your personal information",

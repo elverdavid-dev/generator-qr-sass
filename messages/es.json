@@ -507,6 +507,13 @@
 		"billingAnnual": "Facturación anual",
 		"upgradeProPrice": "Mejorar a Pro — $12/mes"
 	},
+	"notifications": {
+		"title": "Notificaciones",
+		"markAllRead": "Marcar todo",
+		"empty": "Sin notificaciones",
+		"justNow": "Ahora",
+		"viewQr": "Ver QR"
+	},
 	"profile": {
 		"title": "Mi perfil",
 		"subtitle": "Gestiona tu información personal",

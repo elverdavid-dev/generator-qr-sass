@@ -4,6 +4,7 @@ import { type PlanId, getPlan } from '@/features/billing/config/plans'
 import { getGeoLocation } from '@/features/tracking/services/get-geo-location'
 import { resolveRedirectUrl } from '@/features/tracking/utils/resolve-redirect-url'
 import { deliverWebhooks } from '@/features/webhooks/services/deliver-webhooks'
+import { maybeNotifyMilestone, maybeNotifyScanSpike } from '@/features/notifications/services/create-notification'
 import { saveScan } from '@/features/tracking/services/save-scan'
 import { createAdminClient } from '@/shared/lib/supabase/admin'
 import { createRateLimiter } from '@/shared/lib/rate-limit'
@@ -118,6 +119,20 @@ export async function GET(
 		is_unique_scan: isUniqueScan,
 		...geo,
 	})
+
+	// Fire-and-forget notifications
+	const newCount = (qr.scan_count ?? 0) + 1
+	maybeNotifyMilestone(qr.user_id, qr.id, qr.name, newCount).catch(() => {})
+
+	// Spike detection: count scans in the last hour
+	supabase
+		.from('qr_scans')
+		.select('id', { count: 'exact', head: true })
+		.eq('qr_id', qr.id)
+		.gte('created_at', new Date(Date.now() - 60 * 60 * 1000).toISOString())
+		.then(({ count }) => {
+			if (count) maybeNotifyScanSpike(qr.user_id, qr.id, qr.name, count).catch(() => {})
+		})
 
 	// Fire-and-forget webhook delivery
 	deliverWebhooks(qr.user_id, {

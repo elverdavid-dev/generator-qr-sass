@@ -93,6 +93,17 @@ export interface Webhook {
 	created_at: string
 }
 
+export interface Notification {
+	id: string
+	user_id: string
+	qr_id: string | null
+	type: 'scan_milestone' | 'scan_spike' | 'qr_inactive' | 'qr_limit_reached'
+	title: string
+	body: string
+	is_read: boolean
+	created_at: string
+}
+
 export interface QrScan {
 	id: string
 	qr_id: string
