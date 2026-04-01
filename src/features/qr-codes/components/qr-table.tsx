@@ -198,64 +198,70 @@ const QrTable = ({ qrs, folders, total, page, translations }: Props) => {
 		<div>
 			{/* Bulk toolbar */}
 			{canBulk && selected.size > 0 && bulk && (
-				<div className="mt-4 mb-3 flex items-center gap-2 bg-content1 border border-primary/30 rounded-2xl px-4 py-2.5 shadow-md">
-					<span className="text-sm font-semibold text-primary mr-2">
-						{selected.size} {bulk.selected}
-					</span>
-					<Button
-						size="sm"
-						variant="flat"
-						color="danger"
-						isDisabled={isPending}
-						startContent={<HugeiconsIcon icon={Delete02Icon} size={14} />}
-						onPress={handleBulkDelete}
-					>
-						{bulk.deleteSelected}
-					</Button>
-					<Button
-						size="sm"
-						variant="flat"
-						color="success"
-						isDisabled={isPending}
-						startContent={<HugeiconsIcon icon={Tick02Icon} size={14} />}
-						onPress={() => handleBulkToggle(true)}
-					>
-						{bulk.activateSelected}
-					</Button>
-					<Button
-						size="sm"
-						variant="flat"
-						isDisabled={isPending}
-						startContent={<HugeiconsIcon icon={Cancel01Icon} size={14} />}
-						onPress={() => handleBulkToggle(false)}
-					>
-						{bulk.deactivateSelected}
-					</Button>
-					{folders.length > 0 && (
-						<Select
-							size="sm"
-							placeholder={bulk.moveSelected}
-							isDisabled={isPending}
-							className="w-44"
-							variant="flat"
-							items={[{ id: 'none', name: translations.noFolder }, ...folders]}
-							onChange={(e) => {
-								if (e.target.value !== '')
-									handleBulkMove(
-										e.target.value === 'none' ? null : e.target.value,
-									)
-							}}
+				<div className="mt-4 mb-3 bg-content1 border border-primary/30 rounded-2xl px-4 py-3 shadow-md">
+					{/* Row 1: count + close */}
+					<div className="flex items-center justify-between mb-2.5">
+						<span className="text-sm font-semibold text-primary">
+							{selected.size} {bulk.selected}
+						</span>
+						<button
+							type="button"
+							onClick={clearSelection}
+							className="text-xs text-default-400 hover:text-default-600 w-6 h-6 flex items-center justify-center rounded-full hover:bg-default-100 transition-colors"
 						>
-							{(item) => <SelectItem key={item.id} textValue={item.name}>{item.name}</SelectItem>}
-						</Select>
-					)}
-					<button
-						type="button"
-						onClick={clearSelection}
-						className="ml-auto text-xs text-default-400 hover:text-default-600"
-					>
-						✕
-					</button>
+							✕
+						</button>
+					</div>
+					{/* Row 2: actions (wrap on mobile) */}
+					<div className="flex flex-wrap gap-2">
+						<Button
+							size="sm"
+							variant="flat"
+							color="danger"
+							isDisabled={isPending}
+							startContent={<HugeiconsIcon icon={Delete02Icon} size={14} />}
+							onPress={handleBulkDelete}
+						>
+							{bulk.deleteSelected}
+						</Button>
+						<Button
+							size="sm"
+							variant="flat"
+							color="success"
+							isDisabled={isPending}
+							startContent={<HugeiconsIcon icon={Tick02Icon} size={14} />}
+							onPress={() => handleBulkToggle(true)}
+						>
+							{bulk.activateSelected}
+						</Button>
+						<Button
+							size="sm"
+							variant="flat"
+							isDisabled={isPending}
+							startContent={<HugeiconsIcon icon={Cancel01Icon} size={14} />}
+							onPress={() => handleBulkToggle(false)}
+						>
+							{bulk.deactivateSelected}
+						</Button>
+						{folders.length > 0 && (
+							<Select
+								size="sm"
+								placeholder={bulk.moveSelected}
+								isDisabled={isPending}
+								className="w-40"
+								variant="flat"
+								items={[{ id: 'none', name: translations.noFolder }, ...folders]}
+								onChange={(e) => {
+									if (e.target.value !== '')
+										handleBulkMove(
+											e.target.value === 'none' ? null : e.target.value,
+										)
+								}}
+							>
+								{(item) => <SelectItem key={item.id} textValue={item.name}>{item.name}</SelectItem>}
+							</Select>
+						)}
+					</div>
 				</div>
 			)}
 
