@@ -115,7 +115,7 @@ const NotificationsPanel = ({
 
 			{/* Panel */}
 			{open && (
-				<div className="absolute right-0 top-11 w-80 bg-background border border-divider rounded-2xl shadow-xl z-50 overflow-hidden">
+				<div className="fixed sm:absolute left-2 right-2 sm:left-auto sm:right-0 top-16 sm:top-11 sm:w-80 bg-background border border-divider rounded-2xl shadow-xl z-50 overflow-hidden">
 					{/* Header */}
 					<div className="flex items-center justify-between px-4 py-3 border-b border-divider">
 						<span className="font-semibold text-sm">{t.title}</span>
