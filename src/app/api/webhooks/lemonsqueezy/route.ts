@@ -12,6 +12,13 @@ const VARIANT_TO_PLAN: Record<string, PlanId> = {
 	[process.env.LEMONSQUEEZY_BUSINESS_ANNUAL_VARIANT_ID ?? '']: 'business',
 }
 
+const VARIANT_TO_INTERVAL: Record<string, 'monthly' | 'annual'> = {
+	[process.env.LEMONSQUEEZY_PRO_VARIANT_ID ?? '']: 'monthly',
+	[process.env.LEMONSQUEEZY_BUSINESS_VARIANT_ID ?? '']: 'monthly',
+	[process.env.LEMONSQUEEZY_PRO_ANNUAL_VARIANT_ID ?? '']: 'annual',
+	[process.env.LEMONSQUEEZY_BUSINESS_ANNUAL_VARIANT_ID ?? '']: 'annual',
+}
+
 function verifySignature(payload: string, signature: string): boolean {
 	const secret = process.env.LEMONSQUEEZY_WEBHOOK_SECRET!
 	const hmac = crypto.createHmac('sha256', secret)
@@ -44,6 +51,7 @@ export async function POST(req: Request) {
 		case 'subscription_updated': {
 			const variantId = String(attributes?.variant_id ?? '')
 			const plan = VARIANT_TO_PLAN[variantId] ?? 'free'
+			const billingInterval = VARIANT_TO_INTERVAL[variantId] ?? null
 			const subscriptionId = String(event.data?.id ?? '')
 			const customerId = String(attributes?.customer_id ?? '')
 			const status: string = attributes?.status ?? ''
@@ -54,6 +62,7 @@ export async function POST(req: Request) {
 					.from('profiles')
 					.update({
 						plan,
+						billing_interval: billingInterval,
 						ls_subscription_id: subscriptionId,
 						ls_customer_id: String(customerId),
 						plan_expires_at: attributes?.renews_at ?? null,
@@ -69,6 +78,7 @@ export async function POST(req: Request) {
 				.from('profiles')
 				.update({
 					plan: 'free',
+					billing_interval: null,
 					ls_subscription_id: null,
 					plan_expires_at: null,
 				})

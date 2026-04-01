@@ -10,6 +10,7 @@ export interface Profile {
 	ls_customer_id: string | null
 	ls_subscription_id: string | null
 	plan_expires_at: string | null
+	billing_interval: 'monthly' | 'annual' | null
 	onboarding_completed: boolean
 	created_at: string
 }

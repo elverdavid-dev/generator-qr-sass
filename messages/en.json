@@ -503,6 +503,8 @@
 		"whatsIncluded": "What's included in Pro?",
 		"cancelNote": "By managing your subscription you can cancel, change your plan or update your payment method. Cancellation is effective at the end of the current period.",
 		"perMonth": "/ mo",
+		"billingMonthly": "Monthly billing",
+		"billingAnnual": "Annual billing",
 		"upgradeProPrice": "Upgrade to Pro — $12/mo"
 	},
 	"profile": {

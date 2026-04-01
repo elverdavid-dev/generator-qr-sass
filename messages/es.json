@@ -503,6 +503,8 @@
 		"whatsIncluded": "¿Qué incluye Pro?",
 		"cancelNote": "Al gestionar tu suscripción puedes cancelar, cambiar de plan o actualizar tu método de pago. La cancelación es efectiva al final del período actual.",
 		"perMonth": "/ mes",
+		"billingMonthly": "Facturación mensual",
+		"billingAnnual": "Facturación anual",
 		"upgradeProPrice": "Mejorar a Pro — $12/mes"
 	},
 	"profile": {

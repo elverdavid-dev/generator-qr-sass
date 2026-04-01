@@ -23,6 +23,7 @@ const BillingPage = async () => {
 
 	const currentPlan = PLANS[(profile.plan ?? 'free') as keyof typeof PLANS]
 	const isPaid = profile.plan !== 'free'
+	const billingInterval = profile.billing_interval
 
 	return (
 		<>
@@ -66,6 +67,11 @@ const BillingPage = async () => {
 								>
 									{isPaid ? t('active') : t('free')}
 								</span>
+								{isPaid && billingInterval && (
+									<span className="text-xs px-2 py-0.5 rounded-full font-semibold bg-primary/10 text-primary">
+										{billingInterval === 'annual' ? t('billingAnnual') : t('billingMonthly')}
+									</span>
+								)}
 							</div>
 							<p className="text-default-500 text-sm">
 								{currentPlan.description}
