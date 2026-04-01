@@ -6,7 +6,7 @@ const Layout = ({ children }: PropsWithChildren) => {
 	return (
 		<>
 			<Header />
-			<main id="main-content" role="main">
+			<main id="main-content" role="main" className="overflow-x-hidden">
 				{children}
 			</main>
 			<footer aria-label="Pie de página" className="border-t border-default-200 mt-20">

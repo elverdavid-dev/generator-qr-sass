@@ -19,8 +19,8 @@ export function ScrollReveal({
 		direction === 'up'
 			? { opacity: 0, y: 28 }
 			: direction === 'left'
-				? { opacity: 0, x: -28 }
-				: { opacity: 0, x: 28 }
+				? { opacity: 0, x: -20 }
+				: { opacity: 0, x: 20 }
 
 	const animate =
 		direction === 'up'
