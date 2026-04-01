@@ -28,6 +28,7 @@ interface Props {
 	accountLabel: string
 	navItems: Omit<NavItem, 'icon'>[]
 	bottomItems: Omit<NavItem, 'icon'>[]
+	onNavigate?: VoidFunction
 }
 
 const NAV_ICONS: Record<string, any> = {
@@ -47,6 +48,7 @@ const SidebarItem = ({
 	accountLabel,
 	navItems,
 	bottomItems,
+	onNavigate,
 }: Props) => {
 	const pathname = usePathname()
 
@@ -62,6 +64,7 @@ const SidebarItem = ({
 				<Link
 					key={path}
 					href={path}
+					onClick={onNavigate}
 					className={cn(
 						'flex items-center gap-x-2 border-l-2 border-transparent p-2 rounded-r-lg transition-colors text-default-600 hover:text-primary hover:border-primary hover:bg-primary/5',
 						isActive(path) &&
@@ -81,6 +84,7 @@ const SidebarItem = ({
 					<Link
 						key={path}
 						href={path}
+						onClick={onNavigate}
 						className={cn(
 							'flex items-center gap-x-2 border-l-2 border-transparent p-2 rounded-r-lg transition-colors text-default-600 hover:text-primary hover:border-primary hover:bg-primary/5',
 							isActive(path) &&

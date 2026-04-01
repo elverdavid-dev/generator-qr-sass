@@ -5,6 +5,7 @@ import LogoutButton from '@/shared/components/logout-button'
 import ProfileButton from '@/shared/components/profile-button'
 import ThemeToggle from '@/shared/components/theme/theme-toggle'
 import { getSession } from '@/shared/lib/supabase/get-session'
+import MobileMenuButton from './mobile-menu-button'
 
 const NavbarDashboard = async () => {
 	const { data: session } = await getSession()
@@ -25,30 +26,33 @@ const NavbarDashboard = async () => {
 	}
 
 	return (
-		<header className="flex items-center justify-end gap-x-2 px-6 py-3 border-b border-divider bg-background">
-			<LanguageSwitcher
-				currentLocale={locale}
-				selectLabel={tLang('select')}
-				loadingMessage={tLang('loading')}
-			/>
-			<ThemeToggle />
-			{profile ? (
-				<ProfileButton
-					avatar_url={profile.avatar_url ?? ''}
-					full_name={profile.name ?? profile.email ?? ''}
-					email={session?.user?.email}
-					translations={{
-						myAccount: tProfile('title'),
-						profile: tProfile('title'),
-						billing: tBilling('title'),
-						pricing: tNav('pricing'),
-						logout: tCommon('logout'),
-						loggingOut: tCommon('loggingOut'),
-					}}
+		<header className="flex items-center justify-between gap-x-2 px-6 py-3 border-b border-divider bg-background">
+			<MobileMenuButton />
+			<div className="flex items-center gap-x-2 ml-auto">
+				<LanguageSwitcher
+					currentLocale={locale}
+					selectLabel={tLang('select')}
+					loadingMessage={tLang('loading')}
 				/>
-			) : (
-				<LogoutButton />
-			)}
+				<ThemeToggle />
+				{profile ? (
+					<ProfileButton
+						avatar_url={profile.avatar_url ?? ''}
+						full_name={profile.name ?? profile.email ?? ''}
+						email={session?.user?.email}
+						translations={{
+							myAccount: tProfile('title'),
+							profile: tProfile('title'),
+							billing: tBilling('title'),
+							pricing: tNav('pricing'),
+							logout: tCommon('logout'),
+							loggingOut: tCommon('loggingOut'),
+						}}
+					/>
+				) : (
+					<LogoutButton />
+				)}
+			</div>
 		</header>
 	)
 }
