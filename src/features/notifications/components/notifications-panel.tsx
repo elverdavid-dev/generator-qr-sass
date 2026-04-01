@@ -1,19 +1,21 @@
 'use client'
 
-import { Button } from '@heroui/react'
 import {
 	Alert01Icon,
 	FingerPrintScanIcon,
 	Notification01Icon,
 	Tick02Icon,
-	TrendUp01Icon,
+	TrendingUp,
 } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useEffect, useRef, useState, useTransition } from 'react'
-import { markAllAsRead, markAsRead } from '../services/mutations/mark-notifications'
 import type { Notification } from '@/shared/types/database.types'
+import {
+	markAllAsRead,
+	markAsRead,
+} from '../services/mutations/mark-notifications'
 
 interface Props {
 	initialNotifications: Notification[]
@@ -27,9 +29,10 @@ interface Props {
 	}
 }
 
+// biome-ignore lint/suspicious/noExplicitAny: HugeIcons type
 const TYPE_ICON: Record<Notification['type'], any> = {
 	scan_milestone: FingerPrintScanIcon,
-	scan_spike: TrendUp01Icon,
+	scan_spike: TrendingUp,
 	qr_inactive: Alert01Icon,
 	qr_limit_reached: Alert01Icon,
 }
@@ -51,7 +54,11 @@ function timeAgo(dateStr: string, justNow: string): string {
 	return `${Math.floor(hrs / 24)}d`
 }
 
-const NotificationsPanel = ({ initialNotifications, initialUnread, translations: t }: Props) => {
+const NotificationsPanel = ({
+	initialNotifications,
+	initialUnread,
+	translations: t,
+}: Props) => {
 	const [open, setOpen] = useState(false)
 	const [notifications, setNotifications] = useState(initialNotifications)
 	const [unread, setUnread] = useState(initialUnread)
@@ -129,7 +136,11 @@ const NotificationsPanel = ({ initialNotifications, initialUnread, translations:
 					<div className="max-h-80 overflow-y-auto divide-y divide-divider">
 						{notifications.length === 0 ? (
 							<div className="flex flex-col items-center justify-center py-10 gap-2 text-default-400">
-								<HugeiconsIcon icon={Notification01Icon} size={28} className="opacity-30" />
+								<HugeiconsIcon
+									icon={Notification01Icon}
+									size={28}
+									className="opacity-30"
+								/>
 								<p className="text-xs">{t.empty}</p>
 							</div>
 						) : (
@@ -138,14 +149,22 @@ const NotificationsPanel = ({ initialNotifications, initialUnread, translations:
 									key={n.id}
 									className={`flex items-start gap-3 px-4 py-3 transition-colors ${!n.is_read ? 'bg-primary/3' : 'hover:bg-default-50'}`}
 								>
-									<div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 mt-0.5 ${TYPE_COLOR[n.type]}`}>
+									<div
+										className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 mt-0.5 ${TYPE_COLOR[n.type]}`}
+									>
 										<HugeiconsIcon icon={TYPE_ICON[n.type]} size={15} />
 									</div>
 									<div className="min-w-0 flex-1">
-										<p className="text-xs font-semibold text-foreground leading-snug">{n.title}</p>
-										<p className="text-xs text-default-500 mt-0.5 leading-snug">{n.body}</p>
+										<p className="text-xs font-semibold text-foreground leading-snug">
+											{n.title}
+										</p>
+										<p className="text-xs text-default-500 mt-0.5 leading-snug">
+											{n.body}
+										</p>
 										<div className="flex items-center gap-2 mt-1.5">
-											<span className="text-[10px] text-default-400">{timeAgo(n.created_at, t.justNow)}</span>
+											<span className="text-[10px] text-default-400">
+												{timeAgo(n.created_at, t.justNow)}
+											</span>
 											{n.qr_id && (
 												<Link
 													href={`/dashboard/qrs/${n.qr_id}`}

@@ -1,6 +1,10 @@
 import { createAdminClient } from '@/shared/lib/supabase/admin'
 
-type NotificationType = 'scan_milestone' | 'scan_spike' | 'qr_inactive' | 'qr_limit_reached'
+type NotificationType =
+	| 'scan_milestone'
+	| 'scan_spike'
+	| 'qr_inactive'
+	| 'qr_limit_reached'
 
 interface CreateNotificationInput {
 	user_id: string

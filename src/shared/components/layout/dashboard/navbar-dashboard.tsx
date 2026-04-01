@@ -1,7 +1,10 @@
 import { getLocale, getTranslations } from 'next-intl/server'
 import { getProfile } from '@/features/auth/services/queries/get-profile'
 import NotificationsPanel from '@/features/notifications/components/notifications-panel'
-import { getNotifications, getUnreadCount } from '@/features/notifications/services/queries/get-notifications'
+import {
+	getNotifications,
+	getUnreadCount,
+} from '@/features/notifications/services/queries/get-notifications'
 import LanguageSwitcher from '@/shared/components/language-switcher'
 import LogoutButton from '@/shared/components/logout-button'
 import ProfileButton from '@/shared/components/profile-button'
@@ -12,15 +15,16 @@ import MobileMenuButton from './mobile-menu-button'
 const NavbarDashboard = async () => {
 	const { data: session } = await getSession()
 	const userId = session?.user?.id
-	const [locale, tLang, tProfile, tBilling, tNav, tCommon, tNotif] = await Promise.all([
-		getLocale(),
-		getTranslations('language'),
-		getTranslations('profile'),
-		getTranslations('billing'),
-		getTranslations('nav'),
-		getTranslations('common'),
-		getTranslations('notifications'),
-	])
+	const [locale, tLang, tProfile, tBilling, tNav, tCommon, tNotif] =
+		await Promise.all([
+			getLocale(),
+			getTranslations('language'),
+			getTranslations('profile'),
+			getTranslations('billing'),
+			getTranslations('nav'),
+			getTranslations('common'),
+			getTranslations('notifications'),
+		])
 
 	let profile = null
 	if (userId) {

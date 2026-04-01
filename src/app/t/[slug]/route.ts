@@ -1,13 +1,16 @@
 import { type NextRequest, NextResponse } from 'next/server'
 import { UAParser } from 'ua-parser-js'
-import { type PlanId, getPlan } from '@/features/billing/config/plans'
+import { getPlan, type PlanId } from '@/features/billing/config/plans'
+import {
+	maybeNotifyMilestone,
+	maybeNotifyScanSpike,
+} from '@/features/notifications/services/create-notification'
 import { getGeoLocation } from '@/features/tracking/services/get-geo-location'
+import { saveScan } from '@/features/tracking/services/save-scan'
 import { resolveRedirectUrl } from '@/features/tracking/utils/resolve-redirect-url'
 import { deliverWebhooks } from '@/features/webhooks/services/deliver-webhooks'
-import { maybeNotifyMilestone, maybeNotifyScanSpike } from '@/features/notifications/services/create-notification'
-import { saveScan } from '@/features/tracking/services/save-scan'
-import { createAdminClient } from '@/shared/lib/supabase/admin'
 import { createRateLimiter } from '@/shared/lib/rate-limit'
+import { createAdminClient } from '@/shared/lib/supabase/admin'
 
 /** 120 tracking requests per minute per IP. */
 const rateLimiter = createRateLimiter({ limit: 120, windowMs: 60_000 })
@@ -131,7 +134,8 @@ export async function GET(
 		.eq('qr_id', qr.id)
 		.gte('created_at', new Date(Date.now() - 60 * 60 * 1000).toISOString())
 		.then(({ count }) => {
-			if (count) maybeNotifyScanSpike(qr.user_id, qr.id, qr.name, count).catch(() => {})
+			if (count)
+				maybeNotifyScanSpike(qr.user_id, qr.id, qr.name, count).catch(() => {})
 		})
 
 	// Fire-and-forget webhook delivery
