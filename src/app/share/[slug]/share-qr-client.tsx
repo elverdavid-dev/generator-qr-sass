@@ -35,7 +35,13 @@ interface ShareTranslations {
 	linkCopied: string
 }
 
-export default function ShareQrClient({ qr, translations: t }: { qr: QrData; translations: ShareTranslations }) {
+export default function ShareQrClient({
+	qr,
+	translations: t,
+}: {
+	qr: QrData
+	translations: ShareTranslations
+}) {
 	const [copied, setCopied] = useState(false)
 	const shareUrl = typeof window !== 'undefined' ? window.location.href : ''
 
@@ -93,9 +99,7 @@ export default function ShareQrClient({ qr, translations: t }: { qr: QrData; tra
 
 						<div className="text-center">
 							<h1 className="text-xl font-bold capitalize">{qr.name}</h1>
-							<p className="text-sm text-default-400 mt-0.5">
-								{t.scanToVisit}
-							</p>
+							<p className="text-sm text-default-400 mt-0.5">{t.scanToVisit}</p>
 						</div>
 
 						<div className="flex gap-2 w-full">

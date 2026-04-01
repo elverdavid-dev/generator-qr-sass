@@ -17,7 +17,13 @@ export async function GET(request: Request) {
 			const supabase = await createClient()
 			const { error } = await supabase.auth.verifyOtp({
 				token_hash: tokenHash,
-				type: type as 'recovery' | 'email' | 'signup' | 'invite' | 'magiclink' | 'email_change',
+				type: type as
+					| 'recovery'
+					| 'email'
+					| 'signup'
+					| 'invite'
+					| 'magiclink'
+					| 'email_change',
 			})
 			if (error) {
 				return NextResponse.redirect(`${origin}/error`)

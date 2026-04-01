@@ -69,7 +69,9 @@ const BillingPage = async () => {
 								</span>
 								{isPaid && billingInterval && (
 									<span className="text-xs px-2 py-0.5 rounded-full font-semibold bg-primary/10 text-primary">
-										{billingInterval === 'annual' ? t('billingAnnual') : t('billingMonthly')}
+										{billingInterval === 'annual'
+											? t('billingAnnual')
+											: t('billingMonthly')}
 									</span>
 								)}
 							</div>

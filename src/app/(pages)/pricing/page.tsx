@@ -19,7 +19,14 @@ export const metadata: Metadata = {
 		description:
 			'Planes desde $0. QR codes ilimitados, analytics avanzado, redirecciones condicionales y API REST. Cancela en cualquier momento.',
 		url: `${process.env.NEXT_PUBLIC_BASE_URL ?? ''}/pricing`,
-		images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Precios QR Generator' }],
+		images: [
+			{
+				url: '/og-image.png',
+				width: 1200,
+				height: 630,
+				alt: 'Precios QR Generator',
+			},
+		],
 	},
 }
 
@@ -36,17 +43,39 @@ const PricingPage = async () => {
 		{
 			...PLANS.free,
 			description: tp('freeDesc'),
-			features: [tp('freeFeature1'), tp('freeFeature2'), tp('freeFeature3'), tp('freeFeature4'), tp('freeFeature5')],
+			features: [
+				tp('freeFeature1'),
+				tp('freeFeature2'),
+				tp('freeFeature3'),
+				tp('freeFeature4'),
+				tp('freeFeature5'),
+			],
 		},
 		{
 			...PLANS.pro,
 			description: tp('proDesc'),
-			features: [tp('proFeature1'), tp('proFeature2'), tp('proFeature3'), tp('proFeature4'), tp('proFeature5'), tp('proFeature6'), tp('proFeature7')],
+			features: [
+				tp('proFeature1'),
+				tp('proFeature2'),
+				tp('proFeature3'),
+				tp('proFeature4'),
+				tp('proFeature5'),
+				tp('proFeature6'),
+				tp('proFeature7'),
+			],
 		},
 		{
 			...PLANS.business,
 			description: tp('businessDesc'),
-			features: [tp('businessFeature1'), tp('businessFeature2'), tp('businessFeature3'), tp('businessFeature4'), tp('businessFeature5'), tp('businessFeature6'), tp('businessFeature7')],
+			features: [
+				tp('businessFeature1'),
+				tp('businessFeature2'),
+				tp('businessFeature3'),
+				tp('businessFeature4'),
+				tp('businessFeature5'),
+				tp('businessFeature6'),
+				tp('businessFeature7'),
+			],
 		},
 	].map((plan) => ({
 		id: plan.id,

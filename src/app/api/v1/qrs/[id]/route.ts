@@ -1,10 +1,13 @@
-import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
+import { NextResponse } from 'next/server'
 import { authenticateApiKey } from '@/shared/lib/api-key-auth'
 import { createAdminClient } from '@/shared/lib/supabase/admin'
 
 // GET /api/v1/qrs/[id]
-export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+export async function GET(
+	request: NextRequest,
+	{ params }: { params: Promise<{ id: string }> },
+) {
 	const auth = await authenticateApiKey(request)
 	if (!auth) {
 		return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
@@ -15,7 +18,9 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
 
 	const { data, error } = await supabase
 		.from('qrs')
-		.select('id, name, slug, custom_slug, qr_type, data, is_active, scan_count, bg_color, fg_color, dot_style, frame_style, created_at, updated_at')
+		.select(
+			'id, name, slug, custom_slug, qr_type, data, is_active, scan_count, bg_color, fg_color, dot_style, frame_style, created_at, updated_at',
+		)
 		.eq('id', id)
 		.eq('user_id', auth.userId)
 		.single()
@@ -28,7 +33,10 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
 }
 
 // PATCH /api/v1/qrs/[id]
-export async function PATCH(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+export async function PATCH(
+	request: NextRequest,
+	{ params }: { params: Promise<{ id: string }> },
+) {
 	const auth = await authenticateApiKey(request)
 	if (!auth) {
 		return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
@@ -56,8 +64,20 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
 		return NextResponse.json({ error: 'QR not found' }, { status: 404 })
 	}
 
-	const allowedFields = ['name', 'data', 'is_active', 'bg_color', 'fg_color', 'dot_style', 'frame_style', 'frame_color', 'frame_text']
-	const updates: Record<string, unknown> = { updated_at: new Date().toISOString() }
+	const allowedFields = [
+		'name',
+		'data',
+		'is_active',
+		'bg_color',
+		'fg_color',
+		'dot_style',
+		'frame_style',
+		'frame_color',
+		'frame_text',
+	]
+	const updates: Record<string, unknown> = {
+		updated_at: new Date().toISOString(),
+	}
 
 	for (const field of allowedFields) {
 		if (field in body) updates[field] = body[field]
@@ -67,7 +87,9 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
 		.from('qrs')
 		.update(updates)
 		.eq('id', id)
-		.select('id, name, slug, custom_slug, qr_type, data, is_active, scan_count, created_at, updated_at')
+		.select(
+			'id, name, slug, custom_slug, qr_type, data, is_active, scan_count, created_at, updated_at',
+		)
 		.single()
 
 	if (error) {
@@ -78,7 +100,10 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
 }
 
 // DELETE /api/v1/qrs/[id]
-export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+export async function DELETE(
+	request: NextRequest,
+	{ params }: { params: Promise<{ id: string }> },
+) {
 	const auth = await authenticateApiKey(request)
 	if (!auth) {
 		return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })

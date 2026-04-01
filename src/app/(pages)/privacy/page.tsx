@@ -8,7 +8,13 @@ export const metadata: Metadata = {
 	robots: { index: true, follow: true },
 }
 
-const Section = ({ title, children }: { title: string; children: React.ReactNode }) => (
+const Section = ({
+	title,
+	children,
+}: {
+	title: string
+	children: React.ReactNode
+}) => (
 	<section className="mb-10">
 		<h2 className="text-xl font-semibold mb-3">{title}</h2>
 		<div className="text-default-600 space-y-3 leading-relaxed">{children}</div>
@@ -57,7 +63,8 @@ const content = {
 					'Send you service-related communications (important changes, invoices).',
 					'Detect and prevent fraud or abusive use.',
 				],
-				footer: 'We do not sell or rent your personal information to third parties.',
+				footer:
+					'We do not sell or rent your personal information to third parties.',
 			},
 			{
 				title: '3. Data Retention',
@@ -85,14 +92,16 @@ const content = {
 			},
 			{
 				title: '5. Security',
-				intro: 'We implement technical and organizational security measures to protect your information, including:',
+				intro:
+					'We implement technical and organizational security measures to protect your information, including:',
 				list: [
 					'Encrypted data transmission via TLS/HTTPS.',
 					'Row Level Security (RLS) in the database — each user can only access their own data.',
 					'API keys stored as bcrypt hashes (never in plain text).',
 					'Authentication managed by Supabase Auth with JWT tokens.',
 				],
-				footer: 'However, no system is 100% secure. We recommend using strong passwords and not sharing your credentials.',
+				footer:
+					'However, no system is 100% secure. We recommend using strong passwords and not sharing your credentials.',
 			},
 			{
 				title: '6. Cookies',
@@ -153,7 +162,9 @@ const content = {
 					},
 					{
 						label: 'Datos de uso:',
-						items: ['Registro de actividad general para mantener la seguridad del servicio.'],
+						items: [
+							'Registro de actividad general para mantener la seguridad del servicio.',
+						],
 					},
 				],
 			},
@@ -195,14 +206,16 @@ const content = {
 			},
 			{
 				title: '5. Seguridad',
-				intro: 'Implementamos medidas de seguridad técnicas y organizativas para proteger tu información, incluyendo:',
+				intro:
+					'Implementamos medidas de seguridad técnicas y organizativas para proteger tu información, incluyendo:',
 				list: [
 					'Transmisión de datos cifrada mediante TLS/HTTPS.',
 					'Row Level Security (RLS) en la base de datos — cada usuario solo puede acceder a sus propios datos.',
 					'API keys almacenadas como hashes bcrypt (nunca en texto plano).',
 					'Autenticación gestionada por Supabase Auth con tokens JWT.',
 				],
-				footer: 'Sin embargo, ningún sistema es 100% seguro. Te recomendamos usar contraseñas seguras y no compartir tus credenciales.',
+				footer:
+					'Sin embargo, ningún sistema es 100% seguro. Te recomendamos usar contraseñas seguras y no compartir tus credenciales.',
 			},
 			{
 				title: '6. Cookies',
@@ -218,7 +231,8 @@ const content = {
 					'Exportar tus datos de analítica en formato CSV.',
 				],
 				email: 'support@qrgenerator.app',
-				emailPrefix: 'Para ejercer cualquiera de estos derechos, contáctanos en',
+				emailPrefix:
+					'Para ejercer cualquiera de estos derechos, contáctanos en',
 			},
 			{
 				title: '8. Menores de edad',
@@ -250,22 +264,32 @@ const PrivacyPage = async () => {
 			{c.sections.map((s) => (
 				<Section key={s.title} title={s.title}>
 					{'intro' in s && s.intro && <p>{s.intro}</p>}
-					{'groups' in s && s.groups && s.groups.map((g) => (
-						<div key={g.label}>
-							<p className="font-medium mt-2">{g.label}</p>
-							<ul className="list-disc pl-6 space-y-1">
-								{g.items.map((item) => <li key={item}>{item}</li>)}
-							</ul>
-						</div>
-					))}
+					{'groups' in s &&
+						s.groups &&
+						s.groups.map((g) => (
+							<div key={g.label}>
+								<p className="font-medium mt-2">{g.label}</p>
+								<ul className="list-disc pl-6 space-y-1">
+									{g.items.map((item) => (
+										<li key={item}>{item}</li>
+									))}
+								</ul>
+							</div>
+						))}
 					{'providers' in s && s.providers && (
 						<ul className="list-disc pl-6 space-y-1">
 							{s.providers.map((p) => (
 								<li key={p.name}>
 									<strong>{p.name}</strong> — {p.desc}
 									{'link' in p && p.link && (
-										<> {' '}
-											<a href={p.link} target="_blank" rel="noopener noreferrer" className="text-primary underline">
+										<>
+											{' '}
+											<a
+												href={p.link}
+												target="_blank"
+												rel="noopener noreferrer"
+												className="text-primary underline"
+											>
 												{p.linkText}
 											</a>
 										</>
@@ -276,7 +300,9 @@ const PrivacyPage = async () => {
 					)}
 					{'list' in s && s.list && (
 						<ul className="list-disc pl-6 space-y-1">
-							{s.list.map((item) => <li key={item}>{item}</li>)}
+							{s.list.map((item) => (
+								<li key={item}>{item}</li>
+							))}
 						</ul>
 					)}
 					{'body' in s && s.body && !('email' in s) && <p>{s.body}</p>}
@@ -303,7 +329,10 @@ const PrivacyPage = async () => {
 			))}
 
 			<div className="border-t border-default-200 pt-8 mt-8 text-sm text-default-400 flex gap-6">
-				<Link href="/terms" className="hover:text-default-600 transition-colors">
+				<Link
+					href="/terms"
+					className="hover:text-default-600 transition-colors"
+				>
 					{c.footer.terms}
 				</Link>
 				<Link href="/" className="hover:text-default-600 transition-colors">

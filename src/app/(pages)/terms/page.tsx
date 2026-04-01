@@ -8,7 +8,13 @@ export const metadata: Metadata = {
 	robots: { index: true, follow: true },
 }
 
-const Section = ({ title, children }: { title: string; children: React.ReactNode }) => (
+const Section = ({
+	title,
+	children,
+}: {
+	title: string
+	children: React.ReactNode
+}) => (
 	<section className="mb-10">
 		<h2 className="text-xl font-semibold mb-3">{title}</h2>
 		<div className="text-default-600 space-y-3 leading-relaxed">{children}</div>
@@ -30,17 +36,20 @@ const content = {
 			},
 			{
 				title: '3. User Accounts',
-				intro: 'To access the features of the Service, you must register and create an account. You are responsible for:',
+				intro:
+					'To access the features of the Service, you must register and create an account. You are responsible for:',
 				list: [
 					'Maintaining the confidentiality of your access credentials.',
 					'All activity that occurs under your account.',
 					'Notifying us immediately of any unauthorized use.',
 				],
-				footer: 'We reserve the right to cancel accounts that violate these terms or show fraudulent activity.',
+				footer:
+					'We reserve the right to cancel accounts that violate these terms or show fraudulent activity.',
 			},
 			{
 				title: '4. Plans and Billing',
-				intro: 'The Free plan is available at no cost. Pro and Business plans are paid, available monthly or annually. When subscribing to a paid plan:',
+				intro:
+					'The Free plan is available at no cost. Pro and Business plans are paid, available monthly or annually. When subscribing to a paid plan:',
 				list: [
 					'Payments are processed through Lemon Squeezy.',
 					'Subscriptions renew automatically at the end of each period.',
@@ -62,7 +71,8 @@ const content = {
 					'Resell or redistribute the Service without express authorization.',
 					'Reverse engineer or attempt to extract the source code.',
 				],
-				footer: 'We reserve the right to suspend or cancel accounts that violate this policy without prior notice.',
+				footer:
+					'We reserve the right to suspend or cancel accounts that violate this policy without prior notice.',
 			},
 			{
 				title: '7. Intellectual Property',
@@ -113,17 +123,20 @@ const content = {
 			},
 			{
 				title: '3. Cuentas de usuario',
-				intro: 'Para acceder a las funcionalidades del Servicio, debes registrarte y crear una cuenta. Eres responsable de:',
+				intro:
+					'Para acceder a las funcionalidades del Servicio, debes registrarte y crear una cuenta. Eres responsable de:',
 				list: [
 					'Mantener la confidencialidad de tus credenciales de acceso.',
 					'Toda la actividad que ocurra bajo tu cuenta.',
 					'Notificarnos de inmediato ante cualquier uso no autorizado.',
 				],
-				footer: 'Nos reservamos el derecho de cancelar cuentas que violen estos términos o que presenten actividad fraudulenta.',
+				footer:
+					'Nos reservamos el derecho de cancelar cuentas que violen estos términos o que presenten actividad fraudulenta.',
 			},
 			{
 				title: '4. Planes y facturación',
-				intro: 'El plan Free está disponible sin costo. Los planes Pro y Business son de pago, disponibles en modalidad mensual o anual. Al suscribirte a un plan de pago:',
+				intro:
+					'El plan Free está disponible sin costo. Los planes Pro y Business son de pago, disponibles en modalidad mensual o anual. Al suscribirte a un plan de pago:',
 				list: [
 					'Los pagos se procesan a través de Lemon Squeezy.',
 					'Las suscripciones se renuevan automáticamente al final de cada período.',
@@ -145,7 +158,8 @@ const content = {
 					'Revender o redistribuir el Servicio sin autorización expresa.',
 					'Realizar ingeniería inversa o intentar extraer el código fuente.',
 				],
-				footer: 'Nos reservamos el derecho de suspender o cancelar cuentas que violen esta política sin previo aviso.',
+				footer:
+					'Nos reservamos el derecho de suspender o cancelar cuentas que violen esta política sin previo aviso.',
 			},
 			{
 				title: '7. Propiedad intelectual',
@@ -200,7 +214,10 @@ const TermsPage = async () => {
 					{'linkText' in s && s.linkText && (
 						<p>
 							{s.body}{' '}
-							<Link href={s.linkHref ?? '/privacy'} className="text-primary underline">
+							<Link
+								href={s.linkHref ?? '/privacy'}
+								className="text-primary underline"
+							>
 								{s.linkText}
 							</Link>{' '}
 							{s.linkSuffix}
@@ -208,7 +225,9 @@ const TermsPage = async () => {
 					)}
 					{'list' in s && s.list && (
 						<ul className="list-disc pl-6 space-y-1">
-							{s.list.map((item) => <li key={item}>{item}</li>)}
+							{s.list.map((item) => (
+								<li key={item}>{item}</li>
+							))}
 						</ul>
 					)}
 					{'footer' in s && s.footer && <p>{s.footer}</p>}
@@ -225,7 +244,10 @@ const TermsPage = async () => {
 			))}
 
 			<div className="border-t border-default-200 pt-8 mt-8 text-sm text-default-400 flex gap-6">
-				<Link href="/privacy" className="hover:text-default-600 transition-colors">
+				<Link
+					href="/privacy"
+					className="hover:text-default-600 transition-colors"
+				>
 					{c.footer.privacy}
 				</Link>
 				<Link href="/" className="hover:text-default-600 transition-colors">

@@ -1,8 +1,8 @@
 'use client'
 
-import { useState } from 'react'
 import { CheckmarkCircle02Icon } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
+import { useState } from 'react'
 import type { PlanId } from '@/features/billing/config/plans'
 import PricingButton from './pricing-button'
 
@@ -41,19 +41,26 @@ interface Props {
 	labels: Labels
 }
 
-export default function PricingCards({ plans, currentPlan, isLoggedIn, labels }: Props) {
+export default function PricingCards({
+	plans,
+	currentPlan,
+	isLoggedIn,
+	labels,
+}: Props) {
 	const [isYearly, setIsYearly] = useState(false)
 
 	return (
 		<div>
 			{/* Billing toggle */}
 			<div className="flex items-center justify-center gap-3 mb-10">
-				<span className={`text-sm font-medium ${!isYearly ? 'text-foreground' : 'text-default-400'}`}>
+				<span
+					className={`text-sm font-medium ${!isYearly ? 'text-foreground' : 'text-default-400'}`}
+				>
 					{labels.monthly}
 				</span>
 				<button
 					type="button"
-					onClick={() => setIsYearly(v => !v)}
+					onClick={() => setIsYearly((v) => !v)}
 					className={`relative w-12 h-6 rounded-full transition-colors duration-200 focus:outline-none ${
 						isYearly ? 'bg-primary' : 'bg-default-300'
 					}`}
@@ -66,7 +73,9 @@ export default function PricingCards({ plans, currentPlan, isLoggedIn, labels }:
 					/>
 				</button>
 				<div className="flex items-center gap-2">
-					<span className={`text-sm font-medium ${isYearly ? 'text-foreground' : 'text-default-400'}`}>
+					<span
+						className={`text-sm font-medium ${isYearly ? 'text-foreground' : 'text-default-400'}`}
+					>
 						{labels.yearly}
 					</span>
 					<span className="text-xs font-semibold bg-emerald-500/15 text-emerald-500 px-2 py-0.5 rounded-full">
@@ -80,10 +89,13 @@ export default function PricingCards({ plans, currentPlan, isLoggedIn, labels }:
 				{plans.map((plan) => {
 					const isCurrent = currentPlan === plan.id
 					const isHighlighted = plan.highlighted
-					const displayPrice = isYearly && plan.yearlyPrice > 0
-						? Math.round(plan.yearlyPrice / 12)
-						: plan.price
-					const variantId = isYearly ? (plan.lsYearlyVariantId ?? plan.lsVariantId) : plan.lsVariantId
+					const displayPrice =
+						isYearly && plan.yearlyPrice > 0
+							? Math.round(plan.yearlyPrice / 12)
+							: plan.price
+					const variantId = isYearly
+						? (plan.lsYearlyVariantId ?? plan.lsVariantId)
+						: plan.lsVariantId
 
 					return (
 						<div
@@ -104,18 +116,26 @@ export default function PricingCards({ plans, currentPlan, isLoggedIn, labels }:
 
 							<div className="mb-6">
 								<h2 className="text-xl font-bold mb-1">{plan.name}</h2>
-								<p className="text-sm text-default-500 mb-4">{plan.description}</p>
+								<p className="text-sm text-default-500 mb-4">
+									{plan.description}
+								</p>
 								<div className="flex items-end gap-1">
 									<span className="text-4xl font-bold">${displayPrice}</span>
 									{plan.price > 0 ? (
 										<div className="flex flex-col mb-1">
-											<span className="text-default-400 text-sm leading-tight">{labels.perMonth}</span>
+											<span className="text-default-400 text-sm leading-tight">
+												{labels.perMonth}
+											</span>
 											{isYearly && plan.yearlyPrice > 0 && (
-												<span className="text-default-400 text-xs leading-tight">{labels.billedYearly}</span>
+												<span className="text-default-400 text-xs leading-tight">
+													{labels.billedYearly}
+												</span>
 											)}
 										</div>
 									) : (
-										<span className="text-default-400 mb-1">{labels.forever}</span>
+										<span className="text-default-400 mb-1">
+											{labels.forever}
+										</span>
 									)}
 								</div>
 							</div>

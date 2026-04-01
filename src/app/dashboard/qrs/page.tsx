@@ -129,7 +129,9 @@ const QrsPage = async ({ searchParams }: Props) => {
 			<div className="flex items-start justify-between gap-4 py-6">
 				<div>
 					<h1 className="text-2xl md:text-3xl font-bold">{t('title')}</h1>
-					<p className="text-default-500 mt-1 text-sm md:text-base">{t('subtitle')}</p>
+					<p className="text-default-500 mt-1 text-sm md:text-base">
+						{t('subtitle')}
+					</p>
 				</div>
 				<div className="shrink-0">
 					<CreateQrButton label={t('createNew')} />

@@ -1,11 +1,11 @@
 import { redirect } from 'next/navigation'
 import { getTranslations } from 'next-intl/server'
-import { getSession } from '@/shared/lib/supabase/get-session'
 import { getProfile } from '@/features/auth/services/queries/get-profile'
-import { hasFeature } from '@/features/billing/config/plans'
 import type { PlanId } from '@/features/billing/config/plans'
-import { getTeamMembers } from '@/features/team/services/team-actions'
+import { hasFeature } from '@/features/billing/config/plans'
 import TeamManager from '@/features/team/components/team-manager'
+import { getTeamMembers } from '@/features/team/services/team-actions'
+import { getSession } from '@/shared/lib/supabase/get-session'
 
 export default async function TeamPage() {
 	const { data: session } = await getSession()

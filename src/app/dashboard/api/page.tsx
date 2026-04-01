@@ -1,11 +1,11 @@
-import { getTranslations } from 'next-intl/server'
-import { getSession } from '@/shared/lib/supabase/get-session'
-import { getProfile } from '@/features/auth/services/queries/get-profile'
-import { hasFeature } from '@/features/billing/config/plans'
-import type { PlanId } from '@/features/billing/config/plans'
-import { getApiKeys } from '@/features/api-keys/services/api-key-actions'
-import ApiKeysManager from '@/features/api-keys/components/api-keys-manager'
 import { redirect } from 'next/navigation'
+import { getTranslations } from 'next-intl/server'
+import ApiKeysManager from '@/features/api-keys/components/api-keys-manager'
+import { getApiKeys } from '@/features/api-keys/services/api-key-actions'
+import { getProfile } from '@/features/auth/services/queries/get-profile'
+import type { PlanId } from '@/features/billing/config/plans'
+import { hasFeature } from '@/features/billing/config/plans'
+import { getSession } from '@/shared/lib/supabase/get-session'
 
 export default async function ApiPage() {
 	const { data: session } = await getSession()
