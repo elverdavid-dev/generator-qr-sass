@@ -125,19 +125,19 @@ const QrAnalyticsPage = async ({ params }: Props) => {
 				<BreadcrumbItem>{t('title')}</BreadcrumbItem>
 			</Breadcrumbs>
 
-			<div className="py-6 flex items-start justify-between gap-4">
+			<div className="py-6 flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
 				<div>
 					<div className="flex items-center gap-2 mb-1">
 						<HugeiconsIcon
 							icon={Analytics02Icon}
-							size={22}
-							className="text-primary"
+							size={20}
+							className="text-primary shrink-0"
 						/>
-						<h1 className="text-3xl font-bold capitalize">{typedQr.name}</h1>
+						<h1 className="text-xl md:text-3xl font-bold capitalize leading-tight">{typedQr.name}</h1>
 					</div>
-					<p className="text-default-500">{t('individualTitle')}</p>
+					<p className="text-default-500 text-sm md:text-base">{t('individualTitle')}</p>
 				</div>
-				<div className="flex items-center gap-2">
+				<div className="flex items-center gap-2 shrink-0">
 					<ExportCsvButton
 						label={t('exportCsv')}
 						errorLabel={t('exportError')}
@@ -254,6 +254,7 @@ const QrAnalyticsPage = async ({ params }: Props) => {
 							labels={Array.from({ length: 24 }, (_, i) => `${i}h`)}
 							series={byHour}
 							color="#6366f1"
+							height={320}
 							translations={chartBarTranslations}
 						/>
 					</div>

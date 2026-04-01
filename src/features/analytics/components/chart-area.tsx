@@ -84,10 +84,23 @@ export default function ChartArea({
 		xaxis: {
 			categories: data.map((d) => formatLabel(d.date, period)),
 			tickAmount: Math.min(data.length, 8),
-			labels: { style: { fontSize: '11px', colors: labelColor }, rotate: 0 },
+			labels: {
+				style: { fontSize: '11px', colors: labelColor },
+				rotate: 0,
+				hideOverlappingLabels: true,
+				trim: true,
+			},
 			axisBorder: { show: false },
 			axisTicks: { show: false },
 		},
+		responsive: [
+			{
+				breakpoint: 480,
+				options: {
+					xaxis: { tickAmount: Math.min(data.length, 5) },
+				},
+			},
+		],
 		yaxis: {
 			min: 0,
 			labels: { style: { fontSize: '11px', colors: labelColor } },
