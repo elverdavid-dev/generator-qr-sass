@@ -292,7 +292,7 @@ const QrTable = ({ qrs, folders, total, page, translations }: Props) => {
 				{qrs.map((qr) => (
 					<div
 						key={qr.id}
-						className={`flex items-center justify-between gap-6 p-5 bg-content1 rounded-2xl border shadow-sm transition-colors ${
+						className={`flex items-center gap-3 p-4 md:gap-6 md:p-5 bg-content1 rounded-2xl border shadow-sm transition-colors ${
 							selected.has(qr.id)
 								? 'border-primary/40 bg-primary/5'
 								: 'border-divider'
@@ -309,32 +309,50 @@ const QrTable = ({ qrs, folders, total, page, translations }: Props) => {
 							/>
 						)}
 
-						{/* QR preview + info */}
-						<div className="flex items-center gap-4 min-w-0 flex-1">
-							<QrPreview
-								value={getTrackingUrl(qr.custom_slug ?? qr.slug)}
-								size={56}
-								fgColor={qr.fg_color}
-								bgColor={qr.bg_color}
-								dotStyle={qr.dot_style ?? 'square'}
-								className="rounded-lg border border-divider shrink-0 overflow-hidden"
-							/>
-							<div className="min-w-0">
-								<span className="text-xs text-primary font-medium">
-									{qr.qr_type === 'url' ? translations.website : qr.qr_type}
-								</span>
-								<h3 className="font-semibold capitalize truncate max-w-48">
-									{qr.name}
-								</h3>
-								<span className="text-xs text-default-400 flex items-center gap-1">
-									<HugeiconsIcon icon={Calendar03Icon} size={12} />
-									{formatDate(qr.created_at)}
+						{/* QR preview */}
+						<QrPreview
+							value={getTrackingUrl(qr.custom_slug ?? qr.slug)}
+							size={52}
+							fgColor={qr.fg_color}
+							bgColor={qr.bg_color}
+							dotStyle={qr.dot_style ?? 'square'}
+							className="rounded-lg border border-divider shrink-0 overflow-hidden"
+						/>
+
+						{/* Info block — always visible, stacks on mobile */}
+						<div className="min-w-0 flex-1">
+							<span className="text-xs text-primary font-medium block">
+								{qr.qr_type === 'url' ? translations.website : qr.qr_type}
+							</span>
+							<h3 className="font-semibold capitalize truncate">{qr.name}</h3>
+							<span className="text-xs text-default-400 flex items-center gap-1">
+								<HugeiconsIcon icon={Calendar03Icon} size={12} />
+								{formatDate(qr.created_at)}
+							</span>
+
+							{/* Mobile only: status + scans below the name */}
+							<div className="flex items-center gap-3 mt-1.5 md:hidden">
+								{qr.is_active ? (
+									<span className="text-xs text-emerald-500 flex items-center gap-1">
+										<HugeiconsIcon icon={CheckmarkCircle02Icon} size={13} />
+										{translations.active}
+									</span>
+								) : (
+									<span className="text-xs text-danger flex items-center gap-1">
+										<HugeiconsIcon icon={CancelCircleIcon} size={13} />
+										{translations.inactive}
+									</span>
+								)}
+								<span className="text-xs text-default-500 flex items-center gap-1">
+									<HugeiconsIcon icon={FingerPrintScanIcon} size={13} />
+									<strong className="text-primary">{qr.scan_count ?? 0}</strong>
+									{' '}{translations.scans}
 								</span>
 							</div>
 						</div>
 
-						{/* Folder + link */}
-						<div className="flex-col gap-1 min-w-0 max-md:hidden flex">
+						{/* Desktop only: folder + link */}
+						<div className="hidden md:flex flex-col gap-1 min-w-0">
 							<span className="text-sm text-default-500 flex items-center gap-1">
 								<HugeiconsIcon icon={Folder01Icon} size={14} />
 								{qr.folders?.name ?? translations.noFolder}
@@ -354,8 +372,8 @@ const QrTable = ({ qrs, folders, total, page, translations }: Props) => {
 							</span>
 						</div>
 
-						{/* Status */}
-						<div className="text-sm shrink-0">
+						{/* Desktop only: status */}
+						<div className="hidden md:block text-sm shrink-0">
 							{qr.is_active ? (
 								<span className="text-emerald-500 flex items-center gap-1">
 									<HugeiconsIcon icon={CheckmarkCircle02Icon} size={16} />
@@ -369,13 +387,11 @@ const QrTable = ({ qrs, folders, total, page, translations }: Props) => {
 							)}
 						</div>
 
-						{/* Scan count */}
-						<div className="text-sm text-default-500 flex items-center gap-1 shrink-0">
+						{/* Desktop only: scan count */}
+						<div className="hidden md:flex text-sm text-default-500 items-center gap-1 shrink-0">
 							<HugeiconsIcon icon={FingerPrintScanIcon} size={16} />
 							<span>
-								<strong className="text-lg text-primary">
-									{qr.scan_count ?? 0}
-								</strong>{' '}
+								<strong className="text-lg text-primary">{qr.scan_count ?? 0}</strong>{' '}
 								{translations.scans}
 							</span>
 						</div>
