@@ -251,10 +251,10 @@ const QrAnalyticsPage = async ({ params }: Props) => {
 					<div className="mt-6">
 						<ChartBar
 							title={t('scansByHourDay')}
-							labels={Array.from({ length: 24 }, (_, i) => `${i}h`)}
+							labels={Array.from({ length: 24 }, (_, i) => i % 2 === 0 ? `${i}h` : '')}
 							series={byHour}
 							color="#6366f1"
-							height={320}
+							height={300}
 							translations={chartBarTranslations}
 						/>
 					</div>

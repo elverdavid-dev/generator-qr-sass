@@ -53,10 +53,9 @@ const ChartBar: FC<Props> = ({
 			categories: labels,
 			labels: {
 				style: { fontSize: '11px', colors: labelColor },
-				rotate: -45,
-				rotateAlways: true,
+				rotate: 0,
 				hideOverlappingLabels: true,
-				trim: true,
+				trim: false,
 			},
 			axisBorder: { show: false },
 			axisTicks: { show: false },
