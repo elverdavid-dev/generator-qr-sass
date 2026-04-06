@@ -8,8 +8,8 @@ interface UtmParams {
 
 export interface ScheduleRule {
 	days: number[] // 0=Sun … 6=Sat
-	from: string   // "HH:MM"
-	to: string     // "HH:MM"
+	from: string // "HH:MM"
+	to: string // "HH:MM"
 	url: string
 }
 
@@ -33,7 +33,11 @@ function matchSchedule(rules: ScheduleRule[]): string | null {
 		const from = timeToMinutes(rule.from)
 		const to = timeToMinutes(rule.to)
 		// Support overnight ranges e.g. 22:00 → 06:00
-		if (from <= to ? current >= from && current < to : current >= from || current < to) {
+		if (
+			from <= to
+				? current >= from && current < to
+				: current >= from || current < to
+		) {
 			return rule.url
 		}
 	}
@@ -42,7 +46,9 @@ function matchSchedule(rules: ScheduleRule[]): string | null {
 
 function matchCountry(rules: CountryRule[], country: string): string | null {
 	for (const rule of rules) {
-		if (rule.countries.map((c) => c.toUpperCase()).includes(country.toUpperCase())) {
+		if (
+			rule.countries.map((c) => c.toUpperCase()).includes(country.toUpperCase())
+		) {
 			return rule.url
 		}
 	}
@@ -89,7 +95,9 @@ export function resolveRedirectUrl(
 	const osLower = os.toLowerCase()
 	let base = defaultUrl
 	if (
-		(osLower.includes('ios') || osLower.includes('iphone') || osLower.includes('ipad')) &&
+		(osLower.includes('ios') ||
+			osLower.includes('iphone') ||
+			osLower.includes('ipad')) &&
 		iosUrl
 	) {
 		base = iosUrl

@@ -15,5 +15,13 @@
 			"quoteStyle": "single",
 			"semicolons": "asNeeded"
 		}
+	},
+	"css": {
+		"parser": {
+			"cssModules": false
+		},
+		"formatter": {
+			"enabled": false
+		}
 	}
 }

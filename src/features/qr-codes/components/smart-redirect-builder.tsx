@@ -9,16 +9,26 @@ const DAYS_EN = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 
 // Top countries for the selector
 const COUNTRY_OPTIONS = [
-	{ code: 'US', name: 'United States' }, { code: 'MX', name: 'México' },
-	{ code: 'CO', name: 'Colombia' }, { code: 'AR', name: 'Argentina' },
-	{ code: 'ES', name: 'España' }, { code: 'BR', name: 'Brasil' },
-	{ code: 'CL', name: 'Chile' }, { code: 'PE', name: 'Perú' },
-	{ code: 'VE', name: 'Venezuela' }, { code: 'EC', name: 'Ecuador' },
-	{ code: 'GT', name: 'Guatemala' }, { code: 'CR', name: 'Costa Rica' },
-	{ code: 'DE', name: 'Germany' }, { code: 'FR', name: 'France' },
-	{ code: 'GB', name: 'United Kingdom' }, { code: 'IT', name: 'Italy' },
-	{ code: 'CA', name: 'Canada' }, { code: 'AU', name: 'Australia' },
-	{ code: 'JP', name: 'Japan' }, { code: 'CN', name: 'China' },
+	{ code: 'US', name: 'United States' },
+	{ code: 'MX', name: 'México' },
+	{ code: 'CO', name: 'Colombia' },
+	{ code: 'AR', name: 'Argentina' },
+	{ code: 'ES', name: 'España' },
+	{ code: 'BR', name: 'Brasil' },
+	{ code: 'CL', name: 'Chile' },
+	{ code: 'PE', name: 'Perú' },
+	{ code: 'VE', name: 'Venezuela' },
+	{ code: 'EC', name: 'Ecuador' },
+	{ code: 'GT', name: 'Guatemala' },
+	{ code: 'CR', name: 'Costa Rica' },
+	{ code: 'DE', name: 'Germany' },
+	{ code: 'FR', name: 'France' },
+	{ code: 'GB', name: 'United Kingdom' },
+	{ code: 'IT', name: 'Italy' },
+	{ code: 'CA', name: 'Canada' },
+	{ code: 'AU', name: 'Australia' },
+	{ code: 'JP', name: 'Japan' },
+	{ code: 'CN', name: 'China' },
 ]
 
 interface Props {
@@ -40,9 +50,14 @@ interface Props {
 	}
 }
 
-const inputCls = 'w-full p-2 border border-divider rounded-xl bg-content2 text-default-600 text-sm focus:outline-none focus:border-primary'
+const inputCls =
+	'w-full p-2 border border-divider rounded-xl bg-content2 text-default-600 text-sm focus:outline-none focus:border-primary'
 
-export function SmartRedirectBuilder({ control, locale = 'es', translations: t }: Props) {
+export function SmartRedirectBuilder({
+	control,
+	locale = 'es',
+	translations: t,
+}: Props) {
 	const dayLabels = locale === 'en' ? DAYS_EN : DAYS
 
 	const schedule = useFieldArray({ control, name: 'schedule_rules' })
@@ -53,7 +68,9 @@ export function SmartRedirectBuilder({ control, locale = 'es', translations: t }
 			{/* ── Schedule rules ── */}
 			<div className="flex flex-col gap-3">
 				<div>
-					<p className="text-sm font-semibold text-default-700">{t.scheduleTitle}</p>
+					<p className="text-sm font-semibold text-default-700">
+						{t.scheduleTitle}
+					</p>
 					<p className="text-xs text-default-400 mt-0.5">{t.scheduleDesc}</p>
 				</div>
 
@@ -62,7 +79,10 @@ export function SmartRedirectBuilder({ control, locale = 'es', translations: t }
 				)}
 
 				{schedule.fields.map((field, idx) => (
-					<div key={field.id} className="flex flex-col gap-2 p-3 border border-divider rounded-xl bg-content2">
+					<div
+						key={field.id}
+						className="flex flex-col gap-2 p-3 border border-divider rounded-xl bg-content2"
+					>
 						{/* Days */}
 						<div className="flex flex-wrap gap-1.5">
 							{dayLabels.map((d, di) => (
@@ -78,17 +98,29 @@ export function SmartRedirectBuilder({ control, locale = 'es', translations: t }
 						{/* From / To */}
 						<div className="grid grid-cols-2 gap-2">
 							<div>
-								<label className="text-[10px] text-default-400 mb-1 block">{t.from}</label>
-								<TimeInput control={control} name={`schedule_rules.${idx}.from`} />
+								<label className="text-[10px] text-default-400 mb-1 block">
+									{t.from}
+								</label>
+								<TimeInput
+									control={control}
+									name={`schedule_rules.${idx}.from`}
+								/>
 							</div>
 							<div>
-								<label className="text-[10px] text-default-400 mb-1 block">{t.to}</label>
-								<TimeInput control={control} name={`schedule_rules.${idx}.to`} />
+								<label className="text-[10px] text-default-400 mb-1 block">
+									{t.to}
+								</label>
+								<TimeInput
+									control={control}
+									name={`schedule_rules.${idx}.to`}
+								/>
 							</div>
 						</div>
 						{/* URL */}
 						<div>
-							<label className="text-[10px] text-default-400 mb-1 block">{t.url}</label>
+							<label className="text-[10px] text-default-400 mb-1 block">
+								{t.url}
+							</label>
 							<UrlInput control={control} name={`schedule_rules.${idx}.url`} />
 						</div>
 						<button
@@ -103,7 +135,14 @@ export function SmartRedirectBuilder({ control, locale = 'es', translations: t }
 
 				<button
 					type="button"
-					onClick={() => schedule.append({ days: [1, 2, 3, 4, 5], from: '09:00', to: '18:00', url: '' })}
+					onClick={() =>
+						schedule.append({
+							days: [1, 2, 3, 4, 5],
+							from: '09:00',
+							to: '18:00',
+							url: '',
+						})
+					}
 					className="self-start flex items-center gap-1.5 text-xs text-primary hover:underline"
 				>
 					<HugeiconsIcon icon={Add01Icon} size={13} />
@@ -114,7 +153,9 @@ export function SmartRedirectBuilder({ control, locale = 'es', translations: t }
 			{/* ── Country rules ── */}
 			<div className="flex flex-col gap-3">
 				<div>
-					<p className="text-sm font-semibold text-default-700">{t.countryTitle}</p>
+					<p className="text-sm font-semibold text-default-700">
+						{t.countryTitle}
+					</p>
 					<p className="text-xs text-default-400 mt-0.5">{t.countryDesc}</p>
 				</div>
 
@@ -123,13 +164,24 @@ export function SmartRedirectBuilder({ control, locale = 'es', translations: t }
 				)}
 
 				{country.fields.map((field, idx) => (
-					<div key={field.id} className="flex flex-col gap-2 p-3 border border-divider rounded-xl bg-content2">
+					<div
+						key={field.id}
+						className="flex flex-col gap-2 p-3 border border-divider rounded-xl bg-content2"
+					>
 						<div>
-							<label className="text-[10px] text-default-400 mb-1 block">{t.countries}</label>
-							<CountrySelect control={control} name={`country_rules.${idx}.countries`} options={COUNTRY_OPTIONS} />
+							<label className="text-[10px] text-default-400 mb-1 block">
+								{t.countries}
+							</label>
+							<CountrySelect
+								control={control}
+								name={`country_rules.${idx}.countries`}
+								options={COUNTRY_OPTIONS}
+							/>
 						</div>
 						<div>
-							<label className="text-[10px] text-default-400 mb-1 block">{t.url}</label>
+							<label className="text-[10px] text-default-400 mb-1 block">
+								{t.url}
+							</label>
 							<UrlInput control={control} name={`country_rules.${idx}.url`} />
 						</div>
 						<button
@@ -184,7 +236,9 @@ function DayToggle({
 			type="button"
 			onClick={toggle}
 			className={`w-8 h-8 rounded-lg text-xs font-semibold transition-colors ${
-				active ? 'bg-primary text-white' : 'bg-default-100 text-default-500 hover:bg-default-200'
+				active
+					? 'bg-primary text-white'
+					: 'bg-default-100 text-default-500 hover:bg-default-200'
 			}`}
 		>
 			{label}
@@ -200,13 +254,7 @@ function useControllerCompat(control: Control<any>, name: string) {
 
 function TimeInput({ control, name }: { control: Control<any>; name: string }) {
 	const { field } = useControllerCompat(control, name)
-	return (
-		<input
-			{...field}
-			type="time"
-			className={inputCls}
-		/>
-	)
+	return <input {...field} type="time" className={inputCls} />
 }
 
 function UrlInput({ control, name }: { control: Control<any>; name: string }) {
