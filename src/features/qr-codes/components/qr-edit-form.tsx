@@ -722,13 +722,13 @@ const QrEditForm = ({ qr, folders, translations }: Props) => {
 	)
 
 	return (
-		<form onSubmit={handleSubmit(onSubmit)} className="flex gap-8">
+		<form onSubmit={handleSubmit(onSubmit)} className="flex flex-col md:flex-row gap-6 md:gap-8">
 			{/* Left: Config panel */}
 			<div className="flex-1 flex flex-col gap-6">
 				{/* QR Type */}
 				<div>
 					{sectionTitle(translations.qrType)}
-					<div className="grid grid-cols-3 gap-2">
+					<div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
 						{QR_TYPES.map((type) => (
 							<button
 								key={type.id}
@@ -808,7 +808,7 @@ const QrEditForm = ({ qr, folders, translations }: Props) => {
 				{/* Dot style */}
 				<div>
 					{sectionTitle(translations.dotStyle)}
-					<div className="grid grid-cols-3 gap-2">
+					<div className="grid grid-cols-3 gap-2 sm:grid-cols-3">
 						{DOT_STYLES.map((style) => (
 							<button
 								key={style.id}
@@ -825,7 +825,7 @@ const QrEditForm = ({ qr, folders, translations }: Props) => {
 				{/* Corner square style */}
 				<div>
 					{sectionTitle(translations.outerCorners)}
-					<div className="grid grid-cols-3 gap-2">
+					<div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
 						{CORNER_SQUARE_STYLES.map((style) => (
 							<button
 								key={style.id}
@@ -859,7 +859,7 @@ const QrEditForm = ({ qr, folders, translations }: Props) => {
 				{/* Colors */}
 				<div>
 					{sectionTitle(translations.colors)}
-					<div className="flex gap-4">
+					<div className="grid grid-cols-2 gap-3">
 						<div className="flex flex-col gap-1">
 							<label className="text-xs text-default-500">
 								{translations.background}
@@ -929,7 +929,7 @@ const QrEditForm = ({ qr, folders, translations }: Props) => {
 							</div>
 						</div>
 						{hasGradient && (
-							<div className="flex gap-3 items-end">
+							<div className="flex flex-col sm:flex-row gap-3 sm:items-end">
 								<div className="flex flex-col gap-1">
 									<label className="text-xs text-default-500">
 										{translations.color2}
@@ -979,7 +979,7 @@ const QrEditForm = ({ qr, folders, translations }: Props) => {
 				<div>
 					{sectionTitle(translations.frame, translations.hints.frame)}
 					<div className="flex flex-col gap-3">
-						<div className="grid grid-cols-5 gap-2">
+						<div className="grid grid-cols-3 sm:grid-cols-5 gap-2">
 							{FRAME_STYLES.map((style) => (
 								<button
 									key={style.id}
@@ -1008,7 +1008,7 @@ const QrEditForm = ({ qr, folders, translations }: Props) => {
 							))}
 						</div>
 						{hasFrame && (
-							<div className="flex gap-3">
+							<div className="flex flex-col sm:flex-row gap-3">
 								<div className="flex flex-col gap-1">
 									<label className="text-xs text-default-500">
 										{translations.frameColor}
@@ -1209,7 +1209,7 @@ const QrEditForm = ({ qr, folders, translations }: Props) => {
 				)}
 
 				{/* Actions */}
-				<div className="flex gap-3 pt-2">
+				<div className="flex flex-wrap gap-3 pt-2">
 					<Button
 						as={Link}
 						href="/dashboard/qrs"
@@ -1222,7 +1222,7 @@ const QrEditForm = ({ qr, folders, translations }: Props) => {
 						type="submit"
 						color="primary"
 						isLoading={isSubmitting}
-						className="flex-1"
+						className="flex-1 min-w-[120px]"
 					>
 						{translations.submit}
 					</Button>
@@ -1230,8 +1230,8 @@ const QrEditForm = ({ qr, folders, translations }: Props) => {
 			</div>
 
 			{/* Right: Live preview */}
-			<div className="w-72 shrink-0">
-				<div className="sticky top-6">
+			<div className="w-full md:w-72 md:shrink-0">
+				<div className="md:sticky md:top-6">
 					<h2 className="font-semibold mb-3 text-default-700">
 						{translations.preview}
 					</h2>
