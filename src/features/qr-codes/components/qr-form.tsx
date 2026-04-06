@@ -755,7 +755,7 @@ const QrForm = ({ folders, translations, templates = [] }: Props) => {
 
 	return (
 		<>
-			<form onSubmit={handleSubmit(onSubmit)} className="flex flex-col lg:flex-row gap-6 lg:gap-8">
+			<form onSubmit={handleSubmit(onSubmit)} className="flex gap-8">
 				{/* Left: Config panel */}
 				<div className="flex-1 flex flex-col gap-6">
 					{/* Templates */}
@@ -768,7 +768,7 @@ const QrForm = ({ folders, translations, templates = [] }: Props) => {
 					{/* QR Type */}
 					<div>
 						{sectionTitle(translations.qrType)}
-						<div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+						<div className="grid grid-cols-3 gap-2">
 							{QR_TYPES.map((type) => (
 								<button
 									key={type.id}
@@ -875,7 +875,7 @@ const QrForm = ({ folders, translations, templates = [] }: Props) => {
 					{/* Dot style */}
 					<div>
 						{sectionTitle(translations.dotStyle)}
-						<div className="grid grid-cols-3 sm:grid-cols-3 gap-2">
+						<div className="grid grid-cols-3 gap-2">
 							{DOT_STYLES.map((style) => (
 								<button
 									key={style.id}
@@ -892,7 +892,7 @@ const QrForm = ({ folders, translations, templates = [] }: Props) => {
 					{/* Corner square style */}
 					<div>
 						{sectionTitle(translations.outerCorners)}
-						<div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+						<div className="grid grid-cols-3 gap-2">
 							{CORNER_SQUARE_STYLES.map((style) => (
 								<button
 									key={style.id}
@@ -926,7 +926,7 @@ const QrForm = ({ folders, translations, templates = [] }: Props) => {
 					{/* Colors */}
 					<div>
 						{sectionTitle(translations.colors)}
-						<div className="grid grid-cols-2 gap-3">
+						<div className="flex gap-4">
 							<div className="flex flex-col gap-1">
 								<label className="text-xs text-default-500">
 									{translations.background}
@@ -996,7 +996,7 @@ const QrForm = ({ folders, translations, templates = [] }: Props) => {
 								</div>
 							</div>
 							{hasGradient && (
-								<div className="flex flex-col sm:flex-row gap-3 sm:items-end">
+								<div className="flex gap-3 items-end">
 									<div className="flex flex-col gap-1">
 										<label className="text-xs text-default-500">
 											{translations.color2}
@@ -1046,7 +1046,7 @@ const QrForm = ({ folders, translations, templates = [] }: Props) => {
 					<div>
 						{sectionTitle(translations.frame, translations.hints.frame)}
 						<div className="flex flex-col gap-3">
-							<div className="grid grid-cols-3 sm:grid-cols-5 gap-2">
+							<div className="grid grid-cols-5 gap-2">
 								{FRAME_STYLES.map((style) => (
 									<button
 										key={style.id}
@@ -1075,7 +1075,7 @@ const QrForm = ({ folders, translations, templates = [] }: Props) => {
 								))}
 							</div>
 							{hasFrame && (
-								<div className="flex flex-col sm:flex-row gap-3">
+								<div className="flex gap-3">
 									<div className="flex flex-col gap-1">
 										<label className="text-xs text-default-500">
 											{translations.frameColor}
@@ -1341,7 +1341,7 @@ const QrForm = ({ folders, translations, templates = [] }: Props) => {
 					)}
 
 					{/* Actions */}
-					<div className="flex flex-wrap gap-3 pt-2">
+					<div className="flex gap-3 pt-2">
 						<Button
 							as={Link}
 							href="/dashboard/qrs"
@@ -1364,7 +1364,7 @@ const QrForm = ({ folders, translations, templates = [] }: Props) => {
 							type="submit"
 							color="primary"
 							isLoading={isSubmitting}
-							className="flex-1 min-w-[120px]"
+							className="flex-1"
 						>
 							{translations.submit}
 						</Button>
@@ -1372,8 +1372,8 @@ const QrForm = ({ folders, translations, templates = [] }: Props) => {
 				</div>
 
 				{/* Right: Live preview */}
-				<div className="w-full lg:w-72 lg:shrink-0">
-					<div className="lg:sticky lg:top-6">
+				<div className="w-72 flex-shrink-0">
+					<div className="sticky top-6">
 						<h2 className="font-semibold mb-3 text-default-700">
 							{translations.preview}
 						</h2>
