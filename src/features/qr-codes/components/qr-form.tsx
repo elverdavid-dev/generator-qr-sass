@@ -757,7 +757,29 @@ const QrForm = ({ folders, translations, templates = [] }: Props) => {
 		<>
 			<form onSubmit={handleSubmit(onSubmit)} className="flex gap-8">
 				{/* Left: Config panel */}
-				<div className="flex-1 flex flex-col gap-6">
+				<div className="flex-1 flex flex-col gap-6 min-w-0">
+					{/* Mobile-only preview */}
+					<div className="md:hidden bg-content1 border border-divider rounded-2xl p-4 flex flex-col items-center gap-3">
+						<QrPreview
+							value={qrValue}
+							size={150}
+							fgColor={watchedFg ?? '#000000'}
+							bgColor={watchedBg ?? '#ffffff'}
+							dotStyle={watchedDotStyle ?? 'square'}
+							cornerSquareStyle={watchedCornerSquare ?? 'square'}
+							cornerDotStyle={watchedCornerDot ?? 'square'}
+							dotColor2={watchedDotColor2}
+							dotGradientType={watchedGradientType ?? 'linear'}
+							frameStyle={watchedFrameStyle ?? 'none'}
+							frameColor={watchedFrameColor ?? '#000000'}
+							frameText={watchedFrameText ?? translations.framePlaceholder}
+							logoUrl={logoPreview}
+							className="rounded-lg overflow-hidden"
+						/>
+						<p className="font-semibold text-sm truncate max-w-[200px] text-center">
+							{watchedName || translations.noName}
+						</p>
+					</div>
 					{/* Templates */}
 					<TemplateSelector
 						templates={templates}
@@ -768,7 +790,7 @@ const QrForm = ({ folders, translations, templates = [] }: Props) => {
 					{/* QR Type */}
 					<div>
 						{sectionTitle(translations.qrType)}
-						<div className="grid grid-cols-3 gap-2">
+						<div className="grid grid-cols-2 md:grid-cols-3 gap-2">
 							{QR_TYPES.map((type) => (
 								<button
 									key={type.id}
@@ -810,7 +832,10 @@ const QrForm = ({ folders, translations, templates = [] }: Props) => {
 					{/* Custom slug (Pro+) */}
 					<div>
 						<div className="flex items-center justify-between mb-1">
-							<label className="flex items-center gap-1.5 text-sm font-medium text-default-700">
+							<label
+								htmlFor="custom_slug"
+								className="flex items-center gap-1.5 text-sm font-medium text-default-700"
+							>
 								<HugeiconsIcon icon={LinkSquare01Icon} size={14} />
 								{translations.customSlug}
 								<InfoTooltip content={translations.hints.customSlug} />
@@ -824,6 +849,7 @@ const QrForm = ({ folders, translations, templates = [] }: Props) => {
 						</div>
 						<Input
 							{...register('custom_slug')}
+							id="custom_slug"
 							placeholder={translations.customSlugPlaceholder}
 							isDisabled={!canCustomSlug}
 							isInvalid={!!errors.custom_slug}
@@ -892,7 +918,7 @@ const QrForm = ({ folders, translations, templates = [] }: Props) => {
 					{/* Corner square style */}
 					<div>
 						{sectionTitle(translations.outerCorners)}
-						<div className="grid grid-cols-3 gap-2">
+						<div className="grid grid-cols-2 md:grid-cols-3 gap-2">
 							{CORNER_SQUARE_STYLES.map((style) => (
 								<button
 									key={style.id}
@@ -926,14 +952,15 @@ const QrForm = ({ folders, translations, templates = [] }: Props) => {
 					{/* Colors */}
 					<div>
 						{sectionTitle(translations.colors)}
-						<div className="flex gap-4">
+						<div className="grid grid-cols-2 gap-3">
 							<div className="flex flex-col gap-1">
-								<label className="text-xs text-default-500">
+								<label htmlFor="bg_color" className="text-xs text-default-500">
 									{translations.background}
 								</label>
 								<div className="flex items-center gap-2 p-2 border border-divider rounded-xl bg-content1">
 									<input
 										type="color"
+										id="bg_color"
 										{...register('bg_color')}
 										className="w-8 h-8 rounded cursor-pointer border-0 bg-transparent"
 									/>
@@ -943,12 +970,13 @@ const QrForm = ({ folders, translations, templates = [] }: Props) => {
 								</div>
 							</div>
 							<div className="flex flex-col gap-1">
-								<label className="text-xs text-default-500">
+								<label htmlFor="fg_color" className="text-xs text-default-500">
 									{translations.qrColor}
 								</label>
 								<div className="flex items-center gap-2 p-2 border border-divider rounded-xl bg-content1">
 									<input
 										type="color"
+										id="fg_color"
 										{...register('fg_color')}
 										className="w-8 h-8 rounded cursor-pointer border-0 bg-transparent"
 									/>
@@ -998,12 +1026,16 @@ const QrForm = ({ folders, translations, templates = [] }: Props) => {
 							{hasGradient && (
 								<div className="flex gap-3 items-end">
 									<div className="flex flex-col gap-1">
-										<label className="text-xs text-default-500">
+										<label
+											htmlFor="dot_color_2"
+											className="text-xs text-default-500"
+										>
 											{translations.color2}
 										</label>
 										<div className="flex items-center gap-2 p-2 border border-divider rounded-xl bg-content1">
 											<input
 												type="color"
+												id="dot_color_2"
 												{...register('dot_color_2')}
 												className="w-8 h-8 rounded cursor-pointer border-0 bg-transparent"
 											/>
@@ -1013,9 +1045,9 @@ const QrForm = ({ folders, translations, templates = [] }: Props) => {
 										</div>
 									</div>
 									<div className="flex flex-col gap-1 flex-1">
-										<label className="text-xs text-default-500">
+										<span className="text-xs text-default-500">
 											{translations.gradientType}
-										</label>
+										</span>
 										<div className="grid grid-cols-2 gap-2">
 											<button
 												type="button"
@@ -1046,7 +1078,7 @@ const QrForm = ({ folders, translations, templates = [] }: Props) => {
 					<div>
 						{sectionTitle(translations.frame, translations.hints.frame)}
 						<div className="flex flex-col gap-3">
-							<div className="grid grid-cols-5 gap-2">
+							<div className="grid grid-cols-3 md:grid-cols-5 gap-2">
 								{FRAME_STYLES.map((style) => (
 									<button
 										key={style.id}
@@ -1075,24 +1107,32 @@ const QrForm = ({ folders, translations, templates = [] }: Props) => {
 								))}
 							</div>
 							{hasFrame && (
-								<div className="flex gap-3">
+								<div className="flex flex-col md:flex-row gap-3">
 									<div className="flex flex-col gap-1">
-										<label className="text-xs text-default-500">
+										<label
+											htmlFor="frame_color"
+											className="text-xs text-default-500"
+										>
 											{translations.frameColor}
 										</label>
 										<div className="flex items-center gap-2 p-2 border border-divider rounded-xl bg-content1">
 											<input
 												type="color"
+												id="frame_color"
 												{...register('frame_color')}
 												className="w-8 h-8 rounded cursor-pointer border-0 bg-transparent"
 											/>
 										</div>
 									</div>
 									<div className="flex flex-col gap-1 flex-1">
-										<label className="text-xs text-default-500">
+										<label
+											htmlFor="frame_text"
+											className="text-xs text-default-500"
+										>
 											{translations.frameText}
 										</label>
 										<input
+											id="frame_text"
 											{...register('frame_text')}
 											placeholder={translations.framePlaceholder}
 											className="w-full p-2.5 border border-divider rounded-xl bg-content1 text-default-600 text-sm focus:outline-none focus:border-primary uppercase"
@@ -1164,12 +1204,16 @@ const QrForm = ({ folders, translations, templates = [] }: Props) => {
 						</div>
 						<div className="grid grid-cols-1 gap-3">
 							<div>
-								<label className="flex items-center gap-1 text-xs text-default-500 mb-1">
+								<label
+									htmlFor="password"
+									className="flex items-center gap-1 text-xs text-default-500 mb-1"
+								>
 									<HugeiconsIcon icon={LockPasswordIcon} size={12} />
 									{translations.password}
 									<InfoTooltip content={translations.hints.password} />
 								</label>
 								<input
+									id="password"
 									{...register('password')}
 									type="text"
 									placeholder={translations.passwordPlaceholder}
@@ -1178,24 +1222,32 @@ const QrForm = ({ folders, translations, templates = [] }: Props) => {
 							</div>
 							<div className="grid grid-cols-2 gap-3">
 								<div>
-									<label className="flex items-center gap-1 text-xs text-default-500 mb-1">
+									<label
+										htmlFor="expires_at"
+										className="flex items-center gap-1 text-xs text-default-500 mb-1"
+									>
 										<HugeiconsIcon icon={Calendar03Icon} size={12} />
 										{translations.expiry}
 										<InfoTooltip content={translations.hints.expiry} />
 									</label>
 									<input
+										id="expires_at"
 										{...register('expires_at')}
 										type="datetime-local"
 										className="w-full p-2.5 border border-divider rounded-xl bg-content2 text-default-600 text-sm focus:outline-none focus:border-primary"
 									/>
 								</div>
 								<div>
-									<label className="flex items-center gap-1 text-xs text-default-500 mb-1">
+									<label
+										htmlFor="max_scans"
+										className="flex items-center gap-1 text-xs text-default-500 mb-1"
+									>
 										<HugeiconsIcon icon={ListViewIcon} size={12} />
 										{translations.maxScans}
 										<InfoTooltip content={translations.hints.maxScans} />
 									</label>
 									<input
+										id="max_scans"
 										{...register('max_scans')}
 										type="number"
 										min={1}
@@ -1254,10 +1306,14 @@ const QrForm = ({ folders, translations, templates = [] }: Props) => {
 									},
 								].map(({ field, label, placeholder }) => (
 									<div key={field}>
-										<label className="text-xs text-default-500 mb-1 block">
+										<label
+											htmlFor={field}
+											className="text-xs text-default-500 mb-1 block"
+										>
 											{label}
 										</label>
 										<input
+											id={field}
 											{...register(field as any)}
 											type="text"
 											placeholder={placeholder}
@@ -1284,10 +1340,14 @@ const QrForm = ({ folders, translations, templates = [] }: Props) => {
 							</p>
 							<div className="grid grid-cols-1 gap-3">
 								<div>
-									<label className="text-xs text-default-500 mb-1 block">
+									<label
+										htmlFor="ios_url"
+										className="text-xs text-default-500 mb-1 block"
+									>
 										{translations.iosUrl}
 									</label>
 									<input
+										id="ios_url"
 										{...register('ios_url')}
 										type="url"
 										placeholder="https://apps.apple.com/..."
@@ -1295,10 +1355,14 @@ const QrForm = ({ folders, translations, templates = [] }: Props) => {
 									/>
 								</div>
 								<div>
-									<label className="text-xs text-default-500 mb-1 block">
+									<label
+										htmlFor="android_url"
+										className="text-xs text-default-500 mb-1 block"
+									>
 										{translations.androidUrl}
 									</label>
 									<input
+										id="android_url"
 										{...register('android_url')}
 										type="url"
 										placeholder="https://play.google.com/..."
@@ -1319,7 +1383,11 @@ const QrForm = ({ folders, translations, templates = [] }: Props) => {
 								</span>
 								{!hasFeature('conditionalRedirect') && (
 									<Tooltip content={translations.smartRedirectDesc}>
-										<HugeiconsIcon icon={Crown02Icon} size={14} className="text-warning ml-auto" />
+										<HugeiconsIcon
+											icon={Crown02Icon}
+											size={14}
+											className="text-warning ml-auto"
+										/>
 									</Tooltip>
 								)}
 							</div>
@@ -1371,8 +1439,8 @@ const QrForm = ({ folders, translations, templates = [] }: Props) => {
 					</div>
 				</div>
 
-				{/* Right: Live preview */}
-				<div className="w-72 flex-shrink-0">
+				{/* Right: Live preview — hidden on mobile */}
+				<div className="hidden md:block w-72 shrink-0">
 					<div className="sticky top-6">
 						<h2 className="font-semibold mb-3 text-default-700">
 							{translations.preview}

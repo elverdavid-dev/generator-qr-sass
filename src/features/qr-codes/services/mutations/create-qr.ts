@@ -105,10 +105,10 @@ export const createQr = async (
 					? formData.utm_content || null
 					: null,
 				schedule_rules: hasFeature(plan, 'conditionalRedirect')
-					? formData.schedule_rules ?? null
+					? (formData.schedule_rules ?? null)
 					: null,
 				country_rules: hasFeature(plan, 'conditionalRedirect')
-					? formData.country_rules ?? null
+					? (formData.country_rules ?? null)
 					: null,
 				slug,
 				logo_url,

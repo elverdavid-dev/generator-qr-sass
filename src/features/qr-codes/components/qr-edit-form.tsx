@@ -724,11 +724,33 @@ const QrEditForm = ({ qr, folders, translations }: Props) => {
 	return (
 		<form onSubmit={handleSubmit(onSubmit)} className="flex gap-8">
 			{/* Left: Config panel */}
-			<div className="flex-1 flex flex-col gap-6">
+			<div className="flex-1 flex flex-col gap-6 min-w-0">
+				{/* Mobile-only preview */}
+				<div className="md:hidden bg-content1 border border-divider rounded-2xl p-4 flex flex-col items-center gap-3">
+					<QrPreview
+						value={qrValue}
+						size={150}
+						fgColor={watchedFg ?? '#000000'}
+						bgColor={watchedBg ?? '#ffffff'}
+						dotStyle={watchedDotStyle ?? 'square'}
+						cornerSquareStyle={watchedCornerSquare ?? 'square'}
+						cornerDotStyle={watchedCornerDot ?? 'square'}
+						dotColor2={watchedDotColor2}
+						dotGradientType={watchedGradientType ?? 'linear'}
+						frameStyle={watchedFrameStyle ?? 'none'}
+						frameColor={watchedFrameColor ?? '#000000'}
+						frameText={watchedFrameText ?? translations.framePlaceholder}
+						logoUrl={logoPreview}
+						className="rounded-lg overflow-hidden"
+					/>
+					<p className="font-semibold text-sm truncate max-w-50 text-center">
+						{watchedName || translations.noName}
+					</p>
+				</div>
 				{/* QR Type */}
 				<div>
 					{sectionTitle(translations.qrType)}
-					<div className="grid grid-cols-3 gap-2">
+					<div className="grid grid-cols-2 md:grid-cols-3 gap-2">
 						{QR_TYPES.map((type) => (
 							<button
 								key={type.id}
@@ -825,7 +847,7 @@ const QrEditForm = ({ qr, folders, translations }: Props) => {
 				{/* Corner square style */}
 				<div>
 					{sectionTitle(translations.outerCorners)}
-					<div className="grid grid-cols-3 gap-2">
+					<div className="grid grid-cols-2 md:grid-cols-3 gap-2">
 						{CORNER_SQUARE_STYLES.map((style) => (
 							<button
 								key={style.id}
@@ -859,7 +881,7 @@ const QrEditForm = ({ qr, folders, translations }: Props) => {
 				{/* Colors */}
 				<div>
 					{sectionTitle(translations.colors)}
-					<div className="flex gap-4">
+					<div className="grid grid-cols-2 gap-3">
 						<div className="flex flex-col gap-1">
 							<label className="text-xs text-default-500">
 								{translations.background}
@@ -979,7 +1001,7 @@ const QrEditForm = ({ qr, folders, translations }: Props) => {
 				<div>
 					{sectionTitle(translations.frame, translations.hints.frame)}
 					<div className="flex flex-col gap-3">
-						<div className="grid grid-cols-5 gap-2">
+						<div className="grid grid-cols-3 md:grid-cols-5 gap-2">
 							{FRAME_STYLES.map((style) => (
 								<button
 									key={style.id}
@@ -1008,7 +1030,7 @@ const QrEditForm = ({ qr, folders, translations }: Props) => {
 							))}
 						</div>
 						{hasFrame && (
-							<div className="flex gap-3">
+							<div className="flex flex-col md:flex-row gap-3">
 								<div className="flex flex-col gap-1">
 									<label className="text-xs text-default-500">
 										{translations.frameColor}
@@ -1230,8 +1252,8 @@ const QrEditForm = ({ qr, folders, translations }: Props) => {
 			</div>
 
 			{/* Right: Live preview */}
-			<div className="w-72 shrink-0">
-				<div className="sticky top-6">
+			<div className="order-1 lg:order-2 w-full lg:w-72 lg:shrink-0">
+				<div className="lg:sticky lg:top-6">
 					<h2 className="font-semibold mb-3 text-default-700">
 						{translations.preview}
 					</h2>
