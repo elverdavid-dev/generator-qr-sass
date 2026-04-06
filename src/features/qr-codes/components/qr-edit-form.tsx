@@ -722,7 +722,7 @@ const QrEditForm = ({ qr, folders, translations }: Props) => {
 	)
 
 	return (
-		<form onSubmit={handleSubmit(onSubmit)} className="flex flex-col md:flex-row gap-6 md:gap-8">
+		<form onSubmit={handleSubmit(onSubmit)} className="flex flex-col xl:flex-row gap-6 xl:gap-8">
 			{/* Left: Config panel */}
 			<div className="flex-1 flex flex-col gap-6">
 				{/* QR Type */}
@@ -1230,8 +1230,8 @@ const QrEditForm = ({ qr, folders, translations }: Props) => {
 			</div>
 
 			{/* Right: Live preview */}
-			<div className="w-full md:w-72 md:shrink-0">
-				<div className="md:sticky md:top-6">
+			<div className="w-full xl:w-80 xl:shrink-0">
+				<div className="xl:sticky xl:top-6">
 					<h2 className="font-semibold mb-3 text-default-700">
 						{translations.preview}
 					</h2>
