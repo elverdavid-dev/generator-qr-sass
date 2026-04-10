@@ -4,6 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
 import type { PropsWithChildren } from 'react'
+import { GoogleOneTap } from '@/features/auth/components/google-one-tap'
 import ThemeToggle from '@/shared/components/theme/theme-toggle'
 
 interface BrandPanelProps {
@@ -138,6 +139,7 @@ const Layout = async ({ children }: PropsWithChildren) => {
 				<div className="flex-1 flex items-center justify-center px-6 py-10">
 					{children}
 				</div>
+				<GoogleOneTap />
 			</div>
 		</div>
 	)

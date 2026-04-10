@@ -262,6 +262,7 @@ const QrActions = ({ qr, folders, translations }: Props) => {
 				title={translations.actions.deleteTitle}
 				description={translations.actions.deleteMessage}
 				notification_message={translations.actions.deleted}
+				refreshOnSuccess
 			/>
 			<FolderSelectorModal
 				isOpen={folderDisc.isOpen}
