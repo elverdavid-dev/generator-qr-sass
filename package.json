@@ -26,6 +26,7 @@
     "@tailwindcss/postcss": "^4.2.2",
     "@vercel/analytics": "^2.0.1",
     "apexcharts": "^5.10.4",
+    "boneyard-js": "^1.7.2",
     "framer-motion": "^12.38.0",
     "nanoid": "^5.1.7",
     "next": "^16.2.1",

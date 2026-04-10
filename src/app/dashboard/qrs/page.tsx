@@ -8,6 +8,10 @@ import FoldersSection from '@/features/folders/components/folders-section'
 import { getFolders } from '@/features/folders/services/queries/get-folders'
 import CreateQrButton from '@/features/qr-codes/components/create-qr-button'
 import QrTable from '@/features/qr-codes/components/qr-table'
+import {
+	QrTableSkeletonFallback,
+	QrTableWithSkeleton,
+} from '@/features/qr-codes/components/qr-table-with-skeleton'
 import SearchInput from '@/features/qr-codes/components/search-input'
 import { getQrs } from '@/features/qr-codes/services/queries/get-qrs'
 import { searchQrs } from '@/features/qr-codes/services/queries/search-qrs'
@@ -18,14 +22,6 @@ interface Props {
 	searchParams: Promise<{ q?: string; page?: string }>
 }
 
-const QrSkeletons = () => (
-	<div className="flex flex-col gap-3 mt-3">
-		{Array.from({ length: 4 }).map((_, i) => (
-			// biome-ignore lint/suspicious/noArrayIndexKey: skeleton items
-			<div key={i} className="h-20 bg-default-100 rounded-2xl animate-pulse" />
-		))}
-	</div>
-)
 
 const QrsPage = async ({ searchParams }: Props) => {
 	const t = await getTranslations('qrs')
@@ -169,14 +165,19 @@ const QrsPage = async ({ searchParams }: Props) => {
 				</Suspense>
 			</div>
 
-			<Suspense fallback={<QrSkeletons />} key={`${q ?? ''}-${currentPage}`}>
-				<QrTable
-					qrs={qrs}
-					folders={folders}
-					total={total}
-					page={currentPage}
-					translations={qrTableTranslations}
-				/>
+			<Suspense
+				fallback={<QrTableSkeletonFallback />}
+				key={`${q ?? ''}-${currentPage}`}
+			>
+				<QrTableWithSkeleton>
+					<QrTable
+						qrs={qrs}
+						folders={folders}
+						total={total}
+						page={currentPage}
+						translations={qrTableTranslations}
+					/>
+				</QrTableWithSkeleton>
 			</Suspense>
 		</>
 	)
