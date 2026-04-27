@@ -3,15 +3,41 @@ import Link from 'next/link'
 
 const Logo = () => {
 	return (
-		<Link href="/" className="flex items-center gap-2">
+		<Link href="/" className="flex items-center">
+			{/* Mobile: solo el mark */}
 			<Image
-				src="/logo.svg"
-				alt="Logo"
-				width={35}
-				height={35}
-				style={{ width: 35, height: 'auto' }}
+				src="/brand/crowii-mark.svg"
+				alt="Crowii"
+				width={28}
+				height={28}
+				className="block dark:hidden md:hidden"
+				style={{ width: 28, height: 'auto' }}
 			/>
-			<span className="text-xl font-bold hidden md:block">QR Generator</span>
+			<Image
+				src="/brand/crowii-mark-dark.svg"
+				alt="Crowii"
+				width={28}
+				height={28}
+				className="hidden dark:block md:dark:hidden"
+				style={{ width: 28, height: 'auto' }}
+			/>
+			{/* Desktop: horizontal */}
+			<Image
+				src="/brand/crowii-horizontal.svg"
+				alt="Crowii"
+				width={130}
+				height={44}
+				className="hidden md:block md:dark:hidden"
+				style={{ width: 130, height: 'auto' }}
+			/>
+			<Image
+				src="/brand/crowii-horizontal-dark.svg"
+				alt="Crowii"
+				width={130}
+				height={44}
+				className="hidden md:dark:block"
+				style={{ width: 130, height: 'auto' }}
+			/>
 		</Link>
 	)
 }

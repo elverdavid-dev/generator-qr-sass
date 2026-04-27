@@ -128,7 +128,7 @@ export default function ShareQrClient({
 					<p className="text-xs text-default-400 text-center">
 						{t.createdWith}{' '}
 						<a href="/" className="text-primary hover:underline font-medium">
-							QR Generator
+							Crowii
 						</a>{' '}
 						— {t.createYours}
 					</p>

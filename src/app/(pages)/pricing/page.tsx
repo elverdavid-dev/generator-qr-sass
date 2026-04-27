@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 		canonical: `${process.env.NEXT_PUBLIC_BASE_URL ?? ''}/pricing`,
 	},
 	openGraph: {
-		title: 'Precios de QR Generator — Free, Pro y Business',
+		title: 'Precios de Crowii — Free, Pro y Business',
 		description:
 			'Planes desde $0. QR codes ilimitados, analytics avanzado, redirecciones condicionales y API REST. Cancela en cualquier momento.',
 		url: `${process.env.NEXT_PUBLIC_BASE_URL ?? ''}/pricing`,
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
 				url: '/og-image.png',
 				width: 1200,
 				height: 630,
-				alt: 'Precios QR Generator',
+				alt: 'Precios Crowii',
 			},
 		],
 	},

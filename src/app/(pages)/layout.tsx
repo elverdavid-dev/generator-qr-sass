@@ -18,7 +18,7 @@ const Layout = async ({ children }: PropsWithChildren) => {
 			<footer className="border-t border-default-200 mt-20">
 				<div className="container mx-auto px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-default-400">
 					<span>
-						© {new Date().getFullYear()} QR Generator. Todos los derechos
+						© {new Date().getFullYear()} Crowii. Todos los derechos
 						reservados.
 					</span>
 					<nav aria-label="Enlaces legales" className="flex gap-6">

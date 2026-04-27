@@ -9,13 +9,13 @@ const siteUrl = process.env.NEXT_PUBLIC_BASE_URL ?? 'http://localhost:3000'
 
 const META = {
 	es: {
-		title: 'QR Generator — Crea y rastrea códigos QR profesionales',
+		title: 'Crowii — Crea y rastrea códigos QR profesionales',
 		description:
 			'Genera, personaliza y rastrea códigos QR dinámicos en segundos. Analytics en tiempo real, redirecciones condicionales y diseños impresionantes.',
 		ogLocale: 'es_ES' as const,
 	},
 	en: {
-		title: 'QR Generator — Create and track professional QR codes',
+		title: 'Crowii — Create and track professional QR codes',
 		description:
 			'Generate, customize and track dynamic QR codes in seconds. Real-time analytics, conditional redirects and stunning designs.',
 		ogLocale: 'en_US' as const,
@@ -33,14 +33,14 @@ export async function generateMetadata(): Promise<Metadata> {
 	return {
 		metadataBase: new URL(siteUrl),
 		title: {
-			template: '%s | QR Generator',
+			template: '%s | Crowii',
 			default: m.title,
 		},
 		description: m.description,
-		applicationName: 'QR Generator',
-		authors: [{ name: 'QR Generator' }],
-		creator: 'QR Generator',
-		publisher: 'QR Generator',
+		applicationName: 'Crowii',
+		authors: [{ name: 'Crowii' }],
+		creator: 'Crowii',
+		publisher: 'Crowii',
 		robots: {
 			index: true,
 			follow: true,
@@ -50,12 +50,12 @@ export async function generateMetadata(): Promise<Metadata> {
 			type: 'website',
 			locale: m.ogLocale,
 			alternateLocale: locale === 'es' ? ['en_US'] : ['es_ES'],
-			siteName: 'QR Generator',
+			siteName: 'Crowii',
 			url: siteUrl,
 			title: m.title,
 			description: m.description,
 			images: [
-				{ url: '/og-image.png', width: 1200, height: 630, alt: 'QR Generator' },
+				{ url: '/og-image.png', width: 1200, height: 630, alt: 'Crowii' },
 			],
 		},
 		twitter: {

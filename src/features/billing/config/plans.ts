@@ -1,5 +1,5 @@
 /**
- * Plan configuration for the QR Generator SaaS.
+ * Plan configuration for the Crowii SaaS.
  *
  * Three tiers: Free → Pro → Business.
  * Prices are in USD. `maxQrs` and `maxScansPerMonth` of -1 mean unlimited.

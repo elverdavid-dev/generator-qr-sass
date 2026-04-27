@@ -8,7 +8,7 @@ interface Props {
 	noIndex?: boolean
 }
 
-const siteName = 'QR Generator'
+const siteName = 'Crowii'
 const descriptionDefault =
 	'Genera, personaliza y rastrea códigos QR dinámicos en segundos. Analytics en tiempo real, redirecciones condicionales y diseños impresionantes.'
 

@@ -3,8 +3,8 @@ import Link from 'next/link'
 import { getLocale } from 'next-intl/server'
 
 export const metadata: Metadata = {
-	title: 'Terms of Service | QR Generator',
-	description: 'Terms and conditions for using QR Generator.',
+	title: 'Terms of Service | Crowii',
+	description: 'Terms and conditions for using Crowii.',
 	robots: { index: true, follow: true },
 }
 
@@ -28,11 +28,11 @@ const content = {
 		sections: [
 			{
 				title: '1. Acceptance of Terms',
-				body: 'By accessing or using QR Generator ("the Service"), you agree to be bound by these Terms of Service. If you disagree with any part of the terms, you may not access the Service.',
+				body: 'By accessing or using Crowii ("the Service"), you agree to be bound by these Terms of Service. If you disagree with any part of the terms, you may not access the Service.',
 			},
 			{
 				title: '2. Description of Service',
-				body: 'QR Generator is a SaaS platform that allows users to create, customize, and track dynamic QR codes. The Service is offered in three plans: Free, Pro, and Business, each with different limits and features.',
+				body: 'Crowii is a SaaS platform that allows users to create, customize, and track dynamic QR codes. The Service is offered in three plans: Free, Pro, and Business, each with different limits and features.',
 			},
 			{
 				title: '3. User Accounts',
@@ -76,7 +76,7 @@ const content = {
 			},
 			{
 				title: '7. Intellectual Property',
-				body: 'The Service and its original content (excluding content provided by users) are and will remain the exclusive property of QR Generator and its licensors. Your QR codes and analytics data are your property.',
+				body: 'The Service and its original content (excluding content provided by users) are and will remain the exclusive property of Crowii and its licensors. Your QR codes and analytics data are your property.',
 			},
 			{
 				title: '8. Privacy and Scan Data',
@@ -91,7 +91,7 @@ const content = {
 			},
 			{
 				title: '10. Limitation of Liability',
-				body: 'To the maximum extent permitted by applicable law, QR Generator shall not be liable for indirect, incidental, special, or consequential damages resulting from the use or inability to use the Service.',
+				body: 'To the maximum extent permitted by applicable law, Crowii shall not be liable for indirect, incidental, special, or consequential damages resulting from the use or inability to use the Service.',
 			},
 			{
 				title: '11. Modifications',
@@ -115,11 +115,11 @@ const content = {
 		sections: [
 			{
 				title: '1. Aceptación de los términos',
-				body: 'Al acceder o utilizar QR Generator ("el Servicio"), aceptas quedar vinculado por estos Términos de Servicio. Si no estás de acuerdo con alguna parte de los términos, no podrás acceder al Servicio.',
+				body: 'Al acceder o utilizar Crowii ("el Servicio"), aceptas quedar vinculado por estos Términos de Servicio. Si no estás de acuerdo con alguna parte de los términos, no podrás acceder al Servicio.',
 			},
 			{
 				title: '2. Descripción del servicio',
-				body: 'QR Generator es una plataforma SaaS que permite a los usuarios crear, personalizar y rastrear códigos QR dinámicos. El Servicio se ofrece en tres planes: Free, Pro y Business, cada uno con diferentes límites y funcionalidades.',
+				body: 'Crowii es una plataforma SaaS que permite a los usuarios crear, personalizar y rastrear códigos QR dinámicos. El Servicio se ofrece en tres planes: Free, Pro y Business, cada uno con diferentes límites y funcionalidades.',
 			},
 			{
 				title: '3. Cuentas de usuario',
@@ -163,7 +163,7 @@ const content = {
 			},
 			{
 				title: '7. Propiedad intelectual',
-				body: 'El Servicio y su contenido original (excluyendo el contenido proporcionado por los usuarios) son y seguirán siendo propiedad exclusiva de QR Generator y sus licenciantes. Tus QR codes y datos analíticos son de tu propiedad.',
+				body: 'El Servicio y su contenido original (excluyendo el contenido proporcionado por los usuarios) son y seguirán siendo propiedad exclusiva de Crowii y sus licenciantes. Tus QR codes y datos analíticos son de tu propiedad.',
 			},
 			{
 				title: '8. Privacidad y datos de escaneo',
@@ -178,7 +178,7 @@ const content = {
 			},
 			{
 				title: '10. Limitación de responsabilidad',
-				body: 'En la máxima medida permitida por la ley aplicable, QR Generator no será responsable por daños indirectos, incidentales, especiales o consecuentes que resulten del uso o la imposibilidad de usar el Servicio.',
+				body: 'En la máxima medida permitida por la ley aplicable, Crowii no será responsable por daños indirectos, incidentales, especiales o consecuentes que resulten del uso o la imposibilidad de usar el Servicio.',
 			},
 			{
 				title: '11. Modificaciones',

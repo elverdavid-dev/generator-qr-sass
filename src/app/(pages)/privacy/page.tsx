@@ -3,8 +3,8 @@ import Link from 'next/link'
 import { getLocale } from 'next-intl/server'
 
 export const metadata: Metadata = {
-	title: 'Privacy Policy | QR Generator',
-	description: 'How we collect, use, and protect your data at QR Generator.',
+	title: 'Privacy Policy | Crowii',
+	description: 'How we collect, use, and protect your data at Crowii.',
 	robots: { index: true, follow: true },
 }
 

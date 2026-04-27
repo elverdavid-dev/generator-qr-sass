@@ -1017,11 +1017,11 @@ const QrEditForm = ({ qr, folders, translations }: Props) => {
 										setValue(
 											'frame_style',
 											style.id as
-												| 'none'
-												| 'simple'
-												| 'rounded'
-												| 'bold'
-												| 'corners',
+													| 'none'
+													| 'simple'
+													| 'rounded'
+													| 'bold'
+													| 'corners',
 										)
 									}
 									className={cn(

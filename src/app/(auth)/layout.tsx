@@ -31,16 +31,14 @@ const BrandPanel = ({
 
 		{/* Logo */}
 		<div className="relative z-10">
-			<Link href="/" className="inline-flex items-center gap-2.5 group">
+			<Link href="/">
 				<Image
-					src="/logo.svg"
-					alt="QR Generator"
-					width={30}
-					height={30}
-					className="brightness-0 invert"
-					style={{ width: 30, height: 'auto' }}
+					src="/brand/crowii-horizontal-dark.svg"
+					alt="Crowii"
+					width={130}
+					height={44}
+					style={{ width: 130, height: 'auto' }}
 				/>
-				<span className="text-white font-bold text-lg">QR Generator</span>
 			</Link>
 		</div>
 
@@ -117,15 +115,23 @@ const Layout = async ({ children }: PropsWithChildren) => {
 			<div className="flex flex-col">
 				{/* Mobile header */}
 				<header className="flex lg:hidden items-center justify-between px-6 py-4 border-b border-divider">
-					<Link href="/" className="flex items-center gap-2">
+					<Link href="/">
 						<Image
-							src="/logo.svg"
-							alt="QR Generator"
-							width={28}
-							height={28}
-							style={{ width: 28, height: 'auto' }}
+							src="/brand/crowii-horizontal.svg"
+							alt="Crowii"
+							width={110}
+							height={37}
+							className="dark:hidden"
+							style={{ width: 110, height: 'auto' }}
 						/>
-						<span className="font-bold text-base">QR Generator</span>
+						<Image
+							src="/brand/crowii-horizontal-dark.svg"
+							alt="Crowii"
+							width={110}
+							height={37}
+							className="hidden dark:block"
+							style={{ width: 110, height: 'auto' }}
+						/>
 					</Link>
 					<ThemeToggle />
 				</header>
