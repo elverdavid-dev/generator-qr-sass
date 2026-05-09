@@ -1,5 +1,10 @@
+import type { Metadata } from 'next'
 import { getTranslations } from 'next-intl/server'
 import LoginForm from '@/features/auth/components/login-form'
+
+export const metadata: Metadata = {
+	alternates: { canonical: '/login' },
+}
 
 const LoginPage = async () => {
 	const t = await getTranslations('auth.login')

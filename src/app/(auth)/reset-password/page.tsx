@@ -1,5 +1,10 @@
+import type { Metadata } from 'next'
 import { getTranslations } from 'next-intl/server'
 import ResetPasswordForm from './reset-password-form'
+
+export const metadata: Metadata = {
+	robots: { index: false, follow: false },
+}
 
 const ResetPasswordPage = async () => {
 	const t = await getTranslations('auth.resetPassword')

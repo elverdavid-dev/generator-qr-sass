@@ -1,7 +1,12 @@
 import { ArrowLeft01Icon, MailAtSign01Icon } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
+
+export const metadata: Metadata = {
+	robots: { index: false, follow: false },
+}
 
 const ConfirmEmailPage = async () => {
 	const t = await getTranslations('auth.confirmEmail')

@@ -12,8 +12,13 @@ import {
 	WebProgrammingIcon,
 } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
+
+export const metadata: Metadata = {
+	alternates: { canonical: '/' },
+}
 import { HeroCard } from './_components/hero-card'
 import { MarqueeTicker } from './_components/marquee-ticker'
 import { ScrollReveal } from './_components/scroll-reveal'

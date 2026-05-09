@@ -6,6 +6,7 @@ export const metadata: Metadata = {
 	title: 'Terms of Service | Crowii',
 	description: 'Terms and conditions for using Crowii.',
 	robots: { index: true, follow: true },
+	alternates: { canonical: '/terms' },
 }
 
 const Section = ({

@@ -6,6 +6,7 @@ export const metadata: Metadata = {
 	title: 'Privacy Policy | Crowii',
 	description: 'How we collect, use, and protect your data at Crowii.',
 	robots: { index: true, follow: true },
+	alternates: { canonical: '/privacy' },
 }
 
 const Section = ({

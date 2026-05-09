@@ -1,6 +1,6 @@
-# QR Generator
+# Crowii
 
-> QR Generator is a SaaS platform that lets individuals, professionals, and teams create, customize, and track dynamic QR codes. It offers deep analytics, conditional redirects, team collaboration, a REST API, and a bilingual (Spanish/English) interface.
+> Crowii is a SaaS platform that lets individuals, professionals, and teams create, customize, and track dynamic QR codes. It offers deep analytics, conditional redirects, team collaboration, a REST API, and a bilingual (Spanish/English) interface.
 
 ## Plans & Pricing
 
@@ -51,7 +51,7 @@
 
 - [Landing page](/) — product overview, features, pricing teaser, and CTA
 - [Pricing](/pricing) — full plan comparison with monthly/yearly billing toggle
-- [Login](/login) — email/password and Google OAuth
+- [Login](/login) — email/password and Google OAuth (including Google One Tap)
 - [Register](/register) — account creation
 - [Dashboard](/dashboard) — authenticated area (requires login)
 - [Terms of Service](/terms) — usage terms and conditions
@@ -73,6 +73,5 @@ All endpoints require `Authorization: Bearer <api-key>` header.
 
 ## Contact
 
-- Support: support@qrgenerator.app
 - Terms: /terms
 - Privacy: /privacy
