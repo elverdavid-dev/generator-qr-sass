@@ -14,9 +14,9 @@ export interface TemplateData {
 	corner_dot_style: string
 	dot_color_2?: string | null
 	dot_gradient_type: string
-	frame_style: string
-	frame_color: string
-	frame_text: string
+	frame_style?: string
+	frame_color?: string
+	frame_text?: string
 	logo_url?: string | null
 }
 
