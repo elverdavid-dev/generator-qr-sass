@@ -1,7 +1,6 @@
 'use client'
 
 import { createBrowserClient } from '@supabase/ssr'
-import { useRouter } from 'next/navigation'
 import { useEffect, useRef } from 'react'
 
 declare global {
@@ -23,7 +22,6 @@ interface Props {
 }
 
 export function GoogleOneTap({ redirectTo = '/dashboard/qrs' }: Props) {
-	const router = useRouter()
 	const initialized = useRef(false)
 
 	useEffect(() => {
@@ -52,25 +50,27 @@ export function GoogleOneTap({ redirectTo = '/dashboard/qrs' }: Props) {
 			window.google?.accounts.id.cancel()
 		}
 
+		async function handleCredential(response: { credential: string }, url: string, key: string) {
+			const supabase = createBrowserClient(url, key)
+			const { error } = await supabase.auth.signInWithIdToken({
+				provider: 'google',
+				token: response.credential,
+			})
+			if (!error) {
+				window.location.href = redirectTo
+			}
+		}
+
 		function initOneTap(clientId: string, url: string, key: string) {
 			window.google?.accounts.id.initialize({
 				client_id: clientId,
-				callback: async (response: { credential: string }) => {
-					const supabase = createBrowserClient(url, key)
-					const { error } = await supabase.auth.signInWithIdToken({
-						provider: 'google',
-						token: response.credential,
-					})
-					if (!error) {
-						router.refresh()
-						router.push(redirectTo)
-					}
+				callback: (response: { credential: string }) => {
+					handleCredential(response, url, key)
 				},
-				use_fedcm_for_prompt: true,
 			})
 			window.google?.accounts.id.prompt()
 		}
-	}, [redirectTo, router])
+	}, [redirectTo])
 
 	return null
 }
