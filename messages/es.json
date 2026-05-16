@@ -369,7 +369,9 @@
 			"event": "Evento",
 			"eventDesc": "Evento de calendario",
 			"payment": "Pago",
-			"paymentDesc": "Información de pago"
+			"paymentDesc": "Información de pago",
+			"app": "Aplicación",
+			"appDesc": "App en iOS y Android"
 		},
 		"folder": {
 			"moveTitle": "Mover a carpeta",

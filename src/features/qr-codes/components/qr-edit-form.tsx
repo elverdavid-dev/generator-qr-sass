@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { Button } from '@heroui/button'
 import { Input } from '@heroui/input'
@@ -64,10 +64,6 @@ export interface QrEditFormTranslations {
 	gradientType: string
 	linear: string
 	radial: string
-	frame: string
-	frameColor: string
-	frameText: string
-	framePlaceholder: string
 	logo: string
 	changeLogo: string
 	uploadLogo: string
@@ -112,13 +108,6 @@ export interface QrEditFormTranslations {
 		extraR: string
 	}
 	corner: { square: string; circle: string }
-	frameStyle: {
-		none: string
-		simple: string
-		rounded: string
-		thick: string
-		corners: string
-	}
 	types: {
 		url: string
 		text: string
@@ -129,11 +118,11 @@ export interface QrEditFormTranslations {
 		location: string
 		event: string
 		payment: string
+		app: string
 	}
 	hints: {
 		gradient: string
 		logo: string
-		frame: string
 		customSlug: string
 		utm: string
 		password: string
@@ -279,338 +268,6 @@ const QrEditForm = ({ qr, folders, translations }: Props) => {
 		{ id: 'dot', name: translations.corner.circle },
 	]
 
-	const FRAME_STYLES: { id: string; name: string; preview: React.ReactNode }[] =
-		[
-			{
-				id: 'none',
-				name: translations.frameStyle.none,
-				preview: (
-					<svg aria-hidden="true" viewBox="0 0 48 40" className="w-10 h-8">
-						<rect
-							x="8"
-							y="4"
-							width="32"
-							height="32"
-							rx="2"
-							fill="none"
-							stroke="currentColor"
-							strokeWidth="1.5"
-							strokeDasharray="3 2"
-							opacity="0.4"
-						/>
-						<rect
-							x="14"
-							y="10"
-							width="8"
-							height="8"
-							rx="1"
-							fill="currentColor"
-							opacity="0.5"
-						/>
-						<rect
-							x="26"
-							y="10"
-							width="8"
-							height="8"
-							rx="1"
-							fill="currentColor"
-							opacity="0.5"
-						/>
-						<rect
-							x="14"
-							y="22"
-							width="8"
-							height="8"
-							rx="1"
-							fill="currentColor"
-							opacity="0.5"
-						/>
-						<rect
-							x="26"
-							y="22"
-							width="8"
-							height="8"
-							rx="1"
-							fill="currentColor"
-							opacity="0.5"
-						/>
-					</svg>
-				),
-			},
-			{
-				id: 'simple',
-				name: translations.frameStyle.simple,
-				preview: (
-					<svg aria-hidden="true" viewBox="0 0 48 44" className="w-10 h-9">
-						<rect
-							x="4"
-							y="4"
-							width="40"
-							height="30"
-							rx="2"
-							fill="currentColor"
-							opacity="0.15"
-							stroke="currentColor"
-							strokeWidth="2"
-						/>
-						<rect
-							x="10"
-							y="9"
-							width="8"
-							height="8"
-							rx="1"
-							fill="currentColor"
-							opacity="0.6"
-						/>
-						<rect
-							x="22"
-							y="9"
-							width="8"
-							height="8"
-							rx="1"
-							fill="currentColor"
-							opacity="0.6"
-						/>
-						<rect
-							x="10"
-							y="21"
-							width="8"
-							height="8"
-							rx="1"
-							fill="currentColor"
-							opacity="0.6"
-						/>
-						<rect
-							x="22"
-							y="21"
-							width="8"
-							height="8"
-							rx="1"
-							fill="currentColor"
-							opacity="0.6"
-						/>
-						<rect
-							x="4"
-							y="34"
-							width="40"
-							height="7"
-							rx="2"
-							fill="currentColor"
-							opacity="0.8"
-						/>
-					</svg>
-				),
-			},
-			{
-				id: 'rounded',
-				name: translations.frameStyle.rounded,
-				preview: (
-					<svg aria-hidden="true" viewBox="0 0 48 44" className="w-10 h-9">
-						<rect
-							x="4"
-							y="4"
-							width="40"
-							height="30"
-							rx="10"
-							fill="currentColor"
-							opacity="0.15"
-							stroke="currentColor"
-							strokeWidth="2"
-						/>
-						<rect
-							x="10"
-							y="9"
-							width="8"
-							height="8"
-							rx="2"
-							fill="currentColor"
-							opacity="0.6"
-						/>
-						<rect
-							x="22"
-							y="9"
-							width="8"
-							height="8"
-							rx="2"
-							fill="currentColor"
-							opacity="0.6"
-						/>
-						<rect
-							x="10"
-							y="21"
-							width="8"
-							height="8"
-							rx="2"
-							fill="currentColor"
-							opacity="0.6"
-						/>
-						<rect
-							x="22"
-							y="21"
-							width="8"
-							height="8"
-							rx="2"
-							fill="currentColor"
-							opacity="0.6"
-						/>
-						<rect
-							x="4"
-							y="34"
-							width="40"
-							height="7"
-							rx="6"
-							fill="currentColor"
-							opacity="0.8"
-						/>
-					</svg>
-				),
-			},
-			{
-				id: 'bold',
-				name: translations.frameStyle.thick,
-				preview: (
-					<svg aria-hidden="true" viewBox="0 0 48 44" className="w-10 h-9">
-						<rect
-							x="3"
-							y="3"
-							width="42"
-							height="31"
-							rx="3"
-							fill="currentColor"
-							opacity="0.15"
-							stroke="currentColor"
-							strokeWidth="4"
-						/>
-						<rect
-							x="10"
-							y="9"
-							width="8"
-							height="8"
-							rx="1"
-							fill="currentColor"
-							opacity="0.6"
-						/>
-						<rect
-							x="22"
-							y="9"
-							width="8"
-							height="8"
-							rx="1"
-							fill="currentColor"
-							opacity="0.6"
-						/>
-						<rect
-							x="10"
-							y="21"
-							width="8"
-							height="8"
-							rx="1"
-							fill="currentColor"
-							opacity="0.6"
-						/>
-						<rect
-							x="22"
-							y="21"
-							width="8"
-							height="8"
-							rx="1"
-							fill="currentColor"
-							opacity="0.6"
-						/>
-						<rect
-							x="3"
-							y="34"
-							width="42"
-							height="8"
-							rx="3"
-							fill="currentColor"
-							opacity="0.8"
-						/>
-					</svg>
-				),
-			},
-			{
-				id: 'corners',
-				name: translations.frameStyle.corners,
-				preview: (
-					<svg aria-hidden="true" viewBox="0 0 48 44" className="w-10 h-9">
-						<path
-							d="M8 20 L8 8 L20 8"
-							stroke="currentColor"
-							strokeWidth="2.5"
-							strokeLinecap="round"
-							fill="none"
-						/>
-						<path
-							d="M28 8 L40 8 L40 20"
-							stroke="currentColor"
-							strokeWidth="2.5"
-							strokeLinecap="round"
-							fill="none"
-						/>
-						<path
-							d="M8 24 L8 36 L20 36"
-							stroke="currentColor"
-							strokeWidth="2.5"
-							strokeLinecap="round"
-							fill="none"
-						/>
-						<path
-							d="M28 36 L40 36 L40 24"
-							stroke="currentColor"
-							strokeWidth="2.5"
-							strokeLinecap="round"
-							fill="none"
-						/>
-						<rect
-							x="13"
-							y="13"
-							width="8"
-							height="8"
-							rx="1"
-							fill="currentColor"
-							opacity="0.5"
-						/>
-						<rect
-							x="27"
-							y="13"
-							width="8"
-							height="8"
-							rx="1"
-							fill="currentColor"
-							opacity="0.5"
-						/>
-						<rect
-							x="13"
-							y="23"
-							width="8"
-							height="8"
-							rx="1"
-							fill="currentColor"
-							opacity="0.5"
-						/>
-						<rect
-							x="27"
-							y="23"
-							width="8"
-							height="8"
-							rx="1"
-							fill="currentColor"
-							opacity="0.5"
-						/>
-						<rect
-							x="13"
-							y="38"
-							width="22"
-							height="5"
-							rx="2"
-							fill="currentColor"
-							opacity="0.7"
-						/>
-					</svg>
-				),
-			},
-		]
 
 	const { hasFeature } = usePlan()
 
@@ -637,10 +294,6 @@ const QrEditForm = ({ qr, folders, translations }: Props) => {
 			dot_color_2: qr.dot_color_2 ?? undefined,
 			dot_gradient_type:
 				(qr.dot_gradient_type as 'linear' | 'radial') ?? 'linear',
-			frame_style:
-				(qr.frame_style as 'none' | 'simple' | 'rounded' | 'bold') ?? 'none',
-			frame_color: qr.frame_color ?? '#000000',
-			frame_text: qr.frame_text ?? translations.framePlaceholder,
 			folder_id: qr.folder_id ?? undefined,
 			password: qr.password ?? undefined,
 			expires_at: qr.expires_at ? qr.expires_at.slice(0, 16) : undefined,
@@ -652,24 +305,33 @@ const QrEditForm = ({ qr, folders, translations }: Props) => {
 		},
 	})
 
-	const watchedType = watch('qr_type')
-	const watchedData = watch('data')
-	const watchedBg = watch('bg_color')
-	const watchedFg = watch('fg_color')
-	const watchedDotStyle = watch('dot_style')
-	const watchedCornerSquare = watch('corner_square_style')
-	const watchedCornerDot = watch('corner_dot_style')
-	const watchedName = watch('name')
-	const watchedDotColor2 = watch('dot_color_2')
-	const watchedGradientType = watch('dot_gradient_type')
-	const watchedFrameStyle = watch('frame_style')
-	const watchedFrameColor = watch('frame_color')
-	const watchedFrameText = watch('frame_text')
+	const [
+		watchedType,
+		watchedData,
+		watchedBg,
+		watchedFg,
+		watchedDotStyle,
+		watchedCornerSquare,
+		watchedCornerDot,
+		watchedName,
+		watchedDotColor2,
+		watchedGradientType,
+	] = watch([
+		'qr_type',
+		'data',
+		'bg_color',
+		'fg_color',
+		'dot_style',
+		'corner_square_style',
+		'corner_dot_style',
+		'name',
+		'dot_color_2',
+		'dot_gradient_type',
+	])
 
 	const selectedType = QR_TYPES.find((t) => t.id === watchedType) ?? QR_TYPES[0]
 	const qrValue = watchedData || watchedName || 'preview'
 	const hasGradient = !!watchedDotColor2
-	const hasFrame = watchedFrameStyle !== 'none'
 
 	const onSubmit = async (data: QrFormData) => {
 		const { logo, ...restData } = data
@@ -727,26 +389,49 @@ const QrEditForm = ({ qr, folders, translations }: Props) => {
 			{/* Left: Config panel */}
 			<div className="flex-1 flex flex-col gap-6 min-w-0">
 				{/* Mobile-only preview */}
-				<div className="md:hidden bg-content1 border border-divider rounded-2xl p-4 flex flex-col items-center gap-3">
-					<QrPreview
-						value={qrValue}
-						size={150}
-						fgColor={watchedFg ?? '#000000'}
-						bgColor={watchedBg ?? '#ffffff'}
-						dotStyle={watchedDotStyle ?? 'square'}
-						cornerSquareStyle={watchedCornerSquare ?? 'square'}
-						cornerDotStyle={watchedCornerDot ?? 'square'}
-						dotColor2={watchedDotColor2}
-						dotGradientType={watchedGradientType ?? 'linear'}
-						frameStyle={watchedFrameStyle ?? 'none'}
-						frameColor={watchedFrameColor ?? '#000000'}
-						frameText={watchedFrameText ?? translations.framePlaceholder}
-						logoUrl={logoPreview}
-						className="rounded-lg overflow-hidden"
-					/>
-					<p className="font-semibold text-sm truncate max-w-50 text-center">
-						{watchedName || translations.noName}
-					</p>
+				<div className="md:hidden rounded-2xl overflow-hidden border border-divider shadow-sm">
+					<div className="relative bg-zinc-950 flex flex-col items-center py-6 px-4">
+						<div className="absolute inset-0 pointer-events-none" aria-hidden="true">
+							<div
+								className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-36 h-36 rounded-full blur-3xl opacity-25"
+								style={{ backgroundColor: watchedFg ?? '#6366f1' }}
+							/>
+						</div>
+						<div className="absolute top-3 right-3 flex items-center gap-1.5 bg-zinc-800/80 backdrop-blur-sm rounded-full px-2.5 py-1">
+							<span className="relative flex h-1.5 w-1.5">
+								<span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+								<span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500" />
+							</span>
+							<span className="text-[10px] font-medium text-emerald-400">Live</span>
+						</div>
+						<div className="relative z-10 bg-white rounded-xl p-2.5 shadow-2xl ring-1 ring-black/5">
+							<QrPreview
+								value={qrValue}
+								size={150}
+								fgColor={watchedFg ?? '#000000'}
+								bgColor={watchedBg ?? '#ffffff'}
+								dotStyle={watchedDotStyle ?? 'square'}
+								cornerSquareStyle={watchedCornerSquare ?? 'square'}
+								cornerDotStyle={watchedCornerDot ?? 'square'}
+								dotColor2={watchedDotColor2}
+								dotGradientType={watchedGradientType ?? 'linear'}
+								logoUrl={logoPreview}
+							/>
+						</div>
+					</div>
+					<div className="bg-content1 px-4 py-3 flex items-center gap-2.5 border-t border-divider">
+						<div className={cn('w-7 h-7 rounded-lg flex items-center justify-center shrink-0', selectedType.color)}>
+							<HugeiconsIcon icon={selectedType.icon} size={14} className="text-white" />
+						</div>
+						<div className="min-w-0">
+							<p className="font-semibold text-sm truncate leading-tight">
+								{watchedName || translations.noName}
+							</p>
+							<p className="text-xs text-default-400 truncate leading-tight">
+								{watchedData || selectedType.name}
+							</p>
+						</div>
+					</div>
 				</div>
 				{/* QR Type */}
 				<div>
@@ -1004,75 +689,6 @@ const QrEditForm = ({ qr, folders, translations }: Props) => {
 					</div>
 				</div>
 
-				{/* Frame */}
-				<div>
-					{sectionTitle(translations.frame, translations.hints.frame)}
-					<div className="flex flex-col gap-3">
-						<div className="grid grid-cols-3 md:grid-cols-5 gap-2">
-							{FRAME_STYLES.map((style) => (
-								<button
-									key={style.id}
-									type="button"
-									onClick={() =>
-										setValue(
-											'frame_style',
-											style.id as
-													| 'none'
-													| 'simple'
-													| 'rounded'
-													| 'bold'
-													| 'corners',
-										)
-									}
-									className={cn(
-										'flex flex-col items-center gap-1.5 p-2 rounded-xl border text-xs transition-all',
-										watchedFrameStyle === style.id
-											? 'border-primary bg-primary/5 text-primary'
-											: 'border-divider bg-content1 text-default-500 hover:border-default-400',
-									)}
-								>
-									{style.preview}
-									<span>{style.name}</span>
-								</button>
-							))}
-						</div>
-						{hasFrame && (
-							<div className="flex flex-col md:flex-row gap-3">
-								<div className="flex flex-col gap-1">
-									<label
-										htmlFor="frame_color"
-										className="text-xs text-default-500"
-									>
-										{translations.frameColor}
-									</label>
-									<div className="flex items-center gap-2 p-2 border border-divider rounded-xl bg-content1">
-										<input
-											id="frame_color"
-											type="color"
-											{...register('frame_color')}
-											className="w-8 h-8 rounded cursor-pointer border-0 bg-transparent"
-										/>
-									</div>
-								</div>
-								<div className="flex flex-col gap-1 flex-1">
-									<label
-										htmlFor="frame_text"
-										className="text-xs text-default-500"
-									>
-										{translations.frameText}
-									</label>
-									<input
-										id="frame_text"
-										{...register('frame_text')}
-										placeholder={translations.framePlaceholder}
-										className="w-full p-2.5 border border-divider rounded-xl bg-content1 text-default-600 text-sm focus:outline-none focus:border-primary uppercase"
-									/>
-								</div>
-							</div>
-						)}
-					</div>
-				</div>
-
 				{/* Logo */}
 				<div>
 					{sectionTitle(translations.logo, translations.hints.logo)}
@@ -1287,40 +903,58 @@ const QrEditForm = ({ qr, folders, translations }: Props) => {
 			</div>
 
 			{/* Right: Live preview */}
-			<div className="order-1 lg:order-2 w-full lg:w-72 lg:shrink-0">
-				<div className="lg:sticky lg:top-6">
-					<h2 className="font-semibold mb-3 text-default-700">
-						{translations.preview}
-					</h2>
-					<div className="bg-content1 border border-divider rounded-2xl p-6 flex flex-col items-center gap-4 shadow-sm">
-						<QrPreview
-							value={qrValue}
-							size={200}
-							fgColor={watchedFg ?? '#000000'}
-							bgColor={watchedBg ?? '#ffffff'}
-							dotStyle={watchedDotStyle ?? 'square'}
-							cornerSquareStyle={watchedCornerSquare ?? 'square'}
-							cornerDotStyle={watchedCornerDot ?? 'square'}
-							dotColor2={watchedDotColor2}
-							dotGradientType={watchedGradientType ?? 'linear'}
-							frameStyle={watchedFrameStyle ?? 'none'}
-							frameColor={watchedFrameColor ?? '#000000'}
-							frameText={watchedFrameText ?? translations.framePlaceholder}
-							logoUrl={logoPreview}
-							className="rounded-lg overflow-hidden"
-						/>
-						<div className="text-center">
-							<p className="font-semibold text-sm capitalize truncate max-w-48">
-								{watchedName || translations.noName}
-							</p>
-							<span
-								className={cn(
-									'text-xs px-2 py-0.5 rounded-full text-white inline-block mt-1',
-									selectedType.color,
-								)}
-							>
-								{selectedType.name}
+			<div className="hidden md:block w-72 shrink-0">
+				<div className="sticky top-6 flex flex-col gap-2">
+					<div className="flex items-center justify-between px-0.5">
+						<h2 className="text-xs font-semibold text-default-400 uppercase tracking-widest">
+							{translations.preview}
+						</h2>
+						<div className="flex items-center gap-1.5 bg-content2 rounded-full px-2.5 py-1">
+							<span className="relative flex h-1.5 w-1.5">
+								<span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+								<span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500" />
 							</span>
+							<span className="text-[10px] font-medium text-emerald-500">Live</span>
+						</div>
+					</div>
+					<div className="rounded-2xl overflow-hidden border border-divider shadow-lg">
+						{/* Dark showcase */}
+						<div className="relative bg-zinc-950 flex flex-col items-center justify-center py-10 px-6">
+							<div className="absolute inset-0 pointer-events-none" aria-hidden="true">
+								<div
+									className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-52 h-52 rounded-full blur-3xl opacity-20 transition-colors duration-500"
+									style={{ backgroundColor: watchedFg ?? '#6366f1' }}
+								/>
+							</div>
+							<div className="relative z-10 bg-white rounded-2xl p-3 shadow-2xl ring-1 ring-black/5">
+								<QrPreview
+									value={qrValue}
+									size={200}
+									fgColor={watchedFg ?? '#000000'}
+									bgColor={watchedBg ?? '#ffffff'}
+									dotStyle={watchedDotStyle ?? 'square'}
+									cornerSquareStyle={watchedCornerSquare ?? 'square'}
+									cornerDotStyle={watchedCornerDot ?? 'square'}
+									dotColor2={watchedDotColor2}
+									dotGradientType={watchedGradientType ?? 'linear'}
+									logoUrl={logoPreview}
+									className="rounded-lg overflow-hidden"
+								/>
+							</div>
+						</div>
+						{/* Info footer */}
+						<div className="bg-content1 px-5 py-4 flex items-center gap-3 border-t border-divider">
+							<div className={cn('w-9 h-9 rounded-xl flex items-center justify-center shrink-0', selectedType.color)}>
+								<HugeiconsIcon icon={selectedType.icon} size={18} className="text-white" />
+							</div>
+							<div className="min-w-0 flex-1">
+								<p className="font-semibold text-sm truncate leading-tight">
+									{watchedName || translations.noName}
+								</p>
+								<p className="text-xs text-default-400 truncate leading-tight mt-0.5">
+									{watchedData || selectedType.name}
+								</p>
+							</div>
 						</div>
 					</div>
 				</div>

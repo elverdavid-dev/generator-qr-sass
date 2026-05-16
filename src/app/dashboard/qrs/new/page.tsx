@@ -36,10 +36,6 @@ const NewQrPage = async () => {
 		gradientType: t('form.gradientType'),
 		linear: t('form.linear'),
 		radial: t('form.radial'),
-		frame: t('form.frame'),
-		frameColor: t('form.frameColor'),
-		frameText: t('form.frameText'),
-		framePlaceholder: t('form.framePlaceholder'),
 		logo: t('form.logo'),
 		changeLogo: t('form.changeLogo'),
 		uploadLogo: t('form.uploadLogo'),
@@ -96,13 +92,6 @@ const NewQrPage = async () => {
 			square: t('form.corner.square'),
 			circle: t('form.corner.circle'),
 		},
-		frameStyle: {
-			none: t('form.frameStyle.none'),
-			simple: t('form.frameStyle.simple'),
-			rounded: t('form.frameStyle.rounded'),
-			thick: t('form.frameStyle.thick'),
-			corners: t('form.frameStyle.corners'),
-		},
 		types: {
 			url: t('types.url'),
 			text: t('types.text'),
@@ -113,6 +102,7 @@ const NewQrPage = async () => {
 			location: t('types.location'),
 			event: t('types.event'),
 			payment: t('types.payment'),
+			app: t('types.app'),
 		},
 		templates: {
 			title: t('templates.title'),
@@ -130,7 +120,6 @@ const NewQrPage = async () => {
 		hints: {
 			gradient: t('hints.gradient'),
 			logo: t('hints.logo'),
-			frame: t('hints.frame'),
 			customSlug: t('hints.customSlug'),
 			utm: t('hints.utm'),
 			password: t('hints.password'),
