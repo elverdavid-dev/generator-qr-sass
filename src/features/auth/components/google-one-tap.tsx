@@ -21,6 +21,15 @@ interface Props {
 	redirectTo?: string
 }
 
+async function generateNonce(): Promise<[string, string]> {
+	const raw = btoa(String.fromCharCode(...crypto.getRandomValues(new Uint8Array(32))))
+	const hashBuffer = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(raw))
+	const hashed = Array.from(new Uint8Array(hashBuffer))
+		.map((b) => b.toString(16).padStart(2, '0'))
+		.join('')
+	return [raw, hashed]
+}
+
 export function GoogleOneTap({ redirectTo = '/dashboard/qrs' }: Props) {
 	const initialized = useRef(false)
 
@@ -50,22 +59,20 @@ export function GoogleOneTap({ redirectTo = '/dashboard/qrs' }: Props) {
 			window.google?.accounts.id.cancel()
 		}
 
-		async function handleCredential(response: { credential: string }, url: string, key: string) {
+		async function initOneTap(clientId: string, url: string, key: string) {
+			const [rawNonce, hashedNonce] = await generateNonce()
 			const supabase = createBrowserClient(url, key)
-			const { error } = await supabase.auth.signInWithIdToken({
-				provider: 'google',
-				token: response.credential,
-			})
-			if (!error) {
-				window.location.href = redirectTo
-			}
-		}
 
-		function initOneTap(clientId: string, url: string, key: string) {
 			window.google?.accounts.id.initialize({
 				client_id: clientId,
-				callback: (response: { credential: string }) => {
-					handleCredential(response, url, key)
+				nonce: hashedNonce,
+				callback: async (response: { credential: string }) => {
+					const { error } = await supabase.auth.signInWithIdToken({
+						provider: 'google',
+						token: response.credential,
+						nonce: rawNonce,
+					})
+					if (!error) window.location.href = redirectTo
 				},
 			})
 			window.google?.accounts.id.prompt()
