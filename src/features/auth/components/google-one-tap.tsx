@@ -61,7 +61,10 @@ export function GoogleOneTap({ redirectTo = '/dashboard/qrs' }: Props) {
 						provider: 'google',
 						token: response.credential,
 					})
-					if (!error) router.push(redirectTo)
+					if (!error) {
+						router.refresh()
+						router.push(redirectTo)
+					}
 				},
 				use_fedcm_for_prompt: true,
 			})
