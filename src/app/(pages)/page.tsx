@@ -175,16 +175,16 @@ const HeroSection = ({ t }: { t: HeroT }) => (
 					{t.subtitle}
 				</p>
 
-				<div className="flex flex-wrap gap-3">
+				<div className="grid grid-cols-2 gap-2 sm:flex sm:gap-3">
 					<Link
 						href="/register"
-						className="inline-flex items-center gap-2 bg-primary text-white font-semibold px-7 py-3.5 rounded-full text-base hover:bg-primary/90 active:scale-[0.98] transition-all"
+						className="flex justify-center items-center gap-1.5 bg-primary text-white font-semibold px-3 sm:px-7 py-3 sm:py-3.5 rounded-full text-xs sm:text-base hover:bg-primary/90 active:scale-[0.98] transition-all"
 					>
 						{t.ctaPrimary}
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
-							width="16"
-							height="16"
+							width="14"
+							height="14"
 							viewBox="0 0 24 24"
 							fill="none"
 							stroke="currentColor"
@@ -198,7 +198,7 @@ const HeroSection = ({ t }: { t: HeroT }) => (
 					</Link>
 					<Link
 						href="/pricing"
-						className="inline-flex items-center gap-2 border border-divider font-semibold px-7 py-3.5 rounded-full text-base hover:bg-content1 active:scale-[0.98] transition-all"
+						className="flex justify-center items-center gap-2 border border-divider font-semibold px-3 sm:px-7 py-3 sm:py-3.5 rounded-full text-xs sm:text-base hover:bg-content1 active:scale-[0.98] transition-all"
 					>
 						{t.ctaSecondary}
 					</Link>
